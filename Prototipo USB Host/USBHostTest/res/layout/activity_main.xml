@@ -1,19 +1,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/devicesTextField"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:inputType="textMultiLine" >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/listViewDevices"
+            android:layout_width="252dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="0dp" >
 
-        <requestFocus />
-    </EditText>
-	
-	
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/GridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginTop="22dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/refresh" 
+            android:onClick="Refresh_OnClick"/>
+    </LinearLayout>
+
 </RelativeLayout>

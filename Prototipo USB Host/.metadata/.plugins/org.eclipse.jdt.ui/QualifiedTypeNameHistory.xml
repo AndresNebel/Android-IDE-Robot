@@ -9,4 +9,9 @@
 <fullyQualifiedTypeName name="java.net.ContentHandler"/>
 <fullyQualifiedTypeName name="com.proygrado.usbhosttest.R.menu"/>
 <fullyQualifiedTypeName name="android.widget.EditText"/>
+<fullyQualifiedTypeName name="android.widget.ListView"/>
+<fullyQualifiedTypeName name="android.widget.ArrayAdapter"/>
+<fullyQualifiedTypeName name="android.widget.TextView"/>
+<fullyQualifiedTypeName name="android.R.string"/>
+<fullyQualifiedTypeName name="android.view.View"/>
 </qualifiedTypeNameHistroy>

@@ -4,15 +4,20 @@ import java.net.ContentHandler;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import android.R.string;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class USBHostTest extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,25 +32,36 @@ public class MainActivity extends Activity {
         return true;
     }
     
+    public void Refresh_OnClick(View view)
+    {
+    	searchDevices();
+    }
+    
     
     public void searchDevices()
     {
     	UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
     	HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
     	Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
-    	EditText devicesTextField = (EditText) findViewById (R.id.devicesTextField);
+    	ListView listViewDevices = (ListView) findViewById (R.id.listViewDevices);
+    	TextView displayLabel = (TextView) findViewById (R.id.textView1);
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
+    	        android.R.layout.simple_list_item_1);
+    	
     	if (!deviceIterator.hasNext())
     	{
-    		devicesTextField.setText("Shit! no devices");
+    		displayLabel.setText("Shit! no devices");
     	}
     	else
     	{
 			while(deviceIterator.hasNext()){
 			    UsbDevice device = deviceIterator.next();
-			    devicesTextField.setText("Name: " + device.getDeviceName()
+			    String deviceStr = "Name: " + device.getDeviceName()
 			    		+ " Vendor-Id" +device.getVendorId()
-			    		+ " Product-Id" +device.getProductId());
+			    		+ " Product-Id" +device.getProductId();
+			    adapter.add(deviceStr);
 			}
     	}
+    	listViewDevices.setAdapter(adapter);
     }
 }
