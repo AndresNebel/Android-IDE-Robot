@@ -225,8 +225,8 @@
 }
 
 /*This class is added to the block that is moving*/
-.drag_indication{
-    opacity: 0.75;
+.drag_indicationnsa{
+    display: none;
 }
 
 /*This class is added to the block receiving the block bieng dragged.*/

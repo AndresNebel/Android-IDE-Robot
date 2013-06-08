@@ -130,7 +130,7 @@
         var target = eT.closest('.wrapper');
         if (target.length){
             dragTarget = target;
-            //dragTarget.addClass("drag_indication");
+            //dragTarget.addClass("drag_indicationn");
             startPosition = target.offset();
             if (! target.parent().is('.scripts_workspace')){
                 target.data('startParent', target.parent());
@@ -147,14 +147,15 @@
         if (!dragTarget) {return undefined;}
         dropCursor = $('<div class="dropCursor"></div>');
         targetCanvas.prepend(dropCursor);
-        dragTarget.addClass("drag_indication");
+		
+        dragTarget.addClass("drag_indicationn");
         var model = dragTarget.data('model');
         currentPosition = {left: event.pageX, top: event.pageY};
         // target = clone target if in menu
         if (model.isTemplateBlock){
-            dragTarget.removeClass('drag_indication');
+            dragTarget.removeClass('drag_indicationn');
             dragTarget = model.cloneScript().view();
-            dragTarget.addClass('drag_indication');
+            dragTarget.addClass('drag_indicationn');
             cloned = true;
         }
         dragging = true;
@@ -217,7 +218,7 @@
            // 3. Remove, if dragging a clone
            // 4. Move back to start position if not a clone (maybe not?)
         dragTarget.removeClass('drag_active');
-        dragTarget.removeClass("drag_indication");
+        dragTarget.removeClass("drag_indicationn");
         if (dropTarget && dropTarget.length){
             dropTarget.removeClass('drop_active');
             if (blockType(dragTarget) === 'step' || blockType(dragTarget) === 'context'){
