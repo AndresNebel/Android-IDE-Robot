@@ -1,4 +1,4 @@
-	html, body
+html, body
 	{
 		height: 100%;
 	}
@@ -55,7 +55,7 @@
 	.container
 	{
 		margin: 0px auto;
-		width: 1200px;
+		width: 74%;
 	}
 
 /*********************************************************************************/
@@ -77,8 +77,28 @@
 	.image-full
 	{
 		display: block;
-		width: 100%;
+		width: 55%;
 		margin: 0 0 2em 0;
+		margin-left:25%
+	}
+	
+	.image-half
+	{
+		display: block;
+		width: 40%;
+		height: 40%;
+		margin: 0 0 2em 0;
+		margin-left:30%
+	}
+	
+	.image-full-100	
+	{
+		display: block;
+		width: 93.5%;
+		margin: 0 0 2em 0;
+		margin-left:2.5%;
+		margin-bottom:2%;
+		height:93%;
 	}
 	
 	.image-left
@@ -360,7 +380,7 @@
 		}
 	
 /*********************************************************************************/
-/* Header                                                                        */
+/* Wrapper                                                                        */
 /*********************************************************************************/
 
 	#wrapper
@@ -379,6 +399,7 @@
 	{
 		overflow: hidden;
 		padding: 2em 0em;
+		
 	}
 
 /*********************************************************************************/
@@ -387,7 +408,7 @@
 
 	#logo {
 		float: left;
-		width: 300px;
+		width: 40%;
 		margin: 0;
 		padding: 0 0 0 30px;
 		color: #FFFFFF;
@@ -434,13 +455,14 @@
 	#menu {
 		float: right;
 		padding: 0em 2em;
-		background: #5EB990 url(images/bg01.png) repeat;
 		border-radius: 8px;
+		margin-right:2%;
 	}
 	
 	#menu ul {
 		float: right;
 		margin: 0;
+		
 		padding: 0px 0px 0px 0px;
 		list-style: none;
 		line-height: normal;
@@ -460,13 +482,13 @@
 		line-height: 80px;
 		margin-right: 1px;
 		padding: 4px 20px 0px 20px;
-		letter-spacing: 1px;
+		
 		text-decoration: none;
-		text-align: center;
+		text-align: right;
 		text-shadow: 1px 1px 0px rgba(0,0,0,.2);
 		text-transform: uppercase;
 		font-size: 0.90em;
-		font-weight: 300;
+		font-weight: 600;
 		color: #FFFFFF;
 		border: none;
 	}
@@ -488,7 +510,8 @@
 	#banner
 	{
 		overflow: hidden;
-		margin-bottom: 1em;
+		height:40%;
+		
 	}
 
 /*********************************************************************************/
@@ -498,7 +521,7 @@
 	#page
 	{
 		overflow: hidden;
-		width: 1100px;
+		width: 70%;
 		padding: 5em 50px;
 	}
 	
@@ -535,14 +558,14 @@
 	#footer
 	{
 	}
-
+	
 /*********************************************************************************/
 /* Copyright                                                                     */
 /*********************************************************************************/
 
 	#copyright
 	{
-		padding: 6em 0em;
+		padding: 4em 0em;
 		font-size: 0.75em;
 		letter-spacing: 0.20em;
 		text-align: center;
@@ -561,9 +584,48 @@
 
 	#welcome
 	{
-		width: 1100px;
-		margin-bottom: 5em;
-		padding: 0em 50px;
+		width: 70%;
+		margin-bottom: 4em;
+		margin-left: 15%;
+		margin-top: -2.5%;
+	}
+
+	#welcome h2
+	{
+		margin: 1em 0em;
+		font-size: 2.7em;
+		font-weight: 700;
+		color: #454445;
+	}
+/*********************************************************************************/
+/* Copyright                                                                     */
+/*********************************************************************************/
+
+	#copyright
+	{
+		padding: 4em 0em;
+		font-size: 0.75em;
+		letter-spacing: 0.20em;
+		text-align: center;
+		text-transform: uppercase;
+		color: #6A6A6A;
+	}
+	
+	#copyright a
+	{
+		color: #747474;
+	}
+
+/*********************************************************************************/
+/* Welcome                                                                       */
+/*********************************************************************************/
+
+	#welcome
+	{
+		width: 70%;
+		margin-bottom: 4em;
+		margin-left: 15%;
+		margin-top: -2.5%;
 	}
 
 	#welcome h2
@@ -574,6 +636,48 @@
 		color: #454445;
 	}
 
+/*********************************************************************************/
+/* Two Columns                                                                 */
+/*********************************************************************************/
+
+	#two-column
+	{
+		overflow: hidden;
+		background: #FFF;
+		border-bottom: 2px solid #CFCECD;
+		text-align: center;
+		color: #525252;
+	}
+	
+	#two-column h2
+	{
+		margin: 1em 0em;
+		text-transform: uppercase;
+		font-size: 1.5em;
+		font-weight: 700;
+		color: #454445;
+	}
+	
+	#two-column .icon
+	{
+		font-size: 4em;
+	}
+	
+	#two-column #tbox1,
+	#two-column #tbox2
+	{
+		float: left;
+		width: 42%;
+		padding: 8% 3%;
+	}
+	
+	#two-column #tbox4
+	{
+		float: left;
+		width: 300px;
+		padding: 10px 10px 10px 10px;
+	}
+	
 /*********************************************************************************/
 /* Three Columns                                                                 */
 /*********************************************************************************/
@@ -606,16 +710,50 @@
 	#three-column #tbox3
 	{
 		float: left;
+		width: 27%;
+		padding: 8% 3%;
+	}
+	
+	#three-column #tbox4
+	{
+		float: left;
 		width: 300px;
-		padding: 80px 50px 80px 50px;
+		padding: 10px 10px 10px 10px;
 	}
 
+.credits
+{
+	float:left;
+	margin-left:20%
+}
 
+.creditsDiv
+{
+	margin-left: 7%;
+	margin-bottom: -4%;
+	margin-top: -1%;
+}
 
+.font1
+{
+	font-size: 95%;
+}
 
+.pdf
+{
+	width: 35%;
+	height: 35%;	
+	margin-left:31% !important;
+}
 
+.mtopneg2
+{
+	margin-top: -5%;
+}
 
-
-
+.mtoppos15
+{
+	margin-top: 15.4%;
+}
 
 

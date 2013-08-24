@@ -1,0 +1,59 @@
+$(document).ready(function(){	   		
+	$('#h').addClass('current_page_item');			
+	$('#main').load('./bodies/home.html');	
+});
+
+$(document).ready(function(){	   
+	$("#home").click(function(){
+	$('#d').removeClass('current_page_item');
+	$('#n').removeClass('current_page_item');
+	$('#t').removeClass('current_page_item');
+	$('#i').removeClass('current_page_item');
+	$('#h').addClass('current_page_item');				
+	$('#main').load('./bodies/home.html');
+	});	
+});
+
+$(document).ready(function(){	   
+	$("#info").click(function(){
+	$('#d').removeClass('current_page_item');
+	$('#n').removeClass('current_page_item');
+	$('#t').removeClass('current_page_item');
+	$('#h').removeClass('current_page_item');
+	$('#i').addClass('current_page_item');				
+	$('#main').load('./bodies/info.html');
+	});	
+});
+ 
+$(document).ready(function(){	   
+	$("#download").click(function(){			
+	$('#h').removeClass('current_page_item');
+	$('#n').removeClass('current_page_item');
+	$('#t').removeClass('current_page_item');
+	$('#i').removeClass('current_page_item');
+	$('#d').addClass('current_page_item');
+	$('#main').load('./bodies/dwn.html');
+	});	
+});
+
+$(document).ready(function(){	   
+	$("#news").click(function(){	
+	$('#h').removeClass('current_page_item');
+	$('#d').removeClass('current_page_item');
+	$('#t').removeClass('current_page_item');
+	$('#i').removeClass('current_page_item');
+	$('#n').addClass('current_page_item');			
+	$('#main').load('./bodies/news.html');
+	});	
+});
+
+$(document).ready(function(){	   
+	$("#team").click(function(){	
+	$('#h').removeClass('current_page_item');
+	$('#d').removeClass('current_page_item');
+	$('#n').removeClass('current_page_item');
+	$('#i').removeClass('current_page_item');
+	$('#t').addClass('current_page_item');			
+	$('#main').load('./bodies/team.html');
+	});		
+});
