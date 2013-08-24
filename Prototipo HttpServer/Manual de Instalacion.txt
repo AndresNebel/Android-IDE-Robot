@@ -1,5 +1,12 @@
 Manual de Instalación
 
+Que es este prototipo?
+
+Este prototipo tiene como objetivo probar el servidor web de Lumen
+y enviar una tarea escrita en Lua desde un browser para que esta sea 
+puesta en ejecucion por el scheduler de Lumen asi como registrada en 
+un catalogo para luego ser matada.
+
 Requerimientos previos:
 
 Este prototipo requiere tener instalado Lua, Lumen, Toribio y el servidor web de Lumen. Para este último es necesario tener ciertas librerías de Lua que deben ser instaladas manualmente. Incluiremos aquí todos o por lo menos los más importantes pasos e instalaciones necesarios para dejar instalados estos requerimientos previos del prototipo.
