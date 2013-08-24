@@ -3,9 +3,10 @@ Manual de Instalación
 Que es este prototipo?
 
 Este prototipo tiene como objetivo probar el servidor web de Lumen
-y enviar una tarea escrita en Lua desde un browser para que esta sea 
-puesta en ejecucion por el scheduler de Lumen asi como registrada en 
-un catalogo para luego ser matada.
+y enviar una tarea escrita en Lua pero en formato de texto (string) 
+desde un browser para que esta sea compilada y puesta en ejecucion
+por el scheduler de Lumen asi como registrada en un catalogo para 
+luego ser matada.
 
 Requerimientos previos:
 
