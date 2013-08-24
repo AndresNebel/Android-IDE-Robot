@@ -1,0 +1,58 @@
+Manual de Instalación
+
+Requerimientos previos:
+
+Este prototipo requiere tener instalado Lua, Lumen, Toribio y el servidor web de Lumen. Para este último es necesario tener ciertas librerías de Lua que deben ser instaladas manualmente. Incluiremos aquí todos o por lo menos los más importantes pasos e instalaciones necesarios para dejar instalados estos requerimientos previos del prototipo.
+
+Clonar:
+–	Butiá: git clone git://git.code.sf.net/p/butia/code
+–	Toribio: https://github.com/xopxe/Toribio.git
+–	Nixio: git clone https://github.com/Neopallium/nixio.git
+
+Instalación via terminal:
+–	sudo apt-get install lua5.1
+–	sudo apt-get install luarocks
+–	sudo apt-get install lpack
+–	sudo apt-get install luafilesystem
+–	sudo apt-get install md5
+–	sudo apt-get install luasocket
+–	sudo apt-get install luasocket-dev
+
+Nota: Se supone para los siguientes pasos que se ubicó Nixio y Toribio sobre el directorio code que genera clonar Butiá.
+
+Instalar Nixio (code/nixio):
+–	sudo make install
+
+Instalar LuaSocket (code/libs/luasocket/):
+–	sudo make install
+
+
+Prototipo:
+
+A partir de los archivos en Prototipo.tar.gz:
+–	Agregar httpserver.lua en code/toribio/Toribio/tasks
+–	Remplazar index.html en code/toribio/Toribio/Lumen/tasks/http-server/www
+–	Agregar la linea “tasks.httpserver.load = true” en el archivo toribio-go.conf ubicado en code/toribio/Toribio
+
+Ejecución:
+
+Para correr el servidor web ejecutar sobre code/toribio/Toribio
+–	lua toribio-go.lua -c toribio-go.conf -d NONE
+
+Se accede a la página en el puerto 8080, aunque este es configurable en el archivo httpserver.lua.
+
+Para enviar tareas, se deben escribir en el textarea tareas en el formato en que son escritas las tasks de Toribio. Estas deben tener un atributo M.name que las identifiquen. Aquí se muestra un ejemplo:
+
+
+--------------------------------------------------------------------------------------------------
+local M = {}
+local sched = require 'sched'
+M.name = 'prueba'
+M.init = function(conf)
+while (true) do print('123 probando')
+sched.sleep(2) end
+end
+return M
+-----------------------------------------------------------------------------------------------------
+
+
