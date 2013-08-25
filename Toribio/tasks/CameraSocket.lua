@@ -20,14 +20,12 @@ M.init = function(conf)
 
 		M.task = sched.sigrun(waitd_accept, function (_,_, sktd_cli)
 			if sktd_cli then
-				
 				local waitd_skt = {emitter=selector.task, events={sktd_cli.events.data}}
 				sched.sigrun(waitd_skt, function(_,  _, data, err )
 					if not data then 
 						return nil, err 
 					end
 					CameraValue.data = data
-					print(CameraValue.data)
 				end, true)
 			end
 		end)

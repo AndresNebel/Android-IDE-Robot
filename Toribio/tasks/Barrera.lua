@@ -1,10 +1,11 @@
 local M = {}
 
-M.name = 'Avoid'
-M.priority = 3
+M.name = 'Barrera'
+M.priority = 2
 M.done = false --termine de ejecutar 
 
 local behaviours = require 'catalog'.get_catalog('behaviours')
+local camera = require 'catalog'.get_catalog('camera')
 
 local toribio = require 'toribio'		
 local motors = toribio.wait_for_device('bb-motors')
@@ -17,10 +18,16 @@ local wantToTakeControl = function()
 end
 
 local run = function ()
-    print('Avoiding\n')
-	motors.setvel2mtr(1,920,0,900)
-	sched.sleep(1)		
+    local cameraValue = camera:waitfor("CameraValue")
+	motors.setvel2mtr(1,600,1,620)
+	sched.sleep(1.5)		
 	motors.setvel2mtr(0,0,0,0)
+	sched.sleep(0.9)
+	if (cameraValue.data == "NoLata") then		
+	    motors.setvel2mtr(1,920,0,900)
+	    sched.sleep(1)		
+    	motors.setvel2mtr(0,0,0,0)
+	end
 	M.done = true
 end
 
@@ -31,7 +38,7 @@ end
 M.init = function(conf)	    
     behaviours:register(M.name, M)
     M.done = false
-    local waitTakeControl = {emitter='*', events={'ProximityWarning'}}
+    local waitTakeControl = {emitter='*', events={'BarreraWarning'}}
 	local waitd = {emitter='*', events={M.name}}
 
 	M.task = sched.sigrun(waitd, run)
