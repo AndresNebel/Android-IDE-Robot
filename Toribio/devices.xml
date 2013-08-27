@@ -1,13 +1,9 @@
 <?xml version="1.0"?>
-<!-- Example: Schema device configuration -->
 <devices>
-	<device name="nombre1" alias="alias1">
-		<function name="n1f1" alias="n1a1" params="1"/>
-		<function name="n1f2" alias="n1a2" params="2"/>
-		<function name="n1f3" alias="n1a3" params="3"/>
+	<device device_type="sensor" name="bb-button:1">
+		<function name="getValue" alias="Boton" params="0" ret="1"/>
 	</device>
-	<device name="nombre2" alias="alias2">
-		<function name="n2f1" alias="n2a1" params="1"/>
-		<function name="n2f2" alias="n2a2" params="2"/>
+	<device device_type="sensor" name="bb-distanc:3">
+		<function name="getValue" alias="Medir distancia" params="0" ret="1"/>
 	</device>
 </devices>
