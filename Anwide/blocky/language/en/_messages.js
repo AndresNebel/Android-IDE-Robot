@@ -90,3 +90,7 @@ Blockly.LANG_PROCEDURES_CALLRETURN_HELPURL = 'http://en.wikipedia.org/wiki/Proce
 Blockly.LANG_PROCEDURES_CALLRETURN_CALL = 'call';
 Blockly.LANG_PROCEDURES_CALLRETURN_PROCEDURE = 'procedure';
 Blockly.LANG_PROCEDURES_CALLRETURN_TOOLTIP_1 = 'Call a procedure with a return value.';
+
+//Power by: Yatay
+Blockly.LANG_CATEGORY_BUTIA = 'Butia';
+Blockly.LANG_BUTIA_COMPARE_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
