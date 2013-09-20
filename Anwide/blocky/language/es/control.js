@@ -18,8 +18,7 @@
  */
 
 /**
- * @fileoverview Control blocks for Blockly.
- * @author fraser@google.com (Neil Fraser)
+ * Power by: Yatay
  * Due to the frequency of long strings, the 80-column wrap rule need not apply
  * to language files.
  */
@@ -42,27 +41,27 @@ Blockly.Language.controls_if = {
     var thisBlock = this;
     this.setTooltip(function() {
       if (!thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-        return 'If a value is true, then do some statements.';
+        return 'Si el valor es verdadero, entonces realiza las declaraciones.';
       } else if (!thisBlock.elseifCount_ && thisBlock.elseCount_) {
-        return 'If a value is true, then do the first block of statements.\n' +
-               'Otherwise, do the second block of statements.';
+        return 'Si el valor es verdadero, entonces realiza el primer bloque de declaraciones.\n' +
+               'De otra forma, realiza el segundo bloque de declaraciones.';
       } else if (thisBlock.elseifCount_ && !thisBlock.elseCount_) {
-        return 'If the first value is true, then do the first block of statements.\n' +
-               'Otherwise, if the second value is true, do the second block of statements.';
+        return 'Si el primer valor es verdadero, entonces realiza el primer bloque de declaraciones.\n' +
+               'De otra forma, si el segundo valor es verdadero, realiza el segundo bloque de declaraciones.';
       } else if (thisBlock.elseifCount_ && thisBlock.elseCount_) {
-        return 'If the first value is true, then do the first block of statements.\n' +
-               'Otherwise, if the second value is true, do the second block of statements.\n' +
-               'If none of the values are true, do the last block of statements.';
+        return 'Si el primer valor es verdadero, entonces realiza el primer bloque de declaraciones.\n' +
+               'De otra forma, si el segundo valor es verdadero, realiza el segundo bloque de declaraciones.' +
+               'Y si ninguno de los valores es verdadero, realiza el ultimo bloque de declaraciones.';
       }
       return '';
     });
     this.elseifCount_ = 0;
     this.elseCount_ = 0;
   },
-  MSG_IF: 'if',
-  MSG_ELSEIF: 'else if',
-  MSG_ELSE: 'else',
-  MSG_THEN: 'then',
+  MSG_IF: 'si',
+  MSG_ELSEIF: 'sino si',
+  MSG_ELSE: 'sino',
+  MSG_THEN: 'entonces',
   mutationToDom: function(workspace) {
     if (!this.elseifCount_ && !this.elseCount_) {
       return null;
@@ -162,8 +161,8 @@ Blockly.Language.controls_if_if = {
     this.setColour(120);
     this.appendTitle('if');
     this.appendInput('', Blockly.NEXT_STATEMENT, 'STACK');
-    this.setTooltip('Add, remove, or reorder sections\n' +
-                    'to reconfigure this if block.');
+    this.setTooltip('Agregar, quitar, o reordenar secciones\n' +
+                    'para reconfigurar este bloque.');
     this.contextMenu = false;
   }
 };
@@ -175,7 +174,7 @@ Blockly.Language.controls_if_elseif = {
     this.appendTitle('else if');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('Add a condition to the if block.');
+    this.setTooltip('Agregá una condición a este bloque.');
     this.contextMenu = false;
   }
 };
@@ -186,7 +185,7 @@ Blockly.Language.controls_if_else = {
     this.setColour(120);
     this.appendTitle('else');
     this.setPreviousStatement(true);
-    this.setTooltip('Add a final, catch-all condition to the if block.');
+    this.setTooltip('Agregá una condición final a este bloque.');
     this.contextMenu = false;
   }
 };
@@ -254,58 +253,58 @@ Blockly.Language.controls_for = {
   }
 };
 
-Blockly.Language.controls_forEach = {
-  // For each loop.
-  category: 'Control',
-  helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
-  init: function() {
-    this.setColour(120);
-    this.appendTitle('for each');
-    this.appendInput('item', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
-    this.appendInput('in list', Blockly.INPUT_VALUE, 'LIST', Array);
-    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      return 'For each item in a list, set the item to\nvariable "' +
-          thisBlock.getInputVariable('VAR') + '", and then do some statements.';
-    });
-  },
-  getVars: function() {
-    return [this.getInputVariable('VAR')];
-  },
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
-      this.setInputVariable('VAR', newName);
-    }
-  }
-};
+//Blockly.Language.controls_forEach = {
+//  // For each loop.
+//  category: 'Control',
+//  helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
+//  init: function() {
+//    this.setColour(120);
+//    this.appendTitle('for each');
+//    this.appendInput('item', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
+//    this.appendInput('in list', Blockly.INPUT_VALUE, 'LIST', Array);
+//    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+//    this.setPreviousStatement(true);
+//    this.setNextStatement(true);
+//    // Assign 'this' to a variable for use in the tooltip closure below.
+//    var thisBlock = this;
+//    this.setTooltip(function() {
+//      return 'For each item in a list, set the item to\nvariable "' +
+//          thisBlock.getInputVariable('VAR') + '", and then do some statements.';
+//    });
+//  },
+//  getVars: function() {
+//    return [this.getInputVariable('VAR')];
+//  },
+//  renameVar: function(oldName, newName) {
+//    if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
+//      this.setInputVariable('VAR', newName);
+//    }
+//  }
+//};
 
 
-Blockly.Language.controls_flow_statements = {
-  // Flow statements: continue, break.
-  category: 'Control',
-  helpUrl: 'http://en.wikipedia.org/wiki/Control_flow',
-  init: function() {
-    this.setColour(120);
-    var thisBlock = this;
-    var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
-    this.appendTitle(dropdown, 'FLOW');
-    this.appendTitle('of loop');
-    this.setPreviousStatement(true);
-    this.setTooltip(function() {
-      var op = thisBlock.getTitleValue('FLOW');
-      return Blockly.Language.controls_flow_statements.TOOLTIPS[op];
-    });
-  }
-};
+//Blockly.Language.controls_flow_statements = {
+//  // Flow statements: continue, break.
+//  category: 'Control',
+//  helpUrl: 'http://en.wikipedia.org/wiki/Control_flow',
+//  init: function() {
+//    this.setColour(120);
+//    var thisBlock = this;
+//    var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
+//    this.appendTitle(dropdown, 'FLOW');
+//    this.appendTitle('of loop');
+//    this.setPreviousStatement(true);
+//    this.setTooltip(function() {
+//      var op = thisBlock.getTitleValue('FLOW');
+//      return Blockly.Language.controls_flow_statements.TOOLTIPS[op];
+//    });
+//  }
+//};
 
-Blockly.Language.controls_flow_statements.OPERATORS =
-    [['break out', 'BREAK'], ['continue with next iteration', 'CONTINUE']];
+//Blockly.Language.controls_flow_statements.OPERATORS =
+//    [['break out', 'BREAK'], ['continue with next iteration', 'CONTINUE']];
 
-Blockly.Language.controls_flow_statements.TOOLTIPS = {
-  BREAK: 'Break out of the containing loop.',
-  CONTINUE: 'Skip the rest of this loop, and\ncontinue with the next iteration.'
-};
+//Blockly.Language.controls_flow_statements.TOOLTIPS = {
+//  BREAK: 'Break out of the containing loop.',
+//  CONTINUE: 'Skip the rest of this loop, and\ncontinue with the next iteration.'
+//};
