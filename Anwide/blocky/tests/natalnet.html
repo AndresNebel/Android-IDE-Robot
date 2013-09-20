@@ -1,0 +1,346 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>AnWide Blockly</title>
+<script type="text/javascript" src="../blockly.js"></script>
+<script type="text/javascript" src="../block.js"></script>
+<script type="text/javascript" src="../block_svg.js"></script>
+<script type="text/javascript" src="../comment.js"></script>
+<script type="text/javascript" src="../connection.js"></script>
+<script type="text/javascript" src="../contextmenu.js"></script>
+<script type="text/javascript" src="../field.js"></script>
+<script type="text/javascript" src="../field_dropdown.js"></script>
+<script type="text/javascript" src="../field_label.js"></script>
+<script type="text/javascript" src="../field_textinput.js"></script>
+<script type="text/javascript" src="../flyout.js"></script>
+<script type="text/javascript" src="../generator.js"></script>
+<script type="text/javascript" src="../inject.js"></script>
+<script type="text/javascript" src="../generators/dart.js"></script>
+<script type="text/javascript" src="../generators/dart/control.js"></script>
+<script type="text/javascript" src="../generators/dart/text.js"></script>
+<script type="text/javascript" src="../generators/dart/math.js"></script>
+<script type="text/javascript" src="../generators/dart/logic.js"></script>
+<script type="text/javascript" src="../generators/dart/lists.js"></script>
+<script type="text/javascript" src="../generators/dart/variables.js"></script>
+<script type="text/javascript" src="../generators/dart/procedures.js"></script>
+<script type="text/javascript" src="../generators/javascript.js"></script>
+<script type="text/javascript" src="../generators/javascript/control.js"></script>
+<script type="text/javascript" src="../generators/javascript/text.js"></script>
+<script type="text/javascript" src="../generators/javascript/math.js"></script>
+<script type="text/javascript" src="../generators/javascript/logic.js"></script>
+<script type="text/javascript" src="../generators/javascript/lists.js"></script>
+<script type="text/javascript" src="../generators/javascript/variables.js"></script>
+<script type="text/javascript" src="../generators/javascript/procedures.js"></script>
+<script type="text/javascript" src="../generators/python.js"></script>
+<script type="text/javascript" src="../generators/python/control.js"></script>
+<script type="text/javascript" src="../generators/python/android.js"></script>
+<script type="text/javascript" src="../generators/python/text.js"></script>
+<script type="text/javascript" src="../generators/python/math.js"></script>
+<script type="text/javascript" src="../generators/python/logic.js"></script>
+<script type="text/javascript" src="../generators/python/lists.js"></script>
+<script type="text/javascript" src="../generators/python/variables.js"></script>
+<script type="text/javascript" src="../generators/python/procedures.js"></script>
+<script type="text/javascript" src="../language/en/_messages.js"></script>
+<script type="text/javascript" src="../language/en/control.js"></script>
+<script type="text/javascript" src="../language/en/text.js"></script>
+<script type="text/javascript" src="../language/en/math.js"></script>
+<script type="text/javascript" src="../language/en/logic.js"></script>
+<script type="text/javascript" src="../language/en/lists.js"></script>
+<script type="text/javascript" src="../language/common/variables.js"></script>
+<script type="text/javascript" src="../language/common/procedures.js"></script>
+<script type="text/javascript" src="../mutator.js"></script>
+<script type="text/javascript" src="../names.js"></script>
+<script type="text/javascript" src="../procedures.js"></script>
+<script type="text/javascript" src="../scrollbar.js"></script>
+<script type="text/javascript" src="../toolbox.js"></script>
+<script type="text/javascript" src="../tooltip.js"></script>
+<script type="text/javascript" src="../trashcan.js"></script>
+<script type="text/javascript" src="../utils.js"></script>
+<script type="text/javascript" src="../variables.js"></script>
+<script type="text/javascript" src="../workspace.js"></script>
+<script type="text/javascript" src="../xml.js"></script>
+<script type="text/javascript" src="language.js"></script>
+
+<script type="text/javascript">
+// Depending on the URL argument, render as LTR or RTL.
+var rtl = (document.location.search == '?rtl');
+var block = null;
+var pResult = null;
+
+function start() {
+  Blockly.inject(document.getElementById('svg'), {'rtl': rtl, path: '../'});
+}
+
+function createCustomBlock() {
+  block = new Blockly.Block(Blockly.mainWorkspace, '');
+  block.initSvg();
+  block.getSvgRoot().setAttribute('transform', 'translate(60, 40)');
+  block.render();
+  document.getElementById('blockFactoryForm').reset();
+  document.getElementById('customTbody').style.display = 'table-row-group';
+}
+
+function setColour() {
+  block.setColour(document.getElementById('colour').value);
+}
+
+function appendTitle() {
+  var type = document.getElementById('titleType').value;
+  var title = document.getElementById('titleLabel').value;
+  if (type == 'textInput') {
+    title = new Blockly.FieldTextInput(title);
+  }
+  block.appendTitle(title);
+}
+
+function setTooltip() {
+  block.setTooltip(document.getElementById('tooltip').value);
+}
+
+function setPreviousStatement() {
+  try {
+    block.setPreviousStatement(
+        document.getElementById('previousStatement').checked);
+  } finally {
+    document.getElementById('previousStatement').checked =
+        !!block.previousConnection;
+  }
+}
+
+function setNextStatement() {
+  try {
+    block.setNextStatement(document.getElementById('nextStatement').checked);
+  } finally {
+    document.getElementById('nextStatement').checked = !!block.nextConnection;
+  }
+}
+
+function setOutput() {
+  try {
+    block.setOutput(document.getElementById('output').checked, null);
+  } finally {
+    document.getElementById('output').checked = !!block.outputConnection;
+  }
+}
+
+function setCollapsed() {
+  block.setCollapsed(document.getElementById('collapsed').checked);
+}
+
+function setInputsInline() {
+  block.setInputsInline(document.getElementById('inputsInline').checked);
+}
+
+function addInput() {
+  var type = parseInt(document.getElementById('inputType').value, 10);
+  var label = document.getElementById('inputLabel').value;
+  var name = document.getElementById('inputName').value;
+  block.appendInput(label, type, name);
+}
+
+function removeInput() {
+  var name = document.getElementById('removeInputName').value;
+  block.removeInput(name);
+}
+
+function toXml() {
+  var output = document.getElementById('importExport');
+  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+  output.value = Blockly.Xml.domToText(xml);
+  output.focus();
+  output.select();
+}
+
+function fromXml() {
+  var input = document.getElementById('importExport');
+  var xml = Blockly.Xml.textToDom(input.value);
+  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+}
+
+function toJavaScript() {
+  var output = document.getElementById('importExport');
+  output.value = Blockly.Generator.workspaceToCode('JavaScript');
+}
+
+function toDart() {
+  var output = document.getElementById('importExport');
+  output.value = Blockly.Generator.workspaceToCode('Dart');
+}
+
+function toPython() {
+  var output = document.getElementById('importExport');
+  output.value = "#\r\n#\r\n#Generated by Blockly\r\nimport android\r\n" + Blockly.Generator.workspaceToCode('Python');
+}
+
+function GenExecute() {
+  var output = document.getElementById('importExport');
+  output.value = "#\r\n#\r\n#Generated by Blockly\r\nimport android\r\n" + Blockly.Generator.workspaceToCode('Python');
+  get(this.parentNode);
+  pResult = null;
+  timerFunction('start',1);
+}
+
+function execute() {
+  get(this.parentNode);
+  pResult = null;
+  timerFunction('start',1);
+}
+
+var newCount;
+function timerFunction(position,count) {
+	if (position == 'start') {
+		document.getElementById("timer").innerHTML="Execution time: " + count
+		newCount = count + 1
+		setTimeout("timerFunction('go',newCount)",1500)
+	}
+
+if (position == 'go') {
+		document.getElementById("timer").innerHTML="Execution time: " + count
+		newCount++;
+
+		if (pResult) {
+			if (pResult.indexOf("finished at") > 6) {
+				t=1
+			} else {
+				setTimeout("timerFunction('go',newCount)",1500)
+			}
+		} else {
+			setTimeout("timerFunction('go',newCount)",1500)
+		}
+		poststr="teste=1";
+		//makePOSTRequest('/cgi-bin/output.cgi', alertContents2, poststr);
+		makePOSTRequest('/output.cgi', alertContents2, poststr);
+	}
+}
+
+//Based on http://eureka.ykyuen.info/2010/02/19/ajax-simple-ajax-post-request-form/
+var http_request = false;
+
+function makePOSTRequest(url, ac, parameters) {
+  http_request = false;
+  if (window.XMLHttpRequest) { // Mozilla, Safari,...
+    http_request = new XMLHttpRequest();
+    if (http_request.overrideMimeType) {
+      /* set type accordingly to anticipated content type */
+      //http_request.overrideMimeType('text/xml');
+      http_request.overrideMimeType('text/html');
+    }
+  } else if (window.ActiveXObject) { // IE
+    try {
+      http_request = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+      try {
+        http_request = new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (e) {}
+    }
+  }
+  if (!http_request) {
+    alert('Cannot create XMLHTTP instance');
+    return false;
+  }
+
+  http_request.onreadystatechange = ac;
+  http_request.open('POST', url, true);
+  http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http_request.setRequestHeader("Content-length", parameters.length);
+  http_request.setRequestHeader("Connection", "close");
+  http_request.send(parameters);
+}
+
+function alertContents() {
+  if (http_request.readyState == 4) {
+    if (http_request.status == 200) {
+      /* Return from post.php */
+      //alert(http_request.responseText);
+      result = http_request.responseText;
+      document.getElementById('myspan').innerHTML = result;
+    } else {
+      alert('There was a problem with the request.');
+    }
+  }
+}
+
+function alertContents2() {
+  if (http_request.readyState == 4) {
+    if (http_request.status == 200) {
+      /* Return from post.php */
+      //alert(http_request.responseText);
+      result = http_request.responseText;
+      pResult = result;
+      document.getElementById('output').innerHTML = result;
+    } else {
+      alert('There was a problem with the request.');
+    }
+  }
+}
+
+function get(obj) {
+  var poststr = "value1=" + encodeURI( document.getElementById("importExport").value );
+  makePOSTRequest('/anwide.cgi', alertContents, poststr);
+  //makePOSTRequest('/cgi-bin/testcgi', alertContents, poststr);
+}
+
+
+
+</script>
+
+<style>
+body {
+  background-color: white;
+  font-family: sans-serif;
+}
+h1 {
+  font-weight: normal;
+  font-size: 140%;
+}
+#svg {
+  float: right;
+  height: 95%;
+  width: 70%;
+}
+.blocklySvg {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body onload="start()">
+
+<div id="svg"></div>
+
+<h1>AnWide Blockly</h1>
+
+<script type="text/javascript">
+  if (rtl) {
+    document.write('[ &larr; RTL. Switch to <A HREF="?ltr">LTR</A>. ]');
+  } else {
+    document.write('[ &rarr; LTR. Switch to <A HREF="?rtl">RTL</A>. ]');
+  }
+</script>
+
+<p>
+  <input type="button" value="Export" onclick="toXml()">
+  <input type="button" value="Import" onclick="fromXml()">
+  <input type="button" value="Generate" onclick="toPython()">
+  <br>
+  <textarea id="importExport" style="width: 26%; height: 12em"></textarea>
+  <br>
+  <input type="button" value="Execute Program" onclick="execute()">
+  <input type="button" value="Generate & Execute" onclick="GenExecute()">
+</p>
+<hr>
+Server Response:<br>
+<span name="myspan" id="myspan"><pre></pre></span>
+<hr>
+Program output:<br>
+<span name="output" id="output"><pre></pre></span>
+<div id="timer" />
+</body>
+</html>
+
+
+
+
+
+
+
+
