@@ -28,22 +28,30 @@ Blockly.Lua = Blockly.Generator.get('Lua');
 
 Blockly.Lua.butia_move = function() {
 	// Generate Lua for moving robot butiá forward or backwards.
-	var code = 'local motors = toribio.wait_for_device(\'bb-motors\')\n';
 	if(this.getTitleValue('DIR') == 'moveForward') {
-		return code + 'motors.setvel2mtr(1,500,1,500)\n';
+		return "robot.execute('bb-motors','setvel2mtr', [1,500,1,500])\n";
 	}else if(this.getTitleValue('DIR') == 'moveBackward') {
-		return code + 'motors.setvel2mtr(0,500,0,500)\n';
+		return "robot.execute('bb-motors','setvel2mtr', [0,500,0,500])\n";
 	}
 };
 
 
 Blockly.Lua.butia_turnLeftRight = function() {
 	// Generate Lua for turning robot butiá left or right.
-	var code = 'local motors = toribio.wait_for_device(\'bb-motors\')\n';
 	if(this.getTitleValue('DIR') == 'turnLeft') {
-		return code + 'motors.setvel2mtr(1,500,0,500)\n';
+		return "robot.execute('bb-motors','setvel2mtr', [1,500,0,500])\n";
 	}else if(this.getTitleValue('DIR') == 'turnRight') {
-		return code + 'motors.setvel2mtr(0,500,1,500)\n';
+		return "robot.execute('bb-motors','setvel2mtr', [0,500,1,500])\n";
 	}
+};
+
+Blockly.Lua.butia_stop = function() {
+
+   return "robot.execute('bb-motors','setvel2mtr', [0,0,0,0])";
+};
+
+Blockly.Lua.butia_grey = function() {
+
+   return "robot.execute('bb-grey:1','getValue',[])";
 };
 

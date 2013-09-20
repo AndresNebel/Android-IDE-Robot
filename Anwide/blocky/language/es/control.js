@@ -221,35 +221,100 @@ Blockly.Language.controls_whileUntil.TOOLTIPS = {
   UNTIL: 'While a value is false, then do some statements.'
 };
 
-Blockly.Language.controls_for = {
-  // For loop.
+// Blockly.Language.controls_for = {
+  // // For loop.
+  // category: 'Control',
+  // helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
+  // init: function() {
+    // this.setColour(120);
+    // this.appendTitle('count');
+    // this.appendInput('with', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
+    // this.appendInput('from', Blockly.INPUT_VALUE, 'FROM', Number);
+    // this.appendInput('to', Blockly.INPUT_VALUE, 'TO', Number);
+    // this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+    // this.setPreviousStatement(true);
+    // this.setNextStatement(true);
+    // this.setInputsInline(true);
+    // // Assign 'this' to a variable for use in the tooltip closure below.
+    // var thisBlock = this;
+    // this.setTooltip(function() {
+      // return 'Count from a start number to an end number.\n' +
+          // 'For each count, set the current count number to\n' +
+          // 'variable "' + thisBlock.getInputVariable('VAR') + '", and then do some statements.';
+    // });
+  // },
+  // getVars: function() {
+    // return [this.getInputVariable('VAR')];
+  // },
+  // renameVar: function(oldName, newName) {
+    // if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
+      // this.setInputVariable('VAR', newName);
+    // }
+  // }
+// };
+
+
+Blockly.Language.controls_Behaviour = {
   category: 'Control',
-  helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
+  helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
   init: function() {
-    this.setColour(120);
-    this.appendTitle('count');
-    this.appendInput('with', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
-    this.appendInput('from', Blockly.INPUT_VALUE, 'FROM', Number);
-    this.appendInput('to', Blockly.INPUT_VALUE, 'TO', Number);
-    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+    this.setColour(620);
+    this.appendTitle(new Blockly.FieldTextInput('comportamiento'), 'TEXT');
+    this.appendTitle('   prioridad');
+    this.appendTitle(new Blockly.FieldTextInput('1', function(text) {
+	  var n = window.parseFloat(text || 0);
+	  return window.isNaN(n) ? null : String(n);
+	}), 'PR');
+	this.appendInput('', Blockly.NEXT_STATEMENT, 'BEHAVIOUR_CODE');
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;    
+  }
+};
+
+
+Blockly.Language.controls_repeat = {
+  category: 'Control',
+  init: function() {
+    this.setColour(290);
+	this.appendTitle('repetir ')
+    this.appendTitle(new Blockly.FieldTextInput('1', function(text) {
+	  var n = window.parseFloat(text || 0);
+	  return window.isNaN(n) ? null : String(n);
+	}), 'TIMES');
+    this.appendTitle(' veces');
+    this.setInputsInline(true);
+    this.appendInput('', Blockly.NEXT_STATEMENT, 'DO');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setInputsInline(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
-    this.setTooltip(function() {
-      return 'Count from a start number to an end number.\n' +
-          'For each count, set the current count number to\n' +
-          'variable "' + thisBlock.getInputVariable('VAR') + '", and then do some statements.';
+    this.setTooltip(function() {   
+      return "Repetir un numero determinado de veces";
     });
-  },
-  getVars: function() {
-    return [this.getInputVariable('VAR')];
-  },
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
-      this.setInputVariable('VAR', newName);
-    }
+  }
+};
+
+
+Blockly.Language.controls_whileUntil = {
+  // Do while/until loop.
+  category: 'Control',
+  helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
+  init: function() {
+    this.setColour(10);
+    this.appendTitle('mientras');
+    //var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
+    //this.appendTitle(dropdown, 'MODE');
+    this.appendInput('', Blockly.INPUT_VALUE, 'BOOL', Boolean);
+    this.appendInput('', Blockly.NEXT_STATEMENT, 'DO');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {   
+      return "Repetir mientras la condicion se cumpla.";
+    });
   }
 };
 

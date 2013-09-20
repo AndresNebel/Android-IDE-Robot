@@ -18,30 +18,30 @@
  */
 
 /**
- * @fileoverview Generating JavaScript for math blocks.
+ * @fileoverview Generating Lua for math blocks.
  * @author fraser@google.com (Neil Fraser)
  * Due to the frequency of long strings, the 80-column wrap rule need not apply
  * to language files.
  */
 
-Blockly.JavaScript = Blockly.Generator.get('JavaScript');
+Blockly.Lua = Blockly.Generator.get('Lua');
 
-Blockly.JavaScript.math_number = function() {
+Blockly.Lua.math_number = function() {
   // Numeric value.
   return window.parseFloat(this.getTitleText('NUM'));
 };
 
-Blockly.JavaScript.math_arithmetic = function(opt_dropParens) {
+Blockly.Lua.math_arithmetic = function(opt_dropParens) {
   // Basic arithmetic operators, and power.
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'A') || '0';
-  var argument1 = Blockly.JavaScript.valueToCode(this, 'B') || '0';
+  var argument0 = Blockly.Lua.valueToCode(this, 'A') || '0';
+  var argument1 = Blockly.Lua.valueToCode(this, 'B') || '0';
   var code;
 
   var mode = this.getTitleValue('OP');
   if (mode == 'POWER') {
     code = 'Math.pow(' + argument0 + ', ' + argument1 + ')';
   } else {
-    var operator = Blockly.JavaScript.math_arithmetic.OPERATORS[mode];
+    var operator = Blockly.Lua.math_arithmetic.OPERATORS[mode];
     code = argument0 + operator + argument1;
     if (!opt_dropParens) {
       code = '(' + code + ')';
@@ -50,26 +50,26 @@ Blockly.JavaScript.math_arithmetic = function(opt_dropParens) {
   return code;
 };
 
-Blockly.JavaScript.math_arithmetic.OPERATORS = {
+Blockly.Lua.math_arithmetic.OPERATORS = {
   ADD: ' + ',
   MINUS: ' - ',
   MULTIPLY: ' * ',
   DIVIDE: ' / '
 };
 
-Blockly.JavaScript.math_change = function() {
+Blockly.Lua.math_change = function() {
   // Add to a variable in place.
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'DELTA') || '0';
-  var varName = Blockly.JavaScript.variableDB_.getName(this.getTitleText('VAR'),
+  var argument0 = Blockly.Lua.valueToCode(this, 'DELTA') || '0';
+  var varName = Blockly.Lua.variableDB_.getName(this.getTitleText('VAR'),
       Blockly.Variables.NAME_TYPE);
   return varName + ' = (typeof ' + varName + ' == \'number\' ? ' + varName +
       ' : 0) + ' + argument0 + ';\n';
 };
 
-Blockly.JavaScript.math_single = function(opt_dropParens) {
+Blockly.Lua.math_single = function(opt_dropParens) {
   // Math operators with single operand.
-  var argNaked = Blockly.JavaScript.valueToCode(this, 'NUM', true) || '0';
-  var argParen = Blockly.JavaScript.valueToCode(this, 'NUM', false) || '0';
+  var argNaked = Blockly.Lua.valueToCode(this, 'NUM', true) || '0';
+  var argParen = Blockly.Lua.valueToCode(this, 'NUM', false) || '0';
   var operator = this.getTitleValue('OP');
   var code;
   // First, handle cases which generate values that don't need parentheses wrapping the code.
@@ -138,14 +138,14 @@ Blockly.JavaScript.math_single = function(opt_dropParens) {
 };
 
 // Rounding functions have a single operand.
-Blockly.JavaScript.math_round = Blockly.JavaScript.math_single;
+Blockly.Lua.math_round = Blockly.Lua.math_single;
 // Trigonometry functions have a single operand.
-Blockly.JavaScript.math_trig = Blockly.JavaScript.math_single;
+Blockly.Lua.math_trig = Blockly.Lua.math_single;
 
-Blockly.JavaScript.math_on_list = function() {
+Blockly.Lua.math_on_list = function() {
   // Rounding functions.
   func = this.getTitleValue('OP');
-  list = Blockly.JavaScript.valueToCode(this, 'LIST', true) || '[]';
+  list = Blockly.Lua.valueToCode(this, 'LIST', true) || '[]';
   var code;
   switch (func) {
     case 'SUM':
@@ -162,11 +162,11 @@ Blockly.JavaScript.math_on_list = function() {
       '.length)';
       break;
     case 'MEDIAN':
-      if (!Blockly.JavaScript.definitions_['math_median']) {
-        var functionName = Blockly.JavaScript.variableDB_.getDistinctName(
+      if (!Blockly.Lua.definitions_['math_median']) {
+        var functionName = Blockly.Lua.variableDB_.getDistinctName(
             'math_median', Blockly.Generator.NAME_TYPE);
-        Blockly.JavaScript.math_on_list.math_median = functionName;
-        // Median is not a native JavaScript function.  Define one.
+        Blockly.Lua.math_on_list.math_median = functionName;
+        // Median is not a native Lua function.  Define one.
         // May need to handle null.
         // Currently math_median([null,null,1,3]) == 0.5.
         var func = [];
@@ -180,15 +180,15 @@ Blockly.JavaScript.math_on_list = function() {
         func.push('    return localList[(localList.length - 1) / 2];');
         func.push('  }');
         func.push('}');
-        Blockly.JavaScript.definitions_['math_median'] = func.join('\n');
+        Blockly.Lua.definitions_['math_median'] = func.join('\n');
       }
-      code = Blockly.JavaScript.math_on_list.math_median + '(' + list + ')';
+      code = Blockly.Lua.math_on_list.math_median + '(' + list + ')';
       break;
     case 'MODE':
-      if (!Blockly.JavaScript.definitions_['math_modes']) {
-        var functionName = Blockly.JavaScript.variableDB_.getDistinctName(
+      if (!Blockly.Lua.definitions_['math_modes']) {
+        var functionName = Blockly.Lua.variableDB_.getDistinctName(
             'math_modes', Blockly.Generator.NAME_TYPE);
-        Blockly.JavaScript.math_on_list.math_modes = functionName;
+        Blockly.Lua.math_on_list.math_modes = functionName;
         // As a list of numbers can contain more than one mode,
         // the returned result is provided as an array.
         // Mode of [3, 'x', 'x', 1, 1, 2, '3'] -> ['x', 1].
@@ -221,15 +221,15 @@ Blockly.JavaScript.math_on_list = function() {
         func.push('  }');
         func.push('  return modes;');
         func.push('}');
-        Blockly.JavaScript.definitions_['math_modes'] = func.join('\n');
+        Blockly.Lua.definitions_['math_modes'] = func.join('\n');
       }
-      code = Blockly.JavaScript.math_on_list.math_modes + '(' + list + ')';
+      code = Blockly.Lua.math_on_list.math_modes + '(' + list + ')';
       break;
     case 'STD_DEV':
-      if (!Blockly.JavaScript.definitions_['math_standard_deviation']) {
-        var functionName = Blockly.JavaScript.variableDB_.getDistinctName(
+      if (!Blockly.Lua.definitions_['math_standard_deviation']) {
+        var functionName = Blockly.Lua.variableDB_.getDistinctName(
             'math_standard_deviation', Blockly.Generator.NAME_TYPE);
-        Blockly.JavaScript.math_on_list.math_standard_deviation = functionName;
+        Blockly.Lua.math_on_list.math_standard_deviation = functionName;
         var func = [];
         func.push('function ' + functionName + '(numbers) {');
         func.push('  var n = numbers.length;');
@@ -243,9 +243,9 @@ Blockly.JavaScript.math_on_list = function() {
         func.push('  standard_dev = Math.sqrt(variance);');
         func.push('  return standard_dev;');
         func.push('}');
-        Blockly.JavaScript.definitions_['math_standard_deviation'] = func.join('\n');
+        Blockly.Lua.definitions_['math_standard_deviation'] = func.join('\n');
       }
-      code = Blockly.JavaScript.math_on_list.math_standard_deviation + '(' + list + ')';
+      code = Blockly.Lua.math_on_list.math_standard_deviation + '(' + list + ')';
       break;
     case 'RANDOM':
       code = list + '[Math.floor(Math.random() * ' + list + '.length)]';
@@ -256,18 +256,18 @@ Blockly.JavaScript.math_on_list = function() {
   return code;
 };
 
-Blockly.JavaScript.math_constrain = function() {
+Blockly.Lua.math_constrain = function() {
   // Constrain a number between two limits.
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'VALUE', true) || '0';
-  var argument1 = Blockly.JavaScript.valueToCode(this, 'LOW', true) || '0';
-  var argument2 = Blockly.JavaScript.valueToCode(this, 'HIGH', true) || '0';
+  var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
+  var argument1 = Blockly.Lua.valueToCode(this, 'LOW', true) || '0';
+  var argument2 = Blockly.Lua.valueToCode(this, 'HIGH', true) || '0';
   return 'Math.min(Math.max(' + argument0 + ', ' + argument1 + '), ' + argument2 + ')';
 };
 
-Blockly.JavaScript.math_modulo = function(opt_dropParens) {
+Blockly.Lua.math_modulo = function(opt_dropParens) {
   // Remainder computation.
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'DIVIDEND') || '0';
-  var argument1 = Blockly.JavaScript.valueToCode(this, 'DIVISOR') || '0';
+  var argument0 = Blockly.Lua.valueToCode(this, 'DIVIDEND') || '0';
+  var argument1 = Blockly.Lua.valueToCode(this, 'DIVISOR') || '0';
   var code = argument0 + ' % ' + argument1;
   if (!opt_dropParens) {
     code = '(' + code + ')';
@@ -275,10 +275,10 @@ Blockly.JavaScript.math_modulo = function(opt_dropParens) {
   return code;
 };
 
-Blockly.JavaScript.math_random_int = function() {
+Blockly.Lua.math_random_int = function() {
   // Random integer between [X] and [Y].
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'FROM') || '0';
-  var argument1 = Blockly.JavaScript.valueToCode(this, 'TO') || '0';
+  var argument0 = Blockly.Lua.valueToCode(this, 'FROM') || '0';
+  var argument1 = Blockly.Lua.valueToCode(this, 'TO') || '0';
   var rand1 = 'Math.floor(Math.random() * (' + argument1 + ' - ' + argument0 + ' + 1' + ') + ' + argument0 + ')';
   var rand2 = 'Math.floor(Math.random() * (' + argument0 + ' - ' + argument1 + ' + 1' + ') + ' + argument1 + ')';
   var code;
@@ -294,7 +294,7 @@ Blockly.JavaScript.math_random_int = function() {
   return code;
 };
 
-Blockly.JavaScript.math_random_float = function() {
+Blockly.Lua.math_random_float = function() {
   // Random fraction between 0 and 1.
   return 'Math.random()';
 };

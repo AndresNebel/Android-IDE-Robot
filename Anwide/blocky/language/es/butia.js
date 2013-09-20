@@ -63,3 +63,32 @@ Blockly.Language.butia_turnLeftRight.DIRECTIONS =
 	[['izquierda', 'turnLeft'], 
 	['derecha', 'turnRight']];
 
+
+Blockly.Language.butia_stop = {
+  category: Blockly.LANG_CATEGORY_BUTIA,
+  init: function() {
+    this.setColour(0);
+	this.appendTitle('detener ')
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {   
+      return "Detener el Robot Butia";
+    });
+  }
+};
+
+Blockly.Language.butia_grey = {
+  category: Blockly.LANG_CATEGORY_BUTIA,
+  init: function() {
+    this.setColour(217);
+	this.appendTitle('sensor gris')
+    this.setOutput(true, Number);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {   
+      return "El valor del sensor de grises el Robot Butia";
+    });
+  }
+};
