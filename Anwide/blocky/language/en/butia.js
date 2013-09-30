@@ -64,3 +64,33 @@ Blockly.Language.butia_turnLeftRight = {
 Blockly.Language.butia_turnLeftRight.DIRECTIONS =
     [['left', 'turnLeft'], ['right', 'turnRight']];
 
+	
+	
+Blockly.Language.butia_stop = {
+  category: Blockly.LANG_CATEGORY_BUTIA,
+  init: function() {
+    this.setColour(0);
+	this.appendTitle('stop ')
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {   
+      return "Stop Butiá";
+    });
+  }
+};
+
+Blockly.Language.butia_grey = {
+  category: Blockly.LANG_CATEGORY_BUTIA,
+  init: function() {
+    this.setColour(217);
+	this.appendTitle('gray sensor')
+    this.setOutput(true, Number);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {   
+      return "Gives the gray sensor value";
+    });
+  }
+};

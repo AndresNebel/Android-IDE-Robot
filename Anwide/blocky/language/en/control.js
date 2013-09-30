@@ -196,94 +196,93 @@ Blockly.Language.controls_whileUntil = {
   category: 'Control',
   helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
   init: function() {
-    this.setColour(120);
-    this.appendTitle('repeat');
-    var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
-    this.appendTitle(dropdown, 'MODE');
+    this.setColour(10);
+    this.appendTitle('while');
+    //var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
+    //this.appendTitle(dropdown, 'MODE');
     this.appendInput('', Blockly.INPUT_VALUE, 'BOOL', Boolean);
-    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+    this.appendInput('', Blockly.NEXT_STATEMENT, 'DO');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
-    this.setTooltip(function() {
-      var op = thisBlock.getTitleValue('MODE');
-      return Blockly.Language.controls_whileUntil.TOOLTIPS[op];
+    this.setTooltip(function() {   
+      return "While a condition is true, do stuff.";
     });
   }
 };
 
-Blockly.Language.controls_whileUntil.OPERATORS =
-    [['while', 'WHILE'],
-     ['until', 'UNTIL']];
+// Blockly.Language.controls_whileUntil.OPERATORS =
+    // [['while', 'WHILE'],
+     // ['until', 'UNTIL']];
 
-Blockly.Language.controls_whileUntil.TOOLTIPS = {
-  WHILE: 'While a value is true, then do some statements.',
-  UNTIL: 'While a value is false, then do some statements.'
-};
+// Blockly.Language.controls_whileUntil.TOOLTIPS = {
+  // WHILE: 'While a value is true, then do some statements.',
+  // UNTIL: 'While a value is false, then do some statements.'
+// };
 
-Blockly.Language.controls_for = {
+// Blockly.Language.controls_for = {
   // For loop.
-  category: 'Control',
-  helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
-  init: function() {
-    this.setColour(120);
-    this.appendTitle('count');
-    this.appendInput('with', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
-    this.appendInput('from', Blockly.INPUT_VALUE, 'FROM', Number);
-    this.appendInput('to', Blockly.INPUT_VALUE, 'TO', Number);
-    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setInputsInline(true);
+  // category: 'Control',
+  // helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
+  // init: function() {
+    // this.setColour(120);
+    // this.appendTitle('count');
+    // this.appendInput('with', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
+    // this.appendInput('from', Blockly.INPUT_VALUE, 'FROM', Number);
+    // this.appendInput('to', Blockly.INPUT_VALUE, 'TO', Number);
+    // this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+    // this.setPreviousStatement(true);
+    // this.setNextStatement(true);
+    // this.setInputsInline(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      return 'Count from a start number to an end number.\n' +
-          'For each count, set the current count number to\n' +
-          'variable "' + thisBlock.getInputVariable('VAR') + '", and then do some statements.';
-    });
-  },
-  getVars: function() {
-    return [this.getInputVariable('VAR')];
-  },
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
-      this.setInputVariable('VAR', newName);
-    }
-  }
-};
+    // var thisBlock = this;
+    // this.setTooltip(function() {
+      // return 'Count from a start number to an end number.\n' +
+          // 'For each count, set the current count number to\n' +
+          // 'variable "' + thisBlock.getInputVariable('VAR') + '", and then do some statements.';
+    // });
+  // },
+  // getVars: function() {
+    // return [this.getInputVariable('VAR')];
+  // },
+  // renameVar: function(oldName, newName) {
+    // if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
+      // this.setInputVariable('VAR', newName);
+    // }
+  // }
+// };
 
-Blockly.Language.controls_forEach = {
+// Blockly.Language.controls_forEach = {
   // For each loop.
-  category: 'Control',
-  helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
-  init: function() {
-    this.setColour(120);
-    this.appendTitle('for each');
-    this.appendInput('item', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
-    this.appendInput('in list', Blockly.INPUT_VALUE, 'LIST', Array);
-    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
+  // category: 'Control',
+  // helpUrl: 'http://en.wikipedia.org/wiki/For_loop',
+  // init: function() {
+    // this.setColour(120);
+    // this.appendTitle('for each');
+    // this.appendInput('item', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
+    // this.appendInput('in list', Blockly.INPUT_VALUE, 'LIST', Array);
+    // this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+    // this.setPreviousStatement(true);
+    // this.setNextStatement(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
-    var thisBlock = this;
-    this.setTooltip(function() {
-      return 'For each item in a list, set the item to\nvariable "' +
-          thisBlock.getInputVariable('VAR') + '", and then do some statements.';
-    });
-  },
-  getVars: function() {
-    return [this.getInputVariable('VAR')];
-  },
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
-      this.setInputVariable('VAR', newName);
-    }
-  }
-};
+    // var thisBlock = this;
+    // this.setTooltip(function() {
+      // return 'For each item in a list, set the item to\nvariable "' +
+          // thisBlock.getInputVariable('VAR') + '", and then do some statements.';
+    // });
+  // },
+  // getVars: function() {
+    // return [this.getInputVariable('VAR')];
+  // },
+  // renameVar: function(oldName, newName) {
+    // if (Blockly.Names.equals(oldName, this.getInputVariable('VAR'))) {
+      // this.setInputVariable('VAR', newName);
+    // }
+  // }
+// };
 
-Blockly.Language.controls_flow_statements = {
+/* Blockly.Language.controls_flow_statements = {
   // Flow statements: continue, break.
   category: 'Control',
   helpUrl: 'http://en.wikipedia.org/wiki/Control_flow',
@@ -307,7 +306,7 @@ Blockly.Language.controls_flow_statements.OPERATORS =
 Blockly.Language.controls_flow_statements.TOOLTIPS = {
   BREAK: 'Break out of the containing loop.',
   CONTINUE: 'Skip the rest of this loop, and\ncontinue with the next iteration.'
-};
+}; */
 
 // Power by: Yatay
 Blockly.Language.controls_sleep = {
@@ -328,6 +327,48 @@ Blockly.Language.controls_sleep = {
     this.setNextStatement(true);
     this.setTooltip(function() {
       return 'Pause (sleep) a program for a certain number of seconds.';
+    });
+  }
+};
+
+Blockly.Language.controls_Behaviour = {
+  category: 'Control',
+  helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
+  init: function() {
+    this.setColour(620);
+    this.appendTitle(new Blockly.FieldTextInput('behaviour'), 'TEXT');
+    this.appendTitle('   priority');
+    this.appendTitle(new Blockly.FieldTextInput('1', function(text) {
+	  var n = window.parseFloat(text || 0);
+	  return window.isNaN(n) ? null : String(n);
+	}), 'PR');
+	this.appendInput('', Blockly.NEXT_STATEMENT, 'BEHAVIOUR_CODE');
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;    
+  }
+};
+
+
+Blockly.Language.controls_repeat = {
+  category: 'Control',
+  init: function() {
+    this.setColour(290);
+	this.appendTitle('repeat ')
+    this.appendTitle(new Blockly.FieldTextInput('1', function(text) {
+	  var n = window.parseFloat(text || 0);
+	  return window.isNaN(n) ? null : String(n);
+	}), 'TIMES');
+    this.appendTitle(' times');
+    this.setInputsInline(true);
+    this.appendInput('', Blockly.NEXT_STATEMENT, 'DO');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;
+    this.setTooltip(function() {   
+      return "Repeat a given number of times a statement";
     });
   }
 };
