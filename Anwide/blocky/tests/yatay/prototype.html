@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Prototipo</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<script type="text/javascript" src="javascript/jquery-1.10.2.js"></script>
+	<script type="text/javascript">
+		function SendTask() {
+			//NProgress.start();
+			var values = escape($("#txttask").val()).replace(/\./g, "%2E");
+			$.ajax({
+				url: "/index.html",
+				type: "POST",
+				data: {code:values, other:''},
+				success: function() {
+					alert("success");
+					$("#result").html('Submitted successfully');
+				},
+				error:function() {
+					alert("failure");
+					$("#result").html('There is error while submit');
+				}
+			});
+			//NProgress.done();
+		}
+	</script>
+	<script type="text/javascript">
+		function KillTask()
+		{
+			$.ajax({
+				url: "/index.html",
+				type: "post",
+				data: {kill:'test', other:''},
+				success: function(content){
+					alert("success");
+				},
+				error:function(){
+					alert("failure");
+
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<img src="images/pic04.jpg" style="width:50%;" alt="">
+	<h1>Prototipo</h1>
+	<hr>
+	<p>Este es un prototipo para enviar una tarea para ejecutar en Toribio y luego matarla</p>
+	<hr>
+	<br>
+	<br>
+	<textarea id="txttask" rows="7" cols="50"></textarea>
+	<button onclick="SendTask();" value="1">Enviar Tarea</button>
+	<button onclick="KillTask();" value="1">Matar Tarea</button>
+</body>
+</html>
