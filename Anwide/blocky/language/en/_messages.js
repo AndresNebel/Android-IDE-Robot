@@ -1,4 +1,4 @@
-// Text strings (factored out to make multi-language easier).
+﻿// Text strings (factored out to make multi-language easier).
 
 // Context menus.
 Blockly.MSG_REMOVE_COMMENT = 'Remove Comment';
@@ -29,7 +29,7 @@ Blockly.MSG_MUTATOR_CHANGE = 'Change';
 Blockly.MSG_MUTATOR_CANCEL = 'Cancel';
 
 // Logic Blocks
-Blockly.LANG_CATEGORY_LOGIC = 'Op. Logic';
+Blockly.LANG_CATEGORY_LOGIC = 'Conditions';
 Blockly.LANG_LOGIC_COMPARE_HELPURL = 'http://en.wikipedia.org/wiki/Inequality_(mathematics)';
 Blockly.LANG_LOGIC_COMPARE_TOOLTIP_EQ = 'Return true if both inputs equal each other.';
 Blockly.LANG_LOGIC_COMPARE_TOOLTIP_NEQ = 'Return true if both inputs are not equal to each other.';
@@ -92,5 +92,5 @@ Blockly.LANG_PROCEDURES_CALLRETURN_PROCEDURE = 'procedure';
 Blockly.LANG_PROCEDURES_CALLRETURN_TOOLTIP_1 = 'Call a procedure with a return value.';
 
 //Power by: Yatay
-Blockly.LANG_CATEGORY_BUTIA = 'Butia';
+Blockly.LANG_CATEGORY_BUTIA = 'Butiá';
 Blockly.LANG_BUTIA_COMPARE_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';

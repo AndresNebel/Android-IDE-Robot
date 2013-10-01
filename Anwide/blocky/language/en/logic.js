@@ -33,7 +33,7 @@ Blockly.Language.logic_compare = {
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
     var thisBlock = this;
-    this.setColour(120);
+    this.setColour(190);
     this.setOutput(true, Boolean);
     this.appendInput('', Blockly.INPUT_VALUE, 'A', null);
     var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
@@ -70,7 +70,7 @@ Blockly.Language.logic_operation = {
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
     var thisBlock = this;
-    this.setColour(120);
+    this.setColour(190);
     this.setOutput(true, Boolean);
     this.appendInput('', Blockly.INPUT_VALUE, 'A', Boolean);
     var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
@@ -95,7 +95,7 @@ Blockly.Language.logic_negate = {
   category: Blockly.LANG_CATEGORY_LOGIC,
   helpUrl: Blockly.LANG_LOGIC_NEGATE_HELPURL,
   init: function() {
-    this.setColour(120);
+    this.setColour(190);
     this.setOutput(true, Boolean);
     this.appendInput(Blockly.LANG_LOGIC_NEGATE_INPUT_NOT, Blockly.INPUT_VALUE, 'BOOL', Boolean);
     this.setTooltip(Blockly.LANG_LOGIC_NEGATE_TOOLTIP_1);
@@ -109,7 +109,7 @@ Blockly.Language.logic_boolean = {
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
     var thisBlock = this;
-    this.setColour(120);
+    this.setColour(190);
     this.setOutput(true, Boolean);
     var dropdown = new Blockly.FieldDropdown(this.OPERATORS);
     this.appendTitle(dropdown, 'BOOL');

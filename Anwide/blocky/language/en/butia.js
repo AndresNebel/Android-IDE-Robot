@@ -33,7 +33,7 @@ Blockly.Language.butia_move = {
 	category: Blockly.LANG_CATEGORY_BUTIA,
 	helpUrl: Blockly.LANG_BUTIA_COMPARE_HELPURL,
 	init: function() {
-		this.setColour(110);
+		this.setColour(290);
 		this.appendTitle('move');
 		var dropdown = new Blockly.FieldDropdown(this.DIRECTIONS);
 		this.appendTitle(dropdown, 'DIR');

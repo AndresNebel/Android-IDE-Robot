@@ -309,28 +309,6 @@ Blockly.Language.controls_flow_statements.TOOLTIPS = {
 }; */
 
 // Power by: Yatay
-Blockly.Language.controls_sleep = {
-  // Sleep x seconds.
-  category: 'Control',
-  helpUrl: 'http://lua-users.org/wiki/SleepFunction',
-  init: function() {
-    this.setColour(120);
-    var thisBlock = this;
-    this.appendTitle('sleep');
-    this.appendTitle(new Blockly.FieldTextInput('0', function(text) {
-      // Ensure that only a number may be entered.
-      // TODO: Handle cases like 'o', 'ten', '1,234', '3,14', etc.
-      var n = window.parseFloat(text || 0);
-      return window.isNaN(n) ? null : String(n);
-    }), 'NUM');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(function() {
-      return 'Pause (sleep) a program for a certain number of seconds.';
-    });
-  }
-};
-
 Blockly.Language.controls_Behaviour = {
   category: 'Control',
   helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
@@ -347,6 +325,28 @@ Blockly.Language.controls_Behaviour = {
     this.setNextStatement(false);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;    
+  }
+};
+
+Blockly.Language.controls_sleep = {
+  // Sleep x seconds.
+  category: 'Control',
+  helpUrl: 'http://lua-users.org/wiki/SleepFunction',
+  init: function() {
+    this.setColour(420);
+    var thisBlock = this;
+    this.appendTitle('sleep');
+    this.appendTitle(new Blockly.FieldTextInput('0', function(text) {
+      // Ensure that only a number may be entered.
+      // TODO: Handle cases like 'o', 'ten', '1,234', '3,14', etc.
+      var n = window.parseFloat(text || 0);
+      return window.isNaN(n) ? null : String(n);
+    }), 'NUM');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(function() {
+      return 'Pause (sleep) a program for a certain number of seconds.';
+    });
   }
 };
 

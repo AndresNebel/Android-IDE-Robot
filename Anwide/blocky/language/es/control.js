@@ -274,6 +274,28 @@ Blockly.Language.controls_Behaviour = {
 };
 
 
+Blockly.Language.controls_sleep = {
+  // Sleep x seconds.
+  category: 'Control',
+  helpUrl: 'http://lua-users.org/wiki/SleepFunction',
+  init: function() {
+    this.setColour(420);
+    var thisBlock = this;
+    this.appendTitle('esperar');
+    this.appendTitle(new Blockly.FieldTextInput('0', function(text) {
+      // Ensure that only a number may be entered.
+      // TODO: Handle cases like 'o', 'ten', '1,234', '3,14', etc.
+      var n = window.parseFloat(text || 0);
+      return window.isNaN(n) ? null : String(n);
+    }), 'NUM');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(function() {
+      return 'El programa espera la cantidad de tiempo ingresada para continuar ejecutando.';
+    });
+  }
+};
+
 Blockly.Language.controls_repeat = {
   category: 'Control',
   init: function() {
@@ -319,27 +341,6 @@ Blockly.Language.controls_whileUntil = {
 };
 
 
-Blockly.Language.controls_sleep = {
-  // Sleep x seconds.
-  category: 'Control',
-  helpUrl: 'http://lua-users.org/wiki/SleepFunction',
-  init: function() {
-    this.setColour(120);
-    var thisBlock = this;
-    this.appendTitle('esperar');
-    this.appendTitle(new Blockly.FieldTextInput('0', function(text) {
-      // Ensure that only a number may be entered.
-      // TODO: Handle cases like 'o', 'ten', '1,234', '3,14', etc.
-      var n = window.parseFloat(text || 0);
-      return window.isNaN(n) ? null : String(n);
-    }), 'NUM');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(function() {
-      return 'El programa espera la cantidad de tiempo ingresada para continuar ejecutando.';
-    });
-  }
-};
 //Blockly.Language.controls_forEach = {
 //  // For each loop.
 //  category: 'Control',
