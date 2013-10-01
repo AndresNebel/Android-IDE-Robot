@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Visual Blocks Language
  *
  * Copyright 2012 Google Inc.
@@ -28,7 +28,7 @@ if (!Blockly.Language) Blockly.Language = {};
 
 Blockly.Language.math_number = {
   // Numeric value.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Number',
   init: function() {
     this.setColour(230);
@@ -45,7 +45,7 @@ Blockly.Language.math_number = {
 
 Blockly.Language.math_arithmetic = {
   // Basic arithmetic operator.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Arithmetic',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -80,7 +80,7 @@ Blockly.Language.math_arithmetic.TOOLTIPS ={
 
 Blockly.Language.math_change = {
   // Add to a variable in place.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Negation',
   init: function() {
     this.setColour(230);
@@ -110,7 +110,7 @@ Blockly.Language.math_change = {
 
 Blockly.Language.math_single = {
   // Advanced math operators with single operand.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Square_root',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -148,7 +148,7 @@ Blockly.Language.math_single.TOOLTIPS = {
 
 Blockly.Language.math_round = {
   // Rounding functions.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Rounding',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -168,7 +168,7 @@ Blockly.Language.math_round.OPERATORS =
 
 Blockly.Language.math_trig = {
   // Trigonometry operators.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Trigonometric_functions',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -204,7 +204,7 @@ Blockly.Language.math_trig.TOOLTIPS = {
 Blockly.Language.math_on_list = {
   // Evaluate a list of numbers to return sum, average, min, max, etc.
   // Some functions also work on text (min, max, mode, median).
-  category: 'Math',
+  category: 'Números',
   helpUrl: '',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -244,7 +244,7 @@ Blockly.Language.math_on_list.TOOLTIPS = {
 
 Blockly.Language.math_constrain = {
   // Constrain a number between two limits.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Clamping_%28graphics%29',
   init: function() {
     this.setColour(230);
@@ -259,7 +259,7 @@ Blockly.Language.math_constrain = {
 
 Blockly.Language.math_modulo = {
   // Remainder of a division.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Modulo_operation',
   init: function() {
     this.setColour(230);
@@ -273,7 +273,7 @@ Blockly.Language.math_modulo = {
 
 Blockly.Language.math_random_int = {
   // Random integer between [X] and [Y].
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Random_number_generation',
   init: function() {
     this.setColour(230);
@@ -289,7 +289,7 @@ Blockly.Language.math_random_int = {
 
 Blockly.Language.math_random_float = {
   // Random fraction between 0 and 1.
-  category: 'Math',
+  category: 'Números',
   helpUrl: 'http://en.wikipedia.org/wiki/Random_number_generation',
   init: function() {
     this.setColour(230);

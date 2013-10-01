@@ -28,7 +28,7 @@ if (!Blockly.Language) Blockly.Language = {};
 
 Blockly.Language.text = {
   // Text value.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://en.wikipedia.org/wiki/String_(computer_science)',
   init: function() {
     this.setColour(160);
@@ -42,7 +42,7 @@ Blockly.Language.text = {
 
 Blockly.Language.text_join = {
   // Create a string made up of any number of elements of any type.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: '',
   init: function() {
     this.setColour(160);
@@ -131,7 +131,7 @@ Blockly.Language.text_create_join_item = {
 
 Blockly.Language.text_length = {
   // String length.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode91.html',
   init: function() {
     this.setColour(160);
@@ -144,7 +144,7 @@ Blockly.Language.text_length = {
 
 Blockly.Language.text_isEmpty = {
   // Is the string null?
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode91.html',
   init: function() {
     this.setColour(160);
@@ -156,7 +156,7 @@ Blockly.Language.text_isEmpty = {
 
 Blockly.Language.text_endString = {
   // Return a leading or trailing substring.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -176,7 +176,7 @@ Blockly.Language.text_endString.OPERATORS =
 
 Blockly.Language.text_indexOf = {
   // Find a substring in the text.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -200,7 +200,7 @@ Blockly.Language.text_indexOf.OPERATORS =
 
 Blockly.Language.text_charAt = {
   // Get a character from the string.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm',
   init: function() {
     this.setColour(160);
@@ -215,7 +215,7 @@ Blockly.Language.text_charAt = {
 
 Blockly.Language.text_changeCase = {
   // Change capitalization.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode91.html',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -236,7 +236,7 @@ Blockly.Language.text_changeCase.OPERATORS =
 
 Blockly.Language.text_trim = {
   // Trim spaces.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode91.html',
   init: function() {
     // Assign 'this' to a variable for use in the closures below.
@@ -274,7 +274,7 @@ Blockly.Language.text_trim.OPERATORS =
 
 Blockly.Language.text_print = {
   // Print statement.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode91.html',
   init: function() {
     this.setColour(160);
@@ -288,7 +288,7 @@ Blockly.Language.text_print = {
 
 Blockly.Language.text_prompt = {
   // Prompt function.
-  category: 'Text',
+  category: 'Texto',
   helpUrl: 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode92.html',
   init: function() {
     this.setColour(160);

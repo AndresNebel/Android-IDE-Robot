@@ -29,7 +29,7 @@ Blockly.MSG_MUTATOR_CHANGE = 'Cambiar';
 Blockly.MSG_MUTATOR_CANCEL = 'Cancelar';
 
 // Logic Blocks
-Blockly.LANG_CATEGORY_LOGIC = 'Op. Lógicas';
+Blockly.LANG_CATEGORY_LOGIC = 'Condiciones';
 Blockly.LANG_LOGIC_COMPARE_HELPURL = 'http://en.wikipedia.org/wiki/Inequality_(mathematics)';
 Blockly.LANG_LOGIC_COMPARE_TOOLTIP_EQ = 'Retorna verdadero si los dos parametros son iguales.';
 Blockly.LANG_LOGIC_COMPARE_TOOLTIP_NEQ = 'Retorna verdadero si los dos parametros no son iguales.';
@@ -84,5 +84,5 @@ Blockly.LANG_PROCEDURES_CALLRETURN_PROCEDURE = 'procedimiento';
 Blockly.LANG_PROCEDURES_CALLRETURN_TOOLTIP_1 = 'Llama a un procedimiento que retorna un valor.';
 
 // Butia Blocks
-Blockly.LANG_CATEGORY_BUTIA = 'Butia';
+Blockly.LANG_CATEGORY_BUTIA = 'Butiá';
 Blockly.LANG_BUTIA_COMPARE_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
