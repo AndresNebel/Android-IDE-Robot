@@ -1,0 +1,16 @@
+body {
+	background-color: white;
+	font-family: sans-serif;
+}
+h1 {
+	font-weight: normal;
+	font-size: 140%;
+}
+#svg {
+	margin: 0 auto;
+	height: 90%;
+	width: 55%;
+}
+.blocklySvg {
+	border: 1px solid black;
+}

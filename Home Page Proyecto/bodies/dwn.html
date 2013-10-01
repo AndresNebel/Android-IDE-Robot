@@ -3,8 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta name="google-translate-customization" content="e8138f3aa984f2f9-a967cff96d1be3bb-g7bffd81f55c17819-27"></meta>
+		<link href="http://www.fing.edu.uy/~pgbutiablet/css/dialog.css" rel="stylesheet" type="text/css" media="all"/>
+		<script type="text/javascript" src="js/dialog.js"></script>	
 	</head>
 	<body>
+		<div id="dialog-overlay" onclick="dismissPopup()"></div>
+		<div id="dialog-box">
+			<div class="dialog-content">
+				<div id="dialog-message"></div>
+				<a href="javascript:dismissPopupAndNaviagate('http://www.fing.edu.uy/~pgbutiablet/documents/Sumo.pdf')" class="button dismissPDF">Pdf</a>
+				<a href="javascript:dismissPopupAndNaviagate('http://www.fing.edu.uy/~pgbutiablet/documents/Sumo.rar')" class="button dismissRAR">Prezi</a>
+			</div>
+		</div>
 		<div id="welcome" class="container">
 			<h2>Descargas</h2>
 			<p>Aquí podrás descargar las versiónes actuales de los documentos, código fuente e imágenes del proyecto.</p>
@@ -51,7 +61,15 @@
 				<h2>Prototipo Http-Server</h2>
 				<p class="mtopneg2">Version 1.0 del prototipo que prueba el servidor web de Lumen y la ejecucion de comportamientos a partir de pedidos desde el browser.</p>
 				<a href="http://www.fing.edu.uy/~pgbutiablet/documents/PrototipoHttpServer.rar" class="button mtopneg">Descargar</a>
-			</div>		
+			</div>	
+			<div id="tbox2"> 
+				<div class="image image-full pdf">
+					<img src="http://www.fing.edu.uy/~pgbutiablet/images/prezi.png"  alt=""/>
+				</div>
+				<h2>Presentación sumo.uy</h2>
+				<p class="mtopneg2">Diapositivas presentadas en el evento sumo.uy (animación o pdf).</p>
+				<a href="javascript:popup('Seleccione el formato:')" class="button mtopneg">Descargar</a>
+			</div>				
 		</div>
 	</body>
 </html>
