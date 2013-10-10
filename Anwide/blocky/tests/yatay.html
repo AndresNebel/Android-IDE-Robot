@@ -12,11 +12,11 @@
 		<script type="text/javascript">
 			Modernizr.load({
 				test: Modernizr.mq('only all and (max-device-width:480px)'),	
-				yep: ["yatay/js/mobile-load.js", "yatay/css/mobile-styles.css"],
-				nope: ["yatay/js/tablet-load.js", "yatay/css/tablet-styles.css"]
+				yep: ["yatay/js/mobile.js", "yatay/css/mobile.css"],
+				nope: ["yatay/js/tablet.js", "yatay/css/tablet.css"]
 			});
 		</script>
-		<!-- Blockly libraries -->		
+		<!-- Blockly libraries -->			
 		<script type="text/javascript" src="../blockly.js"></script>
 		<script type="text/javascript" src="../block.js"></script>
 		<script type="text/javascript" src="../block_svg.js"></script>
@@ -35,31 +35,31 @@
 		<script type="text/javascript" src="../generators/dart/text.js"></script>
 		<script type="text/javascript" src="../generators/dart/math.js"></script>
 		<script type="text/javascript" src="../generators/dart/logic.js"></script>
-		<script type="text/javascript" src="../generators/dart/lists.js"></script>
+		<!-- <script type="text/javascript" src="../generators/dart/lists.js"></script> -->
 		<script type="text/javascript" src="../generators/dart/variables.js"></script>
-		<script type="text/javascript" src="../generators/dart/procedures.js"></script>
+		<!-- <script type="text/javascript" src="../generators/dart/procedures.js"></script> -->
 		<script type="text/javascript" src="../generators/javascript.js"></script>
 		<script type="text/javascript" src="../generators/javascript/control.js"></script>
 		<script type="text/javascript" src="../generators/javascript/text.js"></script>
 		<script type="text/javascript" src="../generators/javascript/math.js"></script>
 		<script type="text/javascript" src="../generators/javascript/logic.js"></script>
-		<script type="text/javascript" src="../generators/javascript/lists.js"></script>
+		<!-- <script type="text/javascript" src="../generators/javascript/lists.js"></script> -->
 		<script type="text/javascript" src="../generators/javascript/variables.js"></script>
-		<script type="text/javascript" src="../generators/javascript/procedures.js"></script>
+		<!-- <script type="text/javascript" src="../generators/javascript/procedures.js"></script> -->
 		<script type="text/javascript" src="../generators/python.js"></script>
 		<script type="text/javascript" src="../generators/python/control.js"></script>
 		<script type="text/javascript" src="../generators/python/android.js"></script>
 		<script type="text/javascript" src="../generators/python/text.js"></script>
 		<script type="text/javascript" src="../generators/python/math.js"></script>
 		<script type="text/javascript" src="../generators/python/logic.js"></script>
-		<script type="text/javascript" src="../generators/python/lists.js"></script>
+		<!-- <script type="text/javascript" src="../generators/python/lists.js"></script> -->
 		<script type="text/javascript" src="../generators/python/variables.js"></script>
-		<script type="text/javascript" src="../generators/python/procedures.js"></script>
+		<!-- <script type="text/javascript" src="../generators/python/procedures.js"></script> -->
 		<script type="text/javascript" src="../generators/lua.js"></script>
 		<script type="text/javascript" src="../generators/lua/control.js"></script>
 		<script type="text/javascript" src="../generators/lua/logic.js"></script>
 		<script type="text/javascript" src="../generators/lua/math.js"></script>
-		<script type="text/javascript" src="../generators/lua/procedures.js"></script>
+		<!-- <script type="text/javascript" src="../generators/lua/procedures.js"></script> -->
 		<script type="text/javascript" src="../generators/lua/text.js"></script>
 		<script type="text/javascript" src="../generators/lua/variables.js"></script>
 		<script type="text/javascript" src="../generators/lua/butia.js"></script>
@@ -68,13 +68,13 @@
 		<script type="text/javascript" src="../language/es/text.js"></script>
 		<script type="text/javascript" src="../language/es/math.js"></script>
 		<script type="text/javascript" src="../language/es/logic.js"></script>
-		<script type="text/javascript" src="../language/es/lists.js"></script>
+		<!-- <script type="text/javascript" src="../language/es/lists.js"></script> -->
 		<script type="text/javascript" src="../language/es/butia.js"></script>
 		<script type="text/javascript" src="../language/common/variables.js"></script>
-		<script type="text/javascript" src="../language/common/procedures.js"></script>
+		<!-- <script type="text/javascript" src="../language/common/procedures.js"></script> -->
 		<script type="text/javascript" src="../mutator.js"></script>
 		<script type="text/javascript" src="../names.js"></script>
-		<script type="text/javascript" src="../procedures.js"></script>
+		<!-- <script type="text/javascript" src="../procedures.js"></script> -->
 		<script type="text/javascript" src="../scrollbar.js"></script>
 		<script type="text/javascript" src="../toolbox.js"></script>
 		<script type="text/javascript" src="../tooltip.js"></script>
@@ -83,16 +83,17 @@
 		<script type="text/javascript" src="../variables.js"></script>
 		<script type="text/javascript" src="../workspace.js"></script>
 		<script type="text/javascript" src="../xml.js"></script>
-		<script type="text/javascript" src="language.js"></script>
+		<!-- <script type="text/javascript" src="language.js"></script> -->
 		<script type="text/javascript" src="anwide.js"></script>	
 		<link href="anwide.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body onload="start()">
-	<div id="main_menu"></div> 
-	<div id="svg"></div>
-	<p id="blockly_menu" >
-		<br><textarea id="importExport" style="width: 26%; height: 12em"></textarea>
-	</p>
-	<div id="timer" />
+	<div id="dialog_overlay" onclick="dismissPopup()" style="display: none;" />
+	<div id="dialog_box" style="display: none;" >
+		<textarea id="code_area"></textarea>
+		<a href="#" class="button dismissPDF">Pdf</a>
+	</div>
+	<div id="main_menu"></div> 	
+	<div id="svg"></div>	
 </body>
 </html>

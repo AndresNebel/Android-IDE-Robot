@@ -7,10 +7,17 @@ h1 {
 	font-size: 140%;
 }
 #svg {
-	margin: 0 auto;
+	float: left;
+	margin: 0 22.6%;
 	height: 90%;
 	width: 55%;
 }
 .blocklySvg {
 	border: 1px solid black;
+}
+#code_area {
+	display: none;
+	float: left;
+	width: 22%; 
+	height: 12em;
 }

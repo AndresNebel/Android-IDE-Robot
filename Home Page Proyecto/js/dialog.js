@@ -21,7 +21,6 @@ function dismissPopup()
 	$('#dialog-message').html('');		
 }
 
-
 function popup(message) {
 	
 	var maskHeight = $(document).height();  
@@ -32,7 +31,5 @@ function popup(message) {
 	$('#dialog-overlay').css({height:maskHeight, width:maskWidth}).show();
 	$('#dialog-box').css({top:dialogTop, left:dialogLeft}).show();
 	$('#dialog-message').html(message);					
-	$('html,body').animate({   
-				scrollTop: $('#dialog-box').offset().top -50},  
-				'slow');
+	$('html,body').animate({scrollTop: $('#dialog-box').offset().top -50}, 'slow');
 }

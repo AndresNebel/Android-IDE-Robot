@@ -21,8 +21,8 @@ ul.menu a {
 }
 ul.menu {
 	height: 50px;
-	width: 43.2%;
-	margin: 12px 34.5%;
+	width: 46.2%;
+	margin: 8px 32.5%;
 
 	background: #4c4e5a;
 	background: -webkit-linear-gradient(top, #4c4e5a 0%,#2c2d33 100%);
@@ -54,7 +54,7 @@ ul.menu li a {
 
 	font-family: Helvetica, Arial, sans-serif;
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 15px;
 
 	color: #f3f3f3;
 	text-shadow: 1px 1px 1px rgba(0,0,0,.6);
@@ -107,7 +107,7 @@ ul.menu ul li a {
 	width: 130px;
 	padding: 0 10px;
 	margin: 0;
-	font-size: 14px;
+	font-size: 15px;
 
 	border: none;
 	border-bottom: 1px solid #353539;

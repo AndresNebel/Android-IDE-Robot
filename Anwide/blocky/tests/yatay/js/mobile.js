@@ -1,3 +1,7 @@
+//Java Script load mobile resources 
+$(document).ready(function(){	   
+	$('#main_menu').load('yatay/mobile.html');	
+});
 //Hide #stop & #back menu item 
 $(document).ready(function(){	
 	$('#stop').hide();
