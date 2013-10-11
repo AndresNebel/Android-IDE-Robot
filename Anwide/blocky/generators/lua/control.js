@@ -41,7 +41,7 @@ Blockly.Lua.controls_if = function() {
     branch = Blockly.Lua.statementToCode(this, 'ELSE');
     code += 'else\n' + branch;
   }
-  code += 'end';
+  code += '\n' + 'end';
   return code + '\n';
 };
 
@@ -115,8 +115,8 @@ Blockly.Lua.controls_Behaviour = function() {
   var name = this.getTitleText('TEXT');
   var priority = this.getTitleText('PR');
   var behaviourCode = Blockly.Lua.statementToCode(this, 'BEHAVIOUR_CODE');
-  var code = "local M = {}\n" + "local robot = require 'tasks/RobotInterface'\n local sched = require 'sched'\n" + "M.name = '" + name;
-  code = code + "'\n" + "M.priority = " + priority + "\n" + "M.init = function(conf)\n" + behaviourCode + "end\n return M"; 
+  var code = "local M = {}\n" + "local robot = require 'tasks/RobotInterface'\n" + "local sched = require 'sched'\n" + "M.name = '" + name;
+  code = code + "'\n" + "M.priority = " + priority + "\n" + "M.init = function(conf)\n" + behaviourCode + "end\n" + "return M"; 
 
   return code + '\n';
 };

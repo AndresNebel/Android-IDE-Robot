@@ -1,21 +1,18 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<title>YataY</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />	
-		<meta name="viewport" content="initial-scale=1.0" />
-		<link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" /> 	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" /> 	-->
 
 		<!-- Third-party libraries -->
-		<script type="text/javascript" src="yatay/lib/jquery-1.10.2.js"></script>	
+		<script type="text/javascript" src="yatay/lib/jquery-2.0.3.min.js"></script>	
 		<script type="text/javascript" src="yatay/lib/yepnope.1.5.4-min.js"></script>
-		<script type="text/javascript" src="yatay/lib/modernizr-2.5.3.min.js"></script>	
-		<script type="text/javascript">
-			Modernizr.load({
-				test: Modernizr.mq('only all and (max-device-width:480px)'),	
-				yep: ["yatay/js/mobile.js", "yatay/css/mobile.css"],
-				nope: ["yatay/js/tablet.js", "yatay/css/tablet.css"]
-			});
-		</script>
+		<script type="text/javascript" src="yatay/lib/modernizr-2.5.3.min.js"></script>			
+		<link href="yatay/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<script type="text/javascript" src="yatay/lib/bootstrap/js/bootstrap.min.js"></script>
+
 		<!-- Blockly libraries -->			
 		<script type="text/javascript" src="../blockly.js"></script>
 		<script type="text/javascript" src="../block.js"></script>
@@ -86,14 +83,19 @@
 		<!-- <script type="text/javascript" src="language.js"></script> -->
 		<script type="text/javascript" src="anwide.js"></script>	
 		<link href="anwide.css" rel="stylesheet" type="text/css" media="all" />
+		
+		<!-- Loader -->
+		<script type="text/javascript">
+			Modernizr.load({
+				test: Modernizr.mq('only all and (max-device-width:480px)'),	
+				yep: ["yatay/js/mobile.js", "yatay/css/mobile.css"],
+				nope: ["yatay/js/tablet.js", "yatay/css/tablet.css"]
+			});
+		</script>		
 </head>
 <body onload="start()">
-	<div id="dialog_overlay" onclick="dismissPopup()" style="display: none;" />
-	<div id="dialog_box" style="display: none;" >
-		<textarea id="code_area"></textarea>
-		<a href="#" class="button dismissPDF">Pdf</a>
-	</div>
 	<div id="main_menu"></div> 	
 	<div id="svg"></div>	
+</div>
 </body>
 </html>

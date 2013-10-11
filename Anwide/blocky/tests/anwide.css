@@ -8,16 +8,11 @@ h1 {
 }
 #svg {
 	float: left;
-	margin: 0 22.6%;
+	margin: 4% 24%;
 	height: 90%;
-	width: 55%;
+	width: 52%;
+	position: fixed;
 }
 .blocklySvg {
 	border: 1px solid black;
-}
-#code_area {
-	display: none;
-	float: left;
-	width: 22%; 
-	height: 12em;
 }

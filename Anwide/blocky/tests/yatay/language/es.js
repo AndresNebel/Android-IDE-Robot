@@ -6,5 +6,6 @@ lang =
 	docode : "Ver Código",
 	load : "Cargar",
 	save : "Guardar",
-	stop : "Detener"
+	stop : "Detener", 
+	code_label : "Código Generado"
 };
