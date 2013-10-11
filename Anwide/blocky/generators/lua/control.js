@@ -115,10 +115,29 @@ Blockly.Lua.controls_Behaviour = function() {
   var name = this.getTitleText('TEXT');
   var priority = this.getTitleText('PR');
   var behaviourCode = Blockly.Lua.statementToCode(this, 'BEHAVIOUR_CODE');
-  var code = "local M = {}\n" + "local robot = require 'tasks/RobotInterface'\n" + "local sched = require 'sched'\n" + "M.name = '" + name;
-  code = code + "'\n" + "M.priority = " + priority + "\n" + "M.init = function(conf)\n" + behaviourCode + "end\n" + "return M"; 
+  var code = "local behaviours = require 'catalog'.get_catalog('behaviours')\n"+  "local M = {}\n" +
+  "local robot = require 'tasks/RobotInterface'\n"+
+  "local sched = require 'sched'\n" + 
+  "M.name = '" + name;
+  code = code + "'\n" + "M.priority = " + priority + "\n" +
+  "local run = function ()\n" +
+	 "   if (activeBehaviour == nil || M.priority < activeBehaviour.priority) then\n" +
+        "      activeBehaviour = M\n " 
+       + behaviourCode +
+     "   end\n" +
+  "end\n"+
 
-  return code + '\n';
+  "M.ReleaseControl = function()\n" +
+	"  robot.execute('bb-motors','setvel2mtr', [0,0,0,0])\n" +
+  "end\n" +
+
+  "M.init = function(conf)\n"+
+	  "   local waitd = {emitter='*', events={'Compete!'}}\n" +
+	  "   M.task = sched.sigrun(waitd, run)\n"+
+  "end\n"+
+  "return M\n"; 
+
+  return code;
 };
 
 
