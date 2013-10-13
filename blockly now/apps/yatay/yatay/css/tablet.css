@@ -1,0 +1,52 @@
+html {
+	width: 100% !important;
+	height: 100% !important;
+	clip: auto;
+	position: absolute;
+	overflow: hidden;
+}
+
+body {
+	background: url(../images/bg.jpg) repeat;
+}
+
+textarea { 
+	width: 200px; 
+	min-width:200px; 
+	max-height:200px; 
+
+	height:200px; 
+	min-height:200px;  
+	max-height:200px;
+}
+
+.full-area {
+	width: 96%;
+	height: 100%;
+}
+
+/* Bootstrap modification */
+.navbar .nav,
+.navbar .nav > li {
+	float:left !important;
+	display:inline-block !important;
+	left: 28% !important;
+	vertical-align: top;
+}
+
+.navbar-inner {
+	text-align:center;
+}
+
+header >.navbar .brand {
+	float: right !important;
+	display: inline-block !important;
+	left: 10% !important;
+	position: relative;
+	font-weight: bold;
+	color: #000;
+	text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+	-webkit-transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	transition: all .2s linear;
+}
