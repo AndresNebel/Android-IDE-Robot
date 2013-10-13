@@ -23,7 +23,7 @@
  */
 
 // Supported languages.
-BlocklyApps.LANGUAGES = ['en', 'de', 'hu', 'vi', 'zh-tw'];
+BlocklyApps.LANGUAGES = ['en', 'es'];
 BlocklyApps.LANG = BlocklyApps.getLang();
 
 document.write('<script type="text/javascript" src="generated/' +
@@ -47,33 +47,13 @@ Code.selected = 'blocks';
  * @param {string} id ID of tab clicked.
  */
 Code.tabClick = function(id) {
-  // If the XML tab was open, save and render the content.
-  if (document.getElementById('tab_xml').className == 'tabon') {
-    var xmlTextarea = document.getElementById('content_xml');
-    var xmlText = xmlTextarea.value;
-    var xmlDom = null;
-    try {
-      xmlDom = Blockly.Xml.textToDom(xmlText);
-    } catch (e) {
-      var q =
-          window.confirm(BlocklyApps.getMsg('Code_badXml').replace('%1', e));
-      if (!q) {
-        // Leave the user on the XML tab.
-        return;
-      }
-    }
-    if (xmlDom) {
-      Blockly.mainWorkspace.clear();
-      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xmlDom);
-    }
-  }
-
-  // Deselect all tabs and hide all panes.
-  for (var x in Code.TABS_) {
-    var name = Code.TABS_[x];
-    document.getElementById('tab_' + name).className = 'taboff';
-    document.getElementById('content_' + name).style.visibility = 'hidden';
-  }
+  
+  // // Deselect all tabs and hide all panes.
+  // for (var x in Code.TABS_) {
+    // var name = Code.TABS_[x];
+    // document.getElementById('tab_' + name).className = 'taboff';
+    // document.getElementById('content_' + name).style.visibility = 'hidden';
+  // }
 
   // Select the active tab.
   Code.selected = id.replace('tab_', '');

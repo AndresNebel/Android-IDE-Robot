@@ -69,7 +69,7 @@ Blockly.Blocks['butia_stop'] = {
   }
 };
 
-Blockly..Blocks['butia_grey'] = {
+Blockly.Blocks['butia_grey'] = {
   init: function() {
     this.setColour(217);
 	this.appendTitle(Blockly.Msg.BUTIA_GREY)
