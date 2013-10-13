@@ -29,60 +29,55 @@ goog.require('Blockly.Blocks');
 
 
 Blockly.Blocks['butia_move'] = {
-  // If/elseif/else condition.
+  
   init: function() {
-    this.setHelpUrl(Blockly.LANG_BUTIA_COMPARE_HELPURL);
     this.setColour(110);
-	this.appendTitle('mover');
-	var dropdown = new Blockly.FieldDropdown([['adelante', 'moveForward', 
-	['atrás', 'moveBackward']]);
+	this.appendTitle(Blockly.Msg.BUTIA_MOVE);
+	var dropdown = new Blockly.FieldDropdown([[Blockly.Msg.BUTIA_MOVE_FORWARD, 'moveForward', 
+	[Blockly.Msg.BUTIA_MOVE_BACKWARD, 'moveBackward']]);
 	this.appendTitle(dropdown, 'DIR');
 	this.setPreviousStatement(true);
 	this.setNextStatement(true);
-	this.setTooltip('Mueve el Butiá hacia adelante o atrás.');
+	this.setTooltip(Blockly.Msg.BUTIA_MOVE_TOOLTIP);
   }
 };
 Blockly.Blocks['butia_turnLeftRight'] = {
 	// Block for turning robot butiá left or right.
-	category: Blockly.LANG_CATEGORY_BUTIA,
-	helpUrl: Blockly.LANG_BUTIA_COMPARE_HELPURL,
 	init: function() {
 		this.setColour(110);
 		this.appendTitle('girar');
-		var dropdown = new Blockly.FieldDropdown([['izquierda', 'turnLeft'], 
-	['derecha', 'turnRight']]);
+		var dropdown = new Blockly.FieldDropdown([[Blockly.Msg.BUTIA_TURNLEFTRIGHT_LEFT, 'turnLeft'], 
+	[Blockly.Msg.BUTIA_TURNLEFTRIGHT_RIGHT, 'turnRight']]);
 		this.appendTitle(dropdown, 'DIR');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
-		this.setTooltip('Gira el Butiá hacia la derecha o izquierda.');
+		this.setTooltip(Blockly.Msg.BUTIA_TURNLEFTRIGHT_TOOLTIP);
 	}
 };
 
 Blockly.Blocks['butia_stop'] = {
-  category: Blockly.LANG_CATEGORY_BUTIA,
   init: function() {
     this.setColour(0);
-	this.appendTitle('detener ')
+	this.appendTitle(Blockly.Msg.BUTIA_STOP)
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {   
-      return "Detener el Robot Butia";
+      return Blockly.Msg.BUTIA_STOP_TOOLTIP;
     });
   }
 };
 
-Blockly.Language.butia_grey = {
-  category: Blockly.LANG_CATEGORY_BUTIA,
+Blockly..Blocks['butia_grey'] = {
   init: function() {
     this.setColour(217);
-	this.appendTitle('sensor gris')
+	this.appendTitle(Blockly.Msg.BUTIA_GREY)
     this.setOutput(true, Number);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     this.setTooltip(function() {   
-      return "El valor del sensor de grises el Robot Butia";
+      return Blockly.Msg.BUTIA_GREY_TOOLTIP;
     });
   }
 };
