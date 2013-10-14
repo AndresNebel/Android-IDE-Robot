@@ -1,10 +1,10 @@
 //Java Script to load tablet resources 
-$(document).ready(function(){	   
-	$('#main_menu').load('yatay/tablet.html');	
+$(document).ready(function(){	 	
+		$('#main_menu').load('yatay/tablet.html');		
 });
 //Handle docode click
 function docode(){	
-	$('#code_editable').html(Blockly.Generator.workspaceToCode('Lua'));
+	//$('#code_editable').html(Blockly.Generator.workspaceToCode('Lua'));
 	$('#code_modal').modal('show');
 };
 //Handle run click
