@@ -1,0 +1,11 @@
+$(document).ready(function(){
+	$('#robotest').html(lang.robotest);
+	$('#debug').html(lang.debug);
+	$('#run').html(lang.run);
+	$('#docode').html(lang.docode);
+	$('#load').html(lang.load);
+	$('#save').html(lang.save);
+	$('#stop').html(lang.stop);
+	$('#code_label').html(lang.code_label);
+	$('#btn_run').html(lang.run);
+});
