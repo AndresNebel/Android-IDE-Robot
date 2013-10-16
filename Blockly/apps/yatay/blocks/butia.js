@@ -27,26 +27,19 @@ Blockly.Blocks['butia_move'] = {
 	// Block for moving robot butiá forward or backwards.
 	init: function() {
 		var DIRECTIONS = [
-			[Blockly.Msg.BUTIA_MOVE_FORWARD, 'moveForward'], 
-			[Blockly.Msg.BUTIA_MOVE_BACKWARD, 'moveBackward']
+			[Yatay.Msg.BUTIA_MOVE_FORWARD, 'moveForward'], 
+			[Yatay.Msg.BUTIA_MOVE_BACKWARD, 'moveBackward']
 		];
-		this.setHelpUrl(Blockly.Msg.LANG_BUTIA_COMPARE_HELPURL);
+		this.setHelpUrl(Yatay.Msg.LANG_BUTIA_COMPARE_HELPURL);
 		this.setColour(120);
 		this.appendDummyInput()
-			.appendTitle(Blockly.Msg.CONTROLS_MOVE_TITLE)	
-			.appendTitle(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
+			.appendTitle(Yatay.Msg.CONTROLS_MOVE_TITLE)	
+			.appendTitle(new Yatay.FieldDropdown(DIRECTIONS), 'DIR');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
-		this.setTooltip(Blockly.Msg.BUTIA_MOVE_TOOLTIP);
+		this.setTooltip(Yatay.Msg.BUTIA_MOVE_TOOLTIP);
 	}
 };
-
-// Butia Messages
-Blockly.Msg.LANG_BUTIA_COMPARE_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
-Blockly.Msg.CONTROLS_MOVE_TITLE = 'move';
-Blockly.Msg.BUTIA_MOVE_FORWARD = 'adelante';
-Blockly.Msg.BUTIA_MOVE_BACKWARD = 'atrás';
-Blockly.Msg.BUTIA_MOVE_TOOLTIP = 'Mueve el Butiá hacia adelante o atrás.';
 
 
 

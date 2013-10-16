@@ -1,6 +1,17 @@
-<script type="text/javascript" src="yatay/language/es.js"></script>
-<script type="text/javascript" src="yatay/language/loader.js"></script>
 <header>
+	<script>
+	$(document).ready(function(){
+		$('#robotest').html(Yatay.Msg.MENU_ROBOTEST);
+		$('#debug').html(Yatay.Msg.MENU_DEBUG);
+		$('#run').html(Yatay.Msg.MENU_RUN);
+		$('#docode').html(Yatay.Msg.MENU_DOCODE);
+		$('#load').html(Yatay.Msg.MENU_LOAD);
+		$('#save').html(Yatay.Msg.MENU_SAVE);
+		$('#stop').html(Yatay.Msg.MENU_STOP);
+		$('#code_label').html(Yatay.Msg.MENU_CODE_LABEL);
+		$('#btn_run').html(Yatay.Msg.MENU_RUN);
+	});
+	</script>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">	
@@ -10,7 +21,7 @@
 						<a id="robotest" href="#"/>
 					</li>
 					<li class="" onclick="debug()">
-						<a id="debug" href="#"/>
+						<a id="debug" href="#" value="hola"/>
 					</li>
 					<li class="" onclick="run()">
 						<a id="run" href="#"/>
