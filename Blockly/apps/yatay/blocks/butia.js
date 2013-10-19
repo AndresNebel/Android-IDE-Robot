@@ -30,10 +30,10 @@ Blockly.Blocks['butia_move'] = {
 			[Yatay.Msg.BUTIA_MOVE_FORWARD, 'moveForward'], 
 			[Yatay.Msg.BUTIA_MOVE_BACKWARD, 'moveBackward']
 		];
-		this.setHelpUrl(Yatay.Msg.LANG_BUTIA_COMPARE_HELPURL);
+		this.setHelpUrl(Yatay.Msg.BUTIA_HELPURL);
 		this.setColour(120);
 		this.appendDummyInput()
-			.appendTitle(Yatay.Msg.CONTROLS_MOVE_TITLE)	
+			.appendTitle(Yatay.Msg.BUTIA_MOVE_TITLE)	
 			.appendTitle(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
@@ -41,15 +41,20 @@ Blockly.Blocks['butia_move'] = {
 	}
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
+Blockly.Blocks['butia_turn'] = {
+	// Block for turning robot butiá left or right.
+	init: function() {
+		var DIRECTIONS = [
+			[Yatay.Msg.BUTIA_TURN_LEFT, 'turnLeft'], 
+			[Yatay.Msg.BUTIA_TURN_RIGHT, 'turnRight']
+		];
+		this.setHelpUrl(Yatay.Msg.BUTIA_HELPURL);
+		this.setColour(120);
+		this.appendDummyInput()
+			.appendTitle(Yatay.Msg.BUTIA_TRUN_TITLE)	
+			.appendTitle(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
+		this.setPreviousStatement(true);
+		this.setNextStatement(true);
+		this.setTooltip(Yatay.Msg.BUTIA_TURN_TOOLTIP);
+	}
+};
