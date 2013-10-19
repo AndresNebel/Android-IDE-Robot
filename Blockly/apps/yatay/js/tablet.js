@@ -2,7 +2,7 @@
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
 	//Hack para ue me muestre los bloques previamente agregados.
-	Blockly.mainWorkspace.render();
+	
 });
 //Handle docode click
 function docode(){	

@@ -84,8 +84,7 @@ Yatay.init = function() {
   
   BlocklyApps.bindClick('trashButton',
       function() {Yatay.discard();});  
-  
-  
+  setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
