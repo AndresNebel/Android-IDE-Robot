@@ -23,7 +23,7 @@
  */
 
 // Supported languages.
-BlocklyApps.LANGUAGES = ['en', 'es'];
+BlocklyApps.LANGUAGES = ['es','en'];
 BlocklyApps.LANG = BlocklyApps.getLang();
 
 document.write('<script type="text/javascript" src="generated/' + BlocklyApps.LANG + '.js"></script>\n');
@@ -32,88 +32,6 @@ document.write('<script type="text/javascript" src="generated/' + BlocklyApps.LA
  * Create a namespace for the application.
  */
 var Yatay = {};
-
-/**
- * List of tab names.
- * @private
- */
-Yatay.TABS_ = ['blocks', 'javascript', 'python', 'xml'];
-
-Yatay.selected = 'blocks';
-
-/**
- * Switch the visible pane when a tab is clicked.
- * @param {string} id ID of tab clicked.
- */
-Yatay.tabClick = function(id) {
-  // If the XML tab was open, save and render the content.
-  // if (document.getElementById('tab_xml').className == 'tabon') {
-    // var xmlTextarea = document.getElementById('content_xml');
-    // var xmlText = xmlTextarea.value;
-    // var xmlDom = null;
-    // try {
-      // xmlDom = Blockly.Xml.textToDom(xmlText);
-    // } catch (e) {
-      // var q =
-          // window.confirm(BlocklyApps.getMsg('Yatay_badXml').replace('%1', e));
-      // if (!q) {
-        // // Leave the user on the XML tab.
-        // return;
-      // }
-    // }
-    // if (xmlDom) {
-      // Blockly.mainWorkspace.clear();
-      // Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xmlDom);
-    // }
-  // }
-
-  // // Deselect all tabs and hide all panes.
-  // for (var x in Yatay.TABS_) {
-    // var name = Yatay.TABS_[x];
-    // document.getElementById('tab_' + name).className = 'taboff';
-    // document.getElementById('content_' + name).style.visibility = 'hidden';
-  // }
-
-  // Select the active tab.
-  Yatay.selected = id.replace('tab_', '');
-  document.getElementById(id).className = 'tabon';
-  // Show the selected pane.
-  document.getElementById('content_' + Yatay.selected).style.visibility =
-      'visible';
-  Yatay.renderContent();
-  Blockly.fireUiEvent(window, 'resize');
-};
-
-/**
- * Populate the currently selected pane with content generated from the blocks.
- */
-Yatay.renderContent = function() {
-  var content = document.getElementById('content_' + Yatay.selected);
-  // Initialize the pane.
-  if (content.id == 'content_xml') {
-    var xmlTextarea = document.getElementById('content_xml');
-    var xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-    var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-    xmlTextarea.value = xmlText;
-    xmlTextarea.focus();
-  } else if (content.id == 'content_javascript') {
-    var code = Blockly.JavaScript.workspaceToCode();
-    content.textContent = code;
-    if (typeof prettyPrintOne == 'function') {
-      code = content.innerHTML;
-      code = prettyPrintOne(code, 'js');
-      content.innerHTML = code;
-    }
-  } else if (content.id == 'content_python') {
-    code = Blockly.Python.workspaceToCode();
-    content.textContent = code;
-    if (typeof prettyPrintOne == 'function') {
-      code = content.innerHTML;
-      code = prettyPrintOne(code, 'py');
-      content.innerHTML = code;
-    }
-  }
-};
 
 /**
  * Initialize Blockly.  Called on page load.
@@ -135,23 +53,17 @@ Yatay.init = function() {
   var container = document.getElementById('content_area');
   var onresize = function(e) {
     var bBox = BlocklyApps.getBBox_(container);
-    for (var x in Yatay.TABS_) {
-      var el = document.getElementById('content_' + Yatay.TABS_[x]);
-      el.style.top = bBox.y + 'px';
-      el.style.left = bBox.x + 'px';
-      // Height and width need to be set, read back, then set again to
-      // compensate for scrollbars.
-      el.style.height = bBox.height + 'px';
-      el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
-      el.style.width = bBox.width + 'px';
-      el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
-    }
-    // Make the 'Blocks' tab line up with the toolbox.
-    if (Blockly.Toolbox.width) {
-      document.getElementById('tab_blocks').style.minWidth =
-          (Blockly.Toolbox.width - 38) + 'px';
-          // Account for the 19 pixel margin and on each side.
-    }
+	var el = document.getElementById('content_blocks' );
+	el.style.top = bBox.y + 'px';
+	el.style.left = bBox.x + 'px';
+	// Height and width need to be set, read back, then set again to
+	// compensate for scrollbars.
+	el.style.height = bBox.height + 'px';
+	el.style.height = (2 * bBox.height - el.offsetHeight) + 'px';
+	el.style.width = bBox.width + 'px';
+	el.style.width = (2 * bBox.width - el.offsetWidth) + 'px';
+    
+   
   };
   window.addEventListener('resize', onresize, false);
 
@@ -162,15 +74,16 @@ Yatay.init = function() {
     BlocklyStorage.backupOnUnload();
   }
 
-  Yatay.tabClick('tab_' + Yatay.selected);
+  document.getElementById('content_blocks').style.visibility =
+      'visible';
   Blockly.fireUiEvent(window, 'resize');
-
-  BlocklyApps.bindClick('trashButton',
-      function() {Yatay.discard(); Yatay.renderContent();});
-  BlocklyApps.bindClick('runButton', Yatay.runJS);
-
+  Blockly.fireUiEvent(window, 'resize');
+  
   // Lazy-load the syntax-highlighting.
   window.setTimeout(BlocklyApps.importPrettify, 1);
+  Blockly.mainWorkspace.clear();
+  BlocklyApps.bindClick('trashButton',
+      function() {Yatay.discard();});
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
