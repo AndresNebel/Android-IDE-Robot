@@ -58,3 +58,26 @@ Blockly.Blocks['butia_turn'] = {
 		this.setTooltip(Yatay.Msg.BUTIA_TURN_TOOLTIP);
 	}
 };
+
+Blockly.Blocks['butia_stop'] = {
+	// Block for stopping robot butiá.
+	init: function() {
+		this.setColour(120);
+		this.appendDummyInput()
+			.appendTitle(Yatay.Msg.BUTIA_STOP_TITLE);
+		this.setPreviousStatement(true);
+		this.setNextStatement(true);
+		this.setTooltip(Yatay.Msg.BUTIA_STOP_TOOLTIP);
+	}
+};
+
+Blockly.Blocks['butia_grey'] = {
+	// Block for get value of grey sensor of robot butiá.
+	init: function() {
+		this.setColour(120);
+		this.appendDummyInput()
+			.appendTitle(Yatay.Msg.BUTIA_GREY_TITLE);
+		this.setOutput(true, 'Number');
+		this.setTooltip(Yatay.Msg.BUTIA_GREY_TOOLTIP);
+	}
+};
