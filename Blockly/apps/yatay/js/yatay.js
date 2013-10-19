@@ -81,9 +81,11 @@ Yatay.init = function() {
   
   // Lazy-load the syntax-highlighting.
   window.setTimeout(BlocklyApps.importPrettify, 1);
-  Blockly.mainWorkspace.clear();
+  
   BlocklyApps.bindClick('trashButton',
-      function() {Yatay.discard();});
+      function() {Yatay.discard();});  
+  
+  
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {

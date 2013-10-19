@@ -23,9 +23,13 @@
  * Due to the frequency of long strings, the 80-column wrap rule need not apply
  * to language files.
  */
+ 'use strict';
 
-Blockly.Lua = Blockly.Generator.get('Lua');
+goog.provide('Blockly.Lua');
 
+goog.require('Blockly.Generator');
+
+Blockly.Lua = new Blockly.Generator('Lua');
 /**
  * List of illegal variable names.
  * This is not intended to be a security feature.  Blockly is 100% client-side,
@@ -33,11 +37,11 @@ Blockly.Lua = Blockly.Generator.get('Lua');
  * accidentally clobbering a built-in object or function.
  * @private
  */
-Blockly.Lua.RESERVED_WORDS_ =
+Blockly.Lua.addReservedWords(
 	// import keyword
 	// print ','.join(keyword.kwlist)
 	// http://www.lua.org/manual/5.1/manual.html
-'and,break,do,else,elseif,end,false,for,function,if,in,local,nil,not,or,repeat,return,then,true,until,while';
+'Blockly,' + 'and,break,do,else,elseif,end,false,for,function,if,in,local,nil,not,or,repeat,return,then,true,until,while');
 	//TODO: define constants
 	//TODO: define functions
  
@@ -51,7 +55,7 @@ Blockly.Lua.init = function() {
   if (Blockly.Variables) {
     if (!Blockly.Lua.variableDB_) {
       Blockly.Lua.variableDB_ =
-          new Blockly.Names(Blockly.Lua.RESERVED_WORDS_.split(','));
+          new Blockly.Names(Blockly.Lua.RESERVED_WORDS_);
     } else {
       Blockly.Lua.variableDB_.reset();
     }
@@ -60,7 +64,7 @@ Blockly.Lua.init = function() {
     var variables = Blockly.Variables.allVariables();
     for (var x = 0; x < variables.length; x++) {
       defvars[x] = 'local ' +
-          Blockly.JavaScript.variableDB_.getDistinctName(variables[x],
+          Blockly.Lua.variableDB_.getDistinctName(variables[x],
           Blockly.Variables.NAME_TYPE);
     }
     Blockly.Lua.definitions_['variables'] = defvars.join('\n');

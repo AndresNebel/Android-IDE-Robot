@@ -1,10 +1,12 @@
 //Java Script to load tablet resources 
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
+	//Hack para ue me muestre los bloques previamente agregados.
+	Blockly.mainWorkspace.render();
 });
 //Handle docode click
 function docode(){	
-	$('#code_editable').html(Blockly.Generator.workspaceToCode('Lua'));
+	$('#code_editable').html(Blockly.Lua.workspaceToCode());
 	$('#code_modal').modal('show');
 };
 //Handle run click
