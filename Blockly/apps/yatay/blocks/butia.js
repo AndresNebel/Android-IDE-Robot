@@ -34,7 +34,7 @@ Blockly.Blocks['butia_move'] = {
 		this.setColour(120);
 		this.appendDummyInput()
 			.appendTitle(Yatay.Msg.CONTROLS_MOVE_TITLE)	
-			.appendTitle(new Yatay.FieldDropdown(DIRECTIONS), 'DIR');
+			.appendTitle(new Blockly.FieldDropdown(DIRECTIONS), 'DIR');
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setTooltip(Yatay.Msg.BUTIA_MOVE_TOOLTIP);
