@@ -16,8 +16,16 @@ Yatay.Msg.MENU_STOP = "Stop";
 Yatay.Msg.MENU_CODE_LABEL = "Code Generated";
 
 // Butia Messages
-Yatay.Msg.LANG_BUTIA_COMPARE_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
-Yatay.Msg.CONTROLS_MOVE_TITLE = 'move';
+Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
+Yatay.Msg.BUTIA_MOVE_TITLE = 'move';
 Yatay.Msg.BUTIA_MOVE_FORWARD = 'forward';
 Yatay.Msg.BUTIA_MOVE_BACKWARD = 'backward';
 Yatay.Msg.BUTIA_MOVE_TOOLTIP = 'Move forward or back robot Butiá.';
+Yatay.Msg.BUTIA_TRUN_TITLE = 'turn';
+Yatay.Msg.BUTIA_TURN_LEFT = 'left';
+Yatay.Msg.BUTIA_TURN_RIGHT = 'right';
+Yatay.Msg.BUTIA_TURN_TOOLTIP = 'Trun left or right robot Butiá.';
+Yatay.Msg.BUTIA_STOP_TITLE = 'stop';
+Yatay.Msg.BUTIA_STOP_TOOLTIP = 'Stop robot Butiá.';
+Yatay.Msg.BUTIA_GREY_TITLE = 'grey sensor';
+Yatay.Msg.BUTIA_GREY_TOOLTIP = 'Get value of grey sensor of robot Butiá.';
