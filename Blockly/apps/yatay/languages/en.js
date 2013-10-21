@@ -9,11 +9,12 @@ if (!Yatay.Msg){
 Yatay.Msg.MENU_ROBOTEST = "Robot Test";
 Yatay.Msg.MENU_DEBUG = "Debug";
 Yatay.Msg.MENU_RUN = "Run";
-Yatay.Msg.MENU_DOCODE = "Code View";
+Yatay.Msg.MENU_EDIT = "Code View";
 Yatay.Msg.MENU_LOAD = "Load";
 Yatay.Msg.MENU_SAVE = "Save";
 Yatay.Msg.MENU_STOP = "Stop";
 Yatay.Msg.MENU_CODE_LABEL = "Code Generated";
+Yatay.Msg.MENU_TRASH = "Clean worksapce";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
