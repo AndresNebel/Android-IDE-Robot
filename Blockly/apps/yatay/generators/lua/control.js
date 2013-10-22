@@ -5,7 +5,7 @@
  * http://code.google.com/p/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use block file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
@@ -24,79 +24,34 @@
  * to language files.
  */
 
-Blockly.Lua = Blockly.Generator.get('Lua');
+'use strict';
 
-Blockly.Lua.controls_if = function() {
+goog.provide('Blockly.Lua.controls');
+
+goog.require('Blockly.Lua');
+
+Blockly.Lua["controls_if"] = function(block) {
   // If/elseif/else condition.
   var n = 0;
-  var argument = Blockly.Lua.valueToCode(this, 'IF' + n, true) || 'false';
-  var branch = Blockly.Lua.statementToCode(this, 'DO' + n);
+  var argument = Blockly.Lua.valueToCode(block, 'IF' + n, true) || 'false';
+  var branch = Blockly.Lua.statementToCode(block, 'DO' + n);
   var code = 'if (' + argument + ') then\n' + branch;
-  for (n = 1; n <= this.elseifCount_; n++) {
-    argument = Blockly.Lua.valueToCode(this, 'IF' + n, true) || 'false';
-    branch = Blockly.Lua.statementToCode(this, 'DO' + n);
+  for (n = 1; n <= block.elseifCount_; n++) {
+    argument = Blockly.Lua.valueToCode(block, 'IF' + n, true) || 'false';
+    branch = Blockly.Lua.statementToCode(block, 'DO' + n);
     code += 'elseif (' + argument + ') then\n' + branch;
   }
-  if (this.elseCount_) {
-    branch = Blockly.Lua.statementToCode(this, 'ELSE');
+  if (block.elseCount_) {
+    branch = Blockly.Lua.statementToCode(block, 'ELSE');
     code += 'else\n' + branch;
   }
   code += '\n' + 'end';
   return code + '\n';
 };
 
-// Blockly.JavaScript.controls_for = function() {
-  // // For loop.
-  // var variable0 = Blockly.JavaScript.variableDB_.getName(
-      // this.getInputVariable('VAR'), Blockly.Variables.NAME_TYPE);
-  // var argument0 = Blockly.JavaScript.valueToCode(this, 'FROM', true) || '0';
-  // var argument1 = Blockly.JavaScript.valueToCode(this, 'TO', true) || '0';
-  // var branch0 = Blockly.JavaScript.statementToCode(this, 'DO');
-  // var code;
-  // if (argument1.match(/^\w+$/)) {
-    // code = 'for (' + variable0 + ' = ' + argument0 + '; ' + variable0 + ' <= ' + argument1 + '; ' + variable0 + '++) {\n' +
-        // branch0 + '}\n';
-  // } else {
-    // // The end value appears to be more complicated than a simple variable.
-    // // Cache it to a variable to prevent repeated look-ups.
-    // var endVar = Blockly.JavaScript.variableDB_.getDistinctName(
-        // variable0 + '_end', Blockly.Variables.NAME_TYPE);
-    // code = 'var ' + endVar + ' = ' + argument1 + ';\n' +
-        // 'for (' + variable0 + ' = ' + argument0 + '; ' + variable0 + ' <= ' + endVar + '; ' + variable0 + '++) {\n' +
-        // branch0 + '}\n';
-  // }
-  // return code;
-// };
-
-// Blockly.JavaScript.controls_forEach = function() {
-  // // For each loop.
-  // var variable0 = Blockly.JavaScript.variableDB_.getName(
-      // this.getInputVariable('VAR'), Blockly.Variables.NAME_TYPE);
-  // var argument0 = Blockly.JavaScript.valueToCode(this, 'LIST', true) || '[]';
-  // var branch0 = Blockly.JavaScript.statementToCode(this, 'DO');
-  // var code;
-  // var indexVar = Blockly.JavaScript.variableDB_.getDistinctName(
-      // variable0 + '_index', Blockly.Variables.NAME_TYPE);
-  // if (argument0.match(/^\w+$/)) {
-    // branch0 = '  ' + variable0 + ' = ' + argument0 + '[' + indexVar + '];\n' + branch0;
-    // code = 'for (var ' + indexVar + ' in  ' + argument0 + ') {\n' +
-        // branch0 + '}\n';
-  // } else {
-    // // The list appears to be more complicated than a simple variable.
-    // // Cache it to a variable to prevent repeated look-ups.
-    // var listVar = Blockly.JavaScript.variableDB_.getDistinctName(
-        // variable0 + '_list', Blockly.Variables.NAME_TYPE);
-    // branch0 = '  ' + variable0 + ' = ' + listVar + '[' + indexVar + '];\n' + branch0;
-    // code = 'var ' + listVar + ' = ' + argument0 + ';\n' +
-        // 'for (var ' + indexVar + ' in ' + listVar + ') {\n' +
-        // branch0 + '}\n';
-  // }
-  // return code;
-// };
-
-Blockly.JavaScript.controls_flow_statements = function() {
+Blockly.Lua["controls_flow_statements"] = function(block) {
   // Flow statements: continue, break.
-  switch (this.getTitleValue('FLOW')) {
+  switch (block.getTitleValue('FLOW')) {
     case 'BREAK':
       return 'break;\n';
     case 'CONTINUE':
@@ -105,16 +60,16 @@ Blockly.JavaScript.controls_flow_statements = function() {
   throw 'Unknown flow statement.';
 };
 
-Blockly.Lua.controls_sleep = function() {
+Blockly.Lua["controls_sleep"] = function(block) {
   // Sleep.
-  var value = window.parseFloat(this.getTitleText('NUM'));
+  var value = window.parseFloat(block.getTitleText('NUM'));
   return 'sleep(' + value + ')\n';
 };
 
-Blockly.Lua.controls_Behaviour = function() {
-  var name = this.getTitleText('TEXT');
-  var priority = this.getTitleText('PR');
-  var behaviourCode = Blockly.Lua.statementToCode(this, 'BEHAVIOUR_CODE');
+Blockly.Lua["controls_Behaviour"] = function(block) {
+  var name = block.getTitleText('TEXT');
+  var priority = block.getTitleText('PR');
+  var behaviourCode = Blockly.Lua.statementToCode(block, 'BEHAVIOUR_CODE');
   var code = "local behaviours = require 'catalog'.get_catalog('behaviours')\n"+  "local M = {}\n" +
   "local robot = require 'tasks/RobotInterface'\n"+
   "local sched = require 'sched'\n" + 
@@ -141,16 +96,16 @@ Blockly.Lua.controls_Behaviour = function() {
 };
 
 
-Blockly.Lua.controls_whileUntil = function() {
-  var argument0 = Blockly.Lua.valueToCode(this, 'BOOL', true) || 'false';
-  var branch0 = Blockly.Lua.statementToCode(this, 'DO') || '\n';
+Blockly.Lua["controls_whileUntil"] = function(block) {
+  var argument0 = Blockly.Lua.valueToCode(block, 'BOOL', true) || 'false';
+  var branch0 = Blockly.Lua.statementToCode(block, 'DO') || '\n';
 
   return 'while (' + argument0 + ') do\n' + branch0 + 'end\n';
 };
 
-Blockly.Lua.controls_repeat = function() {
+Blockly.Lua["controls_repeat"] = function(block) {
 
-  var branch0 = Blockly.Lua.statementToCode(this, 'DO') || '\n';
+  var branch0 = Blockly.Lua.statementToCode(block, 'DO') || '\n';
 
-  return 'for i = 1, ' + this.getTitleText('TIMES') + ' do\n' + branch0 + 'end\n';
+  return 'for i = 1, ' + block.getTitleText('TIMES') + ' do\n' + branch0 + 'end\n';
 };
