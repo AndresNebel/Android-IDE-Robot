@@ -1,15 +1,16 @@
 <header>
 	<script>
 	$(document).ready(function(){
-		$('#robotest').html(Yatay.Msg.MENU_ROBOTEST);
-		$('#debug').html(Yatay.Msg.MENU_DEBUG);
-		$('#run').html(Yatay.Msg.MENU_RUN);
-		$('#docode').html(Yatay.Msg.MENU_DOCODE);
-		$('#load').html(Yatay.Msg.MENU_LOAD);
-		$('#save').html(Yatay.Msg.MENU_SAVE);
-		$('#stop').html(Yatay.Msg.MENU_STOP);
-		$('#code_label').html(Yatay.Msg.MENU_CODE_LABEL);
-		$('#btn_run').html(Yatay.Msg.MENU_RUN);
+		$('#btn_robotest').attr('title', Yatay.Msg.MENU_ROBOTEST);
+		$('#btn_debug').attr('title', Yatay.Msg.MENU_DEBUG);
+		$('#btn_run').attr('title', Yatay.Msg.MENU_RUN);
+		$('#btn_edit').attr('title', Yatay.Msg.MENU_EDIT);
+		$('#btn_load').attr('title', Yatay.Msg.MENU_LOAD);
+		$('#btn_save').attr('title', Yatay.Msg.MENU_SAVE);
+		$('#btn_stop').attr('title', Yatay.Msg.MENU_STOP);
+		$('#btn_trash').attr('title', Yatay.Msg.MENU_TRASH);
+		$('#code_label').html(Yatay.Msg.MENU_CODE_LABEL);	
+		$('#btn_run2').html(Yatay.Msg.MENU_RUN);		
 	});
 	</script>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,31 +18,46 @@
 			<div class="container">	
 				<a class="brand" target="grey" href="http://www.fing.edu.uy/~pgbutiablet/index.html">YataY</a>
 				<ul class="nav">
-					<li class="" onclick="robotest()">
-						<a id="robotest" href="#"/>
+					<li>
+						<button class="btn btn-large" id="btn_robotest" onclick="robotest()">
+							<i class="icon-wrench  icon-large"></i>
+						</button>
 					</li>
-					<li class="" onclick="debug()">
-						<a id="debug" href="#" value="hola"/>
+					<li>
+						<button class="btn btn-large" id="btn_debug" onclick="debug()">
+							<i class="icon-eye-open icon-large"></i>
+						</button>
 					</li>
-					<li class="" onclick="run()">
-						<a id="run" href="#"/>
+					<li>
+						<button class="btn btn-large" id="btn_run" onclick="run()">
+							<i class="icon-play icon-large"></i>
+						</button>	
 					</li>
-					<li class="" onclick="docode()">
-						<a id="docode" href="#"/>
+					<li>
+						<button class="btn btn-large" id="btn_edit" onclick="edit()">
+							<i class="icon-edit icon-large"></i>
+						</button>	
 					</li>
-					<li class="" onclick="fromXml()">
-						<a id="load" href="#"/>
+					<li>
+						<button class="btn btn-large" id="btn_load" onclick="fromXml()">
+							<i class="icon-file-text-alt icon-large"></i>
+						</button>					
 					</li>	
-					<li class="" onclick="toXml()">
-						<a id="save" href="#"/>
+					<li>
+						<button class="btn btn-large" id="btn_save" onclick="toXml()">
+							<i class="icon-save icon-large"></i>
+						</button>
 					</li>
-					<li class="" onclick="stop()">
-						<a id="stop" href="#" style="display: none;"/>
-					</li>
-					<li class="" >
-						<button id="trashButtonShowed"  style="margin-left:35%; margin-top:8%; height:32px;" onclick="$('#trashButton').click();" title="Descartar todos los bloques."><img src='../../media/1x1.gif' class="trash icon21"></button>
-					</li>
-					
+					<li>
+						<button class="btn btn-large" id="btn_trash" onclick="$('#trashButton').click();">
+							<i class="icon-trash icon-large"></i>
+						</button>
+					</li>	
+					<li>
+						<button class="btn btn-large" id="btn_stop" onclick="stop()" style="display: none;">
+							<i class="icon-stop icon-large"></i>
+						</button>
+					</li>					
 				</ul>			
 			</div>
 		</div>
@@ -57,6 +73,6 @@
 		<textarea id="code_editable" class="full-area"/>
 	</div>
 	<div class="modal-footer">
-		<button id="btn_run" class="btn btn-primary" onclick="runEdited()"/>
+		<button id="btn_run2" class="btn btn-primary" onclick="runEdited()"/>
 	</div>
 </div>

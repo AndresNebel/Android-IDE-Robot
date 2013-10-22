@@ -5,45 +5,45 @@ $(document).ready(function(){
 	
 });
 //Handle docode click
-function docode(){	
+function edit(){	
 	$('#code_editable').html(Blockly.Lua.workspaceToCode());
 	$('#code_modal').modal('show');
 };
 //Handle run click
 function run(){	
 	sendTasks();
-	$('#robotest').toggle('slow');
-	$('#debug').toggle('slow');	   
-	$('#run').toggle('slow');			
-	$('#load').toggle('slow');
-	$('#save').toggle('slow');		
-	if($('#docode').is(":visible")) {			
-		$('#docode').toggle('slow');
+	$('#btn_robotest').toggle('slow');
+	$('#btn_debug').toggle('slow');	   
+	$('#btn_run').toggle('slow');			
+	$('#btn_load').toggle('slow');
+	$('#btn_save').toggle('slow');		
+	if($('#btn_edit').is(":visible")) {			
+		$('#btn_edit').toggle('slow');
 	}
-	$('#stop').toggle('slow');
+	$('#btn_stop').toggle('slow');
 };
 //Handle debug click
 function debug(){		   
-	$('#robotest').toggle('slow');
-	$('#debug').toggle('slow');	   
-	$('#run').toggle('slow');			
-	$('#load').toggle('slow');
-	$('#save').toggle('slow');
-	if($('#docode').is(":visible")) {			
-		$('#docode').toggle('slow');
+	$('#btn_robotest').toggle('slow');
+	$('#btn_debug').toggle('slow');	   
+	$('#btn_run').toggle('slow');			
+	$('#btn_load').toggle('slow');
+	$('#btn_save').toggle('slow');
+	if($('#btn_edit').is(":visible")) {			
+		$('#btn_edit').toggle('slow');
 	}
-	$('#stop').toggle();
+	$('#btn_stop').toggle();
 };
 //Handle stop click
 function stop(){	
 	killTasks();
-	$('#robotest').toggle('slow');
-	$('#debug').toggle('slow');	   
-	$('#run').toggle('slow');			
-	$('#docode').toggle('slow');
-	$('#load').toggle('slow');
-	$('#save').toggle('slow');
-	$('#stop').toggle('slow');
+	$('#btn_robotest').toggle('slow');
+	$('#btn_debug').toggle('slow');	   
+	$('#btn_run').toggle('slow');			
+	$('#btn_edit').toggle('slow');
+	$('#btn_load').toggle('slow');
+	$('#btn_save').toggle('slow');
+	$('#btn_stop').toggle('slow');
 };
 //Handle robotest click
 function robotest(){		   
@@ -52,15 +52,15 @@ function robotest(){
 //Handle run task edited click
 function runEdited(){	
 	sendTasksEdited();
-	$('#robotest').toggle('slow');
-	$('#debug').toggle('slow');	   
-	$('#run').toggle('slow');			
-	$('#load').toggle('slow');
-	$('#save').toggle('slow');		
-	if($('#docode').is(":visible")) {			
-		$('#docode').toggle('slow');
+	$('#btn_robotest').toggle('slow');
+	$('#btn_debug').toggle('slow');	   
+	$('#btn_run').toggle('slow');			
+	$('#btn_load').toggle('slow');
+	$('#btn_save').toggle('slow');		
+	if($('#btn_edit').is(":visible")) {			
+		$('#btn_edit').toggle('slow');
 	}
-	$('#stop').toggle('slow');
+	$('#btn_stop').toggle('slow');
 	$('#code_modal').modal('hide');
 };
 //Textarea autoresize

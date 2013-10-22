@@ -26,10 +26,8 @@
 BlocklyApps.LANGUAGES = ['es','en'];
 BlocklyApps.LANG = BlocklyApps.getLang();
 
-document.write('<script type="text/javascript" src="generated/' 
-//+ BlocklyApps.LANG + 
-+ 'es' +
-'.js"></script>\n');
+// Use 'es' as default inBlocklyApps.LANG  
+document.write('<script type="text/javascript" src="generated/' + 'es' + '.js"></script>\n');
 
 /**
  * Create a namespace for the application.
