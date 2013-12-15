@@ -24,14 +24,19 @@
  * to language files.
  */
 
-Blockly.Lua = Blockly.Generator.get('Lua');
+ 'use strict';
 
-Blockly.Lua.math_number = function() {
+goog.provide('Blockly.Lua.math');
+
+goog.require('Blockly.Lua');
+
+
+Blockly.Lua["math_number"] = function() {
   // Numeric value.
-  return window.parseFloat(this.getTitleText('NUM'));
+  return window.parseFloat(this.getTitleValue('NUM')).toString().trim();
 };
 
-Blockly.Lua.math_arithmetic = function(opt_dropParens) {
+Blockly.Lua["math_arithmetic"] = function(opt_dropParens) {
   // Basic arithmetic operators, and power.
   var argument0 = Blockly.Lua.valueToCode(this, 'A') || '0';
   var argument1 = Blockly.Lua.valueToCode(this, 'B') || '0';
@@ -50,14 +55,14 @@ Blockly.Lua.math_arithmetic = function(opt_dropParens) {
   return code;
 };
 
-Blockly.Lua.math_arithmetic.OPERATORS = {
+Blockly.Lua["math_arithmetic"].OPERATORS = {
   ADD: ' + ',
   MINUS: ' - ',
   MULTIPLY: ' * ',
   DIVIDE: ' / '
 };
 
-Blockly.Lua.math_change = function() {
+Blockly.Lua["math_change"] = function() {
   // Add to a variable in place.
   var argument0 = Blockly.Lua.valueToCode(this, 'DELTA') || '0';
   var varName = Blockly.Lua.variableDB_.getName(this.getTitleText('VAR'),
@@ -66,7 +71,7 @@ Blockly.Lua.math_change = function() {
       ' : 0) + ' + argument0 + ';\n';
 };
 
-Blockly.Lua.math_single = function(opt_dropParens) {
+Blockly.Lua["math_single"] = function(opt_dropParens) {
   // Math operators with single operand.
   var argNaked = Blockly.Lua.valueToCode(this, 'NUM', true) || '0';
   var argParen = Blockly.Lua.valueToCode(this, 'NUM', false) || '0';

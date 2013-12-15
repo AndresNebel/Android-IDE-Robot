@@ -33,9 +33,9 @@ goog.require('Blockly.Lua');
 Blockly.Lua["controls_if"] = function(block) {
   // If/elseif/else condition.
   var n = 0;
-  var argument = Blockly.Lua.valueToCode(block, 'IF' + n, true) || 'false';
+  var argument = Blockly.Lua.statementToCode(block, 'IF' + n, true) || 'false';
   var branch = Blockly.Lua.statementToCode(block, 'DO' + n);
-  var code = 'if (' + argument + ') then\n' + branch;
+  var code = 'if (' + argument.trimLeft() + ') then\n' + branch;
   for (n = 1; n <= block.elseifCount_; n++) {
     argument = Blockly.Lua.valueToCode(block, 'IF' + n, true) || 'false';
     branch = Blockly.Lua.statementToCode(block, 'DO' + n);

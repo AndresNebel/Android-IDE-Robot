@@ -24,22 +24,27 @@
  * to language files.
  */
 
-Blockly.Lua = Blockly.Generator.get('Lua');
+ 'use strict';
 
-Blockly.Lua.logic_compare = function(opt_dropParens) {
+goog.provide('Blockly.Lua.logic');
+
+goog.require('Blockly.Lua');
+
+
+Blockly.Lua["logic_compare"] = function(opt_dropParens) {
   // Comparison operator.
   var mode = this.getTitleValue('OP');
   var operator = Blockly.Lua.logic_compare.OPERATORS[mode];
-  var argument0 = Blockly.Lua.valueToCode(this, 'A') || '0';
-  var argument1 = Blockly.Lua.valueToCode(this, 'B') || '0';
-  var code = argument0 + ' ' + operator + ' ' + argument1;
+  var argument0 = Blockly.Lua.statementToCode(this, 'A') || '0';
+  var argument1 = Blockly.Lua.statementToCode(this, 'B') || '0';
+  var code = argument0.trimLeft() + ' ' + operator + ' ' + argument1.trimLeft();
   if (!opt_dropParens) {
     code = '(' + code + ')';
   }
   return code;
 };
 
-Blockly.Lua.logic_compare.OPERATORS = {
+Blockly.Lua["logic_compare"].OPERATORS = {
   EQ: '==',
   NEQ: '~=',
   LT: '<',
@@ -48,7 +53,7 @@ Blockly.Lua.logic_compare.OPERATORS = {
   GTE: '>='
 };
 
-Blockly.Lua.logic_operation = function(opt_dropParens) {
+Blockly.Lua["logic_operation"] = function(opt_dropParens) {
   // Operations 'and', 'or'.
   var argument0 = Blockly.Lua.valueToCode(this, 'A') || 'false';
   var argument1 = Blockly.Lua.valueToCode(this, 'B') || 'false';
@@ -60,7 +65,7 @@ Blockly.Lua.logic_operation = function(opt_dropParens) {
   return code;
 };
 
-Blockly.Lua.logic_negate = function(opt_dropParens) {
+Blockly.Lua["logic_negate"] = function(opt_dropParens) {
   // Negation.
   var argument0 = Blockly.Lua.valueToCode(this, 'BOOL') || 'false';
   var code = 'not ' + argument0;
@@ -70,7 +75,7 @@ Blockly.Lua.logic_negate = function(opt_dropParens) {
   return code;
 };
 
-Blockly.Lua.logic_boolean = function() {
+Blockly.Lua["logic_boolean"] = function() {
   // Boolean values true and false.
   return (this.getTitleValue('BOOL') == 'TRUE') ? 'true' : 'false';
 };
