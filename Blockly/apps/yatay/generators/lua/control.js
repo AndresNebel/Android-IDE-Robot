@@ -62,13 +62,13 @@ Blockly.Lua["controls_flow_statements"] = function(block) {
 
 Blockly.Lua["controls_sleep"] = function(block) {
   // Sleep.
-  var value = window.parseFloat(block.getTitleText('NUM'));
+  var value = window.parseFloat(block.getTitleValue('NUM'));
   return 'sleep(' + value + ')\n';
 };
 
 Blockly.Lua["controls_Behaviour"] = function(block) {
-  var name = block.getTitleText('TEXT');
-  var priority = block.getTitleText('PR');
+  var name = block.getTitleValue('TEXT');
+  var priority = block.getTitleValue('PR');
   var behaviourCode = Blockly.Lua.statementToCode(block, 'BEHAVIOUR_CODE');
   var code = "local behaviours = require 'catalog'.get_catalog('behaviours')\n"+  "local M = {}\n" +
   "local robot = require 'tasks/RobotInterface'\n"+
@@ -107,5 +107,5 @@ Blockly.Lua["controls_repeat"] = function(block) {
 
   var branch0 = Blockly.Lua.statementToCode(block, 'DO') || '\n';
 
-  return 'for i = 1, ' + block.getTitleText('TIMES') + ' do\n' + branch0 + 'end\n';
+  return 'for i = 1, ' + block.getTitleValue('TIMES') + ' do\n' + branch0 + 'end\n';
 };

@@ -1,4 +1,4 @@
-
+document.write('<script type="text/javascript" src="./blocks/math.js"></script>\n');
 document.write('<script type="text/javascript" src="./blocks/butia.js"></script>\n');
 document.write('<script type="text/javascript" src="./blocks/control.js"></script>\n');
 
