@@ -1,6 +1,7 @@
 document.write('<script type="text/javascript" src="./blocks/math.js"></script>\n');
 document.write('<script type="text/javascript" src="./blocks/butia.js"></script>\n');
 document.write('<script type="text/javascript" src="./blocks/control.js"></script>\n');
+document.write('<script type="text/javascript" src="./blocks/variables.js"></script>\n');
 
 if (!Yatay.Msg){ 
 	Yatay.Msg = {};
@@ -41,8 +42,8 @@ Yatay.Msg.CONTROLS_IF_MSG_THEN = "entonces";
 Yatay.Msg.CONTROLS_IF_MSG_ELSEIF = "sino si";
 Yatay.Msg.CONTROLS_IF_MSG_ELSE = "sino";
 
-Yatay.Msg.CONTROL_OPERATION_AND = " y ";
-Yatay.Msg.CONTROL_OPERATION_OR = " o ";
+Yatay.Msg.CONTROL_OPERATION_AND = "y";
+Yatay.Msg.CONTROL_OPERATION_OR = "o";
 Yatay.Msg.CONTROL_OPERATION_HELPURL = "";
 Yatay.Msg.LOGIC_OPERATION_TOOLTIP_AND = "Si se cumplen ambas condiciones, el bloque será verdadero.";
 Yatay.Msg.LOGIC_OPERATION_TOOLTIP_OR = "Si se cumple al menos una de las condiciones, el bloque será verdadero.";
@@ -70,3 +71,26 @@ Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "El programa espera la cantidad de tiempo ingr
 
 Yatay.Msg.CONTROL_REPEAT = "repetir " ;
 Yatay.Msg.CONTROL_REPEAT_TOOLTIP = "Repetir un numero determinado de veces";
+
+
+//Variable Messages
+Yatay.Msg.VARIABLES_GET_TITLE = "";
+Yatay.Msg.VARIABLES_GET_TAIL = "";
+Yatay.Msg.VARIABLES_GET_TOOLTIP = "Obtener valor de una variable";
+Yatay.Msg.VARIABLES_GET_CREATE_SET = "";
+
+Yatay.Msg.VARIABLES_SET_TITLE = "Guardar en";
+Yatay.Msg.VARIABLES_SET_TAIL = "";
+
+//Math Messages 
+Yatay.Msg.MATH_CONSTRAIN_HELPURL = "";
+Yatay.Msg.MATH_CONSTRAIN_TITLE = "%1 entre %2 y %3";
+Yatay.Msg.MATH_CONSTRAIN_TOOLTIP = ""; 
+Yatay.Msg.MATH_ROUND_OPERATOR_ROUND = "Redondear";
+Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDUP = "Redondear arriba";
+Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDDOWN = "Redondear abajo";
+Yatay.Msg.MATH_TRIG_TOOLTIP_SIN = "sen";
+Yatay.Msg.MATH_TRIG_TOOLTIP_ASIN = "asen";
+Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT = "Raiz cuad.";
+Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS = "Valor abs";
+Yatay.Msg.MATH_SINGLE_TOOLTIP_NEG = "Opuesto";

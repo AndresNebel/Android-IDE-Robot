@@ -325,7 +325,7 @@ Blockly.Blocks['math_constrain'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_CONSTRAIN_HELPURL);
     this.setColour(230);
-    this.setOutput(true, 'Number');
+    this.setOutput(true, 'Bool');
     this.interpolateMsg(Blockly.Msg.MATH_CONSTRAIN_TITLE,
                         ['VALUE', 'Number', Blockly.ALIGN_RIGHT],
                         ['LOW', 'Number', Blockly.ALIGN_RIGHT],

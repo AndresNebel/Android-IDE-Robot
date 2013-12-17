@@ -79,8 +79,8 @@ Blockly.Blocks['math_single'] = {
   // Advanced math operators with single operand.
   init: function() {
     var OPERATORS =
-        [[Blockly.Msg.MATH_SINGLE_OP_ROOT, 'ROOT'],
-         [Blockly.Msg.MATH_SINGLE_OP_ABSOLUTE, 'ABS'],
+        [[Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT, 'ROOT'],
+         [Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS, 'ABS'],
          ['-', 'NEG'],
          ['ln', 'LN'],
          ['log10', 'LOG10'],
@@ -97,13 +97,13 @@ Blockly.Blocks['math_single'] = {
     this.setTooltip(function() {
       var mode = thisBlock.getTitleValue('OP');
       var TOOLTIPS = {
-        ROOT: Blockly.Msg.MATH_SINGLE_TOOLTIP_ROOT,
-        ABS: Blockly.Msg.MATH_SINGLE_TOOLTIP_ABS,
-        NEG: Blockly.Msg.MATH_SINGLE_TOOLTIP_NEG,
-        LN: Blockly.Msg.MATH_SINGLE_TOOLTIP_LN,
-        LOG10: Blockly.Msg.MATH_SINGLE_TOOLTIP_LOG10,
-        EXP: Blockly.Msg.MATH_SINGLE_TOOLTIP_EXP,
-        POW10: Blockly.Msg.MATH_SINGLE_TOOLTIP_POW10
+        ROOT: Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT,
+        ABS: Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS,
+        NEG: Yatay.Msg.MATH_SINGLE_TOOLTIP_NEG,
+        LN: Yatay.Msg.MATH_SINGLE_TOOLTIP_LN,
+        LOG10: Yatay.Msg.MATH_SINGLE_TOOLTIP_LOG10,
+        EXP: Yatay.Msg.MATH_SINGLE_TOOLTIP_EXP,
+        POW10: Yatay.Msg.MATH_SINGLE_TOOLTIP_POW10
       };
       return TOOLTIPS[mode];
     });
@@ -114,10 +114,10 @@ Blockly.Blocks['math_trig'] = {
   // Trigonometry operators.
   init: function() {
     var OPERATORS =
-        [['sin', 'SIN'],
+        [[Yatay.Msg.MATH_TRIG_TOOLTIP_SIN, 'SIN'],
          ['cos', 'COS'],
          ['tan', 'TAN'],
-         ['asin', 'ASIN'],
+         [Yatay.Msg.MATH_TRIG_TOOLTIP_ASIN, 'ASIN'],
          ['acos', 'ACOS'],
          ['atan', 'ATAN']];
     this.setHelpUrl(Blockly.Msg.MATH_TRIG_HELPURL);
@@ -131,12 +131,12 @@ Blockly.Blocks['math_trig'] = {
     this.setTooltip(function() {
       var mode = thisBlock.getTitleValue('OP');
       var TOOLTIPS = {
-        SIN: Blockly.Msg.MATH_TRIG_TOOLTIP_SIN,
-        COS: Blockly.Msg.MATH_TRIG_TOOLTIP_COS,
-        TAN: Blockly.Msg.MATH_TRIG_TOOLTIP_TAN,
-        ASIN: Blockly.Msg.MATH_TRIG_TOOLTIP_ASIN,
-        ACOS: Blockly.Msg.MATH_TRIG_TOOLTIP_ACOS,
-        ATAN: Blockly.Msg.MATH_TRIG_TOOLTIP_ATAN
+        SIN: Yatay.Msg.MATH_TRIG_TOOLTIP_SIN,
+        COS: Yatay.Msg.MATH_TRIG_TOOLTIP_COS,
+        TAN: Yatay.Msg.MATH_TRIG_TOOLTIP_TAN,
+        ASIN: Yatay.Msg.MATH_TRIG_TOOLTIP_ASIN,
+        ACOS: Yatay.Msg.MATH_TRIG_TOOLTIP_ACOS,
+        ATAN: Yatay.Msg.MATH_TRIG_TOOLTIP_ATAN
       };
       return TOOLTIPS[mode];
     });
@@ -150,9 +150,9 @@ Blockly.Blocks['math_round'] = {
   // Rounding functions.
   init: function() {
     var OPERATORS =
-        [[Blockly.Msg.MATH_ROUND_OPERATOR_ROUND, 'ROUND'],
-         [Blockly.Msg.MATH_ROUND_OPERATOR_ROUNDUP, 'ROUNDUP'],
-         [Blockly.Msg.MATH_ROUND_OPERATOR_ROUNDDOWN, 'ROUNDDOWN']];
+        [[Yatay.Msg.MATH_ROUND_OPERATOR_ROUND, 'ROUND'],
+         [Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDUP, 'ROUNDUP'],
+         [Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDDOWN, 'ROUNDDOWN']];
     this.setHelpUrl(Blockly.Msg.MATH_ROUND_HELPURL);
     this.setColour(230);
     this.setOutput(true, 'Number');
@@ -169,16 +169,16 @@ Blockly.Blocks['math_round'] = {
 Blockly.Blocks['math_constrain'] = {
   // Constrain a number between two limits.
   init: function() {
-    this.setHelpUrl(Blockly.Msg.MATH_CONSTRAIN_HELPURL);
+    this.setHelpUrl(Yatay.Msg.MATH_CONSTRAIN_HELPURL);
     this.setColour(230);
     this.setOutput(true, 'Boolean');
-    this.interpolateMsg(Blockly.Msg.MATH_CONSTRAIN_TITLE,
+    this.interpolateMsg(Yatay.Msg.MATH_CONSTRAIN_TITLE,
                         ['VALUE', 'Number', Blockly.ALIGN_RIGHT],
                         ['LOW', 'Number', Blockly.ALIGN_RIGHT],
                         ['HIGH', 'Number', Blockly.ALIGN_RIGHT],
                         Blockly.ALIGN_RIGHT)
     this.setInputsInline(true);
-    this.setTooltip(Blockly.Msg.MATH_CONSTRAIN_TOOLTIP);
+    this.setTooltip(Yatay.Msg.MATH_CONSTRAIN_TOOLTIP);
   }
 };
 

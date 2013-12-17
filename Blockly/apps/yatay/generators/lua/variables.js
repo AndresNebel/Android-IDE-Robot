@@ -18,24 +18,37 @@
  */
 
 /**
- * @fileoverview Generating JavaScript for variable blocks.
+ * @fileoverview Generating Lua for variable blocks.
  * @author fraser@google.com (Neil Fraser)
  * Due to the frequency of long strings, the 80-column wrap rule need not apply
  * to language files.
  */
 
-Blockly.JavaScript = Blockly.Generator.get('JavaScript');
+ 'use strict';
 
-Blockly.JavaScript.variables_get = function() {
+goog.provide('Blockly.Lua.variables');
+
+goog.require('Blockly.Lua');
+
+
+Blockly.Lua["variables_get"] = function() {
   // Variable getter.
-  return Blockly.JavaScript.variableDB_.getName(this.getTitleText('VAR'),
+  return Blockly.Lua.variableDB_.getName(this.getTitleText('VAR'),
       Blockly.Variables.NAME_TYPE);
 };
 
-Blockly.JavaScript.variables_set = function() {
+Blockly.Lua["variables_set"] = function() {
   // Variable setter.
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'VALUE', true) || '0';
-  var varName = Blockly.JavaScript.variableDB_.getName(
+  var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
+  var varName = Blockly.Lua.variableDB_.getName(
+      this.getTitleText('VAR'), Blockly.Variables.NAME_TYPE);
+  return varName + ' = ' + argument0 + ';\n';
+};
+
+Blockly.Lua["variables_text"] = function() {
+  // Variable setter.
+  var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
+  var varName = Blockly.Lua.variableDB_.getName(
       this.getTitleText('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' = ' + argument0 + ';\n';
 };

@@ -254,9 +254,10 @@ Blockly.Blocks['logic_compare'] = {
 Blockly.Blocks['logic_operation'] = {
   // Logical operations: 'and', 'or'.
   init: function() {
-    var OPERATORS =
+    var OPER =
         [[Yatay.Msg.CONTROL_OPERATION_AND, 'AND'],
          [Yatay.Msg.CONTROL_OPERATION_OR, 'OR']];
+	
     this.setHelpUrl(Yatay.Msg.CONTROL_OPERATION_HELPURL);
     this.setColour(210);
     this.setOutput(true, 'Boolean');
@@ -264,7 +265,7 @@ Blockly.Blocks['logic_operation'] = {
         .setCheck('Boolean');
     this.appendValueInput('B')
         .setCheck('Boolean')
-        .appendTitle(new Blockly.FieldDropdown(OPERATORS), 'OP');
+        .appendTitle(new Blockly.FieldDropdown(OPER), 'OP');
     this.setInputsInline(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
