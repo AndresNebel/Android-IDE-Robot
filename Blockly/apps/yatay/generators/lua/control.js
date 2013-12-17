@@ -70,26 +70,27 @@ Blockly.Lua["controls_Behaviour"] = function(block) {
   var name = block.getTitleValue('TEXT');
   var priority = block.getTitleValue('PR');
   var behaviourCode = Blockly.Lua.statementToCode(block, 'BEHAVIOUR_CODE');
-  var code = "local behaviours = require 'catalog'.get_catalog('behaviours')\n"+  "local M = {}\n" +
-  "local robot = require 'tasks/RobotInterface'\n"+
+  var code = "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
+  "local M = {}\n" +
+  "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 
-  "M.name = '" + name;
-  code = code + "'\n" + "M.priority = " + priority + "\n" +
+  "M.name = '" + name + "'\n" +
+  "M.priority = " + priority + "\n" +
   "local run = function ()\n" +
-	 "   if (activeBehaviour == nil || M.priority < activeBehaviour.priority) then\n" +
-        "      activeBehaviour = M\n " 
-       + behaviourCode +
-     "   end\n" +
+  "if (activeBehaviour == nil || M.priority > activeBehaviour.priority) then\n" +
+  "activeBehaviour = M\n " + 
+  behaviourCode +
+  "end\n" +
   "end\n"+
 
   "M.ReleaseControl = function()\n" +
-	"  robot.execute('bb-motors','setvel2mtr', [0,0,0,0])\n" +
+  "   robot.execute('bb-motors','setvel2mtr', [0,0,0,0])\n" +
   "end\n" +
 
-  "M.init = function(conf)\n"+
-	  "   local waitd = {emitter='*', events={'Compete!'}}\n" +
-	  "   M.task = sched.sigrun(waitd, run)\n"+
-  "end\n"+
+  "M.init = function(conf)\n" +
+  "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
+  "	  M.task = sched.sigrun(waitd, run)\n" +
+  "end\n" +
   "return M\n"; 
 
   return code;

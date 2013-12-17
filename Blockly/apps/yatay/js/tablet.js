@@ -1,8 +1,6 @@
 //Java Script to load tablet resources 
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
-	//Hack para ue me muestre los bloques previamente agregados.
-	
 });
 //Handle docode click
 function edit(){	
@@ -49,6 +47,39 @@ function stop(){
 function robotest(){		   
 
 };
+
+function toXml() {
+	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+	var text = Blockly.Xml.domToText(xml);
+	var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+	saveAs(blob, "yatay.xml");
+};
+
+var xml;
+
+function readSingleFile(evt) {
+	var f = evt.target.files[0];
+	if (f) {
+		var r = new FileReader();
+		r.onload = function(e) { 
+			xml = Blockly.Xml.textToDom(e.target.result);  
+		}
+		r.readAsText(f);
+	} else { 
+		alert("Failed to load file");
+	}
+};
+
+function openFileChooser(){
+	$('#fchooser_modal').modal('show');
+	document.getElementById('file_input').addEventListener('change', readSingleFile, false);
+};
+
+function fromXml() {
+	Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+	$('#fchooser_modal').modal('hide');
+};
+
 //Handle run task edited click
 function runEdited(){	
 	sendTasksEdited();
