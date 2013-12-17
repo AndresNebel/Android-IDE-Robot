@@ -15,8 +15,13 @@ Yatay.Msg.MENU_EDIT = "Ver Código";
 Yatay.Msg.MENU_LOAD = "Cargar";
 Yatay.Msg.MENU_SAVE = "Guardar";
 Yatay.Msg.MENU_STOP = "Detener";
-Yatay.Msg.MENU_CODE_LABEL = "Código Generado";
 Yatay.Msg.MENU_TRASH = "Limpiar área de trabajo";
+
+// Dialogs Messages
+Yatay.Msg.DIALOG_CODE_LABEL = "Código Generado";	
+Yatay.Msg.DIALOG_RUN = "Probar";
+Yatay.Msg.DIALOG_FCHOOSER_LABEL = "Elige un proyecto!";		
+Yatay.Msg.DIALOG_OPEN = "Abrir";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
