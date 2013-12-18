@@ -55,3 +55,14 @@ header >.navbar .brand {
 header > .navbar .btn {
 	margin: 10%;
 }
+
+.cursorHover:hover{
+	cursor: pointer;
+	
+}
+
+.controlBtn
+{
+	margin-top:8%;
+	margin-right:2%;
+}

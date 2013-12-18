@@ -20,6 +20,7 @@ $(document).ready(function(){
 	$('#main_menu').load('./tablet.html');	
 });
 
+
 /**
  * Handle edit code click
  */
@@ -31,7 +32,7 @@ function edit(){
 /**
  * Handle run click
  */
-function run(){	
+function runTasks(){	
 	sendTasks();
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
@@ -48,6 +49,7 @@ function run(){
  * Handle debug click
  */
 function debug(){		   
+	sendTasks();
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
 	$('#btn_run').toggle('slow');			
@@ -154,3 +156,21 @@ var resizeTextarea = function() {
 };
 
 $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextarea).focus(resizeTextarea);
+
+/**
+ * Image click correction
+ */
+ function imgClickCorrection()
+ {
+	$(".imgclick").mousedown(function(){
+		var mrgtb = parseInt($(this).css("margin-top"));
+		var mrglf = parseInt($(this).css("margin-left"));
+		mrgtb=mrgtb+1; mrglf=mrglf+1;
+		$(this).css("margin-top",mrgtb+"px").css("margin-left",mrglf+"px");
+	}).mouseup(function(){
+		var mrgtb = parseInt($(this).css("margin-top"));
+		var mrglf = parseInt($(this).css("margin-left"));
+		mrgtb=mrgtb-1; mrglf=mrglf-1;
+		$(this).css("margin-top",mrgtb+"px").css("margin-left",mrglf+"px");
+	}); 
+}

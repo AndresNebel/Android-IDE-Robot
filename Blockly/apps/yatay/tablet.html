@@ -14,7 +14,9 @@
 		$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
 		$('#fchooser_label').html(Yatay.Msg.DIALOG_FCHOOSER_LABEL);		
 		$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
+		imgClickCorrection();
 	});
+	
 	</script>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -22,45 +24,53 @@
 				<a class="brand" target="grey" href="http://www.fing.edu.uy/~pgbutiablet/index.html">YataY</a>
 				<ul class="nav">
 					<li>
-						<button class="btn btn-large" id="btn_robotest" onclick="robotest()">
-							<i class="icon-wrench  icon-large"></i>
-						</button>
-					</li>
-					<li>
-						<button class="btn btn-large" id="btn_debug" onclick="debug()">
-							<i class="icon-eye-open icon-large"></i>
-						</button>
-					</li>
-					<li>
-						<button class="btn btn-large" id="btn_run" onclick="run()">
-							<i class="icon-play icon-large"></i>
-						</button>	
-					</li>
-					<li>
-						<button class="btn btn-large" id="btn_edit" onclick="edit()">
-							<i class="icon-edit icon-large"></i>
-						</button>	
-					</li>
-					<li>
-						<button class="btn btn-large" id="btn_load" onclick="openFileChooser()">
-							<i class="icon-file-text-alt icon-large"></i>
+						<button class="btn btn-large imgclick" id="btn_load" onclick="openFileChooser()">
+							<i class="icon-folder-open-alt icon-large"></i>
 						</button>					
 					</li>	
 					<li>
-						<button class="btn btn-large" id="btn_save" onclick="toXml()">
+						<button class="btn btn-large imgclick" id="btn_save" onclick="toXml()">
 							<i class="icon-save icon-large"></i>
 						</button>
 					</li>
 					<li>
-						<button class="btn btn-large" id="btn_trash" onclick="$('#trashButton').click();">
+						
+						<input type="image" id="btn_robotest" onclick="robotest()" src="lib/butia.png" class="imgclick cursorHover controlBtn">						
+						
+					</li>
+					<!--<li>
+						<button class="btn btn-large" id="btn_robotest" onclick="robotest()">
+							<i class="icon-wrench  icon-large"></i>
+						</button>
+					</li>-->
+					<li>
+						<button class="btn btn-large imgclick" id="btn_run" onclick="runTasks()">
+							<i class="icon-play icon-large"></i>
+						</button>
+					</li>
+					<li>
+						<button class="btn btn-large imgclick" id="btn_edit" onclick="edit()">
+							<i class="icon-edit icon-large"></i>
+						</button>	
+					</li>
+					
+					<li>
+						<button class="btn btn-large imgclick" id="btn_debug" onclick="debug()" style="display: none;">
+							<i class="icon-bug icon-large"></i>
+						</button>
+					</li>					
+					<li>
+						<button class="btn btn-large imgclick" id="btn_trash" onclick="$('#trashButton').click();">
 							<i class="icon-trash icon-large"></i>
 						</button>
 					</li>	
 					<li>
-						<button class="btn btn-large" id="btn_stop" onclick="stop()" style="display: none;">
+						<button class="btn btn-large imgclick" id="btn_stop" onclick="stop()" style="display: none;">
 							<i class="icon-stop icon-large"></i>
 						</button>
 					</li>					
+					
+					
 				</ul>			
 			</div>
 		</div>
