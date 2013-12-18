@@ -55,3 +55,9 @@ header >.navbar .brand {
 header > .navbar .btn {
 	margin: 10%;
 }
+
+.bx {
+	position: fixed;
+	top: 9%;
+	right: 16%;
+}

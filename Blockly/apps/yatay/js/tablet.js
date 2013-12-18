@@ -14,10 +14,22 @@ if (!Yatay.Tablet){
 Yatay.Tablet.domCode = null; 
  
 /**
- * Load tablet.html
+ * Load tablet.html 
+ * Generate behaviours list
  */
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
+	var list = $("<div class=\"list-group bx\">" +
+					"<ul class=\"nav\">" + 
+						"<li>" +
+							"<button class=\"list-group-item\">Cras justo odio</button>" +
+						"</li>" +
+						"<li>" +
+							"<button class=\"list-group-item\">Cras justo odio</button>" +
+						"</li>" +
+					"</ul>" +
+				"</div>");
+    list.appendTo($("#bx_list"));
 });
 
 /**

@@ -5,6 +5,7 @@
 		$('#btn_robotest').attr('title', Yatay.Msg.MENU_ROBOTEST);
 		$('#btn_debug').attr('title', Yatay.Msg.MENU_DEBUG);
 		$('#btn_run').attr('title', Yatay.Msg.MENU_RUN);
+		$('#btn_check').attr('title', Yatay.Msg.MENU_CHECK);
 		$('#btn_edit').attr('title', Yatay.Msg.MENU_EDIT);
 		$('#btn_load').attr('title', Yatay.Msg.MENU_LOAD);
 		$('#btn_save').attr('title', Yatay.Msg.MENU_SAVE);
@@ -27,13 +28,18 @@
 						</button>
 					</li>
 					<li>
-						<button class="btn btn-large" id="btn_debug" onclick="debug()">
+						<button class="btn btn-large hide" id="btn_debug" onclick="debug()">
 							<i class="icon-eye-open icon-large"></i>
 						</button>
 					</li>
 					<li>
 						<button class="btn btn-large" id="btn_run" onclick="run()">
-							<i class="icon-play icon-large"></i>
+							<i class="icon-play-circle icon-large"></i>
+						</button>	
+					</li>
+					<li>
+						<button class="btn btn-large" id="btn_check" onclick="">
+							<i class="icon-ok icon-large"></i>
 						</button>	
 					</li>
 					<li>
