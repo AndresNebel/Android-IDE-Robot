@@ -38,7 +38,6 @@ Yatay.Msg.BUTIA_STOP_TOOLTIP = 'Detener el robot Butiá.';
 Yatay.Msg.BUTIA_GREY_TITLE = 'sensor gris';
 Yatay.Msg.BUTIA_GREY_TOOLTIP = 'Obtener el valor del sensor de grises del robot Butiá.';
 
-
 // Control Messages
 Yatay.Msg.CONTROLS_IF_TOOLTIP = "Si la condicion es verdadera se hace lo primero, de lo contrario se hace lo segundo.";
 Yatay.Msg.CONTROLS_IF_HELPURL = "";
@@ -57,15 +56,13 @@ Yatay.Msg.CONTROL_NEGATE_HELPURL = "";
 Yatay.Msg.CONTROL_NEGATE_TITLE = "no %1";
 Yatay.Msg.CONTROL_NEGATE_TOOLTIP = "El bloque es verdadero si se cumple lo opuesto a la condición.";
 
-Yatay.Msg.CONTROL_BOOLEAN_TRUE = "Verdadero";
-Yatay.Msg.CONTROL_BOOLEAN_FALSE = "False";
+Yatay.Msg.CONTROL_BOOLEAN_TRUE = "verdadero";
+Yatay.Msg.CONTROL_BOOLEAN_FALSE = "falso";
 Yatay.Msg.CONTROL_BOOLEAN_HELPURL = "";
 Yatay.Msg.CONTROL_BOOLEAN_TOOLTIP = "Un bloque de verdadero o de falso, sirve para comparar o para hacer una condicion siempre verdadera o falsa.";
 
-
 Yatay.Msg.CONTROL_WHILE = "mientras";
 Yatay.Msg.CONTROL_WHILE_TOOLTIP = "Mientras la condición sea verdadera se ejecuta lo que este dentro de este bloque.";
-
 
 Yatay.Msg.CONTROL_BEHAVIOUR = "comportamiento";
 Yatay.Msg.CONTROL_BEHAVIOUR_PRIORITY = "   prioridad";
@@ -77,25 +74,23 @@ Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "El programa espera la cantidad de tiempo ingr
 Yatay.Msg.CONTROL_REPEAT = "repetir " ;
 Yatay.Msg.CONTROL_REPEAT_TOOLTIP = "Repetir un numero determinado de veces";
 
-
 //Variable Messages
 Yatay.Msg.VARIABLES_GET_TITLE = "";
 Yatay.Msg.VARIABLES_GET_TAIL = "";
 Yatay.Msg.VARIABLES_GET_TOOLTIP = "Obtener valor de una variable";
 Yatay.Msg.VARIABLES_GET_CREATE_SET = "";
-
-Yatay.Msg.VARIABLES_SET_TITLE = "Guardar en";
+Yatay.Msg.VARIABLES_SET_TITLE = "guardar en";
 Yatay.Msg.VARIABLES_SET_TAIL = "";
 
 //Math Messages 
 Yatay.Msg.MATH_CONSTRAIN_HELPURL = "";
 Yatay.Msg.MATH_CONSTRAIN_TITLE = "%1 entre %2 y %3";
 Yatay.Msg.MATH_CONSTRAIN_TOOLTIP = ""; 
-Yatay.Msg.MATH_ROUND_OPERATOR_ROUND = "Redondear";
-Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDUP = "Redondear arriba";
-Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDDOWN = "Redondear abajo";
+Yatay.Msg.MATH_ROUND_OPERATOR_ROUND = "redondear";
+Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDUP = "redondear arriba";
+Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDDOWN = "redondear abajo";
 Yatay.Msg.MATH_TRIG_TOOLTIP_SIN = "sen";
 Yatay.Msg.MATH_TRIG_TOOLTIP_ASIN = "asen";
-Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT = "Raiz cuad.";
-Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS = "Valor abs";
-Yatay.Msg.MATH_SINGLE_TOOLTIP_NEG = "Opuesto";
+Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT = "raiz cuad.";
+Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS = "valor abs";
+Yatay.Msg.MATH_SINGLE_TOOLTIP_NEG = "opuesto";

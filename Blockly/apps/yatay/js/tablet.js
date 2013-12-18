@@ -1,13 +1,36 @@
-//Java Script to load tablet resources 
+/**
+ * @fileoverview 
+ * @author 
+ */
+
+if (!Yatay.Tablet){ 
+	Yatay.Tablet = {};
+} 
+
+/**
+ * Xml workspace code 
+ * @type {string}
+ */
+Yatay.Tablet.domCode = null; 
+ 
+/**
+ * Load tablet.html
+ */
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
 });
-//Handle docode click
+
+/**
+ * Handle edit code click
+ */
 function edit(){	
 	$('#code_editable').html(Blockly.Lua.workspaceToCode());
 	$('#code_modal').modal('show');
 };
-//Handle run click
+
+/**
+ * Handle run click
+ */
 function run(){	
 	sendTasks();
 	$('#btn_robotest').toggle('slow');
@@ -20,7 +43,10 @@ function run(){
 	}
 	$('#btn_stop').toggle('slow');
 };
-//Handle debug click
+
+/**
+ * Handle debug click
+ */
 function debug(){		   
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
@@ -32,7 +58,10 @@ function debug(){
 	}
 	$('#btn_stop').toggle();
 };
-//Handle stop click
+
+/**
+ * Handle stop click
+ */
 function stop(){	
 	killTasks();
 	$('#btn_robotest').toggle('slow');
@@ -43,11 +72,17 @@ function stop(){
 	$('#btn_save').toggle('slow');
 	$('#btn_stop').toggle('slow');
 };
-//Handle robotest click
+
+/**
+ * Handle robotest click
+ */
 function robotest(){		   
 
 };
 
+/**
+ * Handle save click
+ */
 function toXml() {
 	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 	var text = Blockly.Xml.domToText(xml);
@@ -55,14 +90,15 @@ function toXml() {
 	saveAs(blob, "yatay.xml");
 };
 
-var xml;
-
-function readSingleFile(evt) {
+/**
+ * Read YataY file, and load domCode
+ */
+function readFile(evt) {
 	var f = evt.target.files[0];
 	if (f) {
 		var r = new FileReader();
 		r.onload = function(e) { 
-			xml = Blockly.Xml.textToDom(e.target.result);  
+			Yatay.Tablet.domCode = Blockly.Xml.textToDom(e.target.result);  
 		}
 		r.readAsText(f);
 	} else { 
@@ -70,17 +106,25 @@ function readSingleFile(evt) {
 	}
 };
 
+/**
+ * Show file chooser modal
+ */
 function openFileChooser(){
 	$('#fchooser_modal').modal('show');
-	document.getElementById('file_input').addEventListener('change', readSingleFile, false);
+	document.getElementById('file_input').addEventListener('change', readFile, false);
 };
 
+/**
+ * Load code from xml
+ */
 function fromXml() {
-	Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+	Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Yatay.Tablet.domCode);
 	$('#fchooser_modal').modal('hide');
 };
 
-//Handle run task edited click
+/**
+ * Handle run task edited click
+ */
 function runEdited(){	
 	sendTasksEdited();
 	$('#btn_robotest').toggle('slow');
@@ -94,7 +138,10 @@ function runEdited(){
 	$('#btn_stop').toggle('slow');
 	$('#code_modal').modal('hide');
 };
-//Textarea autoresize
+
+/**
+ * Textarea autoresize
+ */
 var resizeTextarea = function() {
     this.style.height = "";
     var
