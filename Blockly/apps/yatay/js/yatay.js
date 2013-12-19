@@ -126,3 +126,22 @@ Yatay.discard = function() {
     window.location.hash = '';
   }
 };
+
+Yatay.enterTestMode = function(){
+	Blockly.mainWorkspace.clear();	
+	//Remove all items from toolbox except "Butia"
+	Blockly.Toolbox.tree_.children_[0].dispose();
+	Blockly.Toolbox.tree_.children_[2].dispose();
+	Blockly.Toolbox.tree_.children_[3].dispose();
+	Blockly.Toolbox.tree_.children_[4].dispose();
+	//Only one block allowed
+	Blockly.mainWorkspace.maxBlocks = 1;
+	
+}
+
+Yatay.leaveTestMode = function(){
+	//Remove all items from toolbox (to avoid repeatance of items on init) and init toolbox again
+	Blockly.Toolbox.tree_.children_[1].dispose();
+	Blockly.Toolbox.init();
+	Blockly.mainWorkspace.maxBlocks = "Infinite";
+}

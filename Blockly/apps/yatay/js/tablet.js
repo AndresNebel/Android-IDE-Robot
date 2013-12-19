@@ -20,6 +20,7 @@ $(document).ready(function(){
 	$('#main_menu').load('./tablet.html');	
 });
 
+Yatay.Tablet.TestMode = false; 
 
 /**
  * Handle edit code click
@@ -65,9 +66,17 @@ function debug(){
  * Handle stop click
  */
 function stop(){	
-	killTasks();
+	if (Yatay.Tablet.TestMode)
+	{
+		Yatay.Tablet.TestMode = false;
+		Yatay.leaveTestMode();
+	}
+	else
+	{
+		killTasks();
+		$('#btn_debug').toggle('slow');	   
+	}
 	$('#btn_robotest').toggle('slow');
-	$('#btn_debug').toggle('slow');	   
 	$('#btn_run').toggle('slow');			
 	$('#btn_edit').toggle('slow');
 	$('#btn_load').toggle('slow');
@@ -79,7 +88,15 @@ function stop(){
  * Handle robotest click
  */
 function robotest(){		   
-
+	Yatay.enterTestMode();
+	Yatay.Tablet.TestMode = true;
+	$('#btn_robotest').toggle('slow');
+	$('#btn_load').toggle('slow');
+	$('#btn_save').toggle('slow');
+	if($('#btn_edit').is(":visible")) {			
+		$('#btn_edit').toggle('slow');
+	}
+	$('#btn_stop').toggle();
 };
 
 /**
