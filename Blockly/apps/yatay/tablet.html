@@ -10,6 +10,7 @@
 		$('#btn_save').attr('title', Yatay.Msg.MENU_SAVE);
 		$('#btn_stop').attr('title', Yatay.Msg.MENU_STOP);
 		$('#btn_trash').attr('title', Yatay.Msg.MENU_TRASH);
+		$('#btn_bx_ready').attr('title', Yatay.Msg.MENU_BEHAVIOURS_READY);
 		$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);	
 		$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
 		$('#fchooser_label').html(Yatay.Msg.DIALOG_FCHOOSER_LABEL);		
@@ -33,16 +34,9 @@
 							<i class="icon-save icon-large"></i>
 						</button>
 					</li>
-					<li>
-						
-						<input type="image" id="btn_robotest" onclick="robotest()" src="lib/butia.png" class="imgclick cursorHover controlBtn">						
-						
+					<li>						
+						<input type="image" id="btn_robotest" onclick="robotest()" src="lib/butia.png" class="imgclick cursorHover controlBtn" />						
 					</li>
-					<!--<li>
-						<button class="btn btn-large" id="btn_robotest" onclick="robotest()">
-							<i class="icon-wrench  icon-large"></i>
-						</button>
-					</li>-->
 					<li>
 						<button class="btn btn-large imgclick" id="btn_run" onclick="runTasks()">
 							<i class="icon-play icon-large"></i>
@@ -52,25 +46,27 @@
 						<button class="btn btn-large imgclick" id="btn_edit" onclick="edit()">
 							<i class="icon-edit icon-large"></i>
 						</button>	
-					</li>
-					
+					</li>			
 					<li>
 						<button class="btn btn-large imgclick" id="btn_debug" onclick="debug()" style="display: none;">
 							<i class="icon-bug icon-large"></i>
 						</button>
-					</li>					
+					</li>
+					<li>
+						<button class="btn btn-large imgclick" id="btn_bx_ready" onclick="bxReady()">
+							<i class="icon-ok icon-large"></i>
+						</button>
+					</li>	
 					<li>
 						<button class="btn btn-large imgclick" id="btn_trash" onclick="$('#trashButton').click();">
 							<i class="icon-trash icon-large"></i>
 						</button>
-					</li>	
+					</li>						
 					<li>
 						<button class="btn btn-large imgclick" id="btn_stop" onclick="stop()" style="display: none;">
 							<i class="icon-stop icon-large"></i>
 						</button>
-					</li>					
-					
-					
+					</li>								
 				</ul>			
 			</div>
 		</div>

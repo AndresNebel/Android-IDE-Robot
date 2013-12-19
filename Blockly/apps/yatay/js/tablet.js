@@ -14,10 +14,22 @@ if (!Yatay.Tablet){
 Yatay.Tablet.domCode = null; 
  
 /**
- * Load tablet.html
+ * Behaviours ready 
+ * @type {string[]}
+ */
+Yatay.Tablet.behaviours = []; 
+ 
+/**
+ * Load tablet.html 
+ * Generate behaviours list
  */
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
+	var list = $("<div class=\"list-group bx\">" +
+					"<ul class=\"nav\" id=\"bx_list\">" + 
+					"</ul>" +
+				"</div>");
+    list.appendTo($("#bx_ready"));
 });
 
 Yatay.Tablet.TestMode = false; 
@@ -177,8 +189,7 @@ $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextare
 /**
  * Image click correction
  */
- function imgClickCorrection()
- {
+ function imgClickCorrection() {
 	$(".imgclick").mousedown(function(){
 		var mrgtb = parseInt($(this).css("margin-top"));
 		var mrglf = parseInt($(this).css("margin-left"));
@@ -190,4 +201,39 @@ $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextare
 		mrgtb=mrgtb-1; mrglf=mrglf-1;
 		$(this).css("margin-top",mrgtb+"px").css("margin-left",mrglf+"px");
 	}); 
-}
+};
+
+/**
+ * Set behaviour as ready
+ */
+function bxReady() {
+	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+	var text = Blockly.Xml.domToText(xml);
+	var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
+	Yatay.Tablet.behaviours.push([id, text]);
+	
+	var list = $("<li>" +
+					"<button id=\"" + id + "\" class=\"list-group-item\">" + id + 						
+					"</button>" +
+				"</li>");
+    list.appendTo($("#bx_list"));
+	
+	document.getElementById(id).onclick = bxToWorkspace;
+	Blockly.mainWorkspace.clear();
+};
+
+/**
+ * Draw selected behaviour to workspace
+ */
+function bxToWorkspace() {
+	for (i = 0; i < Yatay.Tablet.behaviours.length; ++i) {
+		if (Yatay.Tablet.behaviours[i][0] == this.id) {
+			Blockly.mainWorkspace.clear();
+			code = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+			var item = "#" + this.id;
+			$(item).remove();
+			Yatay.Tablet.behaviours.splice(i, 1);
+		}
+	}
+};
