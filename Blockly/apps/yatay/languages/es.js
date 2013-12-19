@@ -16,7 +16,7 @@ Yatay.Msg.MENU_LOAD = "Cargar";
 Yatay.Msg.MENU_SAVE = "Guardar";
 Yatay.Msg.MENU_STOP = "Detener";
 Yatay.Msg.MENU_TRASH = "Limpiar área de trabajo";
-Yatay.Msg.MENU_CHECK = "Comportamiento listo";
+Yatay.Msg.MENU_BEHAVIOURS_READY = "Comportamiento listo";
 
 // Dialogs Messages
 Yatay.Msg.DIALOG_CODE_LABEL = "Código Generado";	

@@ -1,6 +1,6 @@
 //Send tasks
 function sendTasks() {
-	var values = escape(Blockly.Generator.workspaceToCode('Lua')).replace(/\./g, "%2E");
+	var values = escape(Blockly.Lua.workspaceToCode()).replace(/\./g, "%2E");
 	$.ajax({
 		url: "/index.html",
 		type: "POST",

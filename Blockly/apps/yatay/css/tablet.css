@@ -61,3 +61,13 @@ header > .navbar .btn {
 	top: 9%;
 	right: 16%;
 }
+
+.cursorHover:hover{
+	cursor: pointer;	
+}
+
+.controlBtn
+{
+	margin-top:8%;
+	margin-right:2%;
+}
