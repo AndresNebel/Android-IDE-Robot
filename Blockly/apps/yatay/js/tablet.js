@@ -56,6 +56,7 @@ function runTasks(){
 		$('#btn_edit').toggle('slow');
 	}
 	$('#btn_stop').toggle('slow');
+	
 };
 
 /**
@@ -87,13 +88,14 @@ function stop(){
 	{
 		killTasks();
 		$('#btn_debug').toggle('slow');	   
+		$('#btn_run').toggle('slow');		
 	}
-	$('#btn_robotest').toggle('slow');
-	$('#btn_run').toggle('slow');			
+	$('#btn_robotest').toggle('slow');		
 	$('#btn_edit').toggle('slow');
 	$('#btn_load').toggle('slow');
 	$('#btn_save').toggle('slow');
 	$('#btn_stop').toggle('slow');
+	$('#btn_bx_ready').toggle('slow');	
 };
 
 /**
@@ -105,6 +107,7 @@ function robotest(){
 	$('#btn_robotest').toggle('slow');
 	$('#btn_load').toggle('slow');
 	$('#btn_save').toggle('slow');
+	$('#btn_bx_ready').toggle('slow');
 	if($('#btn_edit').is(":visible")) {			
 		$('#btn_edit').toggle('slow');
 	}
