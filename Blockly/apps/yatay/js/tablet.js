@@ -15,10 +15,10 @@ Yatay.Tablet.domCode = null;
  
 /**
  * Behaviours ready 
- * @type {string[]}
+ * @type {[[int, string]]}
  */
 Yatay.Tablet.behaviours = []; 
- 
+
 /**
  * Load tablet.html 
  * Generate behaviours list
@@ -56,7 +56,6 @@ function runTasks(){
 		$('#btn_edit').toggle('slow');
 	}
 	$('#btn_stop').toggle('slow');
-	
 };
 
 /**
@@ -210,19 +209,30 @@ $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextare
  * Set behaviour as ready
  */
 function bxReady() {
-	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-	var text = Blockly.Xml.domToText(xml);
-	var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
-	Yatay.Tablet.behaviours.push([id, text]);
-	
-	var list = $("<li>" +
-					"<button id=\"" + id + "\" class=\"list-group-item\">" + id + 						
-					"</button>" +
-				"</li>");
-    list.appendTo($("#bx_list"));
-	
-	document.getElementById(id).onclick = bxToWorkspace;
-	Blockly.mainWorkspace.clear();
+	if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour")
+	{
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+		var text = Blockly.Xml.domToText(xml);
+		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+		if (name.length > 18) {
+			name = name.substring(0, 17) + "...";
+		}
+		var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
+		Yatay.Tablet.behaviours.push([id, text]);
+					
+		var list = $("<li>" +
+						"<div id=\"" + id + "\" class=\"image-container\">" +
+							"<div class=\"image-inner-container\">" +
+								"<p class=\"overlay\">" + name + "</p>" +                                
+								"<img src=\"images/bx.png\" />" +
+							"</div>" +
+						"</div>" +
+					 "</li>");
+		list.appendTo($("#bx_list"));
+		
+		document.getElementById(id).onclick = bxToWorkspace;
+		Blockly.mainWorkspace.clear();
+	}
 };
 
 /**
@@ -231,12 +241,14 @@ function bxReady() {
 function bxToWorkspace() {
 	for (i = 0; i < Yatay.Tablet.behaviours.length; ++i) {
 		if (Yatay.Tablet.behaviours[i][0] == this.id) {
-			Blockly.mainWorkspace.clear();
 			code = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);
-			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
 			var item = "#" + this.id;
 			$(item).remove();
 			Yatay.Tablet.behaviours.splice(i, 1);
+			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+				bxReady();
+			}
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
 		}
 	}
 };
