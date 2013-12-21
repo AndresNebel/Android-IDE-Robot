@@ -243,7 +243,7 @@ function bxToWorkspace() {
 		if (Yatay.Tablet.behaviours[i][0] == this.id) {
 			code = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);
 			var item = "#" + this.id;
-			$(item).remove();
+			$(item).animate({height:'toggle'}, 'slow', function () {$(item).remove()});
 			Yatay.Tablet.behaviours.splice(i, 1);
 			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 				bxReady();
