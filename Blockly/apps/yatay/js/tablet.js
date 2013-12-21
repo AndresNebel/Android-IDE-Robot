@@ -20,6 +20,12 @@ Yatay.Tablet.domCode = null;
 Yatay.Tablet.behaviours = []; 
 
 /**
+ * Test mode status
+ * @type {bool}
+ */
+Yatay.Tablet.testMode = false; 
+
+/**
  * Load tablet.html 
  * Generate behaviours list
  */
@@ -31,8 +37,6 @@ $(document).ready(function(){
 				"</div>");
     list.appendTo($("#bx_ready"));
 });
-
-Yatay.Tablet.TestMode = false; 
 
 /**
  * Handle edit code click
@@ -78,13 +82,10 @@ function debug(){
  * Handle stop click
  */
 function stop(){	
-	if (Yatay.Tablet.TestMode)
-	{
-		Yatay.Tablet.TestMode = false;
+	if (Yatay.Tablet.testMode) {
+		Yatay.Tablet.testMode = false;
 		Yatay.leaveTestMode();
-	}
-	else
-	{
+	} else {
 		killTasks();
 		$('#btn_debug').toggle('slow');	   
 		$('#btn_run').toggle('slow');		
@@ -102,7 +103,7 @@ function stop(){
  */
 function robotest(){		   
 	Yatay.enterTestMode();
-	Yatay.Tablet.TestMode = true;
+	Yatay.Tablet.testMode = true;
 	$('#btn_robotest').toggle('slow');
 	$('#btn_load').toggle('slow');
 	$('#btn_save').toggle('slow');
@@ -214,8 +215,8 @@ function bxReady() {
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		var text = Blockly.Xml.domToText(xml);
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-		if (name.length > 18) {
-			name = name.substring(0, 17) + "...";
+		if (name.length > 15) {
+			name = name.substring(0, 14) + "...";
 		}
 		var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
 		Yatay.Tablet.behaviours.push([id, text]);
