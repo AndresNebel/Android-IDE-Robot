@@ -15,10 +15,16 @@ Yatay.Tablet.domCode = null;
  
 /**
  * Behaviours ready 
- * @type {string[]}
+ * @type {[[int, string]]}
  */
 Yatay.Tablet.behaviours = []; 
- 
+
+/**
+ * Test mode status
+ * @type {bool}
+ */
+Yatay.Tablet.testMode = false; 
+
 /**
  * Load tablet.html 
  * Generate behaviours list
@@ -31,8 +37,6 @@ $(document).ready(function(){
 				"</div>");
     list.appendTo($("#bx_ready"));
 });
-
-Yatay.Tablet.TestMode = false; 
 
 /**
  * Handle edit code click
@@ -56,7 +60,6 @@ function runTasks(){
 		$('#btn_edit').toggle('slow');
 	}
 	$('#btn_stop').toggle('slow');
-	
 };
 
 /**
@@ -79,13 +82,10 @@ function debug(){
  * Handle stop click
  */
 function stop(){	
-	if (Yatay.Tablet.TestMode)
-	{
-		Yatay.Tablet.TestMode = false;
+	if (Yatay.Tablet.testMode) {
+		Yatay.Tablet.testMode = false;
 		Yatay.leaveTestMode();
-	}
-	else
-	{
+	} else {
 		killTasks();
 		$('#btn_debug').toggle('slow');	   
 		$('#btn_run').toggle('slow');		
@@ -108,7 +108,7 @@ function robotest(){
 	}
 	catch(e){}
 	Yatay.enterTestMode();
-	Yatay.Tablet.TestMode = true;
+	Yatay.Tablet.testMode = true;
 	$('#btn_robotest').toggle('slow');
 	$('#btn_load').toggle('slow');
 	$('#btn_save').toggle('slow');
@@ -215,19 +215,30 @@ $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextare
  * Set behaviour as ready
  */
 function bxReady() {
-	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-	var text = Blockly.Xml.domToText(xml);
-	var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
-	Yatay.Tablet.behaviours.push([id, text]);
-	
-	var list = $("<li>" +
-					"<button id=\"" + id + "\" class=\"list-group-item\">" + id + 						
-					"</button>" +
-				"</li>");
-    list.appendTo($("#bx_list"));
-	
-	document.getElementById(id).onclick = bxToWorkspace;
-	Blockly.mainWorkspace.clear();
+	if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour")
+	{
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+		var text = Blockly.Xml.domToText(xml);
+		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+		if (name.length > 15) {
+			name = name.substring(0, 14) + "...";
+		}
+		var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
+		Yatay.Tablet.behaviours.push([id, text]);
+					
+		var list = $("<li>" +
+						"<div id=\"" + id + "\" class=\"image-container\">" +
+							"<div class=\"image-inner-container\">" +
+								"<p class=\"overlay\">" + name + "</p>" +                                
+								"<img src=\"images/bx.png\" />" +
+							"</div>" +
+						"</div>" +
+					 "</li>");
+		list.appendTo($("#bx_list"));
+		
+		document.getElementById(id).onclick = bxToWorkspace;
+		Blockly.mainWorkspace.clear();
+	}
 };
 
 /**
@@ -236,12 +247,14 @@ function bxReady() {
 function bxToWorkspace() {
 	for (i = 0; i < Yatay.Tablet.behaviours.length; ++i) {
 		if (Yatay.Tablet.behaviours[i][0] == this.id) {
-			Blockly.mainWorkspace.clear();
 			code = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);
-			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
 			var item = "#" + this.id;
-			$(item).remove();
+			$(item).animate({height:'toggle'}, 'slow', function () {$(item).remove()});
 			Yatay.Tablet.behaviours.splice(i, 1);
+			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+				bxReady();
+			}
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
 		}
 	}
 };

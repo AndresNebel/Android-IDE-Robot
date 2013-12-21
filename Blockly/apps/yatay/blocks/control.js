@@ -330,7 +330,7 @@ Blockly.Blocks['controls_whileUntil'] = {
 };
 
 
-Blockly.Blocks['controls_Behaviour'] = {
+Blockly.Blocks['controls_behaviour'] = {
   init: function() {
     this.setColour(30);
     this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(Yatay.Msg.CONTROL_BEHAVIOUR), 'TEXT')

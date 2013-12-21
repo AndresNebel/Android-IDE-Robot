@@ -7,7 +7,7 @@ html {
 }
 
 body {
-	background: url(../images/bg.jpg) repeat;
+	background: url(../images/bg.png) repeat;
 }
 
 textarea { 
@@ -15,9 +15,9 @@ textarea {
 	min-width:200px; 
 	max-height:200px; 
 
-	height:200px; 
-	min-height:200px;  
-	max-height:200px;
+	height: 200px; 
+	min-height: 200px;  
+	max-height: 200px;
 }
 
 .full-area {
@@ -28,14 +28,14 @@ textarea {
 /* Bootstrap modification */
 .navbar .nav,
 .navbar .nav > li {
-	float:left !important;
-	display:inline-block !important;
+	float: left !important;
+	display: inline-block !important;
 	left: 28% !important;
 	vertical-align: top;
 }
 
 .navbar-inner {
-	text-align:center;
+	text-align: center;
 }
 
 header >.navbar .brand {
@@ -49,7 +49,7 @@ header >.navbar .brand {
 	-webkit-transition: all .2s linear;
 	-moz-transition: all .2s linear;
 	transition: all .2s linear;
-	margin : 1%;
+	margin: 1%;
 }
 
 header > .navbar .btn {
@@ -60,14 +60,33 @@ header > .navbar .btn {
 	position: fixed;
 	top: 9%;
 	right: 16%;
+	background-image: url(../images/bg2.png);
 }
 
 .cursorHover:hover{
 	cursor: pointer;	
 }
 
-.controlBtn
-{
-	margin-top:8%;
-	margin-right:2%;
+.controlBtn {
+	margin-top: 8%;
+	margin-right: 2%;
+}
+
+.image-container {
+    width: 180px;
+    height: 40px;
+    overflow: hidden;
+    position: relative;
+	cursor: pointer;
+}
+
+.image-inner-container {
+    position: absolute;
+}
+
+.overlay {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    margin: 12px 20px;
 }

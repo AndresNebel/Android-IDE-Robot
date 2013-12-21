@@ -66,7 +66,7 @@ Blockly.Lua["controls_sleep"] = function(block) {
   return 'sleep(' + value + ')\n';
 };
 
-Blockly.Lua["controls_Behaviour"] = function(block) {
+Blockly.Lua["controls_behaviour"] = function(block) {
   var name = block.getTitleValue('TEXT');
   var priority = block.getTitleValue('PR');
   var behaviourCode = Blockly.Lua.statementToCode(block, 'BEHAVIOUR_CODE');
