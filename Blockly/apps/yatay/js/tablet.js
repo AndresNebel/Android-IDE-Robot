@@ -101,7 +101,12 @@ function stop(){
 /**
  * Handle robotest click
  */
-function robotest(){		   
+function robotest(){	
+	try
+	{	
+		bxReady();
+	}
+	catch(e){}
 	Yatay.enterTestMode();
 	Yatay.Tablet.TestMode = true;
 	$('#btn_robotest').toggle('slow');
