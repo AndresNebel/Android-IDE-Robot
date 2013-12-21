@@ -83,6 +83,7 @@ function debug(){
  */
 function stop(){	
 	if (Yatay.Tablet.testMode) {
+		$("#bx_ready").show();
 		Yatay.Tablet.testMode = false;
 		Yatay.leaveTestMode();
 	} else {
@@ -107,6 +108,7 @@ function robotest(){
 		bxReady();
 	}
 	catch(e){}
+	$("#bx_ready").hide();
 	Yatay.enterTestMode();
 	Yatay.Tablet.testMode = true;
 	$('#btn_robotest').toggle('slow');
