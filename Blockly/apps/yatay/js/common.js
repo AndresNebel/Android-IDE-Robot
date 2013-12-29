@@ -1,48 +1,61 @@
-//Send tasks
-function sendTasks() {
-	var values = escape(Blockly.Lua.workspaceToCode()).replace(/\./g, "%2E");
+/**
+ * @fileoverview 
+ * @author 
+ */
+
+if (!Yatay.Common){ 
+	Yatay.Common = {};
+} 
+
+/**
+ * Send task to server
+ */
+Yatay.Common.sendTasks = function(code) {
+	var values = escape(code).replace(/\./g, "%2E");
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: {code:values, other:''},
+		data: { id:'init', code:values},
 		success: function() {
-			alert("success");
-			$("#result").html('Submitted successfully');
+			//alert("success");
 		},
 		error:function() {
-			alert("failure");
-			$("#result").html('There is error while submit');
-		}
-	});
-}	
-//Send tasks edited
-function sendTasksEdited() {
-	var values = escape($("#code_editable").val()).replace(/\./g, "%2E");
-	$.ajax({
-		url: "/index.html",
-		type: "POST",
-		data: {code:values, other:''},
-		success: function() {
-			alert("success");
-			$("#result").html('Submitted successfully');
-		},
-		error:function() {
-			alert("failure");
-			$("#result").html('There is error while submit');
+			//alert("failure");
 		}
 	});
 }
-//Kill tasks 
-function killTasks() {
+
+/**
+ * Kill all tasks running
+ */
+Yatay.Common.killTasks = function() {
 	$.ajax({
 		url: "/index.html",
-		type: "post",
-		data: {kill:'test', other:''},
+		type: "POST",
+		data: { id:'kill', code:''},
 		success: function(content){
-			alert("success");
+			//alert("success");
 		},
 		error:function(){
-			alert("failure");
+			//alert("failure");
+		}
+	});
+}
+
+/**
+ * Save current task
+ */
+Yatay.Common.saveTask = function(name, code) {
+	var values = escape(code);
+	$.ajax({
+		url: "/index.html",
+		type: "POST",
+		data: { id:'save', name:name, code:values},
+		success: function(content){
+			//alert("success");
+		},
+		error:function(){
+			//alert("failure");
 		}
 	});
 }

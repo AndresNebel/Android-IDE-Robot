@@ -26,16 +26,25 @@ Yatay.Tablet.behaviours = [];
 Yatay.Tablet.testMode = false; 
 
 /**
+ * Count workspace blocks
+ * @type {int}
+ */
+Yatay.Tablet.countBlocks = 0; 
+
+/**
  * Load tablet.html 
  * Generate behaviours list
  */
 $(document).ready(function(){	   
 	$('#main_menu').load('./tablet.html');	
+	
 	var list = $("<div class=\"list-group bx\">" +
 					"<ul class=\"nav\" id=\"bx_list\">" + 
 					"</ul>" +
 				"</div>");
-    list.appendTo($("#bx_ready"));
+	list.appendTo($("#bx_ready"));
+	
+	$("#content_blocks").click(autoSave);
 });
 
 /**
@@ -50,7 +59,7 @@ function edit(){
  * Handle run click
  */
 function runTasks(){	
-	sendTasks();
+	Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
 	$('#btn_run').toggle('slow');			
@@ -66,7 +75,7 @@ function runTasks(){
  * Handle debug click
  */
 function debug(){		   
-	sendTasks();
+	sendTasks(Blockly.Lua.workspaceToCode());
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
 	$('#btn_run').toggle('slow');			
@@ -87,7 +96,7 @@ function stop(){
 		Yatay.Tablet.testMode = false;
 		Yatay.leaveTestMode();
 	} else {
-		killTasks();
+		Yatay.Common.killTasks();
 		$('#btn_debug').toggle('slow');	   
 		$('#btn_run').toggle('slow');		
 	}
@@ -167,7 +176,7 @@ function fromXml() {
  * Handle run task edited click
  */
 function runEdited(){	
-	sendTasksEdited();
+	sendTasksEdited($("#code_editable").val());
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
 	$('#btn_run').toggle('slow');			
@@ -257,6 +266,21 @@ function bxToWorkspace() {
 				bxReady();
 			}
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+		}
+	}
+};
+
+/**
+ * Autosave Listener
+ */
+function autoSave(){
+	if (Blockly.mainWorkspace != null) {
+		if (Yatay.Tablet.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
+			Yatay.Tablet.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
+			var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+			var code = Blockly.Xml.domToText(xml);
+			var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+			Yatay.Common.saveTask(name, code);
 		}
 	}
 };
