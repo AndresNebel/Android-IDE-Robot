@@ -15,7 +15,7 @@
 		$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
 		$('#fchooser_label').html(Yatay.Msg.DIALOG_FCHOOSER_LABEL);		
 		$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
-		imgClickCorrection();
+		Yatay.Common.imgClickCorrection();
 	});
 	
 	</script>
@@ -25,12 +25,12 @@
 				<a class="brand" target="grey" href="http://www.fing.edu.uy/~pgbutiablet/index.html">YataY</a>
 				<ul class="nav">
 					<li>
-						<button class="btn btn-large imgclick" id="btn_load" onclick="openFileChooser()">
+						<button class="btn btn-large imgclick" id="btn_load" onclick="Yatay.Common.openFileChooser()">
 							<i class="icon-folder-open-alt icon-large"></i>
 						</button>					
 					</li>	
 					<li>
-						<button class="btn btn-large imgclick" id="btn_save" onclick="toXml()">
+						<button class="btn btn-large imgclick" id="btn_save" onclick="Yatay.Common.toXml()">
 							<i class="icon-save icon-large"></i>
 						</button>
 					</li>
@@ -43,7 +43,7 @@
 						</button>
 					</li>
 					<li>
-						<button class="btn btn-large imgclick" id="btn_edit" onclick="edit()">
+						<button class="btn btn-large imgclick" id="btn_edit" onclick="Yatay.Common.edit()">
 							<i class="icon-edit icon-large"></i>
 						</button>	
 					</li>			
@@ -95,6 +95,6 @@
 		<input id="file_input" type="file" accept=".xml" />
 	</div>
 	<div class="modal-footer">
-		<button id="btn_openfile" class="btn btn-primary" onclick="fromXml()"/>
+		<button id="btn_openfile" class="btn btn-primary" onclick="Yatay.Common.fromXml()"/>
 	</div>
 </div>

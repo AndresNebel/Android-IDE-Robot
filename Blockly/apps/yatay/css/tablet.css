@@ -25,7 +25,6 @@ textarea {
 	height: 100%;
 }
 
-/* Bootstrap modification */
 .navbar .nav,
 .navbar .nav > li {
 	float: left !important;
@@ -88,5 +87,5 @@ header > .navbar .btn {
     position: absolute;
     text-align: left;
     width: 100%;
-    margin: 12px 20px;
+    margin: 5% 13%;
 }
