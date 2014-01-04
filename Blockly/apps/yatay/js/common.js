@@ -11,7 +11,7 @@ if (!Yatay.Common){
  * Send task to server
  */
 Yatay.Common.sendTasks = function(code) {
-	var values = escape(code).replace(/\./g, "%2E");
+	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
@@ -20,7 +20,8 @@ Yatay.Common.sendTasks = function(code) {
 			//alert("success");
 		},
 		error:function() {
-			//alert("failure");
+			$("#spnResSensor").text('Intenta ejecutar otra vez.');
+			$('#divResults').show();
 		}
 	});
 }
@@ -58,4 +59,83 @@ Yatay.Common.saveTask = function(name, code) {
 			//alert("failure");
 		}
 	});
+}
+
+/**
+ * Long Poll for results
+ */
+function pollResults()
+{
+	setTimeout(function(){
+		//If it's running (boton stop is showing) then poll
+		if ($('#btn_stop').css("display").indexOf('block') != -1)
+		{
+			$.ajax({
+				url: "/index.html",
+				type: "POST",
+				data: {id:'poll', name:'', code:''},
+				success: function(html) {
+					if (html.length > 0)
+					{
+						var sensor = html.split(' ')[0];
+						var value = html.replace(sensor,'');
+						if ($("#spnResSensor").text() != sensor || $("#spnResValue").text() != value)
+							$('#divResults').show();
+						$("#spnResSensor").text(sensor);
+						$("#spnResValue").text(value);
+
+					}
+					else
+					{
+						$("#spnResSensor").text('');
+						$("#spnResValue").text('');
+					}
+				},
+				error:function() {
+				},
+				complete: pollResults
+			});
+		}
+		else
+		{
+				$("#spnResSensor").text('');
+				$("#spnResValue").text('');
+		}
+	},1000);
+}
+
+
+/**
+ * Long Poll for debug
+ */
+
+function debugPoll()
+{
+	setTimeout(function(){
+		//If it's running (boton stop is showing) then poll
+		if ($('#btn_stop').css("display").indexOf('block') != -1)
+		{
+			$.ajax({
+				url: "/index.html",
+				type: "POST",
+				data: {id:'pollDebug', name:'', code:''},
+				success: function(html) {
+					if (html.length > 0)
+					{
+						var blockId = parseInt(html)
+						Yatay.DebugLastBlock = blockId;
+						Blockly.mainWorkspace.getBlockById(blockId).select()
+					}
+				},
+				error:function() {
+				},
+				complete: debugPoll
+			});
+		}
+		else
+		{
+			Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock).unselect()
+		}
+		
+	},500);
 }

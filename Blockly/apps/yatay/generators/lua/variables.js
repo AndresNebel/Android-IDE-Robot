@@ -33,7 +33,7 @@ goog.require('Blockly.Lua');
 
 Blockly.Lua["variables_get"] = function() {
   // Variable getter.
-  return Blockly.Lua.variableDB_.getName(this.getTitleText('VAR'),
+  return Yatay.VariableDB.getName(this.getTitleText('VAR'),
       Blockly.Variables.NAME_TYPE);
 };
 

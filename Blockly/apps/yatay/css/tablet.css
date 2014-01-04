@@ -90,3 +90,38 @@ header > .navbar .btn {
     width: 100%;
     margin: 12px 20px;
 }
+#divResults
+{
+   background-color: #CCCCCC;
+    border: 1px solid #555555;
+    border-radius: 12px;
+    color: #333333;
+    float: left;
+    font-size: 100%;
+    height: 4.5%;
+    margin-left: 25%;
+    margin-top: 2px;
+    text-align: center;
+    width: 47.3%;
+	position: absolute;
+	bottom:5px;
+}
+#divResults span
+{
+	position: relative;
+    top: 5%;
+    vertical-align: text-top;
+	font-size: 97%;
+}
+
+#spnResSensor
+{
+	margin-right: 2.2%;
+}
+
+.btnCloseDialog
+{
+	position:absolute;
+	top:1px;
+	right:4px;
+}

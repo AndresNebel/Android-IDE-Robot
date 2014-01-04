@@ -39,7 +39,7 @@ var Yatay = {};
  */
 Yatay.init = function() {
   BlocklyApps.init();
-
+  Yatay.DebugMode = false;
   var rtl = BlocklyApps.isRtl();
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('content_blocks'),

@@ -59,32 +59,33 @@ function edit(){
  * Handle run click
  */
 function runTasks(){	
-	Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
-	$('#btn_robotest').toggle('slow');
-	$('#btn_debug').toggle('slow');	   
-	$('#btn_run').toggle('slow');			
-	$('#btn_load').toggle('slow');
-	$('#btn_save').toggle('slow');		
-	if($('#btn_edit').is(":visible")) {			
-		$('#btn_edit').toggle('slow');
+	if ($('#btn_stop').css('display') == 'none')
+	{
+		$('#btn_robotest').toggle('slow');
+		$('#btn_debug').toggle('slow');	   
+		$('#btn_bx_ready').toggle('slow');
+		$('#btn_load').toggle('slow');
+		$('#btn_save').toggle('slow');		
+		if($('#btn_edit').is(":visible")) {			
+			$('#btn_edit').toggle('slow');
+		}
+		$('#btn_stop').toggle('slow');
 	}
-	$('#btn_stop').toggle('slow');
+	else
+	{
+		Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
+		pollResults();
+	}
 };
 
 /**
  * Handle debug click
  */
-function debug(){		   
-	sendTasks(Blockly.Lua.workspaceToCode());
-	$('#btn_robotest').toggle('slow');
-	$('#btn_debug').toggle('slow');	   
-	$('#btn_run').toggle('slow');			
-	$('#btn_load').toggle('slow');
-	$('#btn_save').toggle('slow');
-	if($('#btn_edit').is(":visible")) {			
-		$('#btn_edit').toggle('slow');
-	}
-	$('#btn_stop').toggle();
+function debug(){		
+	Yatay.DebugMode = true;   
+	Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
+	pollResults();
+	debugPoll();
 };
 
 /**
@@ -98,7 +99,6 @@ function stop(){
 	} else {
 		Yatay.Common.killTasks();
 		$('#btn_debug').toggle('slow');	   
-		$('#btn_run').toggle('slow');		
 	}
 	$('#btn_robotest').toggle('slow');		
 	$('#btn_edit').toggle('slow');
@@ -106,6 +106,7 @@ function stop(){
 	$('#btn_save').toggle('slow');
 	$('#btn_stop').toggle('slow');
 	$('#btn_bx_ready').toggle('slow');	
+	Yatay.DebugMode = false;
 };
 
 /**
@@ -176,17 +177,19 @@ function fromXml() {
  * Handle run task edited click
  */
 function runEdited(){	
-	sendTasksEdited($("#code_editable").val());
+	Yatay.Common.sendTasks($("#code_editable").val());
 	$('#btn_robotest').toggle('slow');
 	$('#btn_debug').toggle('slow');	   
 	$('#btn_run').toggle('slow');			
 	$('#btn_load').toggle('slow');
-	$('#btn_save').toggle('slow');		
+	$('#btn_save').toggle('slow');	
+	$('#btn_bx_ready').toggle('slow');
 	if($('#btn_edit').is(":visible")) {			
 		$('#btn_edit').toggle('slow');
 	}
 	$('#btn_stop').toggle('slow');
 	$('#code_modal').modal('hide');
+	pollResults();
 };
 
 /**

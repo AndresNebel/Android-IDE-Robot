@@ -1,5 +1,4 @@
 local M = {}
-
 local behaviours = require 'catalog'.get_catalog('behaviours')
 local sched = require 'sched'
 
@@ -13,34 +12,55 @@ local function exist(task)
 end 
 
 M.kill_tasks = function()
-	local none = true
-	for name, task in behaviours:iterator() do
-		print('Killing '..name)
-		behaviours:unregister(name)
-		task:kill()
-		none = false
-	end	
-	if (none) then 
-		print('No tasks to kill.')
-	else
-		print('All task killed!')
-	end 
- end
+					local none = true
+					print('kill')
+--					activeBehaviour.task:kill()
+	--				previousBehaviour.task:kill()
+					RBTManagerActivate = false
+					for name, btable in behaviours:iterator() do
+						behaviours:unregister(name)
+						btable.compete_task:kill()
+						btable.task:kill()
+						btable = {}
+						none = false
+					end	
+					activeBehaviour = nil
+					previousBehaviour = nil
+					if (none) then 
+						print('No tasks to kill.')
+					else
+						print('All task killed!')
+					end
+				 end
 
 
 M.create_task = function(task)
-	local code, errorCompilacion = loadstring(task)
-	if (not errorCompilacion) then	
-		local ok, tasktable = pcall(code)
-		--Control: tarea ya existente?
-		if (not exist(tasktable.name)) then
-			local newTask = sched.new_task(code)
-			behaviours:register(tasktable.name, newTask)	
-			print('Task '.. tasktable.name ..' initialized!')
-		else
-			print('Task '.. tasktable.name ..' already exist.')
-		end
-	end
- end
- 
+					local code, errorCompilacion = loadstring(task)
+					if (not errorCompilacion) then	
+						local ok, tasktable = pcall(code)
+						if (not ok) then
+							print("Yatay detecto un error al ejecutar la task:")
+							print(tasktable)
+						else
+							--Control: tarea ya existente?
+							if (not exist(tasktable.name)) then
+								local newTask = sched.new_task(code)
+								tasktable.init(true)
+								behaviours:register(tasktable.name, tasktable)
+								RBTManagerActivate = true
+								print('Task '.. tasktable.name ..' initialized!')
+							else
+								print('Task '.. tasktable.name ..' already exist.')
+							end
+						end
+					else
+							print("Yatay detecto un error al compilar la task:")
+							print(errorCompilacion)
+					end
+					end
+
+
 return M
+
+
+
