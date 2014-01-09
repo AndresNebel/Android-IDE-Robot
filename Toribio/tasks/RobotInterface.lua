@@ -6,7 +6,7 @@ local devices = toribio.devices
 local sched = require 'sched'
 
 
-local deliverResultToWebServer = function(sensorResult)
+M.deliverResultToWebServer = function(sensorResult)
 	yataySensorResults = sensorResult
 --	table.insert(yataySensorResults, 1, sensorResult) 
 	--if (#yataySensorResults > 10) then
@@ -14,7 +14,7 @@ local deliverResultToWebServer = function(sensorResult)
 --	end
 --	print('rob:put_debug', yataySensorResults)
 	sched.signal('NewSensorResult')
-	sched.yield()
+	--sched.yield()
 end
 
 M.execute = function(sensor, func, params)
@@ -30,7 +30,7 @@ M.execute = function(sensor, func, params)
 		if ok then 
 			local sensorResult = table.concat(ret, ',', 2)
 			if (#sensorResult > 0) then
-				deliverResultToWebServer(sensor..': '..sensorResult)
+				M.deliverResultToWebServer(sensor..': '..sensorResult)
 			end
 			return tonumber(sensorResult)
 		else 

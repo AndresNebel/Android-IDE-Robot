@@ -65,9 +65,11 @@ Yatay.Msg.CONTROL_BOOLEAN_TOOLTIP = "Un bloque de verdadero o de falso, sirve pa
 Yatay.Msg.CONTROL_WHILE = "mientras";
 Yatay.Msg.CONTROL_WHILE_TOOLTIP = "Mientras la condición sea verdadera se ejecuta lo que este dentro de este bloque.";
 
-Yatay.Msg.CONTROL_BEHAVIOUR = "comportamiento";
+Yatay.Msg.CONTROL_BEHAVIOUR = "nombre";
 Yatay.Msg.CONTROL_BEHAVIOUR_PRIORITY = "   prioridad";
 Yatay.Msg.CONTROL_BEHAVIOUR_TOOLTIP = "Crea un nuevo comportamiento del robot con el nombre y prioridad elegidas.";
+Yatay.Msg.CONTROLS_BEHAVIOUR_ACTION = "acción";
+Yatay.Msg.CONTROLS_BEHAVIOUR_CONDITION = "disparador";
 
 Yatay.Msg.CONTROL_SLEEP = "esperar";
 Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "El programa espera la cantidad de tiempo ingresada para continuar ejecutando.";
@@ -82,6 +84,7 @@ Yatay.Msg.VARIABLES_GET_TOOLTIP = "Obtener valor de una variable";
 Yatay.Msg.VARIABLES_GET_CREATE_SET = "";
 Yatay.Msg.VARIABLES_SET_TITLE = "guardar en";
 Yatay.Msg.VARIABLES_SET_TAIL = "";
+Yatay.Msg.VARIABLES_PRINT = "imprimir";
 
 //Math Messages 
 Yatay.Msg.MATH_CONSTRAIN_HELPURL = "";

@@ -129,6 +129,62 @@ Blockly.Lua["controls_behaviour"] = function(block) {
 };
 
 
+Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
+  var name = block.getTitleValue('TEXT');
+  var priority = block.getTitleValue('PR');
+  var behaviourCondition = Blockly.Lua.statementToCode(block, 'BEHAVIOUR_CONDITION');
+  var behaviourCode = Blockly.Lua.statementToCode(block, 'BEHAVIOUR_CODE');
+  var debugTrace = "";
+
+  if (Yatay.DebugMode)
+  {
+	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+  }
+
+  var code = "" +
+  "local M = {}\n" +
+  "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
+  "local robot = require 'tasks/RobotInterface'\n" +
+  "local sched = require 'sched'\n" + 
+  "M.done = true\n" + 
+  "M.name = '" + name + "'\n" +
+  "M.priority = " + priority + "\n" +
+  "local competeForActive = function ()\n" +
+  "  if (" + behaviourCondition + ") then\n" +
+  "     if (activeBehaviour == nil or M.priority > activeBehaviour.priority) then\n" +
+  "         activeBehaviour = M\n " + 
+  "      elseif (activeBehaviour ~= nil and M.priority == activeBehaviour.priority and activeBehaviour.done) then\n" +
+  "         activeBehaviour = M\n " + 
+  "     end\n" +
+  "  end\n" +
+  "end\n"+
+
+  "local run = function ()\n" +
+  "   M.done = false\n"+
+   	  debugTrace +
+	  behaviourCode +
+  "   M.done = true\n"+
+  "end\n"+
+  "M.ReleaseControl = function()\n" +
+  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0})\n" +
+  "end\n" +
+
+  "M.init = function(conf)\n" +
+  "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
+  "	  local waitRun = {emitter='*', events={M.name}}\n" +
+  "	  M.task = sched.sigrun(waitRun, run)\n" +
+  "	  M.compete_task = sched.sigrun(waitd, competeForActive)\n" +
+  "end\n" +
+  "return M\n"; 
+
+  return code;
+};
+
+
+Blockly.Lua['controls_behaviourTrigger'] = function(block) {
+  return Blockly.Lua.statementToCode(block, 'BOOL', true) || 'true';
+}
+
 Blockly.Lua["controls_whileUntil"] = function(block) {
   var argument0 = Blockly.Lua.statementToCode(block, 'BOOL', true) || 'false';
   var branch0 = Blockly.Lua.statementToCode(block, 'DO') || '\n';

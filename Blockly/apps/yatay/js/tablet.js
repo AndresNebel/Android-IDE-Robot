@@ -73,7 +73,28 @@ function runTasks(){
 	}
 	else
 	{
-		Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
+		// Si hay bloques sin minimizar los marco listos
+		if (Blockly.mainWorkspace.getAllBlocks().length >0)
+		{
+			bxReady()
+		}
+		
+		// Obteniendo los codigos de cada comportamiento
+		var codes = new Array();
+		for (var i = 0; i < Yatay.Tablet.behaviours.length; i++)
+		{
+			var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
+			var code = Blockly.Lua.workspaceToCode();
+			codes.push(code);
+		    Blockly.mainWorkspace.clear();
+		}		
+		
+		// Enviando los codigos al servidor
+		for (var i = 0; i < codes.length; i++)
+		{
+			Yatay.Common.sendTasks(codes[i]);
+		}
 		pollResults();
 	}
 };
@@ -229,7 +250,7 @@ $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextare
  * Set behaviour as ready
  */
 function bxReady() {
-	if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour")
+	if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour" || Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_conditionalBehaviour")
 	{
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		var text = Blockly.Xml.domToText(xml);
@@ -277,6 +298,7 @@ function bxToWorkspace() {
  * Autosave Listener
  */
 function autoSave(){
+	return;
 	if (Blockly.mainWorkspace != null) {
 		if (Yatay.Tablet.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
 			Yatay.Tablet.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;

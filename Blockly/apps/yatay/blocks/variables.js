@@ -23,10 +23,21 @@
  */
 'use strict';
 
-goog.provide('Blockly.Blocks.variables');
-
-goog.require('Blockly.Blocks');
-
+Blockly.Blocks['variables_print'] = {
+  // Text value.
+  init: function() {
+    this.setColour(30);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.appendDummyInput()
+		.appendTitle(Yatay.Msg.VARIABLES_PRINT + "  ")
+        .appendTitle(new Blockly.FieldImage(Blockly.pathToBlockly +
+        'media/quote0.png', 12, 12))
+        .appendTitle(new Blockly.FieldTextInput(''), 'TEXT')
+        .appendTitle(new Blockly.FieldImage(Blockly.pathToBlockly +
+        'media/quote1.png', 12, 12)); 
+  }
+};
 
 Blockly.Blocks['variables_get'] = {
   // Variable getter.
@@ -106,3 +117,6 @@ Blockly.Blocks['variables_text'] = {
     this.setTooltip(Blockly.Msg.TEXT_TEXT_TOOLTIP);
   }
 };
+
+
+

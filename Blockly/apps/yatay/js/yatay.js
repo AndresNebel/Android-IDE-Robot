@@ -79,6 +79,23 @@ Yatay.init = function() {
       'visible';
   Blockly.fireUiEvent(window, 'resize');
   Blockly.fireUiEvent(window, 'resize');
+
+
+  //Override the toolbox disable filter to hide the blocks i want
+	Blockly.Flyout.prototype.filterForCapacity_ = function() {
+	  var remainingCapacity = this.targetWorkspace_.remainingCapacity();
+	  var blocks = this.workspace_.getTopBlocks(false);
+	  for (var i = 0, block; block = blocks[i]; i++) {
+		var allBlocks = block.getDescendants();
+		var disabled = allBlocks.length > remainingCapacity;
+		if (block.type == "controls_behaviour" || block.type == "controls_conditionalBehaviour")
+		{
+			disabled = Yatay.workspaceHasBehaviour();
+		}
+		block.setDisabled(disabled);
+	  }
+	};
+
   
   // Lazy-load the syntax-highlighting.
   window.setTimeout(BlocklyApps.importPrettify, 1);
@@ -126,6 +143,17 @@ Yatay.discard = function() {
     window.location.hash = '';
   }
 };
+
+
+Yatay.workspaceHasBehaviour = function(){
+	var allBlocks = Blockly.mainWorkspace.getAllBlocks();
+	for (var i = 0; i < allBlocks.length; i++)
+	{
+		if (allBlocks[i].type == "controls_behaviour"  || allBlocks[i].type == "controls_conditionalBehaviour")
+			return true;
+	}
+	return false;
+}
 
 Yatay.enterTestMode = function(){
 	Blockly.mainWorkspace.clear();	

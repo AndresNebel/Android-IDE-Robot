@@ -17,9 +17,9 @@ M.init = function(conf)
 			if (RBTManagerActivate == true) then
 				local done = false
 				if activeBehaviour then
-		            done = activeBehaviour.done
+		            done = activeBehaviour.done					
 		        end
-
+				
 		        previousBehaviour = activeBehaviour
 
 				sched.signal('Compete!')

@@ -31,13 +31,13 @@ goog.provide('Blockly.Lua.variables');
 goog.require('Blockly.Lua');
 
 
-Blockly.Lua["variables_get"] = function() {
+Blockly.Lua["variables_get"] = function(block) {
   // Variable getter.
   return Yatay.VariableDB.getName(this.getTitleText('VAR'),
       Blockly.Variables.NAME_TYPE);
 };
 
-Blockly.Lua["variables_set"] = function() {
+Blockly.Lua["variables_set"] = function(block) {
   // Variable setter.
   var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
   var varName = Blockly.Lua.variableDB_.getName(
@@ -45,10 +45,17 @@ Blockly.Lua["variables_set"] = function() {
   return varName + ' = ' + argument0 + ';\n';
 };
 
-Blockly.Lua["variables_text"] = function() {
+Blockly.Lua["variables_text"] = function(block) {
   // Variable setter.
   var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
   var varName = Blockly.Lua.variableDB_.getName(
       this.getTitleText('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' = ' + argument0 + ';\n';
+};
+
+
+Blockly.Lua["variables_print"] = function(block) {
+  // Variable getter.
+  var text = block.getTitleValue('TEXT');
+  return "print('"+ text +"')\n robot.deliverResultToWebServer('" + text + "')\n";
 };
