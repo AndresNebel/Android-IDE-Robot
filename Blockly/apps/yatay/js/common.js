@@ -68,7 +68,7 @@ function pollResults()
 {
 	setTimeout(function(){
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_stop').css("display").indexOf('block') != -1)
+		if ($('#btn_stop').css("display") != "none")
 		{
 			$.ajax({
 				url: "/index.html",
@@ -113,7 +113,7 @@ function debugPoll()
 {
 	setTimeout(function(){
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_stop').css("display").indexOf('block') != -1)
+		if ($('#btn_stop').css("display") != "none")
 		{
 			$.ajax({
 				url: "/index.html",
@@ -122,7 +122,21 @@ function debugPoll()
 				success: function(html) {
 					if (html.length > 0)
 					{
-						var blockId = parseInt(html)
+						var behaviourName = html.split(':')[0];
+						var behavioursAfterThisOne = false;
+						var offset = 0;
+						for (var i = 0; i < Yatay.Tablet.behaviours.length; i++)
+						{
+							if (Yatay.Tablet.behaviours[i][2] == behaviourName)
+							{
+								$('#'+Yatay.Tablet.behaviours[i][0]).click();
+								//parseInt(html.split(':')[2]) es el id original del bloque de comportamiento
+								
+								break;
+							}	
+						}
+						offset = Blockly.mainWorkspace.getTopBlocks()[0].id - parseInt(html.split(':')[1]);
+						var blockId = parseInt(html.split(':')[2]) + offset;
 						Yatay.DebugLastBlock = blockId;
 						Blockly.mainWorkspace.getBlockById(blockId).select()
 					}
@@ -134,7 +148,10 @@ function debugPoll()
 		}
 		else
 		{
-			Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock).unselect()
+			if (Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock) != null)
+			{
+				Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock).unselect()
+			}
 		}
 		
 	},500);
