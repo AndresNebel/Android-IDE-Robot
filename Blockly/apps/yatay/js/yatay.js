@@ -39,7 +39,8 @@ var Yatay = {};
  */
 Yatay.init = function() {
   BlocklyApps.init();
-
+  Yatay.DebugMode = false;
+  Yatay.DebugBlockIdOffset = 0;
   var rtl = BlocklyApps.isRtl();
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('content_blocks'),
@@ -79,6 +80,23 @@ Yatay.init = function() {
       'visible';
   Blockly.fireUiEvent(window, 'resize');
   Blockly.fireUiEvent(window, 'resize');
+
+
+  //Override the toolbox disable filter to hide the blocks i want
+	Blockly.Flyout.prototype.filterForCapacity_ = function() {
+	  var remainingCapacity = this.targetWorkspace_.remainingCapacity();
+	  var blocks = this.workspace_.getTopBlocks(false);
+	  for (var i = 0, block; block = blocks[i]; i++) {
+		var allBlocks = block.getDescendants();
+		var disabled = allBlocks.length > remainingCapacity;
+		if (block.type == "controls_behaviour" || block.type == "controls_conditionalBehaviour")
+		{
+			disabled = Yatay.workspaceHasBehaviour();
+		}
+		block.setDisabled(disabled);
+	  }
+	};
+
   
   // Lazy-load the syntax-highlighting.
   window.setTimeout(BlocklyApps.importPrettify, 1);
@@ -127,13 +145,25 @@ Yatay.discard = function() {
   }
 };
 
+
+Yatay.workspaceHasBehaviour = function(){
+	var allBlocks = Blockly.mainWorkspace.getAllBlocks();
+	for (var i = 0; i < allBlocks.length; i++)
+	{
+		if (allBlocks[i].type == "controls_behaviour"  || allBlocks[i].type == "controls_conditionalBehaviour")
+			return true;
+	}
+	return false;
+}
+
 Yatay.enterTestMode = function(){
 	Blockly.mainWorkspace.clear();	
 	//Remove all items from toolbox except "Butia"
 	Blockly.Toolbox.tree_.children_[0].dispose();
-	Blockly.Toolbox.tree_.children_[2].dispose();
+	Blockly.Toolbox.tree_.children_[1].dispose();
 	Blockly.Toolbox.tree_.children_[3].dispose();
 	Blockly.Toolbox.tree_.children_[4].dispose();
+	Blockly.Toolbox.tree_.children_[5].dispose();
 	//Only one block allowed
 	Blockly.mainWorkspace.maxBlocks = 1;
 	
@@ -141,7 +171,7 @@ Yatay.enterTestMode = function(){
 
 Yatay.leaveTestMode = function(){
 	//Remove all items from toolbox (to avoid repeatance of items on init) and init toolbox again
-	Blockly.Toolbox.tree_.children_[1].dispose();
+	Blockly.Toolbox.tree_.children_[2].dispose();
 	Blockly.Toolbox.init();
 	Blockly.mainWorkspace.maxBlocks = "Infinite";
 }

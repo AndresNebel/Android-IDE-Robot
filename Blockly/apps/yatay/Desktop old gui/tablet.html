@@ -1,5 +1,5 @@
 <!-- Menu Navbar -->
-
+<header>
 	<script>
 	$(document).ready(function(){
 		$('#btn_robotest').attr('title', Yatay.Msg.MENU_ROBOTEST);
@@ -19,42 +19,59 @@
 	});
 	
 	</script>
-	<div class="navbar navbar-inverse navbar-fixed-top leftBar" >
+	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
-			<div class="container leftBar">	
+			<div class="container">	
+				<a class="brand" target="grey" href="http://www.fing.edu.uy/~pgbutiablet/index.html">YataY</a>
 				<ul class="nav">
 					<li>
-						<input type="image" id="btn_load" onclick="openFileChooser()" src="images/open.png" class="imgclick cursorHover controlBtn" />						
+						<button class="btn btn-large imgclick" id="btn_load" onclick="openFileChooser()">
+							<i class="icon-folder-open-alt icon-large"></i>
+						</button>					
 					</li>	
 					<li>
-						<input type="image" id="btn_save" onclick="toXml()" src="images/save.png" class="imgclick cursorHover controlBtn" />
+						<button class="btn btn-large imgclick" id="btn_save" onclick="toXml()">
+							<i class="icon-save icon-large"></i>
+						</button>
 					</li>
 					<li>						
 						<input type="image" id="btn_robotest" onclick="robotest()" src="images/butia.png" class="imgclick cursorHover controlBtn" />						
 					</li>
 					<li>
-						<input type="image" id="btn_run" onclick="runTasks()" src="images/play.png" class="imgclick cursorHover controlBtn" />
+						<button class="btn btn-large imgclick" id="btn_run" onclick="runTasks()">
+							<i class="icon-play icon-large"></i>
+						</button>
 					</li>
 					<li>
-						<input type="image" id="btn_edit" onclick="edit()" src="images/viewcode.png" class="imgclick cursorHover controlBtn" />
+						<button class="btn btn-large imgclick" id="btn_edit" onclick="edit()">
+							<i class="icon-edit icon-large"></i>
+						</button>	
 					</li>			
 					<li>
-						<input type="image" id="btn_debug" onclick="debug()" src="images/debug.png" class="imgclick cursorHover controlBtn"  style="display: none;"/>
+						<button class="btn btn-large imgclick" id="btn_debug" onclick="debug()" style="display: none;">
+							<i class="icon-bug icon-large"></i>
+						</button>
 					</li>
 					<li>
-						<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />						
+						<button class="btn btn-large imgclick" id="btn_bx_ready" onclick="bxReady()">
+							<i class="icon-ok icon-large"></i>
+						</button>
 					</li>	
 					<li>
-						<input type="image" id="btn_trash" onclick="$('#trashButton').click();" src="images/delete.png" class="imgclick cursorHover controlBtn" />
+						<button class="btn btn-large imgclick" id="btn_trash" onclick="$('#trashButton').click();">
+							<i class="icon-trash icon-large"></i>
+						</button>
 					</li>						
 					<li>
-						<input type="image" id="btn_stop" onclick="stop();" src="images/stop.png" class="imgclick cursorHover controlBtn" style="display: none;"/>
+						<button class="btn btn-large imgclick" id="btn_stop" onclick="stop()" style="display: none;">
+							<i class="icon-stop icon-large"></i>
+						</button>
 					</li>								
 				</ul>			
 			</div>
 		</div>
 	</div>		
-
+</header>
 <!-- Code Editor Modal -->
 <div id="code_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">

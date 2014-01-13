@@ -111,9 +111,9 @@ Blockly.Blocks['controls_if'] = {
           this.elseifCount_++;
           var ifInput = this.appendValueInput('IF' + this.elseifCount_)
               .setCheck('Boolean')
-              .appendTitle(Blockly.Msg.CONTROLS_IF_MSG_ELSEIF);
+              .appendTitle(Yatay.Msg.CONTROLS_IF_MSG_ELSEIF);
           var doInput = this.appendStatementInput('DO' + this.elseifCount_);
-          doInput.appendTitle(Blockly.Msg.CONTROLS_IF_MSG_THEN);
+          doInput.appendTitle(Yatay.Msg.CONTROLS_IF_MSG_THEN);
           // Reconnect any child blocks.
           if (clauseBlock.valueConnection_) {
             ifInput.connection.connect(clauseBlock.valueConnection_);
@@ -339,7 +339,7 @@ Blockly.Blocks['controls_behaviour'] = {
 	  var n = window.parseFloat(text || 0);
 	  return window.isNaN(n) ? null : String(n);
 	}), 'PR');
-	this.appendStatementInput('BEHAVIOUR_CODE');
+	this.appendStatementInput('BEHAVIOUR_CODE').appendTitle(Yatay.Msg.CONTROLS_BEHAVIOUR_ACTION);
     this.setPreviousStatement(false);
     this.setNextStatement(false);
 	this.setTooltip(Yatay.Msg.CONTROL_BEHAVIOUR_TOOLTIP);
@@ -347,6 +347,47 @@ Blockly.Blocks['controls_behaviour'] = {
     var thisBlock = this;    
   }
 };
+
+
+Blockly.Blocks['controls_conditionalBehaviour'] = {
+  init: function() {
+    this.setColour(30);
+    this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(Yatay.Msg.CONTROL_BEHAVIOUR), 'TEXT')
+    .appendTitle(Yatay.Msg.CONTROL_BEHAVIOUR_PRIORITY)
+    .appendTitle(new Blockly.FieldTextInput('1', function(text) {
+	  var n = window.parseFloat(text || 0);
+	  return window.isNaN(n) ? null : String(n);
+	}), 'PR');
+
+    this.appendStatementInput('BEHAVIOUR_CONDITION')
+        .setCheck('Trigger').appendTitle(Yatay.Msg.CONTROLS_BEHAVIOUR_CONDITION);
+
+	this.appendStatementInput('BEHAVIOUR_CODE').appendTitle(Yatay.Msg.CONTROLS_BEHAVIOUR_ACTION);
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+	this.setTooltip(Yatay.Msg.CONTROL_BEHAVIOUR_TOOLTIP);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;    
+  }
+};
+
+Blockly.Blocks['controls_behaviourTrigger'] = {
+  init: function() {
+	this.setInputsInline(true);
+    this.setColour(30);
+	this.appendValueInput('BOOL')
+        .setCheck('Boolean').appendTitle("   ");
+    this.appendDummyInput().appendTitle("   ");
+    this.setPreviousStatement(true);
+    this.setNextStatement(false);
+	this.setOutput(null, 'Trigger');
+	this.setMovable(false);
+	this.setTooltip(Yatay.Msg.CONTROL_BEHAVIOUR_TOOLTIP);
+    // Assign 'this' to a variable for use in the tooltip closure below.
+    var thisBlock = this;    
+  }
+};
+
 
 
 Blockly.Blocks['controls_sleep'] = {

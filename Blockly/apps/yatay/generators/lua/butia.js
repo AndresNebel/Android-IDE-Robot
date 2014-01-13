@@ -32,30 +32,50 @@ goog.require('Blockly.Lua');
 
 Blockly.Lua["butia_move"] = function(block) {
 	// Generate Lua for moving robot butiá forward or backwards.
+	var debugTrace = "";
+
+	if (Yatay.DebugMode)
+	{
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	}
+
 	if(block.getTitleValue('DIR') == 'moveForward') {
-		return "robot.execute('bb-motors','setvel2mtr', [1,500,1,500])\n";
+		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {1,500,1,500})\n";
 	}else if(block.getTitleValue('DIR') == 'moveBackward') {
-		return "robot.execute('bb-motors','setvel2mtr', [0,500,0,500])\n";
+		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {0,500,0,500})\n";
 	}
 };
 
 
 Blockly.Lua["butia_turn"] = function(block) {
+	var debugTrace = "";
+
+	if (Yatay.DebugMode)
+	{
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	}
 	// Generate Lua for turning robot butiá left or right.
 	if(block.getTitleValue('DIR') == 'turnLeft') {
-		return "robot.execute('bb-motors','setvel2mtr', [1,500,0,500])\n";
+		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {1,500,0,500})\n";
 	}else if(block.getTitleValue('DIR') == 'turnRight') {
-		return "robot.execute('bb-motors','setvel2mtr', [0,500,1,500])\n";
+		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {0,500,1,500})\n";
 	}
 };
 
 Blockly.Lua["butia_stop"] = function(block) {
+	var debugTrace = "";
 
-   return "robot.execute('bb-motors','setvel2mtr', [0,0,0,0])";
+	if (Yatay.DebugMode)
+	{
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	}
+	return debugTrace + "robot.execute('bb-motors','setvel2mtr', {0,0,0,0})";
 };
 
 Blockly.Lua["butia_grey"] = function(block) {
-
-   return "robot.execute('bb-grey:1','getValue',[])";
+	//var sensorRes = "local sensorResult = robot.execute('bb-grey:2','getValue',{})\n";
+//	var writeRes = "table.insert(resultsQueue, 1, sensorResult)\n" + "sched.signal('NewResult')\n";
+//	return sensorRes + writeRes;
+	return "robot.execute('bb-grey:2','getValue',{})";
 };
 
