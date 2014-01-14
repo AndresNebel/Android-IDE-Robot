@@ -29,7 +29,7 @@ Yatay.Tablet.testMode = false;
  * Count workspace blocks
  * @type {int}
  */
-Yatay.Tablet.countBlocks = 0; 
+Yatay.Tablet.countBlocks = 0;
 
 /**
  * Load tablet.html 
@@ -58,9 +58,8 @@ function edit(){
 /**
  * Handle run click
  */
-function runTasks(){	
-	if ($('#btn_stop').css('display') == 'none')
-	{
+function runTasks() {	
+	if ($('#btn_stop').css('display') == 'none') {
 		$('#btn_robotest').toggle('slow');
 		$('#btn_debug').toggle('slow');	   
 		$('#btn_bx_ready').toggle('slow');
@@ -70,19 +69,15 @@ function runTasks(){
 			$('#btn_edit').toggle('slow');
 		}
 		$('#btn_stop').toggle('slow');
-	}
-	else
-	{
+	} else {
 		// Si hay bloques sin minimizar los marco listos
-		if (Blockly.mainWorkspace.getAllBlocks().length >0)
-		{
+		if (Blockly.mainWorkspace.getAllBlocks().length >0){
 			bxReady()
 		}
 		
 		// Obteniendo los codigos de cada comportamiento
 		var codes = new Array();
-		for (var i = 0; i < Yatay.Tablet.behaviours.length; i++)
-		{
+		for (var i = 0; i < Yatay.Tablet.behaviours.length; i++) {
 			var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
 			var code = Blockly.Lua.workspaceToCode();
@@ -91,8 +86,7 @@ function runTasks(){
 		}		
 		
 		// Enviando los codigos al servidor
-		for (var i = 0; i < codes.length; i++)
-		{
+		for (var i = 0; i < codes.length; i++) {
 			Yatay.Common.sendTasks(codes[i]);
 		}
 		pollResults();
@@ -105,17 +99,15 @@ function runTasks(){
 function debug(){		
 	Yatay.DebugBlockIdOffset = 0;
 	Yatay.DebugMode = true;   
-//	Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
+	// Yatay.Common.sendTasks(Blockly.Lua.workspaceToCode());
 	// Si hay bloques sin minimizar los marco listos
-	if (Blockly.mainWorkspace.getAllBlocks().length >0)
-	{
+	if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 		bxReady()
 	}
 	
 	// Obteniendo los codigos de cada comportamiento
 	var codes = new Array();
-	for (var i = 0; i < Yatay.Tablet.behaviours.length; i++)
-	{
+	for (var i = 0; i < Yatay.Tablet.behaviours.length; i++) {
 		var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
 		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
 		var code = Blockly.Lua.workspaceToCode();
@@ -125,8 +117,7 @@ function debug(){
 	}		
 	
 	// Enviando los codigos al servidor
-	for (var i = 0; i < codes.length; i++)
-	{
+	for (var i = 0; i < codes.length; i++) {
 		Yatay.Common.sendTasks(codes[i]);
 	}
 
@@ -161,11 +152,11 @@ function stop(){
  * Handle robotest click
  */
 function robotest(){	
-	try
-	{	
+	try {	
 		bxReady();
+	} catch(e) {
+
 	}
-	catch(e){}
 	$("#bx_ready").hide();
 	Yatay.enterTestMode();
 	Yatay.Tablet.testMode = true;
@@ -182,11 +173,27 @@ function robotest(){
 /**
  * Handle save click
  */
-function toXml() {
-	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-	var text = Blockly.Xml.domToText(xml);
-	var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-	saveAs(blob, "yatay.xml");
+function toXml(link) {
+	if (Blockly.mainWorkspace.getAllBlocks().length > 0) {	
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+		var text = Blockly.Xml.domToText(xml);
+		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+
+//		try { 
+//			var isFileSaverSupported = !!new Blob(); 
+//			if (isFileSaverSupported) {
+//				alert("sopported!");
+//				var blob = new Blob([text], {type: "text/plain;charset=utf-8"});	
+//				saveAs(blob, name + ".xml");
+//			}			
+//		} catch(e) {}
+
+		link.href = 'data:text/xml;charset=UTF8,' + text; 
+		link.download = name + '.xml';
+	} else {
+		link.href = 'javascript:void(0)'; 
+		link.download = '';
+	}
 };
 
 /**
@@ -290,13 +297,13 @@ function bxReady() {
 		Yatay.Tablet.behaviours.push([id, text, name, size]);
 					
 		var list = $("<li>" +
-						"<div id=\"" + id + "\" class=\"image-container\">" +
-							"<div class=\"image-inner-container\">" +
-								"<p class=\"overlay\">" + name + "</p>" +                                
-								"<img src=\"images/bx.png\" />" +
-							"</div>" +
+					"<div id=\"" + id + "\" class=\"image-container\">" +
+						"<div class=\"image-inner-container\">" +
+							"<p class=\"overlay\">" + name + "</p>" +                                
+							"<img src=\"images/bx.png\" />" +
 						"</div>" +
-					 "</li>");
+					"</div>" +
+				 "</li>");
 		list.appendTo($("#bx_list"));
 		
 		document.getElementById(id).onclick = bxToWorkspace;

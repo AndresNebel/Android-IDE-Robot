@@ -25,12 +25,10 @@ textarea {
 	height: 100%;
 }
 
-/* Bootstrap modification */
 .navbar .nav,
 .navbar .nav > li {
 	float: left !important;
 	display: inline-block !important;
-/*	left: 28% !important;*/
 	vertical-align: top;
 }
 
@@ -91,8 +89,8 @@ textarea {
     width: 100%;
     margin: 12px 20px;
 }
-#divResults
-{
+
+#divResults {
    background-color: #CCCCCC;
     border: 1px solid #555555;
     border-radius: 12px;
@@ -105,33 +103,33 @@ textarea {
     width: 15%;
 	bottom:5px;
 }
-#divResults span
-{
+
+#divResults span {
 	position: relative;
     top: 15.5%;
     vertical-align: text-top;
 	font-size: 97%;
 }
 
-#spnResSensor
-{
+#spnResSensor {
 	margin-right: 2.2%;
 }
 
-.btnCloseDialog
-{
+.btnCloseDialog {
 	position:absolute;
 	top:1px;
 	right:4px;
 }
 
-.leftBar
-{
+.leftBar {
 	width:70px !important;
 	height:100% !important;	
 	margin-left:0% !important;
 }
-.brand
-{
-	display:none !important
+.brand {
+	display:none !important;
+}
+
+.linkWrapper {
+	margin: -12px -14px;
 }

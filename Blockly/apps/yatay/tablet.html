@@ -24,13 +24,15 @@
 			<div class="container leftBar">	
 				<ul class="nav">
 					<li>
-						<input type="image" id="btn_load" onclick="openFileChooser()" src="images/open.png" class="imgclick cursorHover controlBtn" />						
+						<input type="image" id="btn_load" onclick="openFileChooser()" src="images/open.png" class="imgclick cursorHover controlBtn" />
 					</li>	
-					<li>
-						<input type="image" id="btn_save" onclick="toXml()" src="images/save.png" class="imgclick cursorHover controlBtn" />
+					<li>					
+						<a class="linkWrapper" download="" href="javascript:void(0)" onclick="toXml(this)">
+							<input type="image" id="btn_save" src="images/save.png" class="imgclick cursorHover controlBtn"/>		
+						</a>
 					</li>
 					<li>						
-						<input type="image" id="btn_robotest" onclick="robotest()" src="images/butia.png" class="imgclick cursorHover controlBtn" />						
+						<input type="image" id="btn_robotest" onclick="robotest()" src="images/butia.png" class="imgclick cursorHover controlBtn" />	
 					</li>
 					<li>
 						<input type="image" id="btn_run" onclick="runTasks()" src="images/play.png" class="imgclick cursorHover controlBtn" />
@@ -42,7 +44,7 @@
 						<input type="image" id="btn_debug" onclick="debug()" src="images/debug.png" class="imgclick cursorHover controlBtn"  style="display: none;"/>
 					</li>
 					<li>
-						<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />						
+						<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />
 					</li>	
 					<li>
 						<input type="image" id="btn_trash" onclick="$('#trashButton').click();" src="images/delete.png" class="imgclick cursorHover controlBtn" />
