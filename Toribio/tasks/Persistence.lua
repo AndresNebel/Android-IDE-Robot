@@ -1,6 +1,6 @@
 local M = {}
 
-local sqlite3 = require("lsqlite3")
+local sqlite3 = require('lsqlite3')
 
 local db = sqlite3.open('Yatay.db')
 
@@ -33,10 +33,11 @@ M.init = function(conf)
 	db:exec('CREATE TABLE Yatay (name VARCHAR PRIMARY KEY, code VARCHAR)')
 	db:exec('commit')
 	
-	exist_stmt = assert(db:prepare("SELECT * FROM Yatay WHERE name = ?"))
-	insert_stmt = assert(db:prepare("INSERT INTO Yatay VALUES (?, ?)"))
-	update_stmt =  assert(db:prepare("UPDATE Yatay SET code = ? WHERE name = ?"))
+	exist_stmt = assert(db:prepare('SELECT * FROM Yatay WHERE name = ?'))
+	insert_stmt = assert(db:prepare('INSERT INTO Yatay VALUES (?, ?)'))
+	update_stmt =  assert(db:prepare('UPDATE Yatay SET code = ? WHERE name = ?'))
 
+	print('DataBase is up...')
 --	assert(db:close() == sqlite3.OK)
 end
 
