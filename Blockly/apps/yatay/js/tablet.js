@@ -23,13 +23,7 @@ Yatay.Tablet.behaviours = [];
  * Test mode status
  * @type {bool}
  */
-Yatay.Tablet.testMode = false; 
-
-/**
- * Count workspace blocks
- * @type {int}
- */
-Yatay.Tablet.countBlocks = 0;
+Yatay.Tablet.testMode = false;
 
 /**
  * Load tablet.html 
@@ -44,7 +38,7 @@ $(document).ready(function(){
 				"</div>");
 	list.appendTo($("#bx_ready"));
 	
-	$("#content_blocks").click(autoSave);
+	//$("#content_blocks").click(autoSave);
 });
 
 /**
@@ -179,16 +173,17 @@ function toXml(link) {
 		var text = Blockly.Xml.domToText(xml);
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
 
-//		try { 
-//			var isFileSaverSupported = !!new Blob(); 
-//			if (isFileSaverSupported) {
-//				alert("sopported!");
-//				var blob = new Blob([text], {type: "text/plain;charset=utf-8"});	
-//				saveAs(blob, name + ".xml");
-//			}			
-//		} catch(e) {}
-
-		link.href = 'data:text/xml;charset=UTF8,' + text; 
+/**		FileSaver alternative
+ *		try { 
+ *			var isFileSaverSupported = !!new Blob(); 
+ *			if (isFileSaverSupported) {
+ *				alert("sopported!");
+ *				var blob = new Blob([text], {type: "text/plain;charset=utf-8"});	
+ *				saveAs(blob, name + ".xml");
+ *			}			
+ *		} catch(e) {}
+ */
+		link.href = 'data:text/xml;charset=UTF-8,' + text; 
 		link.download = name + '.xml';
 	} else {
 		link.href = 'javascript:void(0)'; 
@@ -266,7 +261,7 @@ $('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextare
 /**
  * Image click correction
  */
- function imgClickCorrection() {
+function imgClickCorrection() {
 	$(".imgclick").mousedown(function(){
 		var mrgtb = parseInt($(this).css("margin-top"));
 		var mrglf = parseInt($(this).css("margin-left"));
@@ -325,22 +320,6 @@ function bxToWorkspace() {
 				bxReady();
 			}
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
-		}
-	}
-};
-
-/**
- * Autosave Listener
- */
-function autoSave(){
-	return;
-	if (Blockly.mainWorkspace != null) {
-		if (Yatay.Tablet.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
-			Yatay.Tablet.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
-			var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-			var code = Blockly.Xml.domToText(xml);
-			var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-			Yatay.Common.saveTask(name, code);
 		}
 	}
 };
