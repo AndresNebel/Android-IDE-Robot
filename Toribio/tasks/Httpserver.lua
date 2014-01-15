@@ -41,14 +41,8 @@ local function saveTask(code, name)
 	coroutine.resume(c)
 end
 
---Pop blocking intenta hacer pop de la cola de resultados. Si no encuentra nada
---se duerme un tiempo esperando por el evento de nuevo resultado (emitido por 
---RobotInterface al ejecutar un sensor con resultado). Si luego de despertarse 
---aun no hay resultados (desperto por timeout y no por evento de nuevo resultado), 
---retorna vacío.
 local function pop_blocking(name, ev_name)
 --	print('Results:', ev_name, name)
-
 	if (name ~= nil) then
 		return name
 	end
@@ -79,6 +73,8 @@ local function select_action(id, code, name)
 		return pop_blocking(yataySensorResults,'NewSensorResult')
 	elseif (id == 'pollDebug') then
 		return pop_blocking(yatayDebugResults,'NewDebugResult')
+	elseif (id == 'save') then
+		saveTask(code, name)
 	end
 	return ""
 end
@@ -99,18 +95,18 @@ M.init = function(conf)
 		'/index.html',
 		function(method, path, http_params, http_header)	
 			local content = select_action(http_params['id'], http_params['code'], http_params['name'])
-		--	print('request:',http_params['id'],content, #content)
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
 	
 	local conf = {
-		ip= '192.168.1.42',
+		ip= '192.168.1.6',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},
 	}
 	http_server.init(conf)
+
 	print('Server is up...')
 end
 
