@@ -47,11 +47,11 @@ Yatay.Common.killTasks = function() {
  * Save current task
  */
 Yatay.Common.saveTask = function(name, code) {
-	var values = escape(code);
+	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: { id:'save', name:name, code:values},
+		data: { id:'save', name:name, code:values },
 		success: function(content){
 			//alert("success");
 		},
@@ -64,12 +64,10 @@ Yatay.Common.saveTask = function(name, code) {
 /**
  * Long Poll for results
  */
-function pollResults()
-{
-	setTimeout(function(){
+function pollResults() {
+	setTimeout(function() {
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_stop').css("display") != "none")
-		{
+		if ($('#btn_stop').css("display") != "none")	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
@@ -95,26 +93,21 @@ function pollResults()
 				},
 				complete: pollResults
 			});
-		}
-		else
-		{
+		} else {
 				$("#spnResSensor").text('');
 				$("#spnResValue").text('');
 		}
-	},1000);
+	}, 1000);
 }
 
 
 /**
  * Long Poll for debug
  */
-
-function debugPoll()
-{
+function debugPoll() {
 	setTimeout(function(){
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_stop').css("display") != "none")
-		{
+		if ($('#btn_stop').css("display") != "none")	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
@@ -145,14 +138,10 @@ function debugPoll()
 				},
 				complete: debugPoll
 			});
-		}
-		else
-		{
-			if (Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock) != null)
-			{
+		} else {
+			if (Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock) != null)	{
 				Blockly.mainWorkspace.getBlockById(Yatay.DebugLastBlock).unselect()
 			}
-		}
-		
-	},500);
+		}	
+	}, 500);
 }
