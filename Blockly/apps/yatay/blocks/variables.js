@@ -23,6 +23,71 @@
  */
 'use strict';
 
+
+Blockly.Blocks['variables_sensor_get'] = {
+  // Variable getter.
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
+    this.setColour(200);
+    this.appendDummyInput()
+        .appendTitle(Yatay.Msg.COMPLEX_SENSOR_GET_TITLE)
+        .appendTitle(new Blockly.FieldVariable(
+        Blockly.Msg.VARIABLES_GET_ITEM), 'VAR')
+        .appendTitle(" ");
+    this.setOutput(true);
+    this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
+    this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
+    this.contextMenuType_ = 'variables_sensor_set';
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
+      this.setTitleValue(newName, 'VAR');
+    }
+  },
+  customContextMenu: function(options) {
+    var option = {enabled: true};
+    var name = this.getTitleValue('VAR');
+    option.text = this.contextMenuMsg_.replace('%1', name);
+    var xmlTitle = goog.dom.createDom('title', null, name);
+    xmlTitle.setAttribute('name', 'VAR');
+    var xmlBlock = goog.dom.createDom('block', null, xmlTitle);
+    xmlBlock.setAttribute('type', this.contextMenuType_);
+    option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
+    options.push(option);
+  }
+};
+
+Blockly.Blocks['variables_sensor_set'] = {
+  // Variable setter.
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
+    this.setColour(200);
+    this.appendValueInput('VALUE')
+        .appendTitle(Yatay.Msg.COMPLEX_SENSOR_SET_TITLE)
+        .appendTitle(new Blockly.FieldVariable(
+        Blockly.Msg.VARIABLES_SET_ITEM), 'VAR')
+        .appendTitle(" ");
+    this.setPreviousStatement(true);
+	this.setInputsInline(true);
+    this.setNextStatement(true);
+    this.setTooltip(Blockly.Msg.VARIABLES_SET_TOOLTIP);
+    this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
+    this.contextMenuType_ = 'variables_sensor_get';
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
+      this.setTitleValue(newName, 'VAR');
+    }
+  },
+  customContextMenu: Blockly.Blocks['variables_sensor_get'].customContextMenu
+};
+
 Blockly.Blocks['variables_print'] = {
   // Text value.
   init: function() {
@@ -117,6 +182,5 @@ Blockly.Blocks['variables_text'] = {
     this.setTooltip(Blockly.Msg.TEXT_TEXT_TOOLTIP);
   }
 };
-
 
 

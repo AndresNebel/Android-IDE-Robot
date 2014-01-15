@@ -33,7 +33,8 @@ document.write('<script type="text/javascript" src="generated/' + 'es' + '.js"><
  * Create a namespace for the application.
  */
 var Yatay = {};
-
+Yatay.variables = new Array();
+Yatay.complex_sensors = new Array();
 /**
  * Initialize Blockly.  Called on page load.
  */
@@ -174,4 +175,48 @@ Yatay.leaveTestMode = function(){
 	Blockly.Toolbox.tree_.children_[2].dispose();
 	Blockly.Toolbox.init();
 	Blockly.mainWorkspace.maxBlocks = "Infinite";
+}
+
+
+Yatay.ExistVariable = function(variable){
+	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+	if (Yatay.variables[name] == null)	
+	{
+		Yatay.variables[name] = new Array();
+		Yatay.variables[name][variable] = true;
+		return false;
+	}
+	else if (Yatay.variables[name][variable] == null)
+	{
+		Yatay.variables[name][variable] = true;
+		return false;
+	}
+	else
+		return true;
+}
+
+Yatay.ReturnCustomSensor = function(sensor){
+	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+	if (Yatay.complex_sensors[name] == null)	
+	{
+		Yatay.complex_sensors[name] = new Array();
+		return "";
+	}
+	else if (Yatay.complex_sensors[name][sensor] != null)
+	{
+		return Yatay.complex_sensors[name][sensor];
+	}
+	else
+		return "";
+}
+
+Yatay.CreateCustomSensor = function(sensor, code)
+{
+	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+	if (Yatay.complex_sensors[name] == null)	
+	{
+		Yatay.complex_sensors[name] = new Array();		
+	}
+	Yatay.complex_sensors[name][sensor] = code;
+	return;
 }

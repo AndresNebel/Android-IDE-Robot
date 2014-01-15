@@ -101,7 +101,7 @@ function pollResults()
 				$("#spnResSensor").text('');
 				$("#spnResValue").text('');
 		}
-	},1000);
+	},500);
 }
 
 
@@ -155,4 +155,22 @@ function debugPoll()
 		}
 		
 	},500);
+}
+
+
+
+function createBlocksForSensors()
+{
+	$.ajax({
+		url: "/index.html",
+		type: "POST",
+		data: { id:'getSensorsFunc', code:''},
+		success: function(content){
+			//alert("success");
+		},
+		error:function(){
+			//alert("failure");
+		}
+	});
+
 }

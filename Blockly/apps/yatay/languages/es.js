@@ -85,6 +85,8 @@ Yatay.Msg.VARIABLES_GET_CREATE_SET = "";
 Yatay.Msg.VARIABLES_SET_TITLE = "guardar en";
 Yatay.Msg.VARIABLES_SET_TAIL = "";
 Yatay.Msg.VARIABLES_PRINT = "imprimir";
+Yatay.Msg.COMPLEX_SENSOR_SET_TITLE = "crear sensor ";
+Yatay.Msg.COMPLEX_SENSOR_GET_TITLE = "sensor "
 
 //Math Messages 
 Yatay.Msg.MATH_CONSTRAIN_HELPURL = "";

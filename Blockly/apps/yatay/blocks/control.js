@@ -125,7 +125,7 @@ Blockly.Blocks['controls_if'] = {
         case 'controls_if_else':
           this.elseCount_++;
           var elseInput = this.appendStatementInput('ELSE');
-          elseInput.appendTitle(Blockly.Msg.CONTROLS_IF_MSG_ELSE);
+          elseInput.appendTitle(Yatay.Msg.CONTROLS_IF_MSG_ELSE);
           // Reconnect any child blocks.
           if (clauseBlock.statementConnection_) {
             elseInput.connection.connect(clauseBlock.statementConnection_);

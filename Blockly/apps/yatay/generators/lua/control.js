@@ -93,6 +93,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
 
   var code = "" +
   "local M = {}\n" +
+  'require "math"\n'+
   "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
   "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 
@@ -144,6 +145,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
 
   var code = "" +
   "local M = {}\n" +
+  'require "math"\n'+
   "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
   "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 

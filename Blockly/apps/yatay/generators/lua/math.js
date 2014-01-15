@@ -38,16 +38,17 @@ Blockly.Lua["math_number"] = function() {
 
 Blockly.Lua["math_arithmetic"] = function(opt_dropParens) {
   // Basic arithmetic operators, and power.
-  var argument0 = Blockly.Lua.valueToCode(this, 'A') || '0';
-  var argument1 = Blockly.Lua.valueToCode(this, 'B') || '0';
+  var argument0 = Blockly.Lua.statementToCode(this, 'A')  || '0' ;
+  var argument1 = Blockly.Lua.statementToCode(this, 'B') || '0' ;
+  
   var code;
 
   var mode = this.getTitleValue('OP');
   if (mode == 'POWER') {
-    code = 'Math.pow(' + argument0 + ', ' + argument1 + ')';
+    code = 'math.pow(' + argument0 + ', ' + argument1 + ')';
   } else {
     var operator = Blockly.Lua.math_arithmetic.OPERATORS[mode];
-    code = argument0 + operator + argument1;
+    code = "tonumber(" + argument0.trimLeft() + ")" + operator + "tonumber(" + argument1.trimLeft() + ")" ;
     if (!opt_dropParens) {
       code = '(' + code + ')';
     }
@@ -64,7 +65,7 @@ Blockly.Lua["math_arithmetic"].OPERATORS = {
 
 Blockly.Lua["math_change"] = function() {
   // Add to a variable in place.
-  var argument0 = Blockly.Lua.valueToCode(this, 'DELTA') || '0';
+  var argument0 = Blockly.Lua.statementToCode(this, 'DELTA') || '0';
   var varName = Blockly.Lua.variableDB_.getName(this.getTitleText('VAR'),
       Blockly.Variables.NAME_TYPE);
   return varName + ' = (typeof ' + varName + ' == \'number\' ? ' + varName +
@@ -73,44 +74,44 @@ Blockly.Lua["math_change"] = function() {
 
 Blockly.Lua["math_single"] = function(opt_dropParens) {
   // Math operators with single operand.
-  var argNaked = Blockly.Lua.valueToCode(this, 'NUM', true) || '0';
-  var argParen = Blockly.Lua.valueToCode(this, 'NUM', false) || '0';
+  var argNaked = Blockly.Lua.statementToCode(this, 'NUM', true) || '0';
+  var argParen = Blockly.Lua.statementToCode(this, 'NUM', false) || '0';
   var operator = this.getTitleValue('OP');
   var code;
   // First, handle cases which generate values that don't need parentheses wrapping the code.
   switch (operator) {
     case 'ABS':
-      code = 'Math.abs(' + argNaked + ')';
+      code = 'math.abs( tonumber(' + argNaked + '))';
       break;
     case 'ROOT':
-      code = 'Math.sqrt(' + argNaked + ')';
+      code = 'math.sqrt( tonumber('  + argNaked + '))';
       break;
     case 'LN':
-      code = 'Math.log(' + argNaked + ')';
+      code = 'math.log( tonumber(' + argNaked + '))';
       break;
     case 'EXP':
-      code = 'Math.exp(' + argNaked + ')';
+      code = 'math.exp( tonumber('  + argNaked + '))';
       break;
     case '10POW':
-      code = 'Math.pow(10,' + argNaked + ')';
+      code = 'math.pow(10, tonumber('  + argNaked + '))';
       break;
     case 'ROUND':
-      code = 'Math.round(' + argNaked + ')';
+      code = 'math.round( tonumber('  + argNaked + '))';
       break;
     case 'ROUNDUP':
-      code = 'Math.ceil(' + argNaked + ')';
+      code = 'math.ceil( tonumber('  + argNaked + '))';
       break;
     case 'ROUNDDOWN':
-      code = 'Math.floor(' + argNaked + ')';
+      code = 'math.floor( tonumber('  + argNaked + '))';
       break;
     case 'SIN':
-      code = 'Math.sin(' + argParen + ' / 180 * Math.PI)';
+      code = 'math.sin( tonumber('  + argParen + ') / 180 * math.PI)';
       break;
     case 'COS':
-      code = 'Math.cos(' + argParen + ' / 180 * Math.PI)';
+      code = 'math.cos( tonumber('  + argParen + ') / 180 * math.PI)';
       break;
     case 'TAN':
-      code = 'Math.tan(' + argParen + ' / 180 * Math.PI)';
+      code = 'math.tan( tonumber('  + argParen + ') / 180 * math.PI)';
       break;
   }
   if (code) {
@@ -122,16 +123,16 @@ Blockly.Lua["math_single"] = function(opt_dropParens) {
       code = '-' + argParen;
       break;
     case 'LOG10':
-      code = 'Math.log(' + argNaked + ') / Math.log(10)';
+      code = 'math.log(' + argNaked + ') / math.log(10)';
       break;
     case 'ASIN':
-      code = 'Math.asin(' + argNaked + ') / Math.PI * 180';
+      code = 'math.asin(' + argNaked + ') / math.PI * 180';
       break;
     case 'ACOS':
-      code = 'Math.acos(' + argNaked + ') / Math.PI * 180';
+      code = 'math.acos(' + argNaked + ') / math.PI * 180';
       break;
     case 'ATAN':
-      code = 'Math.atan(' + argNaked + ') / Math.PI * 180';
+      code = 'math.atan(' + argNaked + ') / math.PI * 180';
       break;
     default:
       throw 'Unknown math operator.';
@@ -157,10 +158,10 @@ Blockly.Lua.math_on_list = function() {
       code = list + '.reduce(function(x, y) {return x + y;})';
       break;
     case 'MIN':
-      code = 'Math.min.apply(null,' + list + ')';
+      code = 'math.min.apply(null,' + list + ')';
       break;
     case 'MAX':
-      code = 'Math.max.apply(null,' + list + ')';
+      code = 'math.max.apply(null,' + list + ')';
       break;
     case 'AVERAGE':
       code = '(' + list + '.reduce(function(x, y) {return x + y;})/' + list +
@@ -217,7 +218,7 @@ Blockly.Lua.math_on_list = function() {
         func.push('      counts.push([value, 1]);');
         func.push('      thisCount = 1;');
         func.push('    }');
-        func.push('    maxCount = Math.max(thisCount, maxCount);');
+        func.push('    maxCount = math.max(thisCount, maxCount);');
         func.push('  }');
         func.push('  for (var j = 0; j < counts.length; j++) {');
         func.push('    if (counts[j][1] == maxCount) {');
@@ -242,10 +243,10 @@ Blockly.Lua.math_on_list = function() {
         func.push('  var mean = numbers.reduce(function(x, y) {return x + y;}) / n;');
         func.push('  var variance = 0;');
         func.push('  for (var j = 0; j < n; j++) {');
-        func.push('    variance += Math.pow(numbers[j] - mean, 2);');
+        func.push('    variance += math.pow(numbers[j] - mean, 2);');
         func.push('  }');
         func.push('  variance = variance / n;');
-        func.push('  standard_dev = Math.sqrt(variance);');
+        func.push('  standard_dev = math.sqrt(variance);');
         func.push('  return standard_dev;');
         func.push('}');
         Blockly.Lua.definitions_['math_standard_deviation'] = func.join('\n');
@@ -253,7 +254,7 @@ Blockly.Lua.math_on_list = function() {
       code = Blockly.Lua.math_on_list.math_standard_deviation + '(' + list + ')';
       break;
     case 'RANDOM':
-      code = list + '[Math.floor(Math.random() * ' + list + '.length)]';
+      code = list + '[math.floor(math.random() * ' + list + '.length)]';
       break;
     default:
       throw 'Unknown operator.';
@@ -266,7 +267,7 @@ Blockly.Lua.math_constrain = function() {
   var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
   var argument1 = Blockly.Lua.valueToCode(this, 'LOW', true) || '0';
   var argument2 = Blockly.Lua.valueToCode(this, 'HIGH', true) || '0';
-  return 'Math.min(Math.max(' + argument0 + ', ' + argument1 + '), ' + argument2 + ')';
+  return 'math.min(math.max(' + argument0 + ', ' + argument1 + '), ' + argument2 + ')';
 };
 
 Blockly.Lua.math_modulo = function(opt_dropParens) {
@@ -284,8 +285,8 @@ Blockly.Lua.math_random_int = function() {
   // Random integer between [X] and [Y].
   var argument0 = Blockly.Lua.valueToCode(this, 'FROM') || '0';
   var argument1 = Blockly.Lua.valueToCode(this, 'TO') || '0';
-  var rand1 = 'Math.floor(Math.random() * (' + argument1 + ' - ' + argument0 + ' + 1' + ') + ' + argument0 + ')';
-  var rand2 = 'Math.floor(Math.random() * (' + argument0 + ' - ' + argument1 + ' + 1' + ') + ' + argument1 + ')';
+  var rand1 = 'math.floor(math.random() * (' + argument1 + ' - ' + argument0 + ' + 1' + ') + ' + argument0 + ')';
+  var rand2 = 'math.floor(math.random() * (' + argument0 + ' - ' + argument1 + ' + 1' + ') + ' + argument1 + ')';
   var code;
   if (argument0.match(/^[\d\.]+$/) && argument1.match(/^[\d\.]+$/)) {
     if (parseFloat(argument0) < parseFloat(argument1)) {
@@ -301,5 +302,5 @@ Blockly.Lua.math_random_int = function() {
 
 Blockly.Lua.math_random_float = function() {
   // Random fraction between 0 and 1.
-  return 'Math.random()';
+  return 'math.random()';
 };

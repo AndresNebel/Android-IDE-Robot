@@ -32,24 +32,32 @@ goog.require('Blockly.Lua');
 
 
 Blockly.Lua["variables_get"] = function(block) {
-  // Variable getter.
-  return Yatay.VariableDB.getName(this.getTitleText('VAR'),
-      Blockly.Variables.NAME_TYPE);
+  // Variable getter
+  return this.getTitleValue('VAR');
 };
 
 Blockly.Lua["variables_set"] = function(block) {
   // Variable setter.
-  var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
-  var varName = Blockly.Lua.variableDB_.getName(
-      this.getTitleText('VAR'), Blockly.Variables.NAME_TYPE);
-  return varName + ' = ' + argument0 + ';\n';
+  var argument0 = Blockly.Lua.statementToCode(this, 'VALUE', true) || '0';
+  var prefix = "";
+  if (!Yatay.ExistVariable(this.getTitleValue('VAR')))
+    prefix = "local ";   	
+
+  var debugTrace = "";
+
+  if (Yatay.DebugMode)
+  {
+	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+  }
+
+  return debugTrace + prefix + this.getTitleValue('VAR') + ' = ' + argument0 + '\n';
 };
 
 Blockly.Lua["variables_text"] = function(block) {
   // Variable setter.
   var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
   var varName = Blockly.Lua.variableDB_.getName(
-      this.getTitleText('VAR'), Blockly.Variables.NAME_TYPE);
+      block.getTitleText('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' = ' + argument0 + ';\n';
 };
 
@@ -58,4 +66,17 @@ Blockly.Lua["variables_print"] = function(block) {
   // Variable getter.
   var text = block.getTitleValue('TEXT');
   return "print('"+ text +"')\n robot.deliverResultToWebServer('" + text + "')\n";
+};
+
+
+Blockly.Lua["variables_sensor_get"] = function(block) {
+  // Variable getter
+  return Yatay.ReturnCustomSensor(this.getTitleValue('VAR'));
+};
+
+Blockly.Lua["variables_sensor_set"] = function(block) {
+  // Variable setter.
+  var argument0 = Blockly.Lua.statementToCode(this, 'VALUE', true) || '0';
+  Yatay.CreateCustomSensor(this.getTitleValue('VAR'), argument0);
+  return "";
 };

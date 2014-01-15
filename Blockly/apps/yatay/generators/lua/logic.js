@@ -55,10 +55,10 @@ Blockly.Lua["logic_compare"].OPERATORS = {
 
 Blockly.Lua["logic_operation"] = function(opt_dropParens) {
   // Operations 'and', 'or'.
-  var argument0 = Blockly.Lua.valueToCode(this, 'A') || 'false';
-  var argument1 = Blockly.Lua.valueToCode(this, 'B') || 'false';
+  var argument0 = Blockly.Lua.statementToCode(this, 'A') || 'false';
+  var argument1 = Blockly.Lua.statementToCode(this, 'B') || 'false';
   var operator = (this.getTitleValue('OP') == 'AND') ? 'and' : 'or';
-  var code = argument0 + ' ' + operator + ' ' + argument1;
+  var code = "(" + argument0.trimLeft() + ') ' + operator + ' (' + argument1.trimLeft() +")";
   if (!opt_dropParens) {
     code = '(' + code + ')';
   }
@@ -67,7 +67,7 @@ Blockly.Lua["logic_operation"] = function(opt_dropParens) {
 
 Blockly.Lua["logic_negate"] = function(opt_dropParens) {
   // Negation.
-  var argument0 = Blockly.Lua.valueToCode(this, 'BOOL') || 'false';
+  var argument0 = Blockly.Lua.statementToCode(this, 'BOOL') || 'false';
   var code = 'not ' + argument0;
   if (!opt_dropParens) {
     code = '(' + code + ')';

@@ -7,19 +7,108 @@ html {
 }
 
 body {
-	background: url(../images/bg2.jpg) repeat;
-	font-family: sans-serif;
+	background: url(../images/bg.png) repeat;
 }
-h1 {
-	font-weight: normal;
-	font-size: 140%;
+
+textarea { 
+	width: 200px; 
+	min-width:200px; 
+	max-height:200px; 
+
+	height: 200px; 
+	min-height: 200px;  
+	max-height: 200px;
 }
-#svg {
-	float: left;
-	margin: 4% 24%;
-	height: 90%;
-	width: 52%;
+
+.content {
+	top: 11% !important;
+	left: 2% !important;
+	width: 96% !important;
+	height: 87% !important;
 }
-.blocklySvg {
-	border: 1px solid black;
+
+.blocklyTreeLabel  {
+	font-size: 10pt !important;
+}
+
+.blocklyText {
+	font-size: 8pt !important;
+}
+
+.blocklyTooltipText {
+	font-size: 6pt !important;
+}
+
+.full-area {
+	width: 96%;
+	height: 100%;
+}
+
+.navbar .nav,
+.navbar .nav > li {
+	float: left !important;
+	display: inline-block !important;
+	left: 2% !important;
+	vertical-align: top;
+}
+
+.navbar-fixed-top{
+	line-height: 4% !important;
+}
+
+.navbar-inner {
+	text-align: center;
+}
+
+header >.navbar .brand {
+	float: right !important;
+	display: inline-block !important;
+	left: 10% !important;
+	position: relative;
+	font-weight: bold;
+	color: #000;
+	text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+	-webkit-transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	transition: all .2s linear;
+	margin: 1%;
+}
+
+header > .navbar .btn {
+	margin: 10%;
+}
+
+.bx {
+	position: fixed;
+	top: 9%;
+	right: 16%;
+	background-image: url(../images/bg2.png);
+}
+
+.cursorHover:hover{
+	cursor: pointer;	
+}
+
+.controlBtn {
+	margin-top: 8%;
+	margin-right: 2%;
+}
+
+.image-container {
+    width: 180px;
+    height: 40px;
+    overflow: hidden;
+    position: relative;
+	cursor: pointer;
+}
+
+.image-inner-container {
+    position: absolute;
+}
+
+.overlay {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    margin: 5% 13%;
 }
