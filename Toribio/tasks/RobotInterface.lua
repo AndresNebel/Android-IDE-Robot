@@ -72,8 +72,8 @@ M.list_devices_functions = function(device_type)
 end
 
 M.put_debug_result = function(blockId)
-						yatayDebugResults = blockId
-						--print('rob:put_debug', yatayDebugResults)
+						yatayDebugResults = activeBehaviour.name..':'..activeBehaviour.blockId..':'..blockId
+					--	print('rob:put_debug', yatayDebugResults)
 						sched.signal('NewDebugResult')
 						sched.sleep(0.7)
    					end

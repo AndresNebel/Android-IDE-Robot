@@ -79,6 +79,8 @@ local function select_action(id, code, name)
 		return pop_blocking(yataySensorResults,'NewSensorResult')
 	elseif (id == 'pollDebug') then
 		return pop_blocking(yatayDebugResults,'NewDebugResult')
+	--elseif (id == 'getSensorsFunc') then
+		
 	end
 	return ""
 end
@@ -105,7 +107,7 @@ M.init = function(conf)
 	)
 	
 	local conf = {
-		ip= '192.168.1.42',
+		ip= '192.168.1.46',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},
