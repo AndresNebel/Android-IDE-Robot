@@ -20,6 +20,16 @@ local function initTask(code)
 	coroutine.resume(c)
 end
 
+local function testRobot(code)
+	local decoded_task = url_decode(url_decode(code))		
+		local c = coroutine.create(
+		function ()
+				local executor = require 'tasks/Executor'
+			executor.test_robot(decoded_task)
+ 		end)
+	coroutine.resume(c)
+end
+
 local function killTasks()
 	yataySensorResults = nil
 	yatayDebugResults = nil
@@ -75,6 +85,8 @@ local function select_action(id, code, name)
 		return pop_blocking(yatayDebugResults,'NewDebugResult')
 	elseif (id == 'save') then
 		saveTask(code, name)
+	elseif (id == 'test') then
+		testRobot(code)
 	end
 	return ""
 end
@@ -100,7 +112,7 @@ M.init = function(conf)
 	)
 	
 	local conf = {
-		ip= '192.168.1.6',
+		ip= '192.168.1.46',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

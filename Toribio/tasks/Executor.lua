@@ -35,28 +35,47 @@ M.kill_tasks = function()
 
 
 M.create_task = function(task)
-					local code, errorCompilacion = loadstring(task)
-					if (not errorCompilacion) then	
-						local ok, tasktable = pcall(code)
-						if (not ok) then
-							print("Yatay detecto un error al ejecutar la task:")
-							print(tasktable)
-						else
-							--Control: tarea ya existente?
-							if (not exist(tasktable.name)) then
-								local newTask = sched.new_task(code)
-								tasktable.init(true)
-								behaviours:register(tasktable.name, tasktable)
-								RBTManagerActivate = true
-								print('Task '.. tasktable.name ..' initialized!')
+						local code, errorCompilacion = loadstring(task)
+						if (not errorCompilacion) then	
+							local ok, tasktable = pcall(code)
+							if (not ok) then
+								print("Yatay detecto un error al ejecutar la task:")
+								print(tasktable)
 							else
-								print('Task '.. tasktable.name ..' already exist.')
+								--Control: tarea ya existente?
+								if (not exist(tasktable.name)) then
+									local newTask = sched.new_task(code)
+									tasktable.init(true)
+									behaviours:register(tasktable.name, tasktable)
+									RBTManagerActivate = true
+									print('Task '.. tasktable.name ..' initialized!')
+								else
+									print('Task '.. tasktable.name ..' already exist.')
+								end
 							end
+						else
+								print("Yatay detecto un error al compilar la task:")
+								print(errorCompilacion)
 						end
-					else
-							print("Yatay detecto un error al compilar la task:")
-							print(errorCompilacion)
 					end
+
+M.test_robot = function(task)
+						local code, errorCompilacion = loadstring(task)
+						if (not errorCompilacion) then	
+							local ok, tasktable = pcall(code)
+							if (not ok) then
+								print("Yatay detecto un error al ejecutar la task:")
+								print(tasktable)
+							else
+								--Control: tarea ya existente?
+								local newTask = sched.new_task(code)
+								print('A robot test is running')							
+								tasktable.run()
+							end
+						else
+								print("Yatay detecto un error al compilar la task:")
+								print(errorCompilacion)
+						end
 					end
 
 

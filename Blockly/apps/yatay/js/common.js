@@ -27,6 +27,26 @@ Yatay.Common.sendTasks = function(code) {
 }
 
 /**
+ * Sends Robot test block to server
+ */
+Yatay.Common.testRobot = function(code) {
+	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
+	$.ajax({
+		url: "/index.html",
+		type: "POST",
+		data: { id:'test', code:values},
+		success: function() {
+			//alert("success");
+		},
+		error:function() {
+			$("#spnResSensor").text('Intenta ejecutar otra vez.');
+			$('#divResults').show();
+		}
+	});
+}
+
+
+/**
  * Kill all tasks running
  */
 Yatay.Common.killTasks = function() {

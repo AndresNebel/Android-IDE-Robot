@@ -73,29 +73,45 @@ function runTasks(){
 	}
 	else
 	{
-		// Si hay bloques sin minimizar los marco listos
-		if (Blockly.mainWorkspace.getAllBlocks().length >0)
+		// Si es modo test
+		if (Yatay.Tablet.testMode)
 		{
-			bxReady()
+			var testTask = "" +
+					 "local M = {}\n" +			
+					 "local robot = require 'tasks/RobotInterface'\n" +
+					 "M.run = function ()\n" +
+						Blockly.Lua.workspaceToCode() +
+					 "end\n"+
+					 "return M\n"; 
+			Yatay.Common.testRobot(testTask);
+			pollResults();
 		}
-		
-		// Obteniendo los codigos de cada comportamiento
-		var codes = new Array();
-		for (var i = 0; i < Yatay.Tablet.behaviours.length; i++)
+		else
 		{
-			var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
-			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
-			var code = Blockly.Lua.workspaceToCode();
-			codes.push(code);
-		    Blockly.mainWorkspace.clear();
-		}		
+			// Si hay bloques sin minimizar los marco listos
+			if (Blockly.mainWorkspace.getAllBlocks().length >0)
+			{
+				bxReady()
+			}
 		
-		// Enviando los codigos al servidor
-		for (var i = 0; i < codes.length; i++)
-		{
-			Yatay.Common.sendTasks(codes[i]);
+			// Obteniendo los codigos de cada comportamiento
+			var codes = new Array();
+			for (var i = 0; i < Yatay.Tablet.behaviours.length; i++)
+			{
+				var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
+				var code = Blockly.Lua.workspaceToCode();
+				codes.push(code);
+				Blockly.mainWorkspace.clear();
+			}		
+		
+			// Enviando los codigos al servidor
+			for (var i = 0; i < codes.length; i++)
+			{
+				Yatay.Common.sendTasks(codes[i]);
+			}
+			pollResults();
 		}
-		pollResults();
 	}
 };
 
