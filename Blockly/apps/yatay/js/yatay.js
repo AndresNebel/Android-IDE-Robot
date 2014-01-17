@@ -83,7 +83,7 @@ Yatay.init = function() {
   Blockly.fireUiEvent(window, 'resize');
 
 
-  //Override the toolbox disable filter to hide the blocks i want
+	//Override the toolbox disable filter to hide the blocks i want
 	Blockly.Flyout.prototype.filterForCapacity_ = function() {
 	  var remainingCapacity = this.targetWorkspace_.remainingCapacity();
 	  var blocks = this.workspace_.getTopBlocks(false);
@@ -98,13 +98,61 @@ Yatay.init = function() {
 	  }
 	};
 
-  
-  // Lazy-load the syntax-highlighting.
-  window.setTimeout(BlocklyApps.importPrettify, 1);
-  
-  BlocklyApps.bindClick('trashButton',
-      function() {Yatay.discard();});  
-  setTimeout(function(){Blockly.mainWorkspace.render()},400);  
+	// Override Mouse-up handler including Autosave listener
+	Blockly.Block.prototype.onMouseUp_ = function(e) {
+		Blockly.terminateDrag_();
+		if (Blockly.selected && Blockly.highlightedConnection_) {
+			// Connect two blocks together.
+			Blockly.localConnection_.connect(Blockly.highlightedConnection_);
+			if (this.svg_) {
+		 		// Trigger a connection animation.
+		 		// Determine which connection is inferior (lower in the source stack).
+		 		var inferiorConnection;
+		 		if (Blockly.localConnection_.isSuperior()) {
+		   			inferiorConnection = Blockly.highlightedConnection_;
+				} else {
+		   			inferiorConnection = Blockly.localConnection_;
+		 		}
+		 		inferiorConnection.sourceBlock_.svg_.connectionUiEffect();
+			}
+
+			if (this.workspace.trashcan && this.workspace.trashcan.isOpen) {
+		 		// Don't throw an object in the trash can if it just got connected.
+		 		this.workspace.trashcan.close();
+			}
+		} else if (this.workspace.trashcan && this.workspace.trashcan.isOpen) {
+			var trashcan = this.workspace.trashcan;
+			goog.Timer.callOnce(trashcan.close, 100, trashcan);
+			Blockly.selected.dispose(false, true);
+			// Dropping a block on the trash can will usually cause the workspace to
+			// resize to contain the newly positioned block.  Force a second resize now
+			// that the block has been deleted.
+			Blockly.fireUiEvent(window, 'resize');
+		}
+		if (Blockly.highlightedConnection_) {
+			Blockly.highlightedConnection_.unhighlight();
+			Blockly.highlightedConnection_ = null;
+		}
+
+		// Autosave listener
+		if (Blockly.mainWorkspace != null) {
+			if (Yatay.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
+				Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
+				var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+				var code = Blockly.Xml.domToText(xml);
+				var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+				if (name != Yatay.Msg.CONTROL_BEHAVIOUR) {
+					Yatay.Common.saveTask(name, code);
+				}
+			}
+		}
+	};	
+	
+	// Lazy-load the syntax-highlighting.
+	window.setTimeout(BlocklyApps.importPrettify, 1);
+
+	BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  
+	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -195,26 +243,20 @@ Yatay.ExistVariable = function(variable){
 		return true;
 }
 
-Yatay.ReturnCustomSensor = function(sensor){
+Yatay.ReturnCustomSensor = function(sensor) {
 	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-	if (Yatay.complex_sensors[name] == null)	
-	{
+	if (Yatay.complex_sensors[name] == null) {
 		Yatay.complex_sensors[name] = new Array();
 		return "";
-	}
-	else if (Yatay.complex_sensors[name][sensor] != null)
-	{
+	} else if (Yatay.complex_sensors[name][sensor] != null) {
 		return Yatay.complex_sensors[name][sensor];
-	}
-	else
+	}else
 		return "";
 }
 
-Yatay.CreateCustomSensor = function(sensor, code)
-{
+Yatay.CreateCustomSensor = function(sensor, code) {
 	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-	if (Yatay.complex_sensors[name] == null)	
-	{
+	if (Yatay.complex_sensors[name] == null) {
 		Yatay.complex_sensors[name] = new Array();		
 	}
 	Yatay.complex_sensors[name][sensor] = code;

@@ -68,6 +68,11 @@ local function pop_blocking(name, ev_name)
 	return "";
 end 
 
+local function load_projs()
+	local pjadmin = require 'tasks/ProjectAdmin'		
+	return pjadmin.load_projs()
+end
+
 --local actions = { init=initTask, kill=killTasks, save=saveTask, poll=pop_result}
 
 local function select_action(id, code, name)
@@ -87,6 +92,8 @@ local function select_action(id, code, name)
 		saveTask(code, name)
 	elseif (id == 'test') then
 		testRobot(code)
+	elseif (id == 'loadProjs') then
+		return load_projs()
 	end
 	return ""
 end
@@ -99,6 +106,7 @@ M.init = function(conf)
 	http_server.serve_static_content_from_ram('/', 'Lumen/tasks/http-server/www')
 
 	--Inicializando la cola de resultados
+	--TODO: hacer una tabla de resultados
 	yataySensorResults = nil
 	yatayDebugResults = nil
 	

@@ -13,4 +13,14 @@ M.save_task = function(name, task)
 	end
 end
 
+M.load_projs = function()
+--	local result = {}
+--	local projs = persistence.get_projects()
+--	for p in projs do
+--		results[p] = persistence.get_behaviours(p)
+--	end
+--	return results
+	return persistence.get_behaviours()
+end
+
 return M

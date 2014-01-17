@@ -21,8 +21,16 @@ Yatay.Msg.MENU_BEHAVIOURS_READY = "Comportamiento listo";
 // Dialogs Messages
 Yatay.Msg.DIALOG_CODE_LABEL = "Código Generado";	
 Yatay.Msg.DIALOG_RUN = "Probar";
-Yatay.Msg.DIALOG_FCHOOSER_LABEL = "Elige un proyecto!";		
+Yatay.Msg.DIALOG_LOADER_LABEL = "Elige un proyecto!";		
 Yatay.Msg.DIALOG_OPEN = "Abrir";
+Yatay.Msg.DIALOG_LOCAL_INPUT = "Local";
+Yatay.Msg.DIALOG_REMOTE_INPUT = "Remoto";
+Yatay.Msg.DIALOG_TXT_REMOTE_INPUT = "Puedes obtener los comportamientos almacenados en el servidor: ";
+Yatay.Msg.DIALOG_REMOTE_LOADER = "cargar";
+Yatay.Msg.DIALOG_LOADING = "cargando...";
+Yatay.Msg.DIALOG_PROJECT = "Proyectos";
+Yatay.Msg.DIALOG_BEHAVIOURS = "Comportamientos";
+Yatay.Msg.DIALOG_NO_BEHAVIOURS = "No existen comportamientos en el servidor.";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';

@@ -1,61 +1,64 @@
 <!-- Menu Navbar -->
-
-	<script>
-	$(document).ready(function(){
-		$('#btn_robotest').attr('title', Yatay.Msg.MENU_ROBOTEST);
-		$('#btn_debug').attr('title', Yatay.Msg.MENU_DEBUG);
-		$('#btn_run').attr('title', Yatay.Msg.MENU_RUN);
-		$('#btn_edit').attr('title', Yatay.Msg.MENU_EDIT);
-		$('#btn_load').attr('title', Yatay.Msg.MENU_LOAD);
-		$('#btn_save').attr('title', Yatay.Msg.MENU_SAVE);
-		$('#btn_stop').attr('title', Yatay.Msg.MENU_STOP);
-		$('#btn_trash').attr('title', Yatay.Msg.MENU_TRASH);
-		$('#btn_bx_ready').attr('title', Yatay.Msg.MENU_BEHAVIOURS_READY);
-		$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);	
-		$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
-		$('#fchooser_label').html(Yatay.Msg.DIALOG_FCHOOSER_LABEL);		
-		$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
-		imgClickCorrection();
-	});
+<script>
+$(document).ready(function(){
+	$('#btn_robotest').attr('title', Yatay.Msg.MENU_ROBOTEST);
+	$('#btn_debug').attr('title', Yatay.Msg.MENU_DEBUG);
+	$('#btn_run').attr('title', Yatay.Msg.MENU_RUN);
+	$('#btn_edit').attr('title', Yatay.Msg.MENU_EDIT);
+	$('#btn_load').attr('title', Yatay.Msg.MENU_LOAD);
+	$('#btn_save').attr('title', Yatay.Msg.MENU_SAVE);
+	$('#btn_stop').attr('title', Yatay.Msg.MENU_STOP);
+	$('#btn_trash').attr('title', Yatay.Msg.MENU_TRASH);
+	$('#btn_bx_ready').attr('title', Yatay.Msg.MENU_BEHAVIOURS_READY);
+	$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);	
+	$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
+	$('#loader_label').html(Yatay.Msg.DIALOG_LOADER_LABEL);		
+	$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
+	$('#txt_local_input').html(Yatay.Msg.DIALOG_LOCAL_INPUT);
+	$('#txt_remote_input').html(Yatay.Msg.DIALOG_REMOTE_INPUT);
+	$('#btn_remote_loader').before(Yatay.Msg.DIALOG_TXT_REMOTE_INPUT);
+	$('#btn_remote_loader').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
 	
-	</script>
-	<div class="navbar navbar-inverse navbar-fixed-top leftBar" >
-		<div class="navbar-inner">
-			<div class="container leftBar">	
-				<ul class="nav">
-					<li>
-						<input type="image" id="btn_load" onclick="openFileChooser()" src="images/open.png" class="imgclick cursorHover controlBtn" />
-					</li>	
-					<li>					
-						<a class="linkWrapper" download="" href="javascript:void(0)" target="_blank" onclick="toXml(this)">
-							<input type="image" id="btn_save" src="images/save.png" class="imgclick cursorHover controlBtn"/>		
-						</a>
-					</li>
-					<li>						
-						<input type="image" id="btn_robotest" onclick="robotest()" src="images/butia.png" class="imgclick cursorHover controlBtn" />	
-					</li>
-					<li>
-						<input type="image" id="btn_run" onclick="runTasks()" src="images/play.png" class="imgclick cursorHover controlBtn" />
-					</li>
-					<li>
-						<input type="image" id="btn_edit" onclick="edit()" src="images/viewcode.png" class="imgclick cursorHover controlBtn" />
-					</li>			
-					<li>
-						<input type="image" id="btn_debug" onclick="debug()" src="images/debug.png" class="imgclick cursorHover controlBtn"  style="display: none;"/>
-					</li>
-					<li>
-						<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />
-					</li>	
-					<li>
-						<input type="image" id="btn_trash" onclick="$('#trashButton').click();" src="images/delete.png" class="imgclick cursorHover controlBtn" />
-					</li>						
-					<li>
-						<input type="image" id="btn_stop" onclick="stop();" src="images/stop.png" class="imgclick cursorHover controlBtn" style="display: none;"/>
-					</li>								
-				</ul>			
-			</div>
+	imgClickCorrection();
+});
+</script>
+<div class="navbar navbar-inverse navbar-fixed-top leftBar" >
+	<div class="navbar-inner">
+		<div class="container leftBar">	
+			<ul class="nav">
+				<li>
+					<input type="image" id="btn_load" onclick="Yatay.Common.openFileChooser()" src="images/open.png" class="imgclick cursorHover controlBtn" />
+				</li>	
+				<li>					
+					<a class="linkWrapper" download="" href="javascript:void(0)" target="_blank" onclick="Yatay.Common.toXml(this)">
+						<input type="image" id="btn_save" src="images/save.png" class="imgclick cursorHover controlBtn"/>		
+					</a>
+				</li>
+				<li>						
+					<input type="image" id="btn_robotest" onclick="robotest()" src="images/butia.png" class="imgclick cursorHover controlBtn" />	
+				</li>
+				<li>
+					<input type="image" id="btn_run" onclick="runTasks()" src="images/play.png" class="imgclick cursorHover controlBtn" />
+				</li>
+				<li>
+					<input type="image" id="btn_edit" onclick="edit()" src="images/viewcode.png" class="imgclick cursorHover controlBtn" />
+				</li>			
+				<li>
+					<input type="image" id="btn_debug" onclick="debug()" src="images/debug.png" class="imgclick cursorHover controlBtn"  style="display: none;"/>
+				</li>
+				<li>
+					<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />
+				</li>	
+				<li>
+					<input type="image" id="btn_trash" onclick="$('#trashButton').click();" src="images/delete.png" class="imgclick cursorHover controlBtn" />
+				</li>						
+				<li>
+					<input type="image" id="btn_stop" onclick="stop();" src="images/stop.png" class="imgclick cursorHover controlBtn" style="display: none;"/>
+				</li>								
+			</ul>			
 		</div>
-	</div>		
+	</div>
+</div>		
 
 <!-- Code Editor Modal -->
 <div id="code_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -70,16 +73,25 @@
 		<button id="btn_run2" class="btn btn-primary" onclick="runEdited()"/>
 	</div>
 </div>
-<!-- File Chooser Modal -->
-<div id="fchooser_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- File loader Modal -->
+<div id="loader_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="fchooser_label"/>
+		<h3 id="loader_label"/>
 	</div>
 	<div class="modal-body">
-		<input id="file_input" type="file" accept=".xml" />
+		<h4 id="txt_local_input" /> 
+		<input id="file_input" class="btn-default" type="file" accept=".xml" />
+		<hr></hr>
+		<h4 id="txt_remote_input" />
+		<p id="opt_remote_input"> 
+			<button id="btn_remote_loader" type="button" class="btn btn-default popover-test" onclick="Yatay.Common.loadBxs()"> </button>
+		</p>
+		<table class="table table-striped table-hover">
+			<tbody id="remote_proj"></tbody>
+		</table>
 	</div>
 	<div class="modal-footer">
-		<button id="btn_openfile" class="btn btn-primary" onclick="fromXml()"/>
+		<button id="btn_openfile" class="btn btn-primary" onclick="Yatay.Common.fromXml()"/>
 	</div>
 </div>
