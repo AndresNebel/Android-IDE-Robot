@@ -80,13 +80,15 @@ $(document).ready(function(){
 		<h3 id="loader_label"/>
 	</div>
 	<div class="modal-body">
-		<h4 id="txt_local_input" /> 
-		<input id="file_input" class="btn-default" type="file" accept=".xml" />
-		<hr></hr>
-		<h4 id="txt_remote_input" />
-		<p id="opt_remote_input"> 
-			<button id="btn_remote_loader" type="button" class="btn btn-default popover-test" onclick="Yatay.Common.loadBxs()"> </button>
-		</p>
+		<div id="loadMainWindow">
+			<h4 id="txt_local_input"/> 
+			<input id="file_input" class="btn-default" type="file" accept=".xml" />
+			<hr></hr>
+			<h4 id="txt_remote_input" />
+			<p id="opt_remote_input"> 
+				<button id="btn_remote_loader" type="button" class="btn btn-default popover-test" onclick="Yatay.Common.loadBxs()"> </button>
+			</p>
+		</div>
 		<table class="table table-striped table-hover">
 			<tbody id="remote_proj"></tbody>
 		</table>

@@ -42,6 +42,7 @@ Yatay.Common.buildMultiSelector = function(select) {
  * Handle onChange of Bootstrap-multiselect list
  */
 Yatay.Common.BxsChangeSelection = function(element, checked) {
+	$(".modal-body").scrollTop($(".modal-body")[0].scrollHeight);
 	if (element['context']['value'] == '') {
 		Yatay.Common.activesBxs = [];
 	} else if (element['context']['value'] == 'multiselect-select-all') {
@@ -111,6 +112,42 @@ Yatay.Common.killTasks = function() {
 };
 
 /**
+ * Save in browser's localStorage
+ */
+Yatay.Common.saveInBrowser = function(name, code) {
+	var localStgeBxs = [];
+	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
+		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
+	for (var j=0; j< localStgeBxs.length; j++)
+	{
+		if (localStgeBxs[j][0] == name)
+		{
+			localStgeBxs[j][1] = code;
+			localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
+			return;					
+		}
+		else 
+		{
+			var found = false;
+			//Checking if this behaviour in the local storage is actually being used now, if not is obsolete data and is deleted
+			for (var i=0; i< Yatay.Tablet.behaviours.length; i++)
+			{
+				if (Yatay.Tablet.behaviours[i][2] == localStgeBxs[j][0])
+				{
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				localStgeBxs.splice(j,1);
+		}
+	}
+	localStgeBxs[localStgeBxs.length] = [name, code];
+	localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
+}
+
+
+/**
  * Save current task
  */
 Yatay.Common.saveTask = function(name, code) {
@@ -133,6 +170,7 @@ Yatay.Common.saveTask = function(name, code) {
  */
 Yatay.Common.loadBxs = function() {
 	$('#remote_proj').html('');
+	$("#loadMainWindow").hide();
 	$('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
 
 	$.ajax({
@@ -230,6 +268,8 @@ Yatay.Common.readFile = function(evt) {
  */
 Yatay.Common.openFileChooser = function(){
 	$('#loader_modal').modal('show');
+	$("#loadMainWindow").show();
+	$('#remote_proj').html('');
 	document.getElementById('file_input').addEventListener('change', Yatay.Common.readFile, false);
 };
 

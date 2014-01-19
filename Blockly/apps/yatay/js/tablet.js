@@ -24,6 +24,7 @@ Yatay.Tablet.testMode = false;
  * Generate behaviours list
  */
 $(document).ready(function(){	   
+	$('body').bind('touchmove', function(e){e.preventDefault()});
 	$('#main_menu').load('./tablet.html');	
 	
 	var list = $("<div class=\"list-group bx\">" +
@@ -32,6 +33,23 @@ $(document).ready(function(){
 				"</div>");
 	list.appendTo($("#bx_ready"));
 });
+
+$(window).load(function() {
+	//Restoring browser persistance of blocks
+	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
+	{
+		var behaviours = JSON.parse(localStorage.yatay_bxs);
+		for(var j=0; j< behaviours.length; j++){
+			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+				bxReady();
+			}
+			var code = Blockly.Xml.textToDom(behaviours[j][1]);
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+		}
+		bxReady();
+	}
+});
+
 
 /**
  * Handle edit code click

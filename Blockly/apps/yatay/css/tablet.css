@@ -1,6 +1,6 @@
 html {
 	width: 100% !important;
-	height: 100% !important;
+	height: 100 !important;
 	clip: auto;
 	position: absolute;
 	overflow: hidden;
@@ -132,4 +132,9 @@ textarea {
 
 .linkWrapper {
 	margin: -12px -14px;
+}
+
+.modal-body
+{ 
+	min-height: 200px !important;
 }

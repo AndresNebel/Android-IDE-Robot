@@ -35,6 +35,8 @@ document.write('<script type="text/javascript" src="generated/' + 'es' + '.js"><
 var Yatay = {};
 Yatay.variables = new Array();
 Yatay.complex_sensors = new Array();
+Yatay.currentWorkspaceXml = "";
+
 /**
  * Initialize Blockly.  Called on page load.
  */
@@ -99,55 +101,22 @@ Yatay.init = function() {
 	};
 
 	// Override Mouse-up handler including Autosave listener
-	Blockly.Block.prototype.onMouseUp_ = function(e) {
-		Blockly.terminateDrag_();
-		if (Blockly.selected && Blockly.highlightedConnection_) {
-			// Connect two blocks together.
-			Blockly.localConnection_.connect(Blockly.highlightedConnection_);
-			if (this.svg_) {
-		 		// Trigger a connection animation.
-		 		// Determine which connection is inferior (lower in the source stack).
-		 		var inferiorConnection;
-		 		if (Blockly.localConnection_.isSuperior()) {
-		   			inferiorConnection = Blockly.highlightedConnection_;
-				} else {
-		   			inferiorConnection = Blockly.localConnection_;
-		 		}
-		 		inferiorConnection.sourceBlock_.svg_.connectionUiEffect();
-			}
+	var startXmlDom = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+	Yatay.currentWorkspaceXml = Blockly.Xml.domToText(startXmlDom);
+	function change() {
+		var xmlDom = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+		var xmlText = Blockly.Xml.domToText(xmlDom);
+		var justOneBehaviour = Blockly.mainWorkspace.getTopBlocks().length == 1
+								&& (Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_behaviour" ||
+								Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_conditionalBehaviour");
 
-			if (this.workspace.trashcan && this.workspace.trashcan.isOpen) {
-		 		// Don't throw an object in the trash can if it just got connected.
-		 		this.workspace.trashcan.close();
-			}
-		} else if (this.workspace.trashcan && this.workspace.trashcan.isOpen) {
-			var trashcan = this.workspace.trashcan;
-			goog.Timer.callOnce(trashcan.close, 100, trashcan);
-			Blockly.selected.dispose(false, true);
-			// Dropping a block on the trash can will usually cause the workspace to
-			// resize to contain the newly positioned block.  Force a second resize now
-			// that the block has been deleted.
-			Blockly.fireUiEvent(window, 'resize');
+		if (Yatay.currentWorkspaceXml != xmlText && justOneBehaviour) {
+		  Yatay.currentWorkspaceXml = xmlText;
+		  Yatay.AutoSave();
 		}
-		if (Blockly.highlightedConnection_) {
-			Blockly.highlightedConnection_.unhighlight();
-			Blockly.highlightedConnection_ = null;
-		}
+	}
+	var bindData = Blockly.addChangeListener(change);
 
-		// Autosave listener
-		if (Blockly.mainWorkspace != null) {
-			if (Yatay.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
-				Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
-				var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-				var code = Blockly.Xml.domToText(xml);
-				var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-				if (name != Yatay.Msg.CONTROL_BEHAVIOUR) {
-					Yatay.Common.saveTask(name, code);
-				}
-			}
-		}
-	};	
-	
 	// Lazy-load the syntax-highlighting.
 	window.setTimeout(BlocklyApps.importPrettify, 1);
 
@@ -186,12 +155,29 @@ Yatay.runJS = function() {
  * Discard all blocks from the workspace.
  */
 Yatay.discard = function() {
-  var count = Blockly.mainWorkspace.getAllBlocks().length;
-  if (count < 2 ||
-      window.confirm(BlocklyApps.getMsg('Yatay_discard').replace('%1', count))) {
-    Blockly.mainWorkspace.clear();
-    window.location.hash = '';
-  }
+	var count = Blockly.mainWorkspace.getAllBlocks().length;
+	var justOneBehaviour = Blockly.mainWorkspace.getTopBlocks().length == 1
+									&& (Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_behaviour" ||
+									Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_conditionalBehaviour");
+	if (justOneBehaviour)
+	{
+		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+		if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
+			localStgeBxs = JSON.parse(localStorage.yatay_bxs);
+		for (var j=0; j< localStgeBxs.length; j++)
+		{
+			if (localStgeBxs[j][0] == name)
+			{
+				localStgeBxs.splice(j,1);
+				break;
+			}
+		}
+		localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
+	}
+	if (count < 2 || window.confirm(BlocklyApps.getMsg('Yatay_discard').replace('%1', count))) {
+		Blockly.mainWorkspace.clear();
+		window.location.hash = '';
+	}
 };
 
 
@@ -261,4 +247,23 @@ Yatay.CreateCustomSensor = function(sensor, code) {
 	}
 	Yatay.complex_sensors[name][sensor] = code;
 	return;
+}
+
+Yatay.AutoSave = function()
+{
+	// Autosave listener
+	if (Blockly.mainWorkspace != null && Blockly.mainWorkspace.getAllBlocks().length >1) {
+
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+		var code = Blockly.Xml.domToText(xml);
+		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+		//if (name != Yatay.Msg.CONTROL_BEHAVIOUR) {
+		if (Yatay.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
+			Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
+			Yatay.Common.saveTask(name, code);
+		}
+		//Saving in browser localstorage to avoid losing behaviours and blocks on reload 
+		Yatay.Common.saveInBrowser(name, code);
+	//	}
+	}
 }
