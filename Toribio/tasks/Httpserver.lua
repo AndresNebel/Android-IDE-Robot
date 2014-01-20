@@ -73,6 +73,15 @@ local function load_projs()
 	return pjadmin.load_projs()
 end
 
+local function refresh()
+	local robotIface = require 'tasks/RobotInterface'
+	if (robotIface.refresh_devices()) then
+		return 'yes'
+	else 
+		return 'no'
+	end
+end
+
 --local actions = { init=initTask, kill=killTasks, save=saveTask, poll=pop_result}
 
 local function select_action(id, code, name)
@@ -85,15 +94,19 @@ local function select_action(id, code, name)
 	elseif (id == 'kill') then
 		killTasks()
 	elseif (id == 'poll') then
-		return pop_blocking(yataySensorResults,'NewSensorResult')
+		return pop_blocking(yataySensorResults, 'NewSensorResult')
 	elseif (id == 'pollDebug') then
-		return pop_blocking(yatayDebugResults,'NewDebugResult')
+		return pop_blocking(yatayDebugResults, 'NewDebugResult')
 	elseif (id == 'save') then
 		saveTask(code, name)
 	elseif (id == 'test') then
 		testRobot(code)
 	elseif (id == 'loadProjs') then
 		return load_projs()
+	elseif (id == 'blocks') then	
+		return pop_blocking(yatayBlocksRefresh, 'BlocksRefresh')
+	elseif (id == 'refreshBlocks') then
+		return refresh()	
 	end
 	return ""
 end
@@ -108,8 +121,9 @@ M.init = function(conf)
 	--Inicializando la cola de resultados
 	--TODO: hacer una tabla de resultados
 	yataySensorResults = nil
-	yatayDebugResults = nil
-	
+	yatayDebugResults = nil	
+	yatayBlocksRefresh = ''	
+
 	http_server.set_request_handler(
 		'POST',
 		'/index.html',
@@ -120,7 +134,7 @@ M.init = function(conf)
 	)
 	
 	local conf = {
-		ip= '192.168.1.46',
+		ip= '192.168.1.5',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

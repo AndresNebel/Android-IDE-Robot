@@ -1,29 +1,29 @@
 local M = {}
 
---require('LuaXml')
+require 'LuaXml'
 local toribio = require 'toribio'
 local devices = toribio.devices
 local sched = require 'sched'
 
+--Path to files
+local butia_blocks = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/blocks/butia.js'
+local butia_code = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/generators/lua/butia.js'
+
+--Active devices at the moment
+M.active_devices = nil
 
 M.deliverResultToWebServer = function(sensorResult)
 	yataySensorResults = sensorResult
---	table.insert(yataySensorResults, 1, sensorResult) 
-	--if (#yataySensorResults > 10) then
---		table.remove(yataySensorResults)
---	end
---	print('rob:put_debug', yataySensorResults)
 	sched.signal('NewSensorResult')
-	--sched.yield()
 end
 
+--Take it from Bobot Server
 M.execute = function(sensor, func, params)
-	--robado de bobot_server.lua
 	local device = devices[sensor]
 	if (device) then
 		local api_call=device[func];
 		if not api_call then
-			print("missing call")
+			print("Missing call")
 	 		return "missing call" end								
 		local ret = table.pack(pcall(api_call, unpack(params,1)))
 		local ok = ret[1]
@@ -34,25 +34,82 @@ M.execute = function(sensor, func, params)
 			end
 			return tonumber(sensorResult)
 		else 
-			print ("error calling", table.concat(ret, ',', 2))
+			print ("Error calling", table.concat(ret, ',', 2))
 		end
 	end
 end
 
---Enlista las funciones de los sensores y actuadores que poseen un mapeo en el config.
---Si estas se encuentran disponibles en el kit robotico les asigna available en true
---param: could be 'sensor' 'actuator' 'any' 
-
-M.list_devices_functions = function(device_type)	
-	--Load devices config file
-	local file = nil--xml.load("devices.xml")
-	--Parse devices file
-	local devs = file:find("devices")
+local function parse_bobot(file, devs)
 	local ret = {}
+	--Check disabled devices
+	local skip_dev = {}
+	for sdev in devs.less:gmatch('[%w|%-|:]+') do
+		skip_dev[sdev] = true
+	end
+	--Check disabled functions
+	local skip_func = {}
 	for i=1, #devs do
-		if (device_type == "any" or devs[i].device_type == device_type) then
+		if (devs[i].device_type == 'generic') then
+			local functions = devs[i]:find("device")
+			for j=1, #functions do
+				if (functions[j].disabled == 'yes') then
+					skip_func[functions[j].name] = true					
+				end
+			end			
+		end
+	end	
+	local i = 1
+	for name, _ in pairs(devices) do	
+		--Is this device enable?
+		if not skip_dev[name] then		
+			ret[i] = {}
+			ret[i].name = name
+			--HACK: does some info about device type exist?
+			ret[i].device_type = 'sensor'
+			ret[i].available = true
+			ret[i].functions = {}
+			local device = devices[name]
+			local skip_fields = {remove=true,name=true,register_callback=true,events=true,task=true,filename=true,module=true,bobot_metadata=true}
+			local j = 1
+			for fname, fdef in pairs(device) do
+				--Is this function enable?
+				if not (skip_fields[fname] or skip_func[fname]) then 
+					ret[i].functions[j] = {}
+					ret[i].functions[j].name = fname
+					ret[i].functions[j].alias = name .. '.' .. fname
+					local bobot_metadata = ((device.bobot_metadata or {})[fdef] or {parameters={}, returns={}})
+					local meta_parameters = bobot_metadata.parameters
+					local params = 0
+					for i, pars in ipairs(meta_parameters) do
+						params = params + 1
+					end
+					ret[i].functions[j].tooltip = ''
+					ret[i].functions[j].params = params
+					ret[i].functions[j].values = ''
+					local meta_returns = bobot_metadata.returns
+					local returns = 0
+					for i,rets in ipairs(meta_returns) do
+						returns = returns + 1
+					end
+					ret[i].functions[j].ret = returns
+					ret[i].functions[j].available = true
+					j = j + 1
+				end
+			end	
+			i = i + 1
+		end
+	end
+	return ret
+end
+
+local function parse_xml(device_type, file, devs)
+	local ret = {}
+	--Parsing robotic-kit.xml file
+	for i=1, #devs do
+		if ((device_type == 'any' or devs[i].device_type == device_type) and devs[i].device_type ~= 'generic') then
 			ret[i] = {}
 			ret[i].name = devs[i].name
+			ret[i].device_type = devs[i].device_type
 			--Is this device available in bobot?
 			ret[i].available = (devices[devs[i].name] ~= nil)
 			ret[i].functions = {}
@@ -61,25 +118,187 @@ M.list_devices_functions = function(device_type)
 				ret[i].functions[j] = {}
 				ret[i].functions[j].name = functions[j].name
 				ret[i].functions[j].alias = functions[j].alias
+				ret[i].functions[j].tooltip = functions[j].tooltip
 				ret[i].functions[j].params = functions[j].params
+				ret[i].functions[j].values = functions[j].values
 				ret[i].functions[j].ret = functions[j].ret
 				--Is this function available in bobot?
-				ret[i].functions[j].available = (devices[devs[i].name][functions[j].name] ~= nil)
-			end
+				if (ret[i].available) then
+					ret[i].functions[j].available = (devices[devs[i].name][functions[j].name] ~= nil)
+				else 
+					ret[i].functions[j].available = false
+				end
+			end			
 		end
 	end	
-	return ret								
+	return ret
+end
+
+M.list_devices_functions = function(device_type)	
+	local file = xml.load('robotic-kit.xml')
+	local devs = file:find('devices')
+
+	if (devs.all == 'yes') then
+		return parse_bobot(device_type, file, devs)
+	else
+		return parse_xml(device_type, file, devs)
+	end
 end
 
 M.put_debug_result = function(blockId)
-						yatayDebugResults = activeBehaviour.name..':'..activeBehaviour.blockId..':'..blockId
-					--	print('rob:put_debug', yatayDebugResults)
-						sched.signal('NewDebugResult')
-						sched.sleep(0.7)
-   					end
+	yatayDebugResults = activeBehaviour.name..':'..activeBehaviour.blockId..':'..blockId
+	sched.signal('NewDebugResult')
+	sched.sleep(0.7)
+end
+
+local function write_blocks(dev, func, first)
+	--Generating scripts for active blocks
+	local file, errors
+	local code = ''
+
+	if (first) then
+		file, errors = io.open(butia_blocks, 'w+')	
+	else
+		file, errors = io.open(butia_blocks, 'a+')
+	end
+	
+	if (errors == nil) then
+		if (first) then 
+			code = '/* Automatically Generated Code */\n\'use strict\';\n\n'
+		end
+		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
+					'	init: function() { \n' ..
+					'		this.setColour(120); \n' ..
+					'		this.appendDummyInput().appendTitle(\'' .. func.alias .. '\'); \n' ..
+					'		this.setInputsInline(true); \n'
+		if (tonumber(func.params) > 0) then		
+			if (func.values == '') then		
+				for i=1, tonumber(func.params) do
+					code = code .. '		this.appendValueInput(\'' .. tostring(i) .. '\'); \n'
+				end
+			end
+		end
+		if (dev.device_type == 'sensor') then
+			--TODO: Check types (setOutput - Number)
+			code = code .. '		this.setOutput(true, \'Number\'); \n'
+		elseif (dev.device_type == 'actuator') then
+			code = code .. '		this.setPreviousStatement(true); \n' ..
+						'		this.setNextStatement(true); \n'
+		end
+		code = code .. '		this.setTooltip(\'' .. func.tooltip .. '\'); \n' .. 
+					'	} \n' .. 
+					'}; \n\n'
+		file:write(code)
+		file:close()
+	end
+end
+
+local function write_code(dev, func, first)
+	--Generating scripts for lua code generator
+	local file, errors
+	local code = ''
+
+	if (first) then
+		file, errors = io.open(butia_code, 'w+')
+	else
+		file, errors = io.open(butia_code, 'a+')
+	end
+
+	if (errors == nil) then
+		if (first) then 
+			code = '/* Automatically Generated Code */\n\'use strict\';\n\ngoog.provide(\'Blockly.Lua.butia\');\ngoog.require(\'Blockly.Lua\');\n\n'		
+		end
+		code = code .. 'Blockly.Lua[\'' .. func.alias .. '\'] = function(block) { \n' ..
+					'	var debugTrace = \'\'; \n' .. 
+					'	if (Yatay.DebugMode) { \n' ..
+					'		debugTrace = \"robot.put_debug_result(\'"+ block.id +"\')\\n"; \n' ..
+					'	} \n'
+		local params = ''
+		if (tonumber(func.params) > 0) then		
+			if (func.values == '') then
+				for i=1, tonumber(func.params) do
+					code = code .. '	var arg' .. i .. ' = Blockly.Lua.statementToCode(this, \'' .. tostring(i) .. '\', true) || \'0\'; \n'
+					if (params == '') then
+						params = '\" + arg' .. i .. ' + \"'
+					else 
+						params = params .. ', \" + arg' .. i .. ' + \"'
+					end			
+				end
+			else 
+				params = tostring(func.values)
+			end
+		end
+		code = code .. '	return debugTrace + \"robot.execute(\'' .. dev.name .. '\',\'' .. func.name .. '\',{' .. params .. '})\"; \n' .. '}; \n\n'
+		file:write(code)
+		file:close()
+	end
+end
+
+local function write_script(dev, func, first)
+	--Call writers
+	write_blocks(dev, func, first)
+	write_code(dev, func, first)
+	return func.alias
+end
+
+local function compare(t1, t2)
+	if t1 == t2 then return true end
+	if type(t1) ~= "table" or type(t2) ~= "table" then return false end
+	local v2
+	for k,v1 in pairs(t1) do
+		v2 = t2[k]
+	  	if v1 ~= v2 and not compare(v1, t2[k]) then return false end
+	end
+	for k in pairs(t2) do
+	  	if t1[k] == nil then return false end
+	end
+	return true
+end
+
+M.refresh_devices = function()
+	local new_devices = M.list_devices_functions('any')
+
+	if (compare(M.active_devices, new_devices)) then
+		print('mustn\'t refresh devices')
+		return false
+	else 
+		print('must refresh devices')
+		yatayBlocksRefresh = ''
+		local c =	coroutine.create(
+			function (devices)
+				M.refresh(devices)
+			end)
+		coroutine.resume(c, new_devices)
+		M.active_devices = new_devices
+		return true	
+	end
+end
+
+M.refresh = function(active_devices)
+	print('yatay refreshing!')
+	local first = true
+	if (active_devices ~= nil) then
+		for i=1, #active_devices do 
+			if (active_devices[i] ~= nil and active_devices[i].available) then
+				for j=1, #active_devices[i].functions do
+					if (active_devices[i].functions[j] ~= nil and active_devices[i].functions[j].available) then
+						local block_type = write_script(active_devices[i], active_devices[i].functions[j], first)			
+						yatayBlocksRefresh = yatayBlocksRefresh .. '<block type=\'' .. block_type .. '\'></block>'
+						first = false
+					end
+				end
+			end
+		end
+	end
+	sched.signal('BlocksRefresh')
+end
 
 M.init = function(conf) 
+	print('RobotInterface is up...')
+
+	--Refresh robotics devices
+	M.active_devices = M.list_devices_functions('any')
+	M.refresh(M.active_devices)
 end
 
 return M
-

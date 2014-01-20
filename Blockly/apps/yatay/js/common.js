@@ -26,6 +26,13 @@ Yatay.Common.bxsCode = [];
 Yatay.Common.activesBxs = [];
 
 /**
+ * Initialize (start refresh blocks poll)
+ */
+$(document).ready(function(){	   
+	refreshBlocksPoll();
+});
+
+/**
  * Bootstrap-multiselect list builder
  */ 
 Yatay.Common.buildMultiSelector = function(select) {
@@ -110,42 +117,6 @@ Yatay.Common.killTasks = function() {
 		}
 	});
 };
-
-/**
- * Save in browser's localStorage
- */
-Yatay.Common.saveInBrowser = function(name, code) {
-	var localStgeBxs = [];
-	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
-		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
-	for (var j=0; j< localStgeBxs.length; j++)
-	{
-		if (localStgeBxs[j][0] == name)
-		{
-			localStgeBxs[j][1] = code;
-			localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
-			return;					
-		}
-		else 
-		{
-			var found = false;
-			//Checking if this behaviour in the local storage is actually being used now, if not is obsolete data and is deleted
-			for (var i=0; i< Yatay.Tablet.behaviours.length; i++)
-			{
-				if (Yatay.Tablet.behaviours[i][2] == localStgeBxs[j][0])
-				{
-					found = true;
-					break;
-				}
-			}
-			if (!found)
-				localStgeBxs.splice(j,1);
-		}
-	}
-	localStgeBxs[localStgeBxs.length] = [name, code];
-	localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
-}
-
 
 /**
  * Save current task
@@ -365,4 +336,61 @@ function createBlocksForSensors() {
 			//alert("failure");
 		}
 	});
+};
+
+/**
+ * Refresh Butiá blocks
+ */
+function refreshBlocksPoll() {
+	setTimeout(function(){
+		$.ajax({
+			url: "/index.html",
+			type: "POST",
+			data: { id:'refreshBlocks' },
+			success: function(content){
+				if (content == 'yes') {
+					location.reload(true);
+				}
+			},
+			error:function(){
+				//alert("failure");
+			}, 
+			complete: refreshBlocksPoll
+		});
+	}, 30000);
+};
+
+/**
+ * Save in browser's localStorage
+ */
+Yatay.Common.saveInBrowser = function(name, code) {
+	var localStgeBxs = [];
+	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
+		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
+	for (var j=0; j< localStgeBxs.length; j++)
+	{
+		if (localStgeBxs[j][0] == name)
+		{
+			localStgeBxs[j][1] = code;
+			localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
+			return;					
+		}
+		else 
+		{
+			var found = false;
+			//Checking if this behaviour in the local storage is actually being used now, if not is obsolete data and is deleted
+			for (var i=0; i< Yatay.Tablet.behaviours.length; i++)
+			{
+				if (Yatay.Tablet.behaviours[i][2] == localStgeBxs[j][0])
+				{
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				localStgeBxs.splice(j,1);
+		}
+	}
+	localStgeBxs[localStgeBxs.length] = [name, code];
+	localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
 }

@@ -3,13 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="google" value="notranslate">
-	<title>YataY</title>
+	<title>Yatay</title>
 	<link rel="stylesheet" type="text/css" href="../common.css"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 	<script type="text/javascript" src="../_soy/soyutils.js"></script>
 	<script type="text/javascript" src="../common.js"></script>
 	<script type="text/javascript" src="js/yatay.js"></script>
-	<!--<script type="text/javascript" src="../../appengine/storage.js"></script>-->
   
   	<!-- Third-party libraries -->
 	<link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
@@ -34,7 +33,18 @@
 <body>
 	<div id="main_menu"></div> 
 	<script type="text/javascript">
-		document.write(codepage.start({}, null, {langSrc: BlocklyApps.languagePack()}));
+		$.ajax({
+			url: "/index.html",
+			type: "POST",
+			data: { id:'blocks' },
+			async: false,
+			success: function(content) {
+				document.write(codepage.start(content, null, {langSrc: BlocklyApps.languagePack()}));
+			},
+			error:function() {
+				document.write(codepage.start('', null, {langSrc: BlocklyApps.languagePack()}));
+			}
+		});
 	</script>
 	<div id="bx_ready"></div>
 	<br>
