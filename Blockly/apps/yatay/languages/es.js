@@ -30,7 +30,14 @@ Yatay.Msg.DIALOG_REMOTE_LOADER = "cargar";
 Yatay.Msg.DIALOG_LOADING = "cargando...";
 Yatay.Msg.DIALOG_PROJECT = "Proyectos";
 Yatay.Msg.DIALOG_BEHAVIOURS = "Comportamientos";
-Yatay.Msg.DIALOG_NO_BEHAVIOURS = "No existen comportamientos en el servidor.";
+Yatay.Msg.DIALOG_NO_BEHAVIOURS = "No existen comportamientos en el servidor";
+Yatay.Msg.DIALOG_START = "Comenzar";
+Yatay.Msg.DIALOG_PROJMANAGER_LABEL = "Administrador de projectos";
+Yatay.Msg.DIALOG_NEW_PROJ = "Crear nuevo proyecto";
+Yatay.Msg.DIALOG_REMOTE_PROJ = "Unirse a un projecto";
+Yatay.Msg.DIALOG_TXT_REMOTE_PROJ = "Puedes cargar los projectos existentes: ";
+Yatay.Msg.DIALOG_PROJ_NAME = "Nombre del proyecto: ";
+Yatay.Msg.DIALOG_NO_PROJS = "No existen proyectos en el servidor";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';

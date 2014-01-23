@@ -1,6 +1,6 @@
 /**
- * @fileoverview JavaScript for Blockly's Yatay application.
- * @author Yatay Group
+ * @fileoverview 
+ * @author Yatay Project
  */
 
 // Supported languages.
@@ -228,23 +228,21 @@ Yatay.CreateCustomSensor = function(sensor, code) {
 	}
 	Yatay.complex_sensors[name][sensor] = code;
 	return;
-}
+};
 
-Yatay.AutoSave = function()
-{
-	// Autosave listener
+/*
+ * Autosave Listener
+ */
+Yatay.AutoSave = function() {
 	if (Blockly.mainWorkspace != null && Blockly.mainWorkspace.getAllBlocks().length >1) {
-
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		var code = Blockly.Xml.domToText(xml);
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-		//if (name != Yatay.Msg.CONTROL_BEHAVIOUR) {
 		if (Yatay.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
 			Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
 			Yatay.Common.saveTask(name, code);
 		}
 		//Saving in browser localstorage to avoid losing behaviours and blocks on reload 
 		Yatay.Common.saveInBrowser(name, code);
-	//	}
 	}
-}
+};

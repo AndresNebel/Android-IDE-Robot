@@ -43,7 +43,7 @@ local function parse_bobot(file, devs)
 	local ret = {}
 	--Check disabled devices
 	local skip_dev = {}
-	for sdev in devs.less:gmatch('[%w|%-|:]+') do
+	for sdev in devs.except:gmatch('[%w|%-|:]+') do
 		skip_dev[sdev] = true
 	end
 	--Check disabled functions

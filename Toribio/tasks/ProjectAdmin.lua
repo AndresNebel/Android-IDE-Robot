@@ -3,24 +3,40 @@ local M = {}
 local sched = require 'sched'
 local persistence = require 'tasks/Persistence'
 
-M.save_task = function(name, task)
-	if (name ~= nil and task ~= nil) then		
-		if (persistence.exist(name)) then
-			persistence.update(name, task)
+M.save_task = function(project, block, code)
+	if (project ~= nil and block ~= nil and code ~= nil) then		
+		if (persistence.exist(project, block)) then
+			persistence.update(project, block, code)
 		else
-			persistence.insert(name, task)
+			persistence.insert(project, block, code)
 		end
 	end
 end
 
-M.load_projs = function()
---	local result = {}
---	local projs = persistence.get_projects()
---	for p in projs do
---		results[p] = persistence.get_behaviours(p)
---	end
---	return results
-	return persistence.get_behaviours()
+M.load_bxs = function()
+	local results = ''
+	local projs = persistence.get_projects()
+	for i=1, #projs do
+		if (results == '') then
+			results = projs[i] .. '#' .. persistence.get_behaviours(projs[i])
+		else		
+			results = results .. '|' .. projs[i] .. '#' .. persistence.get_behaviours(projs[i])	
+		end	
+	end
+	return results
 end
+
+M.load_projs = function()
+	local results = ''
+	local projs = persistence.get_projects()
+	for i=1, #projs do
+		if (results == '') then
+			results = projs[i]
+		else 
+			results = results .. ';' .. projs[i]
+		end
+	end
+	return results
+end 
 
 return M

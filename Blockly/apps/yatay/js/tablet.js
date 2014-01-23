@@ -1,6 +1,6 @@
 /**
  * @fileoverview 
- * @author 
+ * @author Yatay Project
  */
 
 if (!Yatay.Tablet){ 

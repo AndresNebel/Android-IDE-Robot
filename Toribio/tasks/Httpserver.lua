@@ -41,12 +41,12 @@ local function killTasks()
 	coroutine.resume(c)
 end
 
-local function saveTask(code, name)
+local function saveTask(project, block, code)
 	local decoded_task = url_decode(url_decode(code))	
 	local c =	coroutine.create(
 		function ()
 			local pjadmin = require 'tasks/ProjectAdmin'		
-			pjadmin.save_task(name, decoded_task)
+			pjadmin.save_task(project, block, decoded_task)
 		end)
 	coroutine.resume(c)
 end
@@ -68,6 +68,11 @@ local function pop_blocking(name, ev_name)
 	return "";
 end 
 
+local function load_bxs()
+	local pjadmin = require 'tasks/ProjectAdmin'		
+	return pjadmin.load_bxs()
+end
+
 local function load_projs()
 	local pjadmin = require 'tasks/ProjectAdmin'		
 	return pjadmin.load_projs()
@@ -84,7 +89,7 @@ end
 
 --local actions = { init=initTask, kill=killTasks, save=saveTask, poll=pop_result}
 
-local function select_action(id, code, name)
+local function select_action(id, project, block, code)
 --	local action = actions[id]
 --	if action ~= nil then
 --		return action(code, name)
@@ -98,9 +103,11 @@ local function select_action(id, code, name)
 	elseif (id == 'pollDebug') then
 		return pop_blocking(yatayDebugResults, 'NewDebugResult')
 	elseif (id == 'save') then
-		saveTask(code, name)
+		saveTask(project, block, code)
 	elseif (id == 'test') then
 		testRobot(code)
+	elseif (id == 'loadBxs') then
+		return load_bxs()
 	elseif (id == 'loadProjs') then
 		return load_projs()
 	elseif (id == 'blocks') then	
@@ -127,14 +134,14 @@ M.init = function(conf)
 	http_server.set_request_handler(
 		'POST',
 		'/index.html',
-		function(method, path, http_params, http_header)	
-			local content = select_action(http_params['id'], http_params['code'], http_params['name'])
+		function(method, path, http_params, http_header)
+			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
 	
 	local conf = {
-		ip= '192.168.1.5',
+		ip= '192.168.1.3',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},
