@@ -4,6 +4,7 @@ html {
 	clip: auto;
 	position: absolute;
 	overflow: hidden;
+	background: url(../images/bg.png) repeat;
 }
 
 body {
@@ -25,23 +26,28 @@ textarea {
 	height: 100%;
 }
 
-ul.nav {
-	position: relative !important;
-	height: 100% !important;
-	margin: 2% 6% !important;
+#menu_navbar {
+	width: 8% !important;
 }
 
-.navbar .nav,
-.navbar .nav > li {
+#menu_navbar .navbar-inner {
+	position: relative !important;
+	width: 100% !important;
+	text-align: center;
+	height:100%;
+}
+
+.navbar .nav {
+	height: 100% !important;
+	width: 100% !important; 
 	float: left !important;
 	display: inline-block !important;
 	vertical-align: top;
-	left: 8px !important;
 }
 
-.navbar-inner {
-	text-align: center;
-	height:100%
+.navbar .nav > li {
+	float: none !important;
+	margin: 0 auto;
 }
 
 .navbar .brand {
@@ -81,10 +87,10 @@ ul.nav {
 }
 
 .image-container {
-    width: 180px;
-    height: 40px;
-    overflow: hidden;
-    position: relative;
+	width: 145px;
+	height: 38px;
+	overflow: hidden;
+	position: relative;
 	cursor: pointer;
 }
 
@@ -100,7 +106,7 @@ ul.nav {
 }
 
 #divResults {
-	background-color: #CCCCCC;
+	background-image: url(../images/bg2.png);
 	border: 1px solid #555555;
 	border-radius: 12px;
 	color: #333333;
@@ -109,7 +115,7 @@ ul.nav {
 	position: fixed;
 	right: 2%;
 	text-align: center;
-	width: 13%;
+	width: 145px;
 	bottom:2%;
 }
 
@@ -131,7 +137,7 @@ ul.nav {
 }
 
 .leftBar {
-	width:5% !important;
+	width:100% !important;
 	height:100% !important;	
 	margin-left:0% !important;
 }
@@ -146,10 +152,4 @@ ul.nav {
 
 .modal-body { 
 	min-height: 200px !important;
-}
-
-#btn_trash {
-	position: absolute;
-	bottom: 1%;
-	left: 2%;
 }
