@@ -17,6 +17,21 @@ M.deliverResultToWebServer = function(sensorResult)
 	sched.signal('NewSensorResult')
 end
 
+--Utils
+local function compare(t1, t2)
+	if t1 == t2 then return true end
+	if type(t1) ~= "table" or type(t2) ~= "table" then return false end
+	local v2
+	for k,v1 in pairs(t1) do
+		v2 = t2[k]
+	  	if v1 ~= v2 and not compare(v1, t2[k]) then return false end
+	end
+	for k in pairs(t2) do
+	  	if t1[k] == nil then return false end
+	end
+	return true
+end
+
 --Take it from Bobot Server
 M.execute = function(sensor, func, params)
 	local device = devices[sensor]
@@ -138,10 +153,26 @@ M.list_devices_functions = function(device_type)
 	local file = xml.load('robotic-kit.xml')
 	local devs = file:find('devices')
 
+	local xml_devices = parse_xml(device_type, file, devs)
+
 	if (devs.all == 'yes') then
-		return parse_bobot(device_type, file, devs)
+		local bobot_devices = parse_bobot(device_type, file, devs)
+		for i=1, #xml_devices do
+			for j=1, #bobot_devices do
+				if (xml_devices[i].name == bobot_devices[j].name) then
+					for k=1, #xml_devices[i].functions do
+						for l=1, #bobot_devices[j].functions do
+							if (xml_devices[i].functions[k].name == bobot_devices[j].functions[l].name) then
+								bobot_devices[j].functions[l].alias = xml_devices[i].functions[k].alias
+							end
+						end
+					end
+				end			
+			end
+		end
+		return bobot_devices
 	else
-		return parse_xml(device_type, file, devs)
+		return xml_devices
 	end
 end
 
@@ -239,20 +270,6 @@ local function write_script(dev, func, first)
 	write_blocks(dev, func, first)
 	write_code(dev, func, first)
 	return func.alias
-end
-
-local function compare(t1, t2)
-	if t1 == t2 then return true end
-	if type(t1) ~= "table" or type(t2) ~= "table" then return false end
-	local v2
-	for k,v1 in pairs(t1) do
-		v2 = t2[k]
-	  	if v1 ~= v2 and not compare(v1, t2[k]) then return false end
-	end
-	for k in pairs(t2) do
-	  	if t1[k] == nil then return false end
-	end
-	return true
 end
 
 M.refresh_devices = function()

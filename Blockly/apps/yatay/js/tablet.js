@@ -1,6 +1,6 @@
 /**
  * @fileoverview 
- * @author Yatay Project
+ * @author 
  */
 
 if (!Yatay.Tablet){ 
@@ -32,6 +32,7 @@ $(document).ready(function(){
 					"</ul>" +
 				"</div>");
 	list.appendTo($("#bx_ready"));
+	$("#bx_ready").hide();
 });
 
 $(window).load(function() {
@@ -147,7 +148,9 @@ function debug(){
  */
 function stop(){	
 	if (Yatay.Tablet.testMode) {
-		$("#bx_ready").show();
+		if (Yatay.Tablet.behaviours.length > 0) {
+			$("#bx_ready").show();
+		}
 		Yatay.Tablet.testMode = false;
 		Yatay.leaveTestMode();
 	} else {
@@ -241,13 +244,13 @@ function imgClickCorrection() {
  * Set behaviour as ready
  */
 function bxReady() {
-	if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour" || Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_conditionalBehaviour") {
+	if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour" || Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_conditionalBehaviour") {	
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		var text = Blockly.Xml.domToText(xml);
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
 		var size = Blockly.mainWorkspace.getAllBlocks().length;
-		if (name.length > 15) {
-			name = name.substring(0, 14) + "...";
+		if (name.length > 13) {
+			name = name.substring(0, 12) + "...";
 		}
 		var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
 		Yatay.Tablet.behaviours.push([id, text, name, size]);
@@ -261,7 +264,8 @@ function bxReady() {
 					"</div>" +
 				 "</li>");
 		list.appendTo($("#bx_list"));
-		
+		$("#bx_ready").show();
+
 		document.getElementById(id).onclick = bxToWorkspace;
 		Blockly.mainWorkspace.clear();
 	}
@@ -282,5 +286,8 @@ function bxToWorkspace() {
 			}
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
 		}
+	}
+	if (Yatay.Tablet.behaviours.length == 0) {
+		$("#bx_ready").hide();
 	}
 };
