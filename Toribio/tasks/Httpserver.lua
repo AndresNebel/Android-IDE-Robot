@@ -41,12 +41,12 @@ local function killTasks()
 	coroutine.resume(c)
 end
 
-local function saveTask(project, block, code)
+local function saveTask(code, name)
 	local decoded_task = url_decode(url_decode(code))	
 	local c =	coroutine.create(
 		function ()
 			local pjadmin = require 'tasks/ProjectAdmin'		
-			pjadmin.save_task(project, block, decoded_task)
+			pjadmin.save_task(name, decoded_task)
 		end)
 	coroutine.resume(c)
 end
@@ -87,9 +87,21 @@ local function refresh()
 	end
 end
 
+
+local function saveTempLocal(xml, filename)
+	local decoded_xml = url_decode(url_decode(xml))	
+	local decoded_filename = url_decode(url_decode(filename))	
+	file, errors = io.open('Lumen/tasks/http-server/www/apps/yatay/_downloads/'..decoded_filename..'.apk', 'w+')	
+	if (errors == nil) then
+		file:write(decoded_xml)
+		file:close()
+	end
+	return "";
+end
+
 --local actions = { init=initTask, kill=killTasks, save=saveTask, poll=pop_result}
 
-local function select_action(id, project, block, code)
+local function select_action(id, code, name)
 --	local action = actions[id]
 --	if action ~= nil then
 --		return action(code, name)
@@ -103,7 +115,7 @@ local function select_action(id, project, block, code)
 	elseif (id == 'pollDebug') then
 		return pop_blocking(yatayDebugResults, 'NewDebugResult')
 	elseif (id == 'save') then
-		saveTask(project, block, code)
+		saveTask(code, name)
 	elseif (id == 'test') then
 		testRobot(code)
 	elseif (id == 'loadBxs') then
@@ -113,7 +125,9 @@ local function select_action(id, project, block, code)
 	elseif (id == 'blocks') then	
 		return pop_blocking(yatayBlocksRefresh, 'BlocksRefresh')
 	elseif (id == 'refreshBlocks') then
-		return refresh()	
+		return refresh()
+	elseif (id == 'saveTempLocal') then
+		return saveTempLocal(code,name)		
 	end
 	return ""
 end
@@ -134,14 +148,14 @@ M.init = function(conf)
 	http_server.set_request_handler(
 		'POST',
 		'/index.html',
-		function(method, path, http_params, http_header)
-			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'])
+		function(method, path, http_params, http_header)	
+			local content = select_action(http_params['id'], http_params['code'], http_params['name'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
 	
 	local conf = {
-		ip= '192.168.1.3',
+		ip= '192.168.1.44',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

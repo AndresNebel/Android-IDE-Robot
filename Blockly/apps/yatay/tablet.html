@@ -25,6 +25,9 @@ $(document).ready(function(){
 	$('#btn_remote_proj').before(Yatay.Msg.DIALOG_TXT_REMOTE_PROJ);
 	$('#btn_remote_proj').html(Yatay.Msg.DIALOG_REMOTE_LOADER);	
 	$('#btn_openproj').html(Yatay.Msg.DIALOG_START);
+	$('#btn_delete_all').html(Yatay.Msg.DIALOG_DELETE_ALL);
+	$('#btn_delete_workspace').html(Yatay.Msg.DIALOG_DELETE_WORKSPACE);
+	$('#delete_label').html(Yatay.Msg.DIALOG_DELETE_LABEL);
 
 	imgClickCorrection();
 });
@@ -57,7 +60,7 @@ $(document).ready(function(){
 					<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />
 				</li>	
 				<li>
-					<input type="image" id="btn_trash" onclick="$('#trashButton').click();" src="images/delete.png" class="imgclick cursorHover controlBtn" />
+					<input type="image" id="btn_trash" onclick="Yatay.Common.openDeleteModal();" src="images/delete.png" class="imgclick cursorHover controlBtn" />
 				</li>						
 				<li>
 					<input type="image" id="btn_stop" onclick="stop();" src="images/stop.png" class="imgclick cursorHover controlBtn" style="display: none;"/>
@@ -118,5 +121,19 @@ $(document).ready(function(){
 	</div>
 	<div class="modal-footer">
 		<button id="btn_openproj" class="btn btn-primary" onclick="Yatay.Common.projectSaver()"/>
+	</div>
+</div>
+
+<div id="delete_modal" style="height:150px;width:400px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h4 id="delete_label"/>
+	</div>
+	<div class="modal-body">
+		<button id="btn_delete_all" class="btn btn-primary" onclick="Yatay.discard('All')" style="margin-left:25%; margin-right:5px;"/>
+		<button id="btn_delete_workspace" class="btn btn-primary" onclick="Yatay.discard('Workspace')"/>
+	</div>
+	<div class="modal-footer" style="display:none">
+		
 	</div>
 </div>

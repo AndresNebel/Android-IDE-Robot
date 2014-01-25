@@ -277,12 +277,16 @@ end
 M.refresh = function(active_devices)
 	print('yatay refreshing!')
 	local first = true
+	local not_available_devices = ""
 	if (active_devices ~= nil) then
 		for i=1, #active_devices do 
-			if (active_devices[i] ~= nil and active_devices[i].available) then
+			if (active_devices[i] ~= nil) then --and active_devices[i].available) then
 				for j=1, #active_devices[i].functions do
-					if (active_devices[i].functions[j] ~= nil and active_devices[i].functions[j].available) then
+					if (active_devices[i].functions[j] ~= nil) then
 						local block_type = write_script(active_devices[i], active_devices[i].functions[j], first)			
+						if (not active_devices[i].functions[j].available) then
+							not_available_devices = not_available_devices .. block_type .. ','
+						end
 						yatayBlocksRefresh = yatayBlocksRefresh .. '<block type=\'' .. block_type .. '\'></block>'
 						first = false
 					end
@@ -290,6 +294,7 @@ M.refresh = function(active_devices)
 			end
 		end
 	end
+	yatayBlocksRefresh = not_available_devices .. ';;;' .. yatayBlocksRefresh
 	sched.signal('BlocksRefresh')
 end
 

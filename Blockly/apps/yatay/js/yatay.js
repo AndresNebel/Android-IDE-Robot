@@ -66,22 +66,25 @@ Yatay.init = function() {
   Blockly.fireUiEvent(window, 'resize');
 
 
-	//Override the toolbox disable filter to hide the blocks i want
+//Override the toolbox disable filter to hide the blocks i want
 	Blockly.Flyout.prototype.filterForCapacity_ = function() {
 	  var remainingCapacity = this.targetWorkspace_.remainingCapacity();
 	  var blocks = this.workspace_.getTopBlocks(false);
 	  for (var i = 0, block; block = blocks[i]; i++) {
 		var allBlocks = block.getDescendants();
-		var disabled = allBlocks.length > remainingCapacity;
-		if (block.type == "controls_behaviour" || block.type == "controls_conditionalBehaviour")
+		var disabled = allBlocks.length > remainingCapacity || Yatay.not_available_sensors.indexOf(block.type) != -1;
+		if (!disabled)
 		{
-			disabled = Yatay.workspaceHasBehaviour();
+			if (block.type == "controls_behaviour" || block.type == "controls_conditionalBehaviour")
+			{
+				disabled = Yatay.workspaceHasBehaviour();
+			}
 		}
 		block.setDisabled(disabled);
 	  }
 	};
 
-	// Override Mouse-up handler including Autosave listener
+	// Adding change listener to autosave
 	var startXmlDom = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
 	Yatay.currentWorkspaceXml = Blockly.Xml.domToText(startXmlDom);
 	function change() {
@@ -135,8 +138,25 @@ Yatay.runJS = function() {
 /**
  * Discard all blocks from the workspace.
  */
-Yatay.discard = function() {
-	var count = Blockly.mainWorkspace.getAllBlocks().length;
+Yatay.discard = function(param) {
+	if (param == 'All')
+	{
+		localStorage.yatay_bxs = "";
+		Blockly.mainWorkspace.clear();
+		window.location.hash = '';
+		Yatay.Tablet.behaviours.splice(0,Yatay.Tablet.behaviours.length);
+		$("#bx_list").html("");
+	}
+	else
+	{
+		Yatay.clearWorkspace();	
+		window.location.hash = '';
+	}
+	$('#delete_modal').modal('hide');
+};
+
+Yatay.clearWorkspace = function()
+{
 	var justOneBehaviour = Blockly.mainWorkspace.getTopBlocks().length == 1
 									&& (Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_behaviour" ||
 									Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_conditionalBehaviour");
@@ -155,11 +175,9 @@ Yatay.discard = function() {
 		}
 		localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
 	}
-	if (count < 2 || window.confirm(BlocklyApps.getMsg('Yatay_discard').replace('%1', count))) {
-		Blockly.mainWorkspace.clear();
-		window.location.hash = '';
-	}
-};
+
+	Blockly.mainWorkspace.clear();
+}
 
 
 Yatay.workspaceHasBehaviour = function(){
@@ -246,3 +264,12 @@ Yatay.AutoSave = function() {
 		Yatay.Common.saveInBrowser(name, code);
 	}
 };
+
+
+function SaveToDisk(fileUrl) {
+	 $("#download")[0].innerHTML += '<a id="adown" style="display:none" target="_blank" href="'+fileUrl+'" >download</a>';	
+	var link = document.getElementById('adown'),
+	event = document.createEvent( 'HTMLEvents' );
+	event.initEvent( 'click', true, true );
+	link.dispatchEvent( event );	
+}

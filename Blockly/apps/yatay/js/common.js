@@ -237,10 +237,18 @@ Yatay.Common.loadBxs = function() {
  */
 Yatay.Common.fromXml = function() {
 	if (Yatay.Common.fileCode != '') {
+				var xmlEndTag = '</xml>';
 		if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 			bxReady();
 		}
-		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Yatay.Common.fileCode);
+		var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
+		splittedBlocks.pop();
+		for (var j=0; j< splittedBlocks.length; j++)
+		{
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
+			bxReady();
+		}
+	
 		Yatay.Common.fileCode = '';
 	} else if (Yatay.Common.activesProj.length > 0) {
 		for (var i = 0; i < Yatay.Common.activesProj.length; i++) {
@@ -265,16 +273,34 @@ Yatay.Common.fromXml = function() {
  * Handle save click
  */
 Yatay.Common.toXml = function(link) {
-	if (Blockly.mainWorkspace.getAllBlocks().length > 0) {	
-		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-		var text = Blockly.Xml.domToText(xml);
-		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
-		link.href = 'data:text/xml;charset=UTF-8,' + text; 
-		link.download = name + '.xml';
-	} else {
-		link.href = 'javascript:void(0)'; 
-		link.download = '';
-	}
+		if (Blockly.mainWorkspace.getAllBlocks().length > 0 || Yatay.Tablet.behaviours.length >0) {	
+			var text = ""
+			// Si hay bloques sin minimizar los marco listos
+			if (Blockly.mainWorkspace.getAllBlocks().length >0) {
+				bxReady()
+			}
+			for (var i = 0; i < Yatay.Tablet.behaviours.length; i++) {
+				var codeXML = Yatay.Tablet.behaviours[i][1];	
+				text += codeXML.toString();
+			}		
+		
+
+			var nua = navigator.userAgent;
+			var is_android_browser = ((nua.indexOf('Mozilla/5.0') > -1 && (nua.indexOf('Mobile') > -1 || nua.indexOf('Android') > -1) && nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
+
+			if (is_android_browser)
+			{
+				Yatay.Common.saveTempLocal(escape(text).replace(/\./g, "%2E").replace(/\*/g,"%2A"));
+			}
+			else
+			{	
+				link.href = 'data:text/xml; charset=UTF-8,' + text; 
+				link.download = 'bloques.xml';
+			}
+		} else {
+			link.href = 'javascript:void(0)'; 
+			link.download = '';
+		}
 };
 
 /**
@@ -285,11 +311,14 @@ Yatay.Common.readFile = function(evt) {
 	if (f) {
 		var r = new FileReader();
 		r.onload = function(e) { 
-			Yatay.Common.fileCode = Blockly.Xml.textToDom(e.target.result);  
+			Yatay.Common.fileCode = e.target.result; //Blockly.Xml.textToDom(e.target.result);  
 		}
 		r.readAsText(f);
+	} else { 
+		alert("Failed to load file");
 	}
 };
+
 
 /**
  * Show file chooser modal
@@ -523,5 +552,20 @@ Yatay.Common.loadProj = function() {
 			}
 		},
 		error:function(){}
+	});
+};
+
+
+Yatay.Common.saveTempLocal = function(xml) {
+	$.ajax({
+		url: "/index.html",
+		type: "POST",
+		data: { id:'saveTempLocal', code:xml, name:'yatay'},
+		success: function(content){
+				SaveToDisk("http://192.168.1.44:8080/apps/yatay/_downloads/yatay.apk")
+		},
+		error:function(){
+			alert("failure");
+		}
 	});
 };
