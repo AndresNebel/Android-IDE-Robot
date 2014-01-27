@@ -76,37 +76,27 @@ Yatay.Common.buildMultiSelector = function(select, selectAll) {
  * Handle onChange of Behaviours Bootstrap-multiselect list
  */
 Yatay.Common.BxsChangeSelection = function(element, checked) {
-	$(".modal-body").scrollTop($(".modal-body")[0].scrollHeight);
-	
-	var selected = element['context']['value'];		
-	var project = element['context']['id'];
-	var blocks = element['context']['children'];
-	
-	if (selected == '') {
-		Yatay.Common.activesProj.pop(project)
-		Yatay.Common.activesBxs[project] = [];
-	} else if (selected == 'multiselect-select-all') {
-		for (var i = 1; i < blocks.length; i++) {			
-			var block = element['context']['children'][i]['label'];
-			if (Yatay.Common.activesBxs[project] == undefined) {
-				Yatay.Common.activesBxs[project] = []
-			}
-			if (Yatay.Common.activesProj.indexOf(project) == -1) {
-				Yatay.Common.activesProj.push(project);
-			}
-			if (Yatay.Common.activesBxs[project].indexOf(block) == -1) {
-				Yatay.Common.activesBxs[project].push(block);				
-			}
-		}
-	} else {
-		if (Yatay.Common.activesBxs[project] == undefined) {
-			Yatay.Common.activesBxs[project] = []
-		}
-		if (Yatay.Common.activesProj.indexOf(project) == -1) {
-			Yatay.Common.activesProj.push(project);
-		}
-		Yatay.Common.activesBxs[project].push(selected);
-	}
+	     $(".modal-body").scrollTop($(".modal-body")[0].scrollHeight);
+        
+        var project = element['context']['id'];
+        var selected = $('#' + project).val();                
+        
+        Yatay.Common.activesBxs[project] = [];
+
+        if (selected == null) {
+                Yatay.Common.activesProj.pop(project);
+        } else {
+                for (var i=0; i < selected.length; i++) {
+                        if (selected[i] != 'multiselect-select-all') {                        
+                                if (Yatay.Common.activesProj.indexOf(project) == -1) {
+                                        Yatay.Common.activesProj.push(project);
+                                }
+                                if (Yatay.Common.activesBxs[project].indexOf(selected[i]) == -1) {
+                                        Yatay.Common.activesBxs[project].push(selected[i]);                                
+                                }
+                        }
+                }
+        }
 }; 
 
 /**
@@ -117,7 +107,10 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 	Yatay.Common.joinProj = element['context']['value'];
 }; 
 
-	
+
+/**
+* Opens the Delete popup
+*/	
 Yatay.Common.openDeleteModal = function(){
 	$("#delete_modal").modal('show');
 };
@@ -189,53 +182,48 @@ Yatay.Common.saveTask = function(block, code) {
  * Load stored behaviours from server
  */
 Yatay.Common.loadBxs = function() {
-	$('#remote_proj').html('');
-	$("#loadMainWindow").hide();
-	$('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
+	 $('#remote_proj').html('');
+        $('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
 
-	$.ajax({
-		url: "/index.html",
-		type: "POST",
-		data: { id:'loadBxs' },
-		success: function(content) {
-			$('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
-			if (content.length > 0) {
-				// TODO: Use JSON parser
-				// Create multiselector table
-                    var multiselector = '<tr>' + 
-                    					'<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
-									'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
-                    				'</tr>';
-				var projs = content.split('|');
-				for (var i = 0; i < projs.length; i++) {
-					var proj = projs[i].split('#');
-					multiselector += '<tr><td>' + proj[0] + '</td><td>'
-					multiselector += '<select id=\'' + proj[0] + '\' multiple=\'multiple\'>';	
-					var bxs = proj[1].split(';');				
-					for (var j = 0; j < bxs.length; j++) {
-						var bx = bxs[j].split(',');
-						if (Yatay.Common.bxsCode[proj[0]] == undefined) {
-							Yatay.Common.bxsCode[proj[0]] = [];
-						}
-						Yatay.Common.bxsCode[proj[0]][bx[0]] = bx[1];
-						multiselector += '<option value=\'' + bx[0] + '\'>' + bx[0] + '</option>';
-					}
-					multiselector += '</select></td></tr>';				
-				}
-				// Append multiselector table to dialog
-				$(multiselector).appendTo($('#remote_proj'));
-				// Build all multiselectors				
-				for (var i = 0; i < projs.length; i++) {
-					var proj = projs[i].split('#');
-					Yatay.Common.buildMultiSelector($('#' + proj[0]));	
-				}
-			} else {
-				var multiselector = '<p>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '<p>';
-				$(multiselector).appendTo($('#remote_proj'));
-			}
-		},
-		error:function() {}
-	});
+        $.ajax({
+                url: "/index.html",
+                type: "POST",
+                data: { id:'loadBxs' },
+                success: function(content) {
+                        $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+                        var data = JSON.parse(content);
+                        if (data.length > 0) {
+                                $("#loadMainWindow").hide();
+                    var multiselector = '<tr>' +
+                                                            '<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
+                                                                        '<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
+                                                    '</tr>';
+                                for (var i=0; i<data.length; i++) {
+                                        var elem = data[i];
+                                        multiselector += '<tr><td>' + elem.project + '</td><td>'
+                                        multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
+                                        for (var j=0; j<elem.behaviours.length; j++) {
+                                                var bx = elem.behaviours[j];
+                                                if (Yatay.Common.bxsCode[elem.project] == undefined) {
+                                                        Yatay.Common.bxsCode[elem.project] = [];
+                                                }
+                                                Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
+                                                multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
+                                        }
+                                        multiselector += '</select></td></tr>';                                
+                                }
+                                $(multiselector).appendTo($('#remote_proj'));                                
+                                for (var i=0; i<data.length; i++) {
+                                        Yatay.Common.buildMultiSelector($('#' + data[i].project));        
+                                }
+                        } else {
+                                $('#projects').remove();
+                                var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
+                                $(multiselector).insertBefore($('#btn_remote_loader'));
+                        }
+                },
+                error:function() {}
+        });
 };
 
 /**
@@ -243,36 +231,38 @@ Yatay.Common.loadBxs = function() {
  */
 Yatay.Common.fromXml = function() {
 	if (Yatay.Common.fileCode != '') {
-				var xmlEndTag = '</xml>';
-		if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-			bxReady();
-		}
-		var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
-		splittedBlocks.pop();
-		for (var j=0; j< splittedBlocks.length; j++)
-		{
-			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
-			bxReady();
-		}
-	
-		Yatay.Common.fileCode = '';
-	} else if (Yatay.Common.activesProj.length > 0) {
-		for (var i = 0; i < Yatay.Common.activesProj.length; i++) {
-			var project = Yatay.Common.activesProj[i];
-			for (var j = 0; j < Yatay.Common.activesBxs[project].length; j++) {
-				if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+			var xmlEndTag = '</xml>';
+			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 					bxReady();
-				}	
-				var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
-				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
 			}
-		}		
-		Yatay.Common.bxsCode = [];
-		Yatay.Common.activesBxs = [];	
-		Yatay.Common.activesProj = [];				
+			var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
+			splittedBlocks.pop();
+			for (var j=0; j< splittedBlocks.length; j++)
+			{
+					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
+					bxReady();
+			}
+	
+			Yatay.Common.fileCode = '';
+			$('#loader_modal').modal('hide');        
+	} else if (Yatay.Common.activesProj.length > 0) {
+			for (var i=0; i<Yatay.Common.activesProj.length; i++) {
+					var project = Yatay.Common.activesProj[i];
+					for (var j=0; j<Yatay.Common.activesBxs[project].length; j++) {
+							if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+									bxReady();
+							}        
+							var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
+							Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+					}
+			}                
+			Yatay.Common.bxsCode = [];
+			Yatay.Common.activesBxs = [];        
+			Yatay.Common.activesProj = [];
+			$('#loader_modal').modal('hide');                        
+	} else {
+			$('#loader_modal').effect('shake');
 	}
-	$('#remote_proj').html('');
-	$('#loader_modal').modal('hide');
 };
 
 /**
@@ -317,7 +307,7 @@ Yatay.Common.readFile = function(evt) {
 	if (f) {
 		var r = new FileReader();
 		r.onload = function(e) { 
-			Yatay.Common.fileCode = e.target.result; //Blockly.Xml.textToDom(e.target.result);  
+			Yatay.Common.fileCode = e.target.result; 
 		}
 		r.readAsText(f);
 	} else { 
@@ -486,19 +476,21 @@ Yatay.Common.saveInBrowser = function(name, code) {
 */ 
 Yatay.Common.projectSaver = function() {
 	var proj_name = '';
-	if (Yatay.Common.joinProj == '') {
-		proj_name = $('#proj_input').val();	
-	} else {
-		proj_name = Yatay.Common.joinProj;	
-	}
+        if (Yatay.Common.joinProj == '') {
+                proj_name = $('#proj_input').val();        
+        } else {
+                proj_name = Yatay.Common.joinProj;        
+        }
 
-	if (proj_name != '' && proj_name != null) {
-		var d = new Date();
-		d.setTime(d.getTime()+(1*24*60*60*1000));
-		var expires = "expires="+d.toGMTString();
-		document.cookie = 'project_name' + '=' + proj_name + '; ' + expires;
-		$('#projmaneger_modal').modal('hide');
-	}
+        if (proj_name != '' && proj_name != null) {
+                var d = new Date();
+                d.setTime(d.getTime()+(1*24*60*60*1000));
+                var expires = "expires="+d.toGMTString();
+                document.cookie = 'project_name' + '=' + proj_name + '; ' + expires;
+                $('#projmaneger_modal').modal('hide');
+        } else {
+                $('#projmaneger_modal').effect( "shake" );
+        }
 };
 
 /**
@@ -509,61 +501,57 @@ Yatay.Common.getProject = function() {
 	var name = 'project_name' + '=';
 	var ca = document.cookie.split(';');
 	for (var i=0; i<ca.length; i++) {
-		var c = ca[i].trim();
-		if (c.indexOf(name)==0) 
-			proj_name = c.substring(name.length,c.length);
+			var c = ca[i].trim();
+			if (c.indexOf(name)==0)
+					proj_name = c.substring(name.length,c.length);
 	}
 	return proj_name;
 };
 
 /**
- * Projects cookie check
- */
+* Projects cookie check
+*/
 Yatay.Common.projectChecker = function() {
-	document.cookie = 'project_name' + '=' + '';	
-	var proj_name = Yatay.Common.getProject();	
-	if (proj_name == '') {	
-		$('#projmaneger_modal').modal('show');
-	}
+        document.cookie = 'project_name' + '=' + '';        
+        var proj_name = Yatay.Common.getProject();        
+        if (proj_name == '') {        
+                $('#projmaneger_modal').modal({ backdrop: 'static', keyboard: false });
+        }
 };
 
 /**
- * Load stored projects from server
- */
+* Load stored projects from server
+*/
 Yatay.Common.loadProj = function() {
-	$('#btn_remote_proj').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
-	$('#projects').multiselect('destroy');
-	$('#projects').remove();
+        $('#btn_remote_proj').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
+        $('#projects').multiselect('destroy');
+        $('#projects').remove();
 
-	$.ajax({
-		url: "/index.html",
-		type: "POST",
-		data: { id:'loadProjs' },
-		success: function(content) {
-			$('#btn_remote_proj').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
-			if (content.length > 0) {
-				var projs = content.split(';');
-			    var multiselector = '<select id=\'projects\' multiple=\'multiple\'>';
-				for (var i = 0; i < projs.length; i++) {
-					multiselector += '<option value=\'' + projs[i] + '\'>' + projs[i] + '</option>';
-				}
-				multiselector += '</select>';
-				$(multiselector).insertBefore($('#btn_remote_proj'));
-				for (var i = 0; i < projs.length; i++) {
-					Yatay.Common.buildMultiSelector($('#projects'), false);
-				}
-			}
-			else {
-				var multiselector = '<p>' + Yatay.Msg.DIALOG_NO_PROJS + '<p>';
-				$('#btn_remote_proj')[0].parentElement.outerHTML = multiselector;
-			}
-		},
-		error:function(e){
-			alert(e.message);
-		}
-	});
+        $.ajax({
+                url: "/index.html",
+                type: "POST",
+                data: { id:'loadProjs' },
+                success: function(content) {
+                        $('#btn_remote_proj').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+                        var projs = JSON.parse(content);
+                        if (projs.length > 0) {
+                                Yatay.Common.joinProj = projs[0];
+                        var multiselector = '<select id=\'projects\'>';
+                                for (var i=0; i<projs.length; i++) {
+                                        multiselector += '<option value=\'' + projs[i] + '\'>' + projs[i] + '</option>';
+                                }
+                                multiselector += '</select>';
+                                $(multiselector).insertBefore($('#btn_remote_proj'));
+                                Yatay.Common.buildMultiSelector($('#projects'), false);
+                                $('.btn-group').addClass('dropup');
+                        } else {
+                                var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_PROJS + '</p>';
+                                $(multiselector).insertBefore($('#btn_remote_proj'));
+                        }
+                },
+                error:function(){}
+        });
 };
-
 
 Yatay.Common.saveTempLocal = function(xml) {
 	$.ajax({
