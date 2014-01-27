@@ -30,14 +30,14 @@ Yatay.Msg.DIALOG_REMOTE_LOADER = "load";
 Yatay.Msg.DIALOG_LOADING = "loading...";
 Yatay.Msg.DIALOG_PROJECT = "Project";
 Yatay.Msg.DIALOG_BEHAVIOURS = "Behaviours";
-Yatay.Msg.DIALOG_NO_BEHAVIOURS = "There aren't behaviours on server.";
+Yatay.Msg.DIALOG_NO_BEHAVIOURS = "there aren't behaviours on server. ";
 Yatay.Msg.DIALOG_START = "Start";
-Yatay.Msg.DIALOG_PROJMANAGER_LABEL = "Project Administrator";
+Yatay.Msg.DIALOG_PROJMANAGER_LABEL = "Wellcome to Yatay!";
 Yatay.Msg.DIALOG_NEW_PROJ = "New project";
 Yatay.Msg.DIALOG_REMOTE_PROJ = "Join project";
 Yatay.Msg.DIALOG_TXT_REMOTE_PROJ = "You can load existing projects: ";
 Yatay.Msg.DIALOG_PROJ_NAME = "Project name: ";
-Yatay.Msg.DIALOG_NO_PROJS = "There aren't projects on server";
+Yatay.Msg.DIALOG_NO_PROJS = "there are any left. ";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
@@ -49,7 +49,7 @@ Yatay.Msg.BUTIA_TRUN_TITLE = 'turn';
 Yatay.Msg.BUTIA_TURN_LEFT = 'left';
 Yatay.Msg.BUTIA_TURN_RIGHT = 'right';
 Yatay.Msg.BUTIA_TURN_TOOLTIP = 'Trun left or right robot Butiá.';
-Yatay.Msg.BUTIA_STOP_TITLE = 'stop';
+Yatay.Msg.BUTIA_STOP_TITLE = 'stop'; 
 Yatay.Msg.BUTIA_STOP_TOOLTIP = 'Stop robot Butiá.';
 Yatay.Msg.BUTIA_GREY_TITLE = 'grey sensor';
 Yatay.Msg.BUTIA_GREY_TOOLTIP = 'Get value of grey sensor of robot Butiá.';
