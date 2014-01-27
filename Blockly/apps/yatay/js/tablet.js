@@ -76,16 +76,24 @@ function runTasks() {
 		$('#btn_stop').toggle('slow');
 	} else {
 		// Si es modo test
-		if (Yatay.Tablet.testMode) {
-			var testTask = "" +
-					 "local M = {}\n" +			
-					 "local robot = require 'tasks/RobotInterface'\n" +
-					 "M.run = function ()\n" +
-						Blockly.Lua.workspaceToCode() +
-					 "end\n"+
-					 "return M\n"; 
-			Yatay.Common.testRobot(testTask);
-			pollResults();
+		if (Yatay.Tablet.testMode ) {
+			if (Blockly.mainWorkspace.getAllBlocks().length >0)
+			{
+				var testTask = "" +
+						 "local M = {}\n" +			
+						 "local robot = require 'tasks/RobotInterface'\n" +
+						 "local sched = require 'sched'\n" + 
+						 "local run = function ()\n" +
+							Blockly.Lua.workspaceToCode() +
+						 "end\n"+
+						 "M.init = function(conf)\n" +
+						 "	  local waitRun = {emitter='*', events={'TestsMayNowRun'}}\n" +
+						 "	  M.task = sched.sigrun(waitRun, run)\n" +
+						 "end\n"+
+						 "return M\n"; 
+				Yatay.Common.testRobot(testTask);
+				pollResults();
+			}
 		} else {
 			// Si hay bloques sin minimizar los marco listos
 			if (Blockly.mainWorkspace.getAllBlocks().length >0) {
@@ -152,7 +160,9 @@ function stop(){
 			$("#bx_ready").show();
 		}
 		Yatay.Tablet.testMode = false;
+		Yatay.Common.killTasks();
 		Yatay.leaveTestMode();
+
 	} else {
 		//Este valor es un 
 		Yatay.DebugBlockIdOffset = 0;

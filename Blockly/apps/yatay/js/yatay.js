@@ -206,8 +206,14 @@ Yatay.enterTestMode = function(){
 Yatay.leaveTestMode = function(){
 	//Remove all items from toolbox (to avoid repeatance of items on init) and init toolbox again
 	Blockly.Toolbox.tree_.children_[2].dispose();
-	Blockly.Toolbox.init();
+	for (var i=0; i <6; i++)
+	{
+		Blockly.Toolbox.tree_.children_.pop();
+	}
+	Blockly.Toolbox.populate_();
+//	Blockly.Toolbox.init();
 	Blockly.mainWorkspace.maxBlocks = "Infinite";
+	Blockly.mainWorkspace.clear();
 }
 
 

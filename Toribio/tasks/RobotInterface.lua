@@ -276,10 +276,10 @@ M.refresh_devices = function()
 	local new_devices = M.list_devices_functions('any')
 
 	if (compare(M.active_devices, new_devices)) then
-		print('mustn\'t refresh devices')
+		print('no need to refresh devices')
 		return false
 	else 
-		print('must refresh devices')
+		print('no need to refresh devices')
 		yatayBlocksRefresh = ''
 		local c =	coroutine.create(
 			function (devices)

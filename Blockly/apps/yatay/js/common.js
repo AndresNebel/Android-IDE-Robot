@@ -117,6 +117,12 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 	Yatay.Common.joinProj = element['context']['value'];
 }; 
 
+	
+Yatay.Common.openDeleteModal = function(){
+	$("#delete_modal").modal('show');
+};
+
+
 /**
  * Send task to server
  */
@@ -362,7 +368,7 @@ function pollResults() {
 				$("#spnResSensor").text('');
 				$("#spnResValue").text('');
 		}
-	}, 1000);
+	}, 400);
 };
 
 /**
@@ -537,7 +543,7 @@ Yatay.Common.loadProj = function() {
 			$('#btn_remote_proj').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
 			if (content.length > 0) {
 				var projs = content.split(';');
-                    var multiselector = '<select id=\'projects\' multiple=\'multiple\'>';
+			    var multiselector = '<select id=\'projects\' multiple=\'multiple\'>';
 				for (var i = 0; i < projs.length; i++) {
 					multiselector += '<option value=\'' + projs[i] + '\'>' + projs[i] + '</option>';
 				}
@@ -546,12 +552,15 @@ Yatay.Common.loadProj = function() {
 				for (var i = 0; i < projs.length; i++) {
 					Yatay.Common.buildMultiSelector($('#projects'), false);
 				}
-			} else {
+			}
+			else {
 				var multiselector = '<p>' + Yatay.Msg.DIALOG_NO_PROJS + '<p>';
-				$(multiselector).append($('#btn_remote_proj'));
+				$('#btn_remote_proj')[0].parentElement.outerHTML = multiselector;
 			}
 		},
-		error:function(){}
+		error:function(e){
+			alert(e.message);
+		}
 	});
 };
 

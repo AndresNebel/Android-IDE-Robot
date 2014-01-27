@@ -1,81 +1,74 @@
-/**
- * Visual Blocks Language
- *
- * Copyright 2012 Google Inc.
- * http://code.google.com/p/blockly/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview Generating Lua for control blocks.
- * @author fraser@google.com (Neil Fraser)
- * Due to the frequency of long strings, the 80-column wrap rule need not apply
- * to language files.
- */
-
+/* Automatically Generated Code */
 'use strict';
 
 goog.provide('Blockly.Lua.butia');
-
 goog.require('Blockly.Lua');
 
-Blockly.Lua["butia_move"] = function(block) {
-	// Generate Lua for moving robot butiá forward or backwards.
-	var debugTrace = "";
+Blockly.Lua['medir distancia'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return debugTrace + "robot.execute('bb-distanc:3','getValue',{})"; 
+}; 
 
-	if (Yatay.DebugMode)
-	{
-		debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
-	}
+Blockly.Lua['sensor de grises'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return "robot.execute('bb-grey:2','getValue',{})"; 
+}; 
 
-	if(block.getTitleValue('DIR') == 'moveForward') {
-		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {1,500,1,500})\n";
-	}else if(block.getTitleValue('DIR') == 'moveBackward') {
-		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {0,500,0,500})\n";
-	}
-};
+Blockly.Lua['boton'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return "robot.execute('bb-button:4','getValue',{})"; 
+}; 
 
+Blockly.Lua['mover adelante'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return debugTrace + "robot.execute('bb-motors','setvel2mtr',{1,500,1,500})"; 
+}; 
 
-Blockly.Lua["butia_turn"] = function(block) {
-	var debugTrace = "";
+Blockly.Lua['mover atras'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return debugTrace + "robot.execute('bb-motors','setvel2mtr',{0,500,0,500})"; 
+}; 
 
-	if (Yatay.DebugMode)
-	{
-		debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
-	}
-	// Generate Lua for turning robot butiá left or right.
-	if(block.getTitleValue('DIR') == 'turnLeft') {
-		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {1,500,0,500})\n";
-	}else if(block.getTitleValue('DIR') == 'turnRight') {
-		return debugTrace + "robot.execute('bb-motors','setvel2mtr', {0,500,1,500})\n";
-	}
-};
+Blockly.Lua['girar izquierda'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return debugTrace + "robot.execute('bb-motors','setvel2mtr',{1,500,0,500})"; 
+}; 
 
-Blockly.Lua["butia_stop"] = function(block) {
-	var debugTrace = "";
+Blockly.Lua['girar derecha'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	return debugTrace + "robot.execute('bb-motors','setvel2mtr',{0,500,1,500})"; 
+}; 
 
-	if (Yatay.DebugMode)
-	{
-		debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
-	}
-	return debugTrace + "robot.execute('bb-motors','setvel2mtr', {0,0,0,0})";
-};
-
-Blockly.Lua["butia_grey"] = function(block) {
-	//var sensorRes = "local sensorResult = robot.execute('bb-grey:2','getValue',{})\n";
-//	var writeRes = "table.insert(resultsQueue, 1, sensorResult)\n" + "sched.signal('NewResult')\n";
-//	return sensorRes + writeRes;
-	return "robot.execute('bb-grey:2','getValue',{})";
-};
+Blockly.Lua['girar'] = function(block) { 
+	var debugTrace = ''; 
+	if (Yatay.DebugMode) { 
+		debugTrace = "robot.put_debug_result('"+ block.id +"')\n"; 
+	} 
+	var arg1 = Blockly.Lua.statementToCode(this, '1', true) || '0'; 
+	var arg2 = Blockly.Lua.statementToCode(this, '2', true) || '0'; 
+	var arg3 = Blockly.Lua.statementToCode(this, '3', true) || '0'; 
+	var arg4 = Blockly.Lua.statementToCode(this, '4', true) || '0'; 
+	return debugTrace + "robot.execute('bb-motors','setvel2mtr',{" + arg1 + ", " + arg2 + ", " + arg3 + ", " + arg4 + "})"; 
+}; 
 

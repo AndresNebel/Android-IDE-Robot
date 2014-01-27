@@ -97,14 +97,13 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
   "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 
-  "M.done = true\n" + 
+  "M.done = false\n" + 
   "M.blockId = " + block.id + "\n" +
   "M.name = '" + name + "'\n" +
   "M.priority = " + priority + "\n" +
   "local competeForActive = function ()\n" +
-  "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority) then\n" +
-  "     activeBehaviour = M\n " + 
-  "  elseif (activeBehaviour ~= nil and M.priority == activeBehaviour.priority and activeBehaviour.done) then\n" +
+  "  M.done = false\n"+
+  "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority or activeBehaviour.done) then\n" +
   "     activeBehaviour = M\n " + 
   "  end\n" +
   "end\n"+
@@ -114,12 +113,14 @@ Blockly.Lua["controls_behaviour"] = function(block) {
    	  debugTrace +
 	  behaviourCode +
   "   M.done = true\n"+
+  "   activeBehaviour = nil\n"+
   "end\n"+
   "M.ReleaseControl = function()\n" +
   "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0})\n" +
   "end\n" +
 
   "M.init = function(conf)\n" +
+  "   M.done = false\n" + 
   "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
   "	  local waitRun = {emitter='*', events={M.name}}\n" +
   "	  M.task = sched.sigrun(waitRun, run)\n" +
@@ -149,35 +150,45 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
   "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 
-  "M.done = true\n" + 
+  "M.done = false\n" + 
   "M.blockId = " + block.id + "\n" +
   "M.name = '" + name + "'\n" +
   "M.priority = " + priority + "\n" +
   "local competeForActive = function ()\n" +
+  "  M.done = false\n"+
   "  if (" + behaviourCondition + ") then\n" +
-  "     if (activeBehaviour == nil or M.priority > activeBehaviour.priority) then\n" +
-  "         activeBehaviour = M\n " + 
-  "      elseif (activeBehaviour ~= nil and M.priority == activeBehaviour.priority and activeBehaviour.done) then\n" +
-  "         activeBehaviour = M\n " + 
-  "     end\n" +
+	  "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority or activeBehaviour.done) then\n" +
+		  "  if (activeBehaviour == nil) then\n" +
+		  "		print('nil')\n" +
+		  "	 else\n" +
+		 "		print(activeBehaviour, activeBehaviour.priority, activeBehaviour.done)\n" +
+	  "  end\n" +
+	  "		print('won " + name + "')\n" +
+	  "     activeBehaviour = M\n " + 
+	  "  end\n" +
   "  end\n" +
   "end\n"+
 
   "local run = function ()\n" +
+  "		print('run " + name + "')\n" +
   "   M.done = false\n"+
    	  debugTrace +
 	  behaviourCode +
   "   M.done = true\n"+
+  "   activeBehaviour = nil\n"+
   "end\n"+
   "M.ReleaseControl = function()\n" +
   "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0})\n" +
   "end\n" +
 
   "M.init = function(conf)\n" +
+
+  "   M.done = false\n" + 
   "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
   "	  local waitRun = {emitter='*', events={M.name}}\n" +
   "	  M.task = sched.sigrun(waitRun, run)\n" +
   "	  M.compete_task = sched.sigrun(waitd, competeForActive)\n" +
+  "		print('inited " + name + "')\n" +
   "end\n" +
   "return M\n"; 
 
