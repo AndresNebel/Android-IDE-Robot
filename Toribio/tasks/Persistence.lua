@@ -33,28 +33,24 @@ M.insert = function(project, block, code)
 end
 
 M.get_behaviours = function(project)
-	results = ''
+	local result = {}
 	bxs_stmt = assert(db:prepare('SELECT * FROM Yatay WHERE project = ?'))
 	assert(bxs_stmt:bind_values(project) == sqlite3.OK)
 	for bx in bxs_stmt:nrows() do 
-		if (results == '') then 
-			results = bx['block'] .. ',' .. bx['code']
-		else
-			results = results .. ';' .. bx['block'] .. ',' .. bx['code']
-		end
+		result[#result+1] = {}		
+		result[#result].block = bx['block']
+		result[#result].code = bx['code']
 	end
-	return results
+	return result
 end
 
 M.get_projects = function()
-	results = {}
+	local result = {}
 	projs_stmt = assert(db:prepare('SELECT distinct(project) FROM Yatay'))
-	local i = 1 
 	for projs in projs_stmt:nrows() do 
-		results[i] = projs['project']
-		i = i + 1
+		result[#result+1] = projs['project']
 	end
-	return results
+	return result
 end
 
 M.init = function(conf)

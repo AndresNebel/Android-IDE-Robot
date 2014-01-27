@@ -24,7 +24,7 @@ local function testRobot(code)
 	local decoded_task = url_decode(url_decode(code))		
 		local c = coroutine.create(
 		function ()
-				local executor = require 'tasks/Executor'
+			local executor = require 'tasks/Executor'
 			executor.test_robot(decoded_task)
  		end)
 	coroutine.resume(c)
@@ -35,18 +35,18 @@ local function killTasks()
 	yatayDebugResults = nil
 	local c =	coroutine.create(
 		function ()
-	        local executor = require 'tasks/Executor'
+			local executor = require 'tasks/Executor'
 			executor.kill_tasks()
 		end)
 	coroutine.resume(c)
 end
 
-local function saveTask(code, name)
-	local decoded_task = url_decode(url_decode(code))	
-	local c =	coroutine.create(
+local function saveTask(project, block, code)
+	local decoded_task = url_decode(url_decode(code))  
+	local c =  coroutine.create(
 		function ()
-			local pjadmin = require 'tasks/ProjectAdmin'		
-			pjadmin.save_task(name, decoded_task)
+			local pjadmin = require 'tasks/ProjectAdmin'    
+			pjadmin.save_task(project, block, decoded_task)
 		end)
 	coroutine.resume(c)
 end
@@ -99,13 +99,7 @@ local function saveTempLocal(xml, filename)
 	return "";
 end
 
---local actions = { init=initTask, kill=killTasks, save=saveTask, poll=pop_result}
-
-local function select_action(id, code, name)
---	local action = actions[id]
---	if action ~= nil then
---		return action(code, name)
---	end
+local function select_action(id, project, block, code)
 	if (id == 'init') then 
 		initTask(code)
 	elseif (id == 'kill') then
@@ -115,7 +109,7 @@ local function select_action(id, code, name)
 	elseif (id == 'pollDebug') then
 		return pop_blocking(yatayDebugResults, 'NewDebugResult')
 	elseif (id == 'save') then
-		saveTask(code, name)
+		saveTask(project, block, code)
 	elseif (id == 'test') then
 		testRobot(code)
 	elseif (id == 'loadBxs') then
@@ -149,13 +143,13 @@ M.init = function(conf)
 		'POST',
 		'/index.html',
 		function(method, path, http_params, http_header)	
-			local content = select_action(http_params['id'], http_params['code'], http_params['name'])
+			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
 	
 	local conf = {
-		ip= '192.168.1.44',
+		ip= '192.168.1.3',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

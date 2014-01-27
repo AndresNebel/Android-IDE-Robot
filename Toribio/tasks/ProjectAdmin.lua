@@ -1,6 +1,7 @@
 local M = {}
 
 local sched = require 'sched'
+local json = require 'json'
 local persistence = require 'tasks/Persistence'
 
 M.save_task = function(project, block, code)
@@ -14,29 +15,19 @@ M.save_task = function(project, block, code)
 end
 
 M.load_bxs = function()
-	local results = ''
+	local result = {}
 	local projs = persistence.get_projects()
 	for i=1, #projs do
-		if (results == '') then
-			results = projs[i] .. '#' .. persistence.get_behaviours(projs[i])
-		else		
-			results = results .. '|' .. projs[i] .. '#' .. persistence.get_behaviours(projs[i])	
-		end	
+		result[i] = {}
+		result[i].project = projs[i] 
+		result[i].behaviours = persistence.get_behaviours(projs[i])
 	end
-	return results
+	return json.encode(result)
 end
 
 M.load_projs = function()
-	local results = ''
 	local projs = persistence.get_projects()
-	for i=1, #projs do
-		if (results == '') then
-			results = projs[i]
-		else 
-			results = results .. ';' .. projs[i]
-		end
-	end
-	return results
+	return json.encode(projs)
 end 
 
 return M

@@ -15,7 +15,8 @@
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" type="text/css">
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-multiselect.css" type="text/css">
 	
-	<script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>	
+	<script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui-1.10.4.custom.min.js"></script>	
 	<script type="text/javascript" src="lib/yepnope.1.5.4-min.js"></script>
 	<script type="text/javascript" src="lib/modernizr-2.5.3.min.js"></script>
 	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
@@ -40,7 +41,6 @@
 			async: false,
 			success: function(content) {
 				Yatay.not_available_sensors = content.split(";;;")[0].split(","); 
-				//The lastone doesn't count, it's empty
 				Yatay.not_available_sensors.pop();
 				content = content.split(";;;")[1];
 				document.write(codepage.start(content, null, {langSrc: BlocklyApps.languagePack()}));
