@@ -19,7 +19,6 @@ M.kill_tasks = function()
 					collectgarbage('restart')
 					--Autogen Id for robot calibrations
 					M.tests_id = 1
-					
 					RBTManagerActivate = false
 					for name, btable in behaviours:iterator() do
 						behaviours:unregister(name)

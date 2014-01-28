@@ -17,6 +17,11 @@ M.deliverResultToWebServer = function(sensorResult)
 	sched.signal('NewSensorResult')
 end
 
+M.printToWebConsole = function(msg)
+	yatayWebConsole = msg
+	sched.signal('NewSensorResult')
+end
+
 --Utils
 local function compare(t1, t2)
 	if t1 == t2 then return true end

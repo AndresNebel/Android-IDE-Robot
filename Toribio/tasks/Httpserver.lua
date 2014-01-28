@@ -33,6 +33,7 @@ end
 local function killTasks()
 	yataySensorResults = nil
 	yatayDebugResults = nil
+	yatayWebConsole = ''
 	local c =	coroutine.create(
 		function ()
 			local executor = require 'tasks/Executor'
@@ -105,9 +106,10 @@ local function select_action(id, project, block, code)
 	elseif (id == 'kill') then
 		killTasks()
 	elseif (id == 'poll') then
-		return pop_blocking(yataySensorResults, 'NewSensorResult')
+		local ret = pop_blocking(yataySensorResults, 'NewSensorResult').."#;#"..yatayWebConsole
+		return ret
 	elseif (id == 'pollDebug') then
-		return pop_blocking(yatayDebugResults, 'NewDebugResult')
+		return pop_blocking(yatayDebugResults, 'NewDebugResult')		 
 	elseif (id == 'save') then
 		saveTask(project, block, code)
 	elseif (id == 'test') then
@@ -138,6 +140,7 @@ M.init = function(conf)
 	yataySensorResults = nil
 	yatayDebugResults = nil	
 	yatayBlocksRefresh = ''	
+	yatayWebConsole = ''
 
 	http_server.set_request_handler(
 		'POST',
