@@ -339,8 +339,11 @@ function pollResults() {
 				data: {id:'poll', name:'', code:''},
 				success: function(html) {
 					if (html.length > 0) {
-						var sensor = html.split(' ')[0];
-						var value = html.replace(sensor,'');
+						var sensorHtml = html.split('#;#')[0];
+						var console = html.split('#;#')[1];
+						$("#spnConsole").text(console);
+						var sensor = sensorHtml.split(' ')[0];
+						var value = sensorHtml.replace(sensor,'');
 						if ($("#spnResSensor").text() != sensor || $("#spnResValue").text() != value)
 							$('#divResults').show();
 						$("#spnResSensor").text(sensor);
@@ -357,8 +360,9 @@ function pollResults() {
 		} else {
 				$("#spnResSensor").text('');
 				$("#spnResValue").text('');
+				$("#spnConsole").text('');
 		}
-	}, 400);
+	}, 100);
 };
 
 /**
@@ -512,7 +516,7 @@ Yatay.Common.getProject = function() {
 * Projects cookie check
 */
 Yatay.Common.projectChecker = function() {
-        document.cookie = 'project_name' + '=' + '';        
+//        document.cookie = 'project_name' + '=' + '';        
         var proj_name = Yatay.Common.getProject();        
         if (proj_name == '') {        
                 $('#projmaneger_modal').modal({ backdrop: 'static', keyboard: false });
