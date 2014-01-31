@@ -121,10 +121,16 @@ Yatay.Common.openDeleteModal = function(){
  */
 Yatay.Common.sendTasks = function(code) {
 	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
+	var idUser = getCookie("idUser");
+	if (idUser == null)
+	{
+		location.reload(); 
+		return;
+	}
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: { id:'init', code:values},
+		data: { id:'init', code:values, userId: idUser},
 		success: function() {},
 		error:function() {
 			$("#spnResSensor").text('Intenta ejecutar otra vez.');
@@ -138,11 +144,18 @@ Yatay.Common.sendTasks = function(code) {
  */
 Yatay.Common.testRobot = function(code) {
 	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
+	var idUser = getCookie("idUser");
+	if (idUser == null)
+	{
+		location.reload(); 
+		return;
+	}
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: { id:'test', code:values},
-		success: function() {},
+		data: { id:'test', code:values, userId: idUser},
+		success: function() {
+		},
 		error:function() {
 			$("#spnResSensor").text('Intenta ejecutar otra vez.');
 			$('#divResults').show();
@@ -154,10 +167,16 @@ Yatay.Common.testRobot = function(code) {
  * Kill all tasks running
  */
 Yatay.Common.killTasks = function() {
+	var idUser = getCookie("idUser");
+	if (idUser == null)
+	{
+		location.reload(); 
+		return;
+	}
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: { id:'kill', code:''},
+		data: { id:'kill', code:'', userId: idUser},
 		success: function(content){},
 		error:function(){}
 	});
@@ -331,12 +350,18 @@ Yatay.Common.openFileChooser = function(){
  */
 function pollResults() {
 	setTimeout(function() {
+		var idUser = getCookie("idUser");
+		if (idUser == null)
+		{
+			location.reload(); 
+			return;
+		}
 		//If it's running (boton stop is showing) then poll
 		if ($('#btn_stop').css("display") != "none")	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
-				data: {id:'poll', name:'', code:''},
+				data: {id:'poll', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
 						var sensorHtml = html.split('#;#')[0];
@@ -370,12 +395,18 @@ function pollResults() {
  */
 function debugPoll() {
 	setTimeout(function(){
+		var idUser = getCookie("idUser");
+		if (idUser == null)
+		{
+			location.reload(); 
+			return;
+		} 
 		//If it's running (boton stop is showing) then poll
 		if ($('#btn_stop').css("display") != "none")	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
-				data: {id:'pollDebug', name:'', code:''},
+				data: {id:'pollDebug', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
 						var behaviourName = html.split(':')[0];
@@ -570,3 +601,34 @@ Yatay.Common.saveTempLocal = function(xml) {
 		}
 	});
 };
+
+/**
+ * Request a userId
+ */
+function requestUserId() {
+	$.ajax({
+		url: "/index.html",
+		type: "POST",
+		data: { id:'getUserId'},
+		success: function(html){
+			setCookie("idUser", html);
+		},
+		error:function(err){
+			alert(err);
+		}
+	});
+};
+
+function getCookie(name) {   
+	var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");   
+	if (parts.length == 2) return parts.pop().split(";").shift(); 
+}
+
+function setCookie(name, value)
+{
+    var d = new Date();
+    d.setTime(d.getTime()+(1*24*60*60*1000));
+    var expires = "expires="+d.toGMTString();
+    document.cookie = name + '=' + value + '; ' + expires;    
+}

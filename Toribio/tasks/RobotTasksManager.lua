@@ -55,6 +55,7 @@ M.init = function(conf)
 					end
 					sched.yield()
 				end
+				sched.signal("TestsMayNowRun")
 			else
 				activeBehaviour = nil
 				previousBehaviour = nil

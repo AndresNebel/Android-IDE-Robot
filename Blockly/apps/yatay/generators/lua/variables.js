@@ -47,7 +47,7 @@ Blockly.Lua["variables_set"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
 
   return debugTrace + prefix + this.getTitleValue('VAR') + ' = ' + argument0 + '\n';
@@ -64,8 +64,14 @@ Blockly.Lua["variables_text"] = function(block) {
 
 Blockly.Lua["variables_print"] = function(block) {
   // Variable getter.
+  var debugTrace = "";
+
+  if (Yatay.DebugMode)
+  {
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
+  }
   var text = block.getTitleValue('TEXT');
-  return "print('"+ text +"')\n robot.deliverResultToWebServer('" + text + "')\n";
+  return debugTrace + "print('"+ text +"')\n robot.printToWebConsole('" + text + "')\n";
 };
 
 

@@ -10,34 +10,34 @@ local function url_decode(s)
 		end ))
 end
 
-local function initTask(code)
+local function initTask(code, userId)
 	local decoded_task = url_decode(url_decode(code))		
 		local c = coroutine.create(
 		function ()
 				local executor = require 'tasks/Executor'
-			executor.create_task(decoded_task)
+			executor.create_task(decoded_task, userId)
  		end)
 	coroutine.resume(c)
 end
 
-local function testRobot(code)
+local function testRobot(code, userId)
 	local decoded_task = url_decode(url_decode(code))		
 		local c = coroutine.create(
 		function ()
 			local executor = require 'tasks/Executor'
-			executor.test_robot(decoded_task)
+			executor.test_robot(decoded_task, userId)
  		end)
 	coroutine.resume(c)
 end
 
-local function killTasks()
-	yataySensorResults = nil
-	yatayDebugResults = nil
+local function killTasks(userId)
+	yataySensorResults[userId] = nil
+	yatayDebugResults[userId] = nil
 	yatayWebConsole = ''
 	local c =	coroutine.create(
 		function ()
 			local executor = require 'tasks/Executor'
-			executor.kill_tasks()
+			executor.kill_tasks(userId)
 		end)
 	coroutine.resume(c)
 end
@@ -65,6 +65,24 @@ local function pop_blocking(name, ev_name)
 --	print('Aw Results:', ev_name, name)
 	if (name ~= nil) then
 		return name
+	end
+	return "";
+end 
+
+
+local function pop_blocking_user(name, ev_name, userId)
+--	print('Results:', ev_name, name)
+	if (name ~= nil and name[userId] ~= nil) then
+		return name[userId]
+	end
+	local _, event = sched.wait({
+		emitter='*', 
+		timeout=2, 
+		events={ev_name}
+	})
+--	print('Aw Results:', ev_name, name)
+	if (name ~= nil and name[userId] ~= nil) then
+		return name[userId]
 	end
 	return "";
 end 
@@ -100,20 +118,28 @@ local function saveTempLocal(xml, filename)
 	return "";
 end
 
-local function select_action(id, project, block, code)
+local function select_action(id, project, block, code, strUserId)
+	local userId = 0
+	if (strUserId ~= nil and strUserId ~= "0") then
+		userId = tonumber(strUserId)
+	end
+
 	if (id == 'init') then 
-		initTask(code)
+		initTask(code, userId)
 	elseif (id == 'kill') then
-		killTasks()
+		killTasks(userId)
 	elseif (id == 'poll') then
-		local ret = pop_blocking(yataySensorResults, 'NewSensorResult').."#;#"..yatayWebConsole
+		if (yatayWebConsole == nil) then
+			yatayWebConsole = ""
+		end
+		local ret = pop_blocking_user(yataySensorResults, 'NewSensorResult', userId).."#;#"..yatayWebConsole
 		return ret
 	elseif (id == 'pollDebug') then
-		return pop_blocking(yatayDebugResults, 'NewDebugResult')		 
+		return pop_blocking_user(yatayDebugResults, 'NewDebugResult', userId)		 
 	elseif (id == 'save') then
 		saveTask(project, block, code)
 	elseif (id == 'test') then
-		testRobot(code)
+		testRobot(code, userId)
 	elseif (id == 'loadBxs') then
 		return load_bxs()
 	elseif (id == 'loadProjs') then
@@ -124,6 +150,10 @@ local function select_action(id, project, block, code)
 		return refresh()
 	elseif (id == 'saveTempLocal') then
 		return saveTempLocal(code,name)		
+	elseif (id == 'getUserId') then
+		yatayUserId = yatayUserId + 1
+		userId = yatayUserId
+		return ''..userId
 	end
 	return ""
 end
@@ -137,22 +167,23 @@ M.init = function(conf)
 
 	--Inicializando la cola de resultados
 	--TODO: hacer una tabla de resultados
-	yataySensorResults = nil
-	yatayDebugResults = nil	
+	yataySensorResults = {}
+	yatayDebugResults = {}	
 	yatayBlocksRefresh = ''	
 	yatayWebConsole = ''
+	yatayUserId = 0
 
 	http_server.set_request_handler(
 		'POST',
 		'/index.html',
 		function(method, path, http_params, http_header)	
-			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'])
+			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['userId'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
 	
 	local conf = {
-		ip= '192.168.1.47',
+		ip= '192.168.1.42',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

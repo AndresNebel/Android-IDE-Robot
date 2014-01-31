@@ -6,14 +6,14 @@ local devices = toribio.devices
 local sched = require 'sched'
 
 --Path to files
-local butia_blocks = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/blocks/butia.js'
-local butia_code = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/generators/lua/butia.js'
+local butia_blocks = 'Lumen/tasks/http-server/www/apps/yatay/blocks/butia.js'
+local butia_code = 'Lumen/tasks/http-server/www/apps/yatay/generators/lua/butia.js'
 
 --Active devices at the moment
 M.active_devices = nil
 
-M.deliverResultToWebServer = function(sensorResult)
-	yataySensorResults = sensorResult
+M.deliverResultToWebServer = function(sensorResult, userId)
+	yataySensorResults[userId] = sensorResult
 	sched.signal('NewSensorResult')
 end
 
@@ -38,7 +38,7 @@ local function compare(t1, t2)
 end
 
 --Take it from Bobot Server
-M.execute = function(sensor, func, params)
+M.execute = function(sensor, func, params, caller)
 	local device = devices[sensor]
 	if (device) then
 		local api_call=device[func];
@@ -50,7 +50,7 @@ M.execute = function(sensor, func, params)
 		if ok then 
 			local sensorResult = table.concat(ret, ',', 2)
 			if (#sensorResult > 0) then
-				M.deliverResultToWebServer(sensor..': '..sensorResult)
+				M.deliverResultToWebServer(sensor..': '..sensorResult, caller)
 			end
 			return tonumber(sensorResult)
 		else 
@@ -181,8 +181,8 @@ M.list_devices_functions = function(device_type)
 	end
 end
 
-M.put_debug_result = function(blockId)
-	yatayDebugResults = activeBehaviour.name..':'..activeBehaviour.blockId..':'..blockId
+M.put_debug_result = function(blockId, userId)
+	yatayDebugResults[userId] = activeBehaviour.name..':'..activeBehaviour.blockId..':'..blockId
 	sched.signal('NewDebugResult')
 	sched.sleep(0.7)
 end
@@ -247,7 +247,7 @@ local function write_code(dev, func, first)
 		code = code .. 'Blockly.Lua[\'' .. func.alias .. '\'] = function(block) { \n' ..
 					'	var debugTrace = \'\'; \n' .. 
 					'	if (Yatay.DebugMode) { \n' ..
-					'		debugTrace = \"robot.put_debug_result(\'"+ block.id +"\')\\n"; \n' ..
+					'		debugTrace = \"robot.put_debug_result(\'"+ block.id +"\', M.userId)\\n"; \n' ..
 					'	} \n'
 		local params = ''
 		if (tonumber(func.params) > 0) then		
@@ -264,7 +264,7 @@ local function write_code(dev, func, first)
 				params = tostring(func.values)
 			end
 		end
-		code = code .. '	return debugTrace + \"robot.execute(\'' .. dev.name .. '\',\'' .. func.name .. '\',{' .. params .. '})\"; \n' .. '}; \n\n'
+		code = code .. '	return debugTrace + \"robot.execute(\'' .. dev.name .. '\',\'' .. func.name .. '\',{' .. params .. '}, M.userId)\"; \n' .. '}; \n\n'
 		file:write(code)
 		file:close()
 	end

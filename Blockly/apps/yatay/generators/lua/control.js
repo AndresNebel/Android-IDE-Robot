@@ -50,7 +50,7 @@ Blockly.Lua["controls_if"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
 
   return debugTrace + code + '\n';
@@ -74,7 +74,7 @@ Blockly.Lua["controls_sleep"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
 
   return debugTrace +'sched.sleep(' + value + ')\n';
@@ -88,7 +88,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
 
   var code = "" +
@@ -116,7 +116,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   "   activeBehaviour = nil\n"+
   "end\n"+
   "M.ReleaseControl = function()\n" +
-  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0})\n" +
+  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0}, M.userId)\n" +
   "end\n" +
 
   "M.init = function(conf)\n" +
@@ -141,7 +141,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
 
   var code = "" +
@@ -158,11 +158,6 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "  M.done = false\n"+
   "  if (" + behaviourCondition + ") then\n" +
 	  "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority or activeBehaviour.done) then\n" +
-		  "  if (activeBehaviour == nil) then\n" +
-		  "		print('nil')\n" +
-		  "	 else\n" +
-		 "		print(activeBehaviour, activeBehaviour.priority, activeBehaviour.done)\n" +
-	  "  end\n" +
 	  "		print('won " + name + "')\n" +
 	  "     activeBehaviour = M\n " + 
 	  "  end\n" +
@@ -178,7 +173,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "   activeBehaviour = nil\n"+
   "end\n"+
   "M.ReleaseControl = function()\n" +
-  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0})\n" +
+  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0}, M.userId)\n" +
   "end\n" +
 
   "M.init = function(conf)\n" +
@@ -207,7 +202,7 @@ Blockly.Lua["controls_whileUntil"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
   return debugTrace + 'while (' + argument0 + ') do\n' + branch0 + debugTrace + 'end\n';
 };
@@ -219,7 +214,7 @@ Blockly.Lua["controls_repeat"] = function(block) {
 
   if (Yatay.DebugMode)
   {
-	debugTrace = "robot.put_debug_result('"+ block.id +"')\n";
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
   return debugTrace + 'for i = 1, ' + block.getTitleValue('TIMES') + ' do\n' + branch0 + debugTrace +'end\n';
 };

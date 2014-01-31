@@ -45,6 +45,8 @@ $(document).ready(function(){
 				"</div>");
 	list.appendTo($("#bx_ready"));
 	$("#bx_ready").hide();
+	if (getCookie("idUser") == null)
+		requestUserId();
 });
 
 $(window).load(function() {

@@ -2,7 +2,6 @@ local M = {}
 -- the true parameter makes the catalog strong, thus avoiding garbage collection
 local behaviours = require 'catalog'.get_catalog('behaviours', true)
 local sched = require 'sched'
-M.tests_id = 1
 
 local function exist(task)
 	for name in behaviours:iterator() do
@@ -13,26 +12,37 @@ local function exist(task)
 	return false
 end 
 
-M.kill_tasks = function()
+M.kill_tasks = function(userId)
 					local none = true
 					print('kill')
-					collectgarbage('restart')
+					print(#behaviours, userId)
 					--Autogen Id for robot calibrations
-					M.tests_id = 1
 					RBTManagerActivate = false
+					local bxcount = 0
 					for name, btable in behaviours:iterator() do
-						behaviours:unregister(name)
-						if (btable.compete_task ~= nil) then
-							btable.compete_task:kill()
+						if (btable.userId == userId) then
+							behaviours:unregister(name)
+							if (btable.compete_task ~= nil) then
+								btable.compete_task:kill()
+							end
+							if (btable.task ~= nil) then
+								btable.task:kill()
+							end
+							btable = {}
+							none = false
+						else
+							--Not killed so still in the catalog count
+							bxcount = bxcount +1
 						end
-						if (btable.task ~= nil) then
-							btable.task:kill()
-						end
-						btable = {}
-						none = false
 					end	
-					activeBehaviour = nil
-					previousBehaviour = nil
+					if (bxcount == 0) then
+						collectgarbage('restart')
+						activeBehaviour = nil
+						previousBehaviour = nil
+					else
+						--resume execution for others behaviours
+						RBTManagerActivate = true
+					end
 					if (none) then 
 						print('No tasks to kill.')
 					else
@@ -41,7 +51,7 @@ M.kill_tasks = function()
 				 end
 
 
-M.create_task = function(task)
+M.create_task = function(task, userId)
 						local code, errorCompilacion = loadstring(task)
 						if (not errorCompilacion) then	
 							local ok, tasktable = pcall(code)
@@ -52,11 +62,12 @@ M.create_task = function(task)
 								--Control: tasks already exists?
 								if (not exist(tasktable.name)) then
 									collectgarbage('stop');
+									behaviours:register(tasktable.name, tasktable)
+									tasktable.userId = userId
 									local newTask = sched.new_task(code)
 									tasktable.init(true)
-									behaviours:register(tasktable.name, tasktable)
 									RBTManagerActivate = true
-									print('Task '.. tasktable.name ..' initialized!')
+									print('Task '.. tasktable.name ..' initialized! UserId:'..tasktable.userId)
 								else
 									print('Task '.. tasktable.name ..' already exist.')
 								end
@@ -67,7 +78,7 @@ M.create_task = function(task)
 						end
 					end
 
-M.test_robot = function(task)
+M.test_robot = function(task, userId)
 						local code, errorCompilacion = loadstring(task)
 						if (not errorCompilacion) then	
 							local ok, tasktable = pcall(code)
@@ -75,21 +86,16 @@ M.test_robot = function(task)
 								print("Yatay detecto un error al ejecutar la task:")
 								print(tasktable)
 							else
-								if (not exist(M.tests_id)) then
+								if (not exist(userId)) then
 									collectgarbage('stop');
-									for name, btable in behaviours:iterator() do
-										print('before',name)
-									end
-									behaviours:register(M.tests_id, tasktable)
-									print(behaviours)
-									for name, btable in behaviours:iterator() do
-										print(name)
-									end
+									behaviours:register(userId, tasktable)
+									tasktable.userId = userId
+									print('Setted tasktable.userId=',tasktable.userId)
 									local newTask = sched.new_task(code)
 									tasktable.init(true)
 									print('A robot test is running')							
 								else
-									print('Task '.. M.tests_id ..' already exist.')
+									print('Test '.. userId ..' already exist.')
 								end
 						end
 						else
