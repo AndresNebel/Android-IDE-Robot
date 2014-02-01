@@ -76,27 +76,27 @@ Yatay.Common.buildMultiSelector = function(select, selectAll) {
  * Handle onChange of Behaviours Bootstrap-multiselect list
  */
 Yatay.Common.BxsChangeSelection = function(element, checked) {
-	     $(".modal-body").scrollTop($(".modal-body")[0].scrollHeight);
+	$(".modal-body").scrollTop($(".modal-body")[0].scrollHeight);
         
-        var project = element['context']['id'];
-        var selected = $('#' + project).val();                
-        
-        Yatay.Common.activesBxs[project] = [];
+	var project = element['context']['id'];
+	var selected = $('#' + project).val();                
 
-        if (selected == null) {
-                Yatay.Common.activesProj.pop(project);
-        } else {
-                for (var i=0; i < selected.length; i++) {
-                        if (selected[i] != 'multiselect-select-all') {                        
-                                if (Yatay.Common.activesProj.indexOf(project) == -1) {
-                                        Yatay.Common.activesProj.push(project);
-                                }
-                                if (Yatay.Common.activesBxs[project].indexOf(selected[i]) == -1) {
-                                        Yatay.Common.activesBxs[project].push(selected[i]);                                
-                                }
-                        }
-                }
-        }
+	Yatay.Common.activesBxs[project] = [];
+
+	if (selected == null) {
+		 Yatay.Common.activesProj.pop(project);
+	} else {
+		 for (var i=0; i < selected.length; i++) {
+		         if (selected[i] != 'multiselect-select-all') {                        
+		                 if (Yatay.Common.activesProj.indexOf(project) == -1) {
+		                         Yatay.Common.activesProj.push(project);
+		                 }
+		                 if (Yatay.Common.activesBxs[project].indexOf(selected[i]) == -1) {
+		                         Yatay.Common.activesBxs[project].push(selected[i]);                                
+		                 }
+		         }
+		 }
+	}
 }; 
 
 /**
@@ -107,7 +107,6 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 	Yatay.Common.joinProj = element['context']['value'];
 }; 
 
-
 /**
 * Opens the Delete popup
 */	
@@ -115,15 +114,13 @@ Yatay.Common.openDeleteModal = function(){
 	$("#delete_modal").modal('show');
 };
 
-
 /**
  * Send task to server
  */
 Yatay.Common.sendTasks = function(code) {
 	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
-	var idUser = getCookie("idUser");
-	if (idUser == null)
-	{
+	var idUser = Yatay.Common.getCookie("idUser");
+	if (idUser == null) {
 		location.reload(); 
 		return;
 	}
@@ -131,11 +128,10 @@ Yatay.Common.sendTasks = function(code) {
 		url: "/index.html",
 		type: "POST",
 		data: { id:'init', code:values, userId: idUser},
-		success: function() {},
-		error:function() {
-			$("#spnResSensor").text('Intenta ejecutar otra vez.');
-			$('#divResults').show();
-		}
+		success: function() {
+			$('#results_popup').show();
+		},
+		error:function() {}
 	});
 };
 
@@ -144,9 +140,8 @@ Yatay.Common.sendTasks = function(code) {
  */
 Yatay.Common.testRobot = function(code) {
 	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
-	var idUser = getCookie("idUser");
-	if (idUser == null)
-	{
+	var idUser = Yatay.Common.getCookie("idUser");
+	if (idUser == null) {
 		location.reload(); 
 		return;
 	}
@@ -155,11 +150,9 @@ Yatay.Common.testRobot = function(code) {
 		type: "POST",
 		data: { id:'test', code:values, userId: idUser},
 		success: function() {
+			$('#results_popup').show();
 		},
-		error:function() {
-			$("#spnResSensor").text('Intenta ejecutar otra vez.');
-			$('#divResults').show();
-		}
+		error:function() {}
 	});
 }
 
@@ -167,9 +160,8 @@ Yatay.Common.testRobot = function(code) {
  * Kill all tasks running
  */
 Yatay.Common.killTasks = function() {
-	var idUser = getCookie("idUser");
-	if (idUser == null)
-	{
+	var idUser = Yatay.Common.getCookie("idUser");
+	if (idUser == null) {
 		location.reload(); 
 		return;
 	}
@@ -177,7 +169,9 @@ Yatay.Common.killTasks = function() {
 		url: "/index.html",
 		type: "POST",
 		data: { id:'kill', code:'', userId: idUser},
-		success: function(content){},
+		success: function(){
+			$('#results_popup').hide();
+		},
 		error:function(){}
 	});
 };
@@ -187,12 +181,23 @@ Yatay.Common.killTasks = function() {
  */
 Yatay.Common.saveTask = function(block, code) {
 	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
-	var project = Yatay.Common.getProject();
+	var project = Yatay.Common.getCookie('project_name');
+	var newborn = (Yatay.Common.getCookie(project+'_'+block) != '') ? false : true;
+
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: { id:'save', project:project, block:block, code:values }, 
-		success: function(){},
+		data: { id:'save', newborn:newborn, project:project, block:block, code:values }, 
+		success: function(content){
+			if (content.length > 0) {
+				if (newborn) {
+					Yatay.Common.setCookie(project+'_'+content, content, 1);
+					if (block != content) {
+						Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].setValue(content);
+					}
+				}
+			}		
+		},
 		error:function(){}
 	});
 };
@@ -350,9 +355,8 @@ Yatay.Common.openFileChooser = function(){
  */
 function pollResults() {
 	setTimeout(function() {
-		var idUser = getCookie("idUser");
-		if (idUser == null)
-		{
+		var idUser = Yatay.Common.getCookie("idUser");
+		if (idUser == null) {
 			location.reload(); 
 			return;
 		}
@@ -366,26 +370,24 @@ function pollResults() {
 					if (html.length > 0) {
 						var sensorHtml = html.split('#;#')[0];
 						var console = html.split('#;#')[1];
-						$("#spnConsole").text(console);
+						$("#result_console").html(console);
 						var sensor = sensorHtml.split(' ')[0];
 						var value = sensorHtml.replace(sensor,'');
-						if ($("#spnResSensor").text() != sensor || $("#spnResValue").text() != value)
-							$('#divResults').show();
-						$("#spnResSensor").text(sensor);
-						$("#spnResValue").text(value);
+						$("#result_sensor").html(sensor);
+						$("#result_value").html(value);
 
 					} else {
-						$("#spnResSensor").text('');
-						$("#spnResValue").text('');
+						$("#result_sensor").html('');
+						$("#result_value").html('');
 					}
 				},
 				error:function() {},
 				complete: pollResults
 			});
 		} else {
-				$("#spnResSensor").text('');
-				$("#spnResValue").text('');
-				$("#spnConsole").text('');
+				$("#result_sensor").html('');
+				$("#result_value").html('');
+				$("#sresult_console").html('');
 		}
 	}, 100);
 };
@@ -395,9 +397,8 @@ function pollResults() {
  */
 function debugPoll() {
 	setTimeout(function(){
-		var idUser = getCookie("idUser");
-		if (idUser == null)
-		{
+		var idUser = Yatay.Common.getCookie("idUser");
+		if (idUser == null) {
 			location.reload(); 
 			return;
 		} 
@@ -439,19 +440,6 @@ function debugPoll() {
 };
 
 /**
- * createBlocksForSensors
- */
-function createBlocksForSensors() {
-	$.ajax({
-		url: "/index.html",
-		type: "POST",
-		data: { id:'getSensorsFunc', code:''},
-		success: function(content){},
-		error:function(){}
-	});
-};
-
-/**
  * Refresh Butiá blocks
  */
 Yatay.Common.refreshBlocksPoll = function() {
@@ -478,22 +466,16 @@ Yatay.Common.saveInBrowser = function(name, code) {
 	var localStgeBxs = [];
 	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
 		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
-	for (var j=0; j< localStgeBxs.length; j++)
-	{
-		if (localStgeBxs[j][0] == name)
-		{
+	for (var j=0; j< localStgeBxs.length; j++) {
+		if (localStgeBxs[j][0] == name) {
 			localStgeBxs[j][1] = code;
 			localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
 			return;					
-		}
-		else 
-		{
+		} else {
 			var found = false;
 			//Checking if this behaviour in the local storage is actually being used now, if not is obsolete data and is deleted
-			for (var i=0; i< Yatay.Tablet.behaviours.length; i++)
-			{
-				if (Yatay.Tablet.behaviours[i][2] == localStgeBxs[j][0])
-				{
+			for (var i=0; i< Yatay.Tablet.behaviours.length; i++) {
+				if (Yatay.Tablet.behaviours[i][2] == localStgeBxs[j][0]) {
 					found = true;
 					break;
 				}
@@ -507,51 +489,63 @@ Yatay.Common.saveInBrowser = function(name, code) {
 };
 
 /**
+ * Set Cookie
+ */
+Yatay.Common.setCookie = function(cname, cvalue, exdays) {
+	var d = new Date();
+	d.setTime(d.getTime()+(exdays*24*60*60*1000));
+	var expires = 'expires='+d.toGMTString();
+	document.cookie = cname + '=' + cvalue + '; ' + expires;
+};
+
+/**
+ * Get Cookie
+ */
+Yatay.Common.getCookie = function(cname) {
+	var name = cname + '=';
+	var ca = document.cookie.split(';');
+	for(var i=0; i<ca.length; i++) {
+		var c = ca[i].trim();
+		if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+	}
+	return '';
+};
+
+/**
 * Projects cookie save
 */ 
 Yatay.Common.projectSaver = function() {
 	var proj_name = '';
-        if (Yatay.Common.joinProj == '') {
-                proj_name = $('#proj_input').val();        
-        } else {
-                proj_name = Yatay.Common.joinProj;        
-        }
-
-        if (proj_name != '' && proj_name != null) {
-                var d = new Date();
-                d.setTime(d.getTime()+(1*24*60*60*1000));
-                var expires = "expires="+d.toGMTString();
-                document.cookie = 'project_name' + '=' + proj_name + '; ' + expires;
-                $('#projmaneger_modal').modal('hide');
-        } else {
-                $('#projmaneger_modal').effect( "shake" );
-        }
-};
-
-/**
- * Get project from cookie
- */
-Yatay.Common.getProject = function() {
-	var proj_name = '';
-	var name = 'project_name' + '=';
-	var ca = document.cookie.split(';');
-	for (var i=0; i<ca.length; i++) {
-			var c = ca[i].trim();
-			if (c.indexOf(name)==0)
-					proj_name = c.substring(name.length,c.length);
+	if (Yatay.Common.joinProj == '') {
+		proj_name = $('#proj_input').val();        
+	} else {
+		proj_name = Yatay.Common.joinProj;        
 	}
-	return proj_name;
+
+	if (proj_name != '' && proj_name != null) {
+		Yatay.Common.setCookie('project_name', proj_name, 1); 
+		$('#projmaneger_modal').modal('hide');
+	} else {
+		$('#projmaneger_modal').effect( "shake" );
+	}
 };
 
 /**
 * Projects cookie check
 */
 Yatay.Common.projectChecker = function() {
-//        document.cookie = 'project_name' + '=' + '';        
-        var proj_name = Yatay.Common.getProject();        
-        if (proj_name == '') {        
-                $('#projmaneger_modal').modal({ backdrop: 'static', keyboard: false });
-        }
+//	Delete project cookie
+//	document.cookie = 'project_name' + '=' + '';  
+	var proj_name = Yatay.Common.getCookie('project_name'); 
+//	Delete behaviours cookie
+//	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
+//		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
+//	for (var j=0; j< localStgeBxs.length; j++) {
+//		document.cookie = proj_name + '_' + localStgeBxs[j][0] + '=' + ''; 
+//     }   
+	if (proj_name == '') {        
+		$('#projmaneger_modal').modal({ backdrop:'static', keyboard:false });
+	}
 };
 
 /**
@@ -588,6 +582,9 @@ Yatay.Common.loadProj = function() {
         });
 };
 
+/**
+ * saveTempLocal
+ */
 Yatay.Common.saveTempLocal = function(xml) {
 	$.ajax({
 		url: "/index.html",
@@ -596,9 +593,7 @@ Yatay.Common.saveTempLocal = function(xml) {
 		success: function(content){
 				SaveToDisk("http://192.168.1.44:8080/apps/yatay/_downloads/yatay.apk")
 		},
-		error:function(){
-			alert("failure");
-		}
+		error:function(){}
 	});
 };
 
@@ -611,24 +606,10 @@ function requestUserId() {
 		type: "POST",
 		data: { id:'getUserId'},
 		success: function(html){
-			setCookie("idUser", html);
+			Yatay.Common.setCookie("idUser", html, 1);
 		},
 		error:function(err){
 			alert(err);
 		}
 	});
 };
-
-function getCookie(name) {   
-	var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");   
-	if (parts.length == 2) return parts.pop().split(";").shift(); 
-}
-
-function setCookie(name, value)
-{
-    var d = new Date();
-    d.setTime(d.getTime()+(1*24*60*60*1000));
-    var expires = "expires="+d.toGMTString();
-    document.cookie = name + '=' + value + '; ' + expires;    
-}

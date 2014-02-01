@@ -57,7 +57,7 @@ M.init = function(conf)
 	db:exec('CREATE TABLE Yatay (project VARCHAR, block VARCHAR, code VARCHAR, PRIMARY KEY (project, block))')
 	db:exec('commit')
 
-	print('DataBase is up...')
+	print('YATAY: DataBase is up...')
 --	assert(db:close() == sqlite3.OK)
 end
 

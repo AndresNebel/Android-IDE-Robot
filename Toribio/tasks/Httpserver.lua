@@ -42,18 +42,14 @@ local function killTasks(userId)
 	coroutine.resume(c)
 end
 
-local function saveTask(project, block, code)
+local function saveTask(project, block, code, newborn)
 	local decoded_task = url_decode(url_decode(code))  
-	local c =  coroutine.create(
-		function ()
-			local pjadmin = require 'tasks/ProjectAdmin'    
-			pjadmin.save_task(project, block, decoded_task)
-		end)
-	coroutine.resume(c)
+	
+	local pjadmin = require 'tasks/ProjectAdmin'    
+	return pjadmin.save_task(project, block, decoded_task, newborn)
 end
 
 local function pop_blocking(name, ev_name)
---	print('Results:', ev_name, name)
 	if (name ~= nil) then
 		return name
 	end
@@ -62,16 +58,13 @@ local function pop_blocking(name, ev_name)
 		timeout=2, 
 		events={ev_name}
 	})
---	print('Aw Results:', ev_name, name)
 	if (name ~= nil) then
 		return name
 	end
 	return "";
 end 
 
-
 local function pop_blocking_user(name, ev_name, userId)
---	print('Results:', ev_name, name)
 	if (name ~= nil and name[userId] ~= nil) then
 		return name[userId]
 	end
@@ -80,7 +73,6 @@ local function pop_blocking_user(name, ev_name, userId)
 		timeout=2, 
 		events={ev_name}
 	})
---	print('Aw Results:', ev_name, name)
 	if (name ~= nil and name[userId] ~= nil) then
 		return name[userId]
 	end
@@ -106,7 +98,6 @@ local function refresh()
 	end
 end
 
-
 local function saveTempLocal(xml, filename)
 	local decoded_xml = url_decode(url_decode(xml))	
 	local decoded_filename = url_decode(url_decode(filename))	
@@ -118,12 +109,12 @@ local function saveTempLocal(xml, filename)
 	return "";
 end
 
-local function select_action(id, project, block, code, strUserId)
+local function select_action(id, project, block, code, newborn, strUserId)
 	local userId = 0
 	if (strUserId ~= nil and strUserId ~= "0") then
 		userId = tonumber(strUserId)
 	end
-
+	
 	if (id == 'init') then 
 		initTask(code, userId)
 	elseif (id == 'kill') then
@@ -168,7 +159,7 @@ M.init = function(conf)
 	--Inicializando la cola de resultados
 	--TODO: hacer una tabla de resultados
 	yataySensorResults = {}
-	yatayDebugResults = {}	
+	yatayDebugResults = {}
 	yatayBlocksRefresh = ''	
 	yatayWebConsole = ''
 	yatayUserId = 0
@@ -177,20 +168,20 @@ M.init = function(conf)
 		'POST',
 		'/index.html',
 		function(method, path, http_params, http_header)	
-			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['userId'])
+			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['newborn'], , http_params['userId'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
 	
 	local conf = {
-		ip= '192.168.1.42',
+		ip= '192.168.1.3',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},
 	}
 	http_server.init(conf)
 
-	print('Server is up...')
+	print('YATAY: Server is up...')
 end
 
 return M

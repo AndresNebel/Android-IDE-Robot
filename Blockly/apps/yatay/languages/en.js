@@ -38,6 +38,9 @@ Yatay.Msg.DIALOG_REMOTE_PROJ = "Join project";
 Yatay.Msg.DIALOG_TXT_REMOTE_PROJ = "You can load existing projects: ";
 Yatay.Msg.DIALOG_PROJ_NAME = "Project name: ";
 Yatay.Msg.DIALOG_NO_PROJS = "there are any left. ";
+Yatay.Msg.DIALOG_DELETE_ALL = "All";
+Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Only workspace";
+Yatay.Msg.DIALOG_DELETE_LABEL = "What you want to delete?";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';

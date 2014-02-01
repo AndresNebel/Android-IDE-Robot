@@ -1,7 +1,5 @@
 local M = {}
 
-
-
 M.init = function(conf)
 	local sched = require 'sched'
 	RBTManagerActivate = false
@@ -11,7 +9,7 @@ M.init = function(conf)
 		activeBehaviour = nil
 		terminateRBTMTasks = false
 
-		print("RobotTaskManager is up...")    
+		print("YATAY: RobotTaskManager is up...")    
 
 		while true do
 			if (RBTManagerActivate == true) then

@@ -4,14 +4,21 @@ local sched = require 'sched'
 local json = require 'json'
 local persistence = require 'tasks/Persistence'
 
-M.save_task = function(project, block, code)
-	if (project ~= nil and block ~= nil and code ~= nil) then		
-		if (persistence.exist(project, block)) then
-			persistence.update(project, block, code)
+M.save_task = function(project, block, code, newborn)
+	local newname = block
+	if (project ~= nil and block ~= nil and code ~= nil) then
+		if (newborn == 'true') then	
+			local i = 1		
+			while (persistence.exist(project, newname)) do
+				newname = block .. tostring(i)
+				i = i + 1
+			end
+			persistence.insert(project, newname, code)
 		else
-			persistence.insert(project, block, code)
+			persistence.update(project, newname, code)
 		end
 	end
+	return newname
 end
 
 M.load_bxs = function()

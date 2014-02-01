@@ -46,8 +46,7 @@ textarea {
 }
 
 .navbar .nav > li {
-	float: none !important;
-	margin: 0 auto;
+    cursor: pointer;
 }
 
 .navbar .brand {
@@ -64,17 +63,15 @@ textarea {
 	margin: 1%;
 }
 
-.navbar .btn {
-	margin: 10%;
-}
-
-.bx {
+#behaviours_popup {
 	position: fixed;
-	border: 1px solid #555555;
-	border-radius: 12px;
+/*	border: 1px solid #555555;*/
+/*	border-radius: 12px;*/
+/*	box-shadow: 5px 5px 5px #888888;*/
+	z-index: 1;
 	top: 2%;
-	right: 2%;
-	background-image: url(../images/bg2.png);
+	right: 6%;
+	width: 125px;
 }
 
 .cursorHover:hover{
@@ -99,39 +96,27 @@ textarea {
 }
 
 .overlay {
-    position: absolute;
-    text-align: left;
-    width: 100%;
-    margin: 12px 20px;
+	position: absolute;
+	text-align: left;
+	color: rgb(0,0,0) !important;
+	width: 100%;
+	margin: 12px 20px;
 }
 
-#divResults {
-	background-image: url(../images/bg2.png);
-	border: 1px solid #555555;
-	border-radius: 12px;
-	color: #333333;
-	font-size: 100%;
-	height: 110px;
+#results_popup {
 	position: fixed;
-	right: 2%;
+	z-index: 1;
+	bottom: 4%;
+	right: 20%;
+	width: 50%;
 	text-align: center;
-	width: 145px;
-	bottom:2%;
-	overflow:auto;
 }
 
-#divResults span {
-	position: relative;
-    top: 11px;
-    vertical-align: text-top;
-	font-size: 97%;
+#results_popup p {
+	display: inline;
 }
 
-#spnResSensor {
-	margin-right: 2.2%;
-}
-
-.btnCloseDialog {
+.close_results {
 	position:absolute;
 	top:1px;
 	right:4px;
@@ -153,4 +138,12 @@ textarea {
 
 .modal-body { 
 	min-height: 200px !important;
+}
+
+#delete_modal h4 {
+	text-align: center !important;
+}
+
+#delete_modal .modal-body {
+	text-align: center !important;
 }

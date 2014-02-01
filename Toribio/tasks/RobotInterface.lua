@@ -6,8 +6,8 @@ local devices = toribio.devices
 local sched = require 'sched'
 
 --Path to files
-local butia_blocks = 'Lumen/tasks/http-server/www/apps/yatay/blocks/butia.js'
-local butia_code = 'Lumen/tasks/http-server/www/apps/yatay/generators/lua/butia.js'
+local butia_blocks = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/blocks/butia.js'
+local butia_code = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/generators/lua/butia.js'
 
 --Active devices at the moment
 M.active_devices = nil
@@ -84,8 +84,6 @@ local function parse_bobot(file, devs)
 		if not skip_dev[name] then		
 			ret[i] = {}
 			ret[i].name = name
-			--HACK: does some info about device type exist?
-			ret[i].device_type = 'sensor'
 			ret[i].available = true
 			ret[i].functions = {}
 			local device = devices[name]
@@ -110,6 +108,11 @@ local function parse_bobot(file, devs)
 					local returns = 0
 					for i,rets in ipairs(meta_returns) do
 						returns = returns + 1
+					end
+					if (returns > 0) then
+						ret[i].device_type = 'sensor'
+					else 
+						ret[i].device_type = 'actuator'
 					end
 					ret[i].functions[j].ret = returns
 					ret[i].functions[j].available = true
@@ -244,11 +247,12 @@ local function write_code(dev, func, first)
 		if (first) then 
 			code = '/* Automatically Generated Code */\n\'use strict\';\n\ngoog.provide(\'Blockly.Lua.butia\');\ngoog.require(\'Blockly.Lua\');\n\n'		
 		end
-		code = code .. 'Blockly.Lua[\'' .. func.alias .. '\'] = function(block) { \n' ..
-					'	var debugTrace = \'\'; \n' .. 
-					'	if (Yatay.DebugMode) { \n' ..
-					'		debugTrace = \"robot.put_debug_result(\'"+ block.id +"\', M.userId)\\n"; \n' ..
-					'	} \n'
+		code = code .. 'Blockly.Lua[\'' .. func.alias .. '\'] = function(block) { \n' .. '	var debugTrace = \'\'; \n'
+		if (dev.device_type == 'actuator') then
+			code = code ..	'	if (Yatay.DebugMode) { \n' ..
+						'		debugTrace = \"robot.put_debug_result(\'"+ block.id +"\', M.userId)\\n"; \n' ..
+						'	} \n'
+		end
 		local params = ''
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then
@@ -281,10 +285,10 @@ M.refresh_devices = function()
 	local new_devices = M.list_devices_functions('any')
 
 	if (compare(M.active_devices, new_devices)) then
-		print('no need to refresh devices')
+		print('YATAY: nothing to refresh')
 		return false
 	else 
-		print('no need to refresh devices')
+		print('YATAY: must refresh devices')
 		yatayBlocksRefresh = ''
 		local c =	coroutine.create(
 			function (devices)
@@ -297,12 +301,12 @@ M.refresh_devices = function()
 end
 
 M.refresh = function(active_devices)
-	print('yatay refreshing!')
+	print('YATAY: refreshing!')
 	local first = true
 	local not_available_devices = ""
 	if (active_devices ~= nil) then
 		for i=1, #active_devices do 
-			if (active_devices[i] ~= nil) then --and active_devices[i].available) then
+			if (active_devices[i] ~= nil) then 
 				for j=1, #active_devices[i].functions do
 					if (active_devices[i].functions[j] ~= nil) then
 						local block_type = write_script(active_devices[i], active_devices[i].functions[j], first)			
@@ -321,7 +325,7 @@ M.refresh = function(active_devices)
 end
 
 M.init = function(conf) 
-	print('RobotInterface is up...')
+	print('YATAY: RobotInterface is up...')
 
 	--Refresh robotics devices
 	M.active_devices = M.list_devices_functions('any')

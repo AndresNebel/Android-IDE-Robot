@@ -36,35 +36,33 @@ $(document).ready(function(){
 	<div class="navbar-inner">
 		<div class="container leftBar">	
 			<ul class="nav">
-				<li>
-					<input type="image" id="btn_load" onclick="Yatay.Common.openFileChooser()" src="images/open.png" class="imgclick cursorHover controlBtn" />
-				</li>	
-				<li>					
-					<a class="linkWrapper" download="" href="javascript:void(0)" target="_blank" onclick="Yatay.Common.toXml(this)">
-						<input type="image" id="btn_save" src="images/save.png" class="imgclick cursorHover controlBtn"/>		
-					</a>
-				</li>
-				<li>						
-					<input type="image" id="btn_robotest" onclick="robotest()" src="images/butia.png" class="imgclick cursorHover controlBtn" />	
-				</li>
-				<li>
-					<input type="image" id="btn_run" onclick="runTasks()" src="images/play.png" class="imgclick cursorHover controlBtn" />
-				</li>
-				<li>
-					<input type="image" id="btn_edit" onclick="Yatay.Tablet.edit()" src="images/viewcode.png" class="imgclick cursorHover controlBtn" />
-				</li>			
-				<li>
-					<input type="image" id="btn_debug" onclick="debug()" src="images/debug.png" class="imgclick cursorHover controlBtn"  style="display: none;"/>
-				</li>
-				<li>
-					<input type="image" id="btn_bx_ready" onclick="bxReady()" src="images/tick.png" class="imgclick cursorHover controlBtn" />
-				</li>	
-				<li>
-					<input type="image" id="btn_trash" onclick="Yatay.Common.openDeleteModal()" src="images/delete.png" class="imgclick cursorHover controlBtn"/>
-				</li>						
-				<li>
-					<input type="image" id="btn_stop" onclick="stop();" src="images/stop.png" class="imgclick cursorHover controlBtn" style="display: none;"/>
-				</li>								
+				<li><a id="btn_load" onclick="Yatay.Common.openFileChooser()" style="color:rgb(255,70,70);">
+					<i class="fa fa-folder-open-o fa-3x"></i>
+				</a></li>	
+				<li><a id="btn_save" download="" href="javascript:void(0)" target="_blank" onclick="Yatay.Common.toXml(this)" style="color:rgb(70,70,255)">
+					<i class="fa fa-save fa-3x"></i>	
+				</a></li>
+				<li><a id="btn_robotest" onclick="robotest()" style="color:rgb(160,70,255);">
+					<i class="fa fa-gears fa-3x"></i>
+				</a></li>
+				<li><a id="btn_run" onclick="runTasks()" style="color:rgb(70,255,70);">
+					<i class="fa fa-play fa-3x"></i>
+				</a></li>
+				<li><a id="btn_edit" onclick="Yatay.Tablet.edit()" style="color:rgb(255,112,61);">
+					<i class="fa fa-edit fa-3x"></i>
+				</a></li>		
+				<li><a id="btn_debug" onclick="debug()" style="color:rgb(230,255,102); display: none;">
+					<i class="fa fa-bug fa-3x"></i>
+				</a></li>
+				<li><a id="btn_bx_ready" onclick="bxReady()" style="color:rgb(100,200,255);">
+					<i class="fa fa-check fa-3x"></i>
+				</a></li>
+				<li><a id="btn_stop" onclick="stop();" style="color:rgb(255,50,50); display: none;">
+					<i class="fa fa-stop fa-3x"></i>
+				</a></li>	
+				<li><a id="btn_trash" onclick="Yatay.Common.openDeleteModal()" style="color:rgb(153,153,153);">
+					<i class="fa fa-eraser fa-3x"></i>
+				</a></li>							
 			</ul>
 		</div>
 	</div>
@@ -131,8 +129,8 @@ $(document).ready(function(){
 		<h4 id="delete_label"/>
 	</div>
 	<div class="modal-body">
-		<button id="btn_delete_all" class="btn btn-primary" onclick="Yatay.discard('All')" style="margin-left:25%; margin-right:5px;"/>
-		<button id="btn_delete_workspace" class="btn btn-primary" onclick="Yatay.discard('Workspace')"/>
+		<button id="btn_delete_workspace" class="btn btn-primary" onclick="Yatay.discard('Workspace')" style="left: 15%"/>
+		<button id="btn_delete_all" class="btn btn-primary" onclick="Yatay.discard('All')" style="right: 15%"/>		
 	</div>
 	<div class="modal-footer" style="display:none"></div>
 </div>

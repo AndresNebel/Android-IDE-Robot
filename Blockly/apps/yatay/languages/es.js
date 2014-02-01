@@ -38,9 +38,9 @@ Yatay.Msg.DIALOG_REMOTE_PROJ = "Unirse a un projecto";
 Yatay.Msg.DIALOG_TXT_REMOTE_PROJ = "Puedes cargar los projectos existentes: ";
 Yatay.Msg.DIALOG_PROJ_NAME = "Nombre del proyecto: ";
 Yatay.Msg.DIALOG_NO_PROJS = "no existe ninguno. ";
-Yatay.Msg.DIALOG_DELETE_ALL = "todo";
-Yatay.Msg.DIALOG_DELETE_WORKSPACE = "solo pizarra";
-Yatay.Msg.DIALOG_DELETE_LABEL = "¿Que deseas borrar?";
+Yatay.Msg.DIALOG_DELETE_ALL = "Todo";
+Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Sólo pizarra";
+Yatay.Msg.DIALOG_DELETE_LABEL = "¿Qué deseas borrar?";
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';

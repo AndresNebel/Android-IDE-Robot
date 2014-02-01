@@ -32,6 +32,12 @@ Yatay.Tablet.editedBxs.active = -1;
 Yatay.Tablet.testMode = false;
 
 /**
+ * CodeMirror Editor
+ * @type {Object}
+ */
+Yatay.Tablet.editor = undefined;
+
+/**
  * Load tablet.html 
  * Generate behaviours list
  */
@@ -39,22 +45,19 @@ $(document).ready(function(){
 	$('body').bind('touchmove', function(e){e.preventDefault()});
 	$('#main_menu').load('./tablet.html');	
 	
-	var list = $("<div class=\"list-group bx\">" +
-					"<ul class=\"nav\" id=\"bx_list\">" + 
-					"</ul>" +
-				"</div>");
-	list.appendTo($("#bx_ready"));
-	$("#bx_ready").hide();
-	if (getCookie("idUser") == null)
-		requestUserId();
+	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
+	list.appendTo($("#behaviours_popup"));
+	
+	if (Yatay.Common.getCookie("idUser") == null) { 
+		requestUserId(); 
+	}
 });
 
 $(window).load(function() {
 	//Restoring browser persistance of blocks
-	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
-	{
+	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
 		var behaviours = JSON.parse(localStorage.yatay_bxs);
-		for(var j=0; j< behaviours.length; j++){
+		for(var j=0; j< behaviours.length; j++) {
 			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 				bxReady();
 			}
@@ -71,12 +74,17 @@ $(window).load(function() {
 Yatay.Tablet.switchTabs = function(selected) {	
 	if (Yatay.Tablet.editedBxs.active != -1) {
 		$('#tab' + Yatay.Tablet.editedBxs.active).removeClass('active');
-		Yatay.Tablet.editedBxs[Yatay.Tablet.editedBxs.active] = $('#code_editable').val();
+		Yatay.Tablet.editedBxs[Yatay.Tablet.editedBxs.active] = Yatay.Tablet.editor.getValue();
 	}
 
-	$('textarea#code_editable').val(Yatay.Tablet.editedBxs[selected.id]);
+	Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[selected.id]);
+	
 	$('#tab' + selected.id).addClass('active');
 	Yatay.Tablet.editedBxs.active = selected.id;
+
+	$('#code_modal').on('shown.bs.modal', function() {
+		Yatay.Tablet.editor.refresh();
+	});
 };
 
 /**
@@ -111,10 +119,17 @@ Yatay.Tablet.edit = function() {
 	$('#tab0').addClass('active');
 	Yatay.Tablet.editedBxs.active = 0;
 
-	$('textarea#code_editable').val(Yatay.Tablet.editedBxs[0]);
+	if (Yatay.Tablet.editor == undefined) {
+		Yatay.Tablet.editor = CodeMirror.fromTextArea($('#code_editable')[0], { tabMode: "indent", matchBrackets: true, theme: "neat" });
+	}	
+	Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[0]);
 
 	$('body').unbind('touchmove');
 	$('#code_modal').modal({	backdrop:'static' });
+
+	$('#code_modal').on('shown.bs.modal', function() {
+		Yatay.Tablet.editor.refresh();
+	});
 };
 
 /**
@@ -238,7 +253,7 @@ function stop(){
 
 	if (Yatay.Tablet.testMode) {
 		if (Yatay.Tablet.behaviours.length > 0) {
-			$("#bx_ready").show();
+			$("#behaviours_popup").show();
 		}
 		Yatay.Tablet.testMode = false;
 		Yatay.Common.killTasks();
@@ -266,9 +281,12 @@ function robotest(){
 	try {	
 		bxReady();
 	} catch(e) {}
-	$("#bx_ready").hide();
+
+	$("#behaviours_popup").hide();
+
 	Yatay.enterTestMode();
 	Yatay.Tablet.testMode = true;
+
 	$('#btn_robotest').toggle('slow');
 	$('#btn_load').toggle('slow');
 	$('#btn_save').toggle('slow');
@@ -321,7 +339,7 @@ function bxReady() {
 		    Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_conditionalBehaviour") {	
 			var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 			var text = Blockly.Xml.domToText(xml);
-			var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].text_;
+			var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
 			var size = Blockly.mainWorkspace.getAllBlocks().length;
 			if (name.length > 13) {
 				name = name.substring(0, 12) + "...";
@@ -329,17 +347,16 @@ function bxReady() {
 			var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
 			Yatay.Tablet.behaviours.push([id, text, name, size]);
 					
-			var list = $("<li>" +
+			var list = $("<li style=\"display:none;\">" +
 						"<div id=\"" + id + "\" class=\"image-container\">" +
 							"<div class=\"image-inner-container\">" +
 								"<p class=\"overlay\">" + name + "</p>" +                                
 								"<img src=\"images/bx.png\" />" +
 							"</div>" +
 						"</div>" +
-					 "</li>");
-			list.appendTo($("#bx_list"));
-			$("#bx_ready").show();
-
+					 "</li>");	
+			$("#behaviours_popup").show();
+			list.appendTo($("#bx_list")).slideDown("slow");	
 			document.getElementById(id).onclick = bxToWorkspace;
 			Blockly.mainWorkspace.clear();
 		}
@@ -363,6 +380,6 @@ function bxToWorkspace() {
 		}
 	}
 	if (Yatay.Tablet.behaviours.length == 0) {
-		$("#bx_ready").hide();
+		$("#behaviours_popup").hide();
 	}
 };
