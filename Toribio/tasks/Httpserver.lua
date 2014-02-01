@@ -128,7 +128,7 @@ local function select_action(id, project, block, code, newborn, strUserId)
 	elseif (id == 'pollDebug') then
 		return pop_blocking_user(yatayDebugResults, 'NewDebugResult', userId)		 
 	elseif (id == 'save') then
-		saveTask(project, block, code)
+		return saveTask(project, block, code, newborn)
 	elseif (id == 'test') then
 		testRobot(code, userId)
 	elseif (id == 'loadBxs') then
