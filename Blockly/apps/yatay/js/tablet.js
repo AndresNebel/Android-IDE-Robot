@@ -48,7 +48,7 @@ $(document).ready(function(){
 	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
 	list.appendTo($("#behaviours_popup"));
 	
-	if (Yatay.Common.getCookie("idUser") == null) { 
+	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId(); 
 	}
 });
