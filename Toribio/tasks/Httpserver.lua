@@ -168,7 +168,7 @@ M.init = function(conf)
 		'POST',
 		'/index.html',
 		function(method, path, http_params, http_header)	
-			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['newborn'], , http_params['userId'])
+			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['newborn'], http_params['userId'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
