@@ -87,6 +87,28 @@ Yatay.init = function() {
 		  Yatay.AutoSave();
 		}
 	}
+
+	//Override the delete trash to kill tests
+	Blockly.BlockSvg.prototype.disposeUiEffect = function() {
+	  if (Yatay.Tablet.testMode) {
+      	Yatay.Common.killTasks();
+	  }
+	  Blockly.playAudio('delete');
+
+	  var xy = Blockly.getSvgXY_(/** @type {!Element} */ (this.svgGroup_));
+	  // Deeply clone the current block.
+	  var clone = this.svgGroup_.cloneNode(true);
+	  clone.translateX_ = xy.x;
+	  clone.translateY_ = xy.y;
+	  clone.setAttribute('transform',
+		  'translate(' + clone.translateX_ + ',' + clone.translateY_ + ')');
+	  Blockly.svg.appendChild(clone);
+	  clone.bBox_ = clone.getBBox();
+	  // Start the animation.
+	  clone.startDate_ = new Date();
+	  Blockly.BlockSvg.disposeUiStep_(clone);
+	};
+
 	var bindData = Blockly.addChangeListener(change);
 
 	// Lazy-load the syntax-highlighting.
@@ -183,6 +205,7 @@ Yatay.leaveTestMode = function() {
 	Blockly.Toolbox.populate_();
 	Blockly.mainWorkspace.maxBlocks = "Infinite";
 	Blockly.mainWorkspace.clear();
+	addStyleToBlocklyToolbox();
 }
 
 /**

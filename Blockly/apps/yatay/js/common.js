@@ -111,7 +111,13 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 * Opens the Delete popup
 */	
 Yatay.Common.openDeleteModal = function(){
-	$("#delete_modal").modal('show');
+	if (Yatay.Tablet.testMode) 
+	{
+		Blockly.mainWorkspace.clear();
+      	Yatay.Common.killTasks();
+	}	
+	else	
+		$("#delete_modal").modal('show');
 };
 
 /**
@@ -368,6 +374,7 @@ function pollResults() {
 				data: {id:'poll', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
+						$("#results_popup").show();
 						var sensorHtml = html.split('#;#')[0];
 						var console = html.split('#;#')[1];
 						$("#result_console").html(console);
@@ -410,6 +417,7 @@ function debugPoll() {
 				data: {id:'pollDebug', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
+						$("#results_popup").show();
 						var behaviourName = html.split(':')[0];
 						var behavioursAfterThisOne = false;
 						var offset = 0;
@@ -456,7 +464,7 @@ Yatay.Common.refreshBlocksPoll = function() {
 			error:function() {}, 
 			complete: Yatay.Common.refreshBlocksPoll
 		});
-	}, 30000);
+	}, 5000);
 };
 
 /**

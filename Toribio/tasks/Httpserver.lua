@@ -174,7 +174,7 @@ M.init = function(conf)
 	)
 	
 	local conf = {
-		ip= '192.168.1.3',
+		ip= '192.168.1.113',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

@@ -332,7 +332,7 @@ Blockly.Blocks['controls_whileUntil'] = {
 
 Blockly.Blocks['controls_behaviour'] = {
   init: function() {
-    this.setColour(30);
+    this.setColour(198);
     this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(Yatay.Msg.CONTROL_BEHAVIOUR), 'TEXT')
     .appendTitle(Yatay.Msg.CONTROL_BEHAVIOUR_PRIORITY)
     .appendTitle(new Blockly.FieldTextInput('1', function(text) {
@@ -351,7 +351,7 @@ Blockly.Blocks['controls_behaviour'] = {
 
 Blockly.Blocks['controls_conditionalBehaviour'] = {
   init: function() {
-    this.setColour(30);
+    this.setColour(198);
     this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(Yatay.Msg.CONTROL_BEHAVIOUR), 'TEXT')
     .appendTitle(Yatay.Msg.CONTROL_BEHAVIOUR_PRIORITY)
     .appendTitle(new Blockly.FieldTextInput('1', function(text) {
@@ -374,7 +374,7 @@ Blockly.Blocks['controls_conditionalBehaviour'] = {
 Blockly.Blocks['controls_behaviourTrigger'] = {
   init: function() {
 	this.setInputsInline(true);
-    this.setColour(30);
+    this.setColour(198);
 	this.appendValueInput('BOOL')
         .setCheck('Boolean').appendTitle("   ");
     this.appendDummyInput().appendTitle("   ");

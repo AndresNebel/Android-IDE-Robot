@@ -43,17 +43,20 @@ Yatay.Tablet.editor = undefined;
  */
 $(document).ready(function(){	   
 	$('body').bind('touchmove', function(e){e.preventDefault()});
+
 	$('#main_menu').load('./tablet.html');	
 	
 	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
 	list.appendTo($("#behaviours_popup"));
-	
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId(); 
 	}
 });
 
+
+
 $(window).load(function() {
+	addStyleToBlocklyToolbox();
 	//Restoring browser persistance of blocks
 	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
 		var behaviours = JSON.parse(localStorage.yatay_bxs);
@@ -383,3 +386,17 @@ function bxToWorkspace() {
 		$("#behaviours_popup").hide();
 	}
 };
+
+function addStyleToBlocklyToolbox()
+{
+	$(".blocklyTreeRow").css('border-bottom-right-radius', '15px');	
+	$(".blocklyTreeRow").css('border-bottom', '1px solid white');	
+	$(".blocklyTreeRow").css('height', '35px');	
+	$(".blocklyToolboxDiv div[role='treeitem']")[5].style.color = "#CF3F6F";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[3].style.color = "tomato";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "green";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "darkviolet";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[1].style.color = "darkred";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[0].style.color = 'royalblue';
+}
+

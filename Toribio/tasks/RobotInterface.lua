@@ -6,8 +6,8 @@ local devices = toribio.devices
 local sched = require 'sched'
 
 --Path to files
-local butia_blocks = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/blocks/butia.js'
-local butia_code = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/generators/lua/butia.js'
+local butia_blocks = 'Lumen/tasks/http-server/www/apps/yatay/blocks/butia.js'
+local butia_code = 'Lumen/tasks/http-server/www/apps/yatay/generators/lua/butia.js'
 
 --Active devices at the moment
 M.active_devices = nil
