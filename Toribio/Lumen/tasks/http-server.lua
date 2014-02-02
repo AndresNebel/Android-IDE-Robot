@@ -2,7 +2,7 @@
 -- This is a general purpose web server. It depends on the selector module
 -- being up and running.  
 -- To use it, the programmer must register callbacks for method/url pattern pairs.  
--- Handlers for serving static files from disk is provided.  
+-- Handlers for serving static files from disk are provided.  
 -- @module http-server 
 -- @alias M
 
@@ -112,7 +112,7 @@ M.serve_static_content_from_ram = function (webroot, fileroot)
 					return 500
 				end
 			else
-				log('HTTP', 'WARN', 'Error opening file %s', err)
+				log('HTTP', 'WARN', 'Error opening file %s: %s', abspath, err)
 				return 404
 			end
 		end
@@ -156,6 +156,29 @@ M.serve_static_content_from_stream = function (webroot, fileroot, buffer_size)
 	)
 end
 
+local function find_matching_handler(method, url)
+	local max_depth, best_handler = 0
+	for i = 1,  #request_handlers do
+		local handler = request_handlers[i]
+		if handler.method == '*' or handler.method == method then
+			if url:match(handler.pattern) and handler.depth>max_depth then
+				max_depth=handler.depth
+				best_handler=handler
+			end
+		end
+	end
+	if best_handler then return best_handler.callback end
+end
+
+local function parse_params(s)
+	local params={}
+	for k,v in string.gmatch(s, '([%w%%%_%-]+)=?([%w%%%_%-]*)') do
+		--print('PARAM', k, v)
+		params[k]=v
+	end
+	return params
+end
+
 --- Start the http server.
 -- @param conf the configuration table (see @{conf}).
 M.init = function(conf)
@@ -173,28 +196,7 @@ M.init = function(conf)
 		sched.run(function()
 			local instream = sktd_cli.stream
 			log('HTTP', 'DETAIL', 'http-server accepted connection from %s:%s', sktd_cli:getpeername())
-			local function find_matching_handler(method, url)
-				local max_depth, best_handler = 0
-				for i = 1,  #request_handlers do
-					local handler = request_handlers[i]
-					if handler.method == '*' or handler.method == method then
-						if url:match(handler.pattern) and handler.depth>max_depth then
-							max_depth=handler.depth
-							best_handler=handler
-						end
-					end
-				end
-				if best_handler then return best_handler.callback end
-			end
-			local function parse_params(s)
-				local params={}
-				for k,v in string.gmatch(s, '([%w%%%_%-]+)=?([%w%%%_%-]*)') do
-					--print('PARAM', k, v)
-					params[k]=v
-				end
-				return params
-			end
-			
+
 			local read_incomming_header = function()
 				local http_req_header  = {}
 				while true do
@@ -207,7 +209,7 @@ M.init = function(conf)
 				end
 				return http_req_header
 			end
-			
+		
 			instream:set_timeout(M.HTTP_TIMEOUT, -1)
 			while true do
 				-- read first line ------------------------------------------------------
@@ -235,7 +237,7 @@ M.init = function(conf)
 				-- read body ------------------------------------------------------------
 				local http_params
 				if http_req_method=='POST' then 
-					local data = instream:read( http_req_header['content-length'] or 0 )
+					local data = instream:read(tonumber(http_req_header['content-length']) or 0 )
 					if not data then sktd_cli:close(); return end
 					http_params=parse_params(data)
 				else
@@ -269,9 +271,9 @@ M.init = function(conf)
 				local need_flush
 				
 				local response_header = http_util.build_http_header(http_out_code, http_out_header, response, conf)
-				sktd_cli:send_sync(response_header)
+				sktd_cli:send_async(response_header)
 				if type(response) == 'string' then
-					sktd_cli:send_sync(response)
+					sktd_cli:send_async(response)
 				else --stream
 					if not http_out_header["content-length"] then
 						need_flush = true
@@ -280,7 +282,7 @@ M.init = function(conf)
 						--TODO share streams?
 						local s, _ = response:read()
 						if not s then break end
-						sktd_cli:send_sync(s)
+						sktd_cli:send_async(s)
 					end
 				end
 				

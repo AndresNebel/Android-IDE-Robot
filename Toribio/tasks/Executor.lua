@@ -13,96 +13,95 @@ local function exist(task)
 end 
 
 M.kill_tasks = function(userId)
-					local none = true
-					print('kill')
-					print(#behaviours, userId)
-					--Autogen Id for robot calibrations
-					RBTManagerActivate = false
-					local bxcount = 0
-					for name, btable in behaviours:iterator() do
-						if (btable.userId == userId) then
-							behaviours:unregister(name)
-							if (btable.compete_task ~= nil) then
-								btable.compete_task:kill()
-							end
-							if (btable.task ~= nil) then
-								btable.task:kill()
-							end
-							btable = {}
-							none = false
-						else
-							--Not killed so still in the catalog count
-							bxcount = bxcount +1
-						end
-					end	
-					if (bxcount == 0) then
-						collectgarbage('restart')
-						activeBehaviour = nil
-						previousBehaviour = nil
-					else
-						--resume execution for others behaviours
-						RBTManagerActivate = true
-					end
-					if (none) then 
-						print('No tasks to kill.')
-					else
-						print('All task killed!')
-					end
-				 end
+	local none = true
+	print(#behaviours, userId)
+	--Autogen Id for robot calibrations
+	RBTManagerActivate = false
+	local bxcount = 0
+	for name, btable in behaviours:iterator() do
+		if (btable.userId == userId) then
+			behaviours:unregister(name)
+			if (btable.compete_task ~= nil) then
+				btable.compete_task:kill()
+			end
+			if (btable.task ~= nil) then
+				btable.task:kill()
+			end
+			btable = {}
+			none = false
+		else
+			--Not killed so still in the catalog count
+			bxcount = bxcount +1
+		end
+	end	
+	if (bxcount == 0) then
+		collectgarbage('restart')
+		activeBehaviour = nil
+		previousBehaviour = nil
+	else
+		--resume execution for others behaviours
+		RBTManagerActivate = true
+	end
+	if (none) then 
+		print('YATAY: No tasks to kill.')
+	else
+		print('YATAY: All task killed!')
+	end
+ end
 
 
 M.create_task = function(task, userId)
-						local code, errorCompilacion = loadstring(task)
-						if (not errorCompilacion) then	
-							local ok, tasktable = pcall(code)
-							if (not ok) then
-								print("Yatay detecto un error al ejecutar la task:")
-								print(tasktable)
-							else
-								--Control: tasks already exists?
-								if (not exist(tasktable.name)) then
-									collectgarbage('stop');
-									behaviours:register(tasktable.name, tasktable)
-									tasktable.userId = userId
-									local newTask = sched.new_task(code)
-									tasktable.init(true)
-									RBTManagerActivate = true
-									print('Task '.. tasktable.name ..' initialized! UserId:'..tasktable.userId)
-								else
-									print('Task '.. tasktable.name ..' already exist.')
-								end
-							end
-						else
-								print("Yatay detecto un error al compilar la task:")
-								print(errorCompilacion)
-						end
-					end
+	local code, errorCompilacion = loadstring(task)
+	if (not errorCompilacion) then	
+		local ok, tasktable = pcall(code)
+		if (not ok) then
+			print("YATAY: task execution error -")
+			print(tasktable)
+		else
+			--Control: tasks already exists?
+			if (not exist(tasktable.name)) then
+				collectgarbage('stop');
+				behaviours:register(tasktable.name, tasktable)
+				tasktable.userId = userId
+				local newTask = sched.new_task(code)
+				tasktable.init(true)
+				RBTManagerActivate = true
+				print('YATAY: task '.. tasktable.name ..' initialized! UserId:'..tasktable.userId)
+			else
+				print('YATAY: task '.. tasktable.name ..' already exist.')
+			end
+		end
+	else
+			print("YATAY: task compilation error - ")
+			print(errorCompilacion)
+	end
+end
 
 M.test_robot = function(task, userId)
-						local code, errorCompilacion = loadstring(task)
-						if (not errorCompilacion) then	
-							local ok, tasktable = pcall(code)
-							if (not ok) then
-								print("Yatay detecto un error al ejecutar la task:")
-								print(tasktable)
-							else
-								if (not exist(userId)) then
-									collectgarbage('stop');
-									behaviours:register(userId, tasktable)
-									tasktable.userId = userId
-									print('Setted tasktable.userId=',tasktable.userId)
-									local newTask = sched.new_task(code)
-									tasktable.init(true)
-									print('A robot test is running')							
-								else
-									print('Test '.. userId ..' already exist.')
-								end
-						end
-						else
-								print("Yatay detecto un error al compilar la task:")
-								print(errorCompilacion)
-						end
-					end
+	local code, errorCompilacion = loadstring(task)
+	if (not errorCompilacion) then	
+		local ok, tasktable = pcall(code)
+		if (not ok) then
+			print("YATAY: task execution error -")
+			print(tasktable)
+		else
+			if (not exist(userId)) then
+				collectgarbage('stop');
+				behaviours:register(userId, tasktable)
+				tasktable.userId = userId
+				print('YATAY: Setted tasktable.userId=',tasktable.userId)
+				local newTask = sched.new_task(code)
+				tasktable.init(true)
+				print('YATAY: A robot test is running')							
+			else
+				print('YATAY: Test '.. userId ..' already exist.')
+			end
+	end
+	else
+			print("YATAY: task compilation error -")
+			print(errorCompilacion)
+	end
+end
 
 
 return M

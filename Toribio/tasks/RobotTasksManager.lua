@@ -5,7 +5,7 @@ M.init = function(conf)
 	RBTManagerActivate = false
 	return sched.run(function()
 		local toribio = require 'toribio'
-	    local behaviours = require 'catalog'.get_catalog('behaviours')
+		local behaviours = require 'catalog'.get_catalog('behaviours')
 		activeBehaviour = nil
 		terminateRBTMTasks = false
 
@@ -23,7 +23,7 @@ M.init = function(conf)
 				sched.signal('Compete!')
 				sched.yield()
 
-				--Swap behaviour viejo con nuevo
+				--Swapping behaviours
 				if (previousBehaviour ~= activeBehaviour) then
 					if (previousBehaviour ~= nil) then
 						print(2)
@@ -38,9 +38,7 @@ M.init = function(conf)
 					sched.signal(activeBehaviour.name)  --Cada task tiene un signal unico con su nombre. Despertar la task activa.
 					sched.yield()
 				end
-			
-
-			
+				
 				if done then
 					if (activeBehaviour) then
 						activeBehaviour.task:kill()
@@ -49,7 +47,6 @@ M.init = function(conf)
 --						if (previousBehaviour == activeBehaviour) then --I have finished running, but still have control, so let's run again
 --							sched.signal(activeBehaviour.name)  --Cada task tiene un signal unico con su nombre. Despertar la task activa.
 --						end
-
 					end
 					sched.yield()
 				end
