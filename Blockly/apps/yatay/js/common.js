@@ -34,9 +34,14 @@ Yatay.Common.activesBxs = [];
 /**
  * Selected project to be load 
  * @type {[string]}
-
  */
 Yatay.Common.activesProj = [];
+
+/**
+ * Yatay need to refresh blocks? 
+ * @type {[bool]}
+ */
+Yatay.Common.refresh = false;
 
 /**
  * Initialize (start refresh blocks poll)
@@ -110,14 +115,13 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 /**
 * Opens the Delete popup
 */	
-Yatay.Common.openDeleteModal = function(){
-	if (Yatay.Tablet.testMode) 
-	{
+Yatay.Common.openDeleteModal = function() {
+	if (Yatay.Tablet.testMode) {
 		Blockly.mainWorkspace.clear();
       	Yatay.Common.killTasks();
-	}	
-	else	
+	} else {	
 		$("#delete_modal").modal('show');
+	}
 };
 
 /**
@@ -213,51 +217,51 @@ Yatay.Common.saveTask = function(block, code) {
  */
 Yatay.Common.loadBxs = function() {
 	 $('#remote_proj').html('');
-        $('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
+      $('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
 
-        $.ajax({
-                url: "/index.html",
-                type: "POST",
-                data: { id:'loadBxs' },
-                success: function(content) {
-                        $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
-                        var data = JSON.parse(content);
-                        if (data.length > 0) {
-                             	$("#loadMainWindow").hide();
+	   $.ajax({
+		      url: "/index.html",
+		      type: "POST",
+		      data: { id:'loadBxs' },
+		      success: function(content) {
+		              $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+		              var data = JSON.parse(content);
+		              if (data.length > 0) {
+		                   	$("#loadMainWindow").hide();
 						var multiselector = '<tr>' +
 							'<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
 							'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
 							'</tr>';
-                                for (var i=0; i<data.length; i++) {
-                                        var elem = data[i];
+		                      for (var i=0; i<data.length; i++) {
+		                              var elem = data[i];
 								if (elem.project != '') {
-		                                   multiselector += '<tr><td>' + elem.project + '</td><td>'
-		                                   multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
-		                                   for (var j=0; j<elem.behaviours.length; j++) {
-		                                           var bx = elem.behaviours[j];
-		                                           if (Yatay.Common.bxsCode[elem.project] == undefined) {
-		                                                   Yatay.Common.bxsCode[elem.project] = [];
-		                                           }
-		                                           Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
-		                                           multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
-		                                   }
-		                                   multiselector += '</select></td></tr>';  
+			                              multiselector += '<tr><td>' + elem.project + '</td><td>'
+			                              multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
+			                              for (var j=0; j<elem.behaviours.length; j++) {
+			                                      var bx = elem.behaviours[j];
+			                                      if (Yatay.Common.bxsCode[elem.project] == undefined) {
+			                                              Yatay.Common.bxsCode[elem.project] = [];
+			                                      }
+			                                      Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
+			                                      multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
+			                              }
+			                              multiselector += '</select></td></tr>';  
 								}                              
-                                }
-                                $(multiselector).appendTo($('#remote_proj'));                                
-                                for (var i=0; i<data.length; i++) {
+		                      }
+		                      $(multiselector).appendTo($('#remote_proj'));                                
+		                      for (var i=0; i<data.length; i++) {
 							if (data[i].project != '') {
-                                        Yatay.Common.buildMultiSelector($('#' + data[i].project));        
-                                	}
+		                              Yatay.Common.buildMultiSelector($('#' + data[i].project));        
+		                      	}
 						  }
-                        } else {
-                                $('#projects').remove();
-                                var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
-                                $(multiselector).insertBefore($('#btn_remote_loader'));
-                        }
-                },
-                error:function() {}
-        });
+		              } else {
+		                      $('#projects').remove();
+		                      var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
+		                      $(multiselector).insertBefore($('#btn_remote_loader'));
+		              }
+		      },
+		      error:function() {}
+	   });
 };
 
 /**
@@ -348,7 +352,6 @@ Yatay.Common.readFile = function(evt) {
 		alert("Failed to load file");
 	}
 };
-
 
 /**
  * Show file chooser modal
@@ -460,9 +463,12 @@ Yatay.Common.refreshBlocksPoll = function() {
 			url: "/index.html",
 			type: "POST",
 			data: { id:'refreshBlocks' },
-			success: function(content){
-				if (content == 'yes') {
-					location.reload(true);
+			success: function(content) {
+				Yatay.Common.refresh = Yatay.Common.refresh || (content == 'yes');
+				//If isn't to be run, then refresh!
+				if (Yatay.Common.refresh && $('#btn_stop').css('display') == 'none'){
+					Yatay.Common.refresh = false;
+					location.reload(true);					
 				}
 			},
 			error:function() {}, 

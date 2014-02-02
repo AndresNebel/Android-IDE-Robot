@@ -43,11 +43,11 @@ Yatay.Tablet.editor = undefined;
  */
 $(document).ready(function(){	   
 	$('body').bind('touchmove', function(e){e.preventDefault()});
-
 	$('#main_menu').load('./tablet.html');	
 	
 	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
 	list.appendTo($("#behaviours_popup"));
+	
 	Yatay.Common.setCookie("idUser", "", 1);
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId();
@@ -107,7 +107,7 @@ Yatay.Tablet.edit = function() {
 	Yatay.Tablet.editedBxs = [];
 	Yatay.Tablet.editedBxs.active = -1;
 
-	if (Blockly.mainWorkspace.getAllBlocks().length >0) {
+	if (Blockly.mainWorkspace.getAllBlocks().length>0) {
 		bxReady()
 	}
 
@@ -130,7 +130,8 @@ Yatay.Tablet.edit = function() {
 	Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[0]);
 
 	$('body').unbind('touchmove');
-	$('#code_modal').modal({	backdrop:'static' });
+	$('html,body').css('overflow','hidden');
+	$('#code_modal').modal({backdrop:'static'});
 
 	$('#code_modal').on('shown.bs.modal', function() {
 		Yatay.Tablet.editor.refresh();
@@ -157,8 +158,7 @@ Yatay.Tablet.runEditedTasks = function() {
 /**
  * Handle run click
  */
-function runTasks() {	
-
+function runTasks() {
 	if ($('#btn_stop').css('display') == 'none') {
 		$('#btn_robotest').toggle('slow');
 		if (Yatay.Tablet.editedBxs.active == -1) {
@@ -172,7 +172,7 @@ function runTasks() {
 		}
 		$('#btn_stop').toggle('slow');
 	} else {
-		if (Yatay.Tablet.testMode ) {
+		if (Yatay.Tablet.testMode) {
 			if (Blockly.mainWorkspace.getAllBlocks().length >0) {
 				var testTask = "" +
 				"local M = {}\n" +                        
@@ -190,7 +190,7 @@ function runTasks() {
 				pollResults();
 			}
 		} else {
-			if (Blockly.mainWorkspace.getAllBlocks().length >0) {
+			if (Blockly.mainWorkspace.getAllBlocks().length>0) {
 				bxReady()
 			}
 
@@ -389,8 +389,7 @@ function bxToWorkspace() {
 	}
 };
 
-function addStyleToBlocklyToolbox()
-{
+function addStyleToBlocklyToolbox() {
 	$(".blocklyTreeRow").css('border-bottom-right-radius', '15px');	
 	$(".blocklyTreeRow").css('border-bottom', '1px solid white');	
 	$(".blocklyTreeRow").css('height', '35px');	
