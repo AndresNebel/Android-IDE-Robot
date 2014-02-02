@@ -27,13 +27,13 @@ Yatay.Tablet.editedBxs.active = -1;
 
 /**
  * Test mode status
- * @type {bool}
+ * @type {[bool]}
  */
 Yatay.Tablet.testMode = false;
 
 /**
  * CodeMirror Editor
- * @type {Object}
+ * @type {[Object]}
  */
 Yatay.Tablet.editor = undefined;
 
@@ -48,11 +48,15 @@ $(document).ready(function(){
 	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
 	list.appendTo($("#behaviours_popup"));
 	
+	Yatay.Common.setCookie("idUser", "", 1);
 	if (Yatay.Common.getCookie("idUser") == '') { 
-		requestUserId(); 
+		requestUserId();
 	}
 });
 
+/**
+ * onLoad
+ */
 $(window).load(function() {
 	//Restoring browser persistance of blocks
 	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
@@ -382,4 +386,50 @@ function bxToWorkspace() {
 	if (Yatay.Tablet.behaviours.length == 0) {
 		$("#behaviours_popup").hide();
 	}
+};
+
+/**
+ * Initialize and start the tour
+ */
+Yatay.Tablet.takeTour = function() {
+	$('.blocklyToolboxDiv').addClass('bootstro');
+	$('.blocklyToolboxDiv').attr('data-bootstro-step', '0');
+	$('.blocklyToolboxDiv').attr('data-bootstro-width', '600px');
+	$('.blocklyToolboxDiv').attr('data-bootstro-placement', 'right');
+	$('.blocklyToolboxDiv').attr('data-bootstro-title', Yatay.Msg.TOUR_TOOLBOX_TITLE);
+	$('.blocklyToolboxDiv').attr('data-bootstro-content', Yatay.Msg.TOUR_TOOLBOX_CONTENT);
+
+	$('#btn_robotest').addClass('bootstro');
+	$('#btn_robotest').attr('data-bootstro-step', '1');
+	$('#btn_robotest').attr('data-bootstro-width', '400px');
+	$('#btn_robotest').attr('data-bootstro-placement', 'right');
+	$('#btn_robotest').attr('data-bootstro-title', Yatay.Msg.TOUR_RBTEST_TITLE);
+	$('#btn_robotest').attr('data-bootstro-content', Yatay.Msg.TOUR_RBTEST_CONTENT);
+
+	$('#btn_run').addClass('bootstro');
+	$('#btn_run').attr('data-bootstro-step', '2');
+	$('#btn_run').attr('data-bootstro-width', '600px');
+	$('#btn_run').attr('data-bootstro-placement', 'right');
+	$('#btn_run').attr('data-bootstro-title', Yatay.Msg.TOUR_RUN_TITLE);
+	$('#btn_run').attr('data-bootstro-content', Yatay.Msg.TOUR_RUN_CONTENT);
+
+	$('#btn_bx_ready').addClass('bootstro');
+	$('#btn_bx_ready').attr('data-bootstro-step', '3');
+	$('#btn_bx_ready').attr('data-bootstro-width', '400px');
+	$('#btn_bx_ready').attr('data-bootstro-placement', 'right');
+	$('#btn_bx_ready').attr('data-bootstro-title', Yatay.Msg.TOUR_BXREADY_TITLE);
+	$('#btn_bx_ready').attr('data-bootstro-content', Yatay.Msg.TOUR_BXREADY_CONTENT);
+
+	$('#btn_edit').addClass('bootstro');
+	$('#btn_edit').attr('data-bootstro-step', '4');
+	$('#btn_edit').attr('data-bootstro-width', '400px');
+	$('#btn_edit').attr('data-bootstro-placement', 'right');
+	$('#btn_edit').attr('data-bootstro-title', Yatay.Msg.TOUR_EDIT_TITLE);
+	$('#btn_edit').attr('data-bootstro-content', Yatay.Msg.TOUR_EDIT_CONTENT);
+
+	bootstro.start('.bootstro', {
+		nextButton: '<button class="btn btn-primary btn-mini bootstro-next-btn">'+ Yatay.Msg.TOUR_NEXT +'</button>',
+		prevButton: '<button class="btn btn-primary btn-mini bootstro-prev-btn">'+ Yatay.Msg.TOUR_PREV +'</button>',
+		finishButton: ''
+	});
 };

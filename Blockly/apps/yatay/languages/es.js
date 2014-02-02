@@ -42,6 +42,20 @@ Yatay.Msg.DIALOG_DELETE_ALL = "Todo";
 Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Sólo pizarra";
 Yatay.Msg.DIALOG_DELETE_LABEL = "¿Qué deseas borrar?";
 
+// Tour Messages
+Yatay.Msg.TOUR_TOOLBOX_TITLE = '¿Dónde están los bloques?';
+Yatay.Msg.TOUR_TOOLBOX_CONTENT = 'Aquí encontraras todos los bloques, comienza con un bloque de comportamiento!';
+Yatay.Msg.TOUR_RBTEST_TITLE = '¿Qué valores dan los sensores?'; 
+Yatay.Msg.TOUR_RBTEST_CONTENT = 'Puedes probar y calibrar los sensores y actuadores del robot Butiá.';
+Yatay.Msg.TOUR_RUN_TITLE = '¿Quieres ejecutar tus comportamientos?';
+Yatay.Msg.TOUR_RUN_CONTENT = 'Comienza la ejecución de tus comportamientos, también puedes depurar!';
+Yatay.Msg.TOUR_EDIT_TITLE = '¿Qué código se está generando?';
+Yatay.Msg.TOUR_EDIT_CONTENT = 'Puedes editar y probar el código de tus comportamientos.';
+Yatay.Msg.TOUR_BXREADY_TITLE = '¿Terminaste de armar tu comportamiento?'; 
+Yatay.Msg.TOUR_BXREADY_CONTENT = 'Puedes marcar tu comportamiento como listo y seguir con otro!';
+Yatay.Msg.TOUR_NEXT = 'siguiente';
+Yatay.Msg.TOUR_PREV = 'anterior';
+
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
 Yatay.Msg.BUTIA_MOVE_TITLE = 'mover';

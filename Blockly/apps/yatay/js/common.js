@@ -217,29 +217,33 @@ Yatay.Common.loadBxs = function() {
                         $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
                         var data = JSON.parse(content);
                         if (data.length > 0) {
-                                $("#loadMainWindow").hide();
-                    var multiselector = '<tr>' +
-                                                            '<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
-                                                                        '<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
-                                                    '</tr>';
+                             	$("#loadMainWindow").hide();
+						var multiselector = '<tr>' +
+							'<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
+							'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
+							'</tr>';
                                 for (var i=0; i<data.length; i++) {
                                         var elem = data[i];
-                                        multiselector += '<tr><td>' + elem.project + '</td><td>'
-                                        multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
-                                        for (var j=0; j<elem.behaviours.length; j++) {
-                                                var bx = elem.behaviours[j];
-                                                if (Yatay.Common.bxsCode[elem.project] == undefined) {
-                                                        Yatay.Common.bxsCode[elem.project] = [];
-                                                }
-                                                Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
-                                                multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
-                                        }
-                                        multiselector += '</select></td></tr>';                                
+								if (elem.project != '') {
+		                                   multiselector += '<tr><td>' + elem.project + '</td><td>'
+		                                   multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
+		                                   for (var j=0; j<elem.behaviours.length; j++) {
+		                                           var bx = elem.behaviours[j];
+		                                           if (Yatay.Common.bxsCode[elem.project] == undefined) {
+		                                                   Yatay.Common.bxsCode[elem.project] = [];
+		                                           }
+		                                           Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
+		                                           multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
+		                                   }
+		                                   multiselector += '</select></td></tr>';  
+								}                              
                                 }
                                 $(multiselector).appendTo($('#remote_proj'));                                
                                 for (var i=0; i<data.length; i++) {
+							if (data[i].project != '') {
                                         Yatay.Common.buildMultiSelector($('#' + data[i].project));        
-                                }
+                                	}
+						  }
                         } else {
                                 $('#projects').remove();
                                 var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
@@ -525,6 +529,7 @@ Yatay.Common.projectSaver = function() {
 	if (proj_name != '' && proj_name != null) {
 		Yatay.Common.setCookie('project_name', proj_name, 1); 
 		$('#projmaneger_modal').modal('hide');
+		Yatay.Tablet.takeTour();
 	} else {
 		$('#projmaneger_modal').effect( "shake" );
 	}
@@ -535,7 +540,7 @@ Yatay.Common.projectSaver = function() {
 */
 Yatay.Common.projectChecker = function() {
 //	Delete project cookie
-//	document.cookie = 'project_name' + '=' + '';  
+	document.cookie = 'project_name' + '=' + '';  
 	var proj_name = Yatay.Common.getCookie('project_name'); 
 //	Delete behaviours cookie
 //	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
