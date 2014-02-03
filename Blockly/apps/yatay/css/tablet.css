@@ -2,13 +2,15 @@ html {
 	width: 100% !important;
 	height: 100 !important;
 	clip: auto;
-	position: absolute;
+	position: fixed;
 	overflow: hidden;
-	background: url(../images/bg.png) repeat;
 }
 
 body {
-	background: url(../images/bg.png) repeat;
+	width: 100% !important;
+	height: 100 !important;
+	overflow: hidden !important;
+	background-color:#8FA9CC !important;
 }
 
 textarea { 

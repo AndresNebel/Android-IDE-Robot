@@ -45,10 +45,10 @@ $(document).ready(function(){
 	$('body').bind('touchmove', function(e){e.preventDefault()});
 	$('#main_menu').load('./tablet.html');	
 	
-	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
-	list.appendTo($("#behaviours_popup"));
+	var list = $('<ul class="nav" id="bx_list"></ul>');
+	list.appendTo($('#behaviours_popup'));
 	
-	Yatay.Common.setCookie("idUser", "", 1);
+	Yatay.Common.setCookie('idUser', '', 1);
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId();
 	}
@@ -130,7 +130,6 @@ Yatay.Tablet.edit = function() {
 	Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[0]);
 
 	$('body').unbind('touchmove');
-	$('html,body').css('overflow','hidden');
 	$('#code_modal').modal({backdrop:'static'});
 
 	$('#code_modal').on('shown.bs.modal', function() {

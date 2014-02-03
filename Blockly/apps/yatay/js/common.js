@@ -1,6 +1,6 @@
 /**
  * @fileoverview 
- * @author Yatay Project
+ * @author 
  */
 
 if (!Yatay.Common){ 
@@ -194,22 +194,24 @@ Yatay.Common.saveTask = function(block, code) {
 	var project = Yatay.Common.getCookie('project_name');
 	var newborn = (Yatay.Common.getCookie(project+'_'+block) != '') ? false : true;
 
-	$.ajax({
-		url: "/index.html",
-		type: "POST",
-		data: { id:'save', newborn:newborn, project:project, block:block, code:values }, 
-		success: function(content){
-			if (content.length > 0) {
-				if (newborn) {
-					Yatay.Common.setCookie(project+'_'+content, content, 1);
-					if (block != content) {
-						Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].setValue(content);
+	if (project != '' && values != '') {
+		$.ajax({
+			url: "/index.html",
+			type: "POST",
+			data: { id:'save', newborn:newborn, project:project, block:block, code:values }, 
+			success: function(content){
+				if (content.length > 0) {
+					if (newborn) {
+						Yatay.Common.setCookie(project+'_'+content, content, 1);
+						if (block != content) {
+							Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].setValue(content);
+						}
 					}
-				}
-			}		
-		},
-		error:function(){}
-	});
+				}		
+			},
+			error:function(){}
+		});
+	}
 };
 
 /**
@@ -228,6 +230,10 @@ Yatay.Common.loadBxs = function() {
 		              var data = JSON.parse(content);
 		              if (data.length > 0) {
 		                   	$("#loadMainWindow").hide();
+						$('body').unbind('touchmove');
+						$('#loader_modal').on('hidden.bs.modal', function() {
+							$('body').bind('touchmove', function(e){e.preventDefault()});
+						});
 						var multiselector = '<tr>' +
 							'<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
 							'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
@@ -269,37 +275,37 @@ Yatay.Common.loadBxs = function() {
  */
 Yatay.Common.fromXml = function() {
 	if (Yatay.Common.fileCode != '') {
-			var xmlEndTag = '</xml>';
-			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-					bxReady();
-			}
-			var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
-			splittedBlocks.pop();
-			for (var j=0; j< splittedBlocks.length; j++)
-			{
-					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
-					bxReady();
-			}
-	
-			Yatay.Common.fileCode = '';
-			$('#loader_modal').modal('hide');        
+		var xmlEndTag = '</xml>';
+		if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+				bxReady();
+		}
+		var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
+		splittedBlocks.pop();
+		for (var j=0; j< splittedBlocks.length; j++)
+		{
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
+				bxReady();
+		}
+
+		Yatay.Common.fileCode = '';
+		$('#loader_modal').modal('hide');        
 	} else if (Yatay.Common.activesProj.length > 0) {
-			for (var i=0; i<Yatay.Common.activesProj.length; i++) {
-					var project = Yatay.Common.activesProj[i];
-					for (var j=0; j<Yatay.Common.activesBxs[project].length; j++) {
-							if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-									bxReady();
-							}        
-							var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
-							Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
-					}
-			}                
-			Yatay.Common.bxsCode = [];
-			Yatay.Common.activesBxs = [];        
-			Yatay.Common.activesProj = [];
-			$('#loader_modal').modal('hide');                        
+		for (var i=0; i<Yatay.Common.activesProj.length; i++) {
+				var project = Yatay.Common.activesProj[i];
+				for (var j=0; j<Yatay.Common.activesBxs[project].length; j++) {
+						if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+								bxReady();
+						}        
+						var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
+						Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+				}
+		}                
+		Yatay.Common.bxsCode = [];
+		Yatay.Common.activesBxs = [];        
+		Yatay.Common.activesProj = [];
+		$('#loader_modal').modal('hide');                        
 	} else {
-			$('#loader_modal').effect('shake');
+		$('#loader_modal').effect('shake');
 	}
 };
 
@@ -381,7 +387,6 @@ function pollResults() {
 				data: {id:'poll', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
-						$("#results_popup").show();
 						var sensorHtml = html.split('#;#')[0];
 						var console = html.split('#;#')[1];
 						$("#result_console").html(console);
@@ -424,7 +429,6 @@ function debugPoll() {
 				data: {id:'pollDebug', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
-						$("#results_popup").show();
 						var behaviourName = html.split(':')[0];
 						var behavioursAfterThisOne = false;
 						var offset = 0;
