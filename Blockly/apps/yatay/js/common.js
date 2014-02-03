@@ -1,6 +1,6 @@
 /**
  * @fileoverview 
- * @author Yatay Project
+ * @author 
  */
 
 if (!Yatay.Common){ 
@@ -34,9 +34,14 @@ Yatay.Common.activesBxs = [];
 /**
  * Selected project to be load 
  * @type {[string]}
-
  */
 Yatay.Common.activesProj = [];
+
+/**
+ * Yatay need to refresh blocks? 
+ * @type {[bool]}
+ */
+Yatay.Common.refresh = false;
 
 /**
  * Initialize (start refresh blocks poll)
@@ -110,14 +115,13 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 /**
 * Opens the Delete popup
 */	
-Yatay.Common.openDeleteModal = function(){
-	if (Yatay.Tablet.testMode) 
-	{
+Yatay.Common.openDeleteModal = function() {
+	if (Yatay.Tablet.testMode) {
 		Blockly.mainWorkspace.clear();
       	Yatay.Common.killTasks();
-	}	
-	else	
+	} else {	
 		$("#delete_modal").modal('show');
+	}
 };
 
 /**
@@ -190,22 +194,24 @@ Yatay.Common.saveTask = function(block, code) {
 	var project = Yatay.Common.getCookie('project_name');
 	var newborn = (Yatay.Common.getCookie(project+'_'+block) != '') ? false : true;
 
-	$.ajax({
-		url: "/index.html",
-		type: "POST",
-		data: { id:'save', newborn:newborn, project:project, block:block, code:values }, 
-		success: function(content){
-			if (content.length > 0) {
-				if (newborn) {
-					Yatay.Common.setCookie(project+'_'+content, content, 1);
-					if (block != content) {
-						Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].setValue(content);
+	if (project != '' && values != '') {
+		$.ajax({
+			url: "/index.html",
+			type: "POST",
+			data: { id:'save', newborn:newborn, project:project, block:block, code:values }, 
+			success: function(content){
+				if (content.length > 0) {
+					if (newborn) {
+						Yatay.Common.setCookie(project+'_'+content, content, 1);
+						if (block != content) {
+							Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].setValue(content);
+						}
 					}
-				}
-			}		
-		},
-		error:function(){}
-	});
+				}		
+			},
+			error:function(){}
+		});
+	}
 };
 
 /**
@@ -213,51 +219,55 @@ Yatay.Common.saveTask = function(block, code) {
  */
 Yatay.Common.loadBxs = function() {
 	 $('#remote_proj').html('');
-        $('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
+      $('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
 
-        $.ajax({
-                url: "/index.html",
-                type: "POST",
-                data: { id:'loadBxs' },
-                success: function(content) {
-                        $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
-                        var data = JSON.parse(content);
-                        if (data.length > 0) {
-                             	$("#loadMainWindow").hide();
+	   $.ajax({
+		      url: "/index.html",
+		      type: "POST",
+		      data: { id:'loadBxs' },
+		      success: function(content) {
+		              $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+		              var data = JSON.parse(content);
+		              if (data.length > 0) {
+		                   	$("#loadMainWindow").hide();
+						$('body').unbind('touchmove');
+						$('#loader_modal').on('hidden.bs.modal', function() {
+							$('body').bind('touchmove', function(e){e.preventDefault()});
+						});
 						var multiselector = '<tr>' +
 							'<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
 							'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
 							'</tr>';
-                                for (var i=0; i<data.length; i++) {
-                                        var elem = data[i];
+		                      for (var i=0; i<data.length; i++) {
+		                              var elem = data[i];
 								if (elem.project != '') {
-		                                   multiselector += '<tr><td>' + elem.project + '</td><td>'
-		                                   multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
-		                                   for (var j=0; j<elem.behaviours.length; j++) {
-		                                           var bx = elem.behaviours[j];
-		                                           if (Yatay.Common.bxsCode[elem.project] == undefined) {
-		                                                   Yatay.Common.bxsCode[elem.project] = [];
-		                                           }
-		                                           Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
-		                                           multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
-		                                   }
-		                                   multiselector += '</select></td></tr>';  
+			                              multiselector += '<tr><td>' + elem.project + '</td><td>'
+			                              multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
+			                              for (var j=0; j<elem.behaviours.length; j++) {
+			                                      var bx = elem.behaviours[j];
+			                                      if (Yatay.Common.bxsCode[elem.project] == undefined) {
+			                                              Yatay.Common.bxsCode[elem.project] = [];
+			                                      }
+			                                      Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
+			                                      multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
+			                              }
+			                              multiselector += '</select></td></tr>';  
 								}                              
-                                }
-                                $(multiselector).appendTo($('#remote_proj'));                                
-                                for (var i=0; i<data.length; i++) {
+		                      }
+		                      $(multiselector).appendTo($('#remote_proj'));                                
+		                      for (var i=0; i<data.length; i++) {
 							if (data[i].project != '') {
-                                        Yatay.Common.buildMultiSelector($('#' + data[i].project));        
-                                	}
+		                              Yatay.Common.buildMultiSelector($('#' + data[i].project));        
+		                      	}
 						  }
-                        } else {
-                                $('#projects').remove();
-                                var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
-                                $(multiselector).insertBefore($('#btn_remote_loader'));
-                        }
-                },
-                error:function() {}
-        });
+		              } else {
+		                      $('#projects').remove();
+		                      var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
+		                      $(multiselector).insertBefore($('#btn_remote_loader'));
+		              }
+		      },
+		      error:function() {}
+	   });
 };
 
 /**
@@ -265,37 +275,37 @@ Yatay.Common.loadBxs = function() {
  */
 Yatay.Common.fromXml = function() {
 	if (Yatay.Common.fileCode != '') {
-			var xmlEndTag = '</xml>';
-			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-					bxReady();
-			}
-			var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
-			splittedBlocks.pop();
-			for (var j=0; j< splittedBlocks.length; j++)
-			{
-					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
-					bxReady();
-			}
-	
-			Yatay.Common.fileCode = '';
-			$('#loader_modal').modal('hide');        
+		var xmlEndTag = '</xml>';
+		if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+				bxReady();
+		}
+		var splittedBlocks = Yatay.Common.fileCode.split(xmlEndTag);
+		splittedBlocks.pop();
+		for (var j=0; j< splittedBlocks.length; j++)
+		{
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
+				bxReady();
+		}
+
+		Yatay.Common.fileCode = '';
+		$('#loader_modal').modal('hide');        
 	} else if (Yatay.Common.activesProj.length > 0) {
-			for (var i=0; i<Yatay.Common.activesProj.length; i++) {
-					var project = Yatay.Common.activesProj[i];
-					for (var j=0; j<Yatay.Common.activesBxs[project].length; j++) {
-							if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-									bxReady();
-							}        
-							var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
-							Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
-					}
-			}                
-			Yatay.Common.bxsCode = [];
-			Yatay.Common.activesBxs = [];        
-			Yatay.Common.activesProj = [];
-			$('#loader_modal').modal('hide');                        
+		for (var i=0; i<Yatay.Common.activesProj.length; i++) {
+				var project = Yatay.Common.activesProj[i];
+				for (var j=0; j<Yatay.Common.activesBxs[project].length; j++) {
+						if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+								bxReady();
+						}        
+						var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
+						Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+				}
+		}                
+		Yatay.Common.bxsCode = [];
+		Yatay.Common.activesBxs = [];        
+		Yatay.Common.activesProj = [];
+		$('#loader_modal').modal('hide');                        
 	} else {
-			$('#loader_modal').effect('shake');
+		$('#loader_modal').effect('shake');
 	}
 };
 
@@ -349,7 +359,6 @@ Yatay.Common.readFile = function(evt) {
 	}
 };
 
-
 /**
  * Show file chooser modal
  */
@@ -378,7 +387,6 @@ function pollResults() {
 				data: {id:'poll', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
-						$("#results_popup").show();
 						var sensorHtml = html.split('#;#')[0];
 						var console = html.split('#;#')[1];
 						$("#result_console").html(console);
@@ -421,7 +429,6 @@ function debugPoll() {
 				data: {id:'pollDebug', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
-						$("#results_popup").show();
 						var behaviourName = html.split(':')[0];
 						var behavioursAfterThisOne = false;
 						var offset = 0;
@@ -460,9 +467,12 @@ Yatay.Common.refreshBlocksPoll = function() {
 			url: "/index.html",
 			type: "POST",
 			data: { id:'refreshBlocks' },
-			success: function(content){
-				if (content == 'yes') {
-					location.reload(true);
+			success: function(content) {
+				Yatay.Common.refresh = Yatay.Common.refresh || (content == 'yes');
+				//If isn't to be run, then refresh!
+				if (Yatay.Common.refresh && $('#btn_stop').css('display') == 'none'){
+					Yatay.Common.refresh = false;
+					location.reload(true);					
 				}
 			},
 			error:function() {}, 
