@@ -548,7 +548,7 @@ Yatay.Common.projectSaver = function() {
 */
 Yatay.Common.projectChecker = function() {
 //	Delete project cookie
-	document.cookie = 'project_name' + '=' + '';  
+//	document.cookie = 'project_name' + '=' + '';  
 	var proj_name = Yatay.Common.getCookie('project_name'); 
 //	Delete behaviours cookie
 //	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")

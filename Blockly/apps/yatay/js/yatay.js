@@ -27,7 +27,7 @@ Yatay.init = function() {
 	Yatay.DebugBlockIdOffset = 0;
 	var rtl = BlocklyApps.isRtl();
 	var toolbox = document.getElementById('toolbox');
-	Blockly.inject(document.getElementById('content_blocks'), {path: '../../', rtl: rtl, toolbox: toolbox});
+	Blockly.inject(document.getElementById('content_blocks'), {path: '../../', rtl: rtl, toolbox: toolbox, scrollbars: true});
 	Blockly.Lua.addReservedWords('code, timeouts, checkTimeout');
 
 	var container = document.getElementById('content_area');

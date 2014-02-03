@@ -48,6 +48,7 @@ $(document).ready(function(){
 	
 	var list = $("<ul class=\"nav\" id=\"bx_list\"></ul>");
 	list.appendTo($("#behaviours_popup"));
+	///????
 	Yatay.Common.setCookie("idUser", "", 1);
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId();
@@ -59,6 +60,8 @@ $(document).ready(function(){
  */
 $(window).load(function() {
 	addStyleToBlocklyToolbox();
+	//Mystical fix for the blockly-bootstrap scrollbar conflict
+	$("foreignObject img").css("max-width","none");
 	//Restoring browser persistance of blocks
 	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
 		var behaviours = JSON.parse(localStorage.yatay_bxs);
