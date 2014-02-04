@@ -48,7 +48,7 @@ $(document).ready(function(){
 	var list = $('<ul class="nav" id="bx_list"></ul>');
 	list.appendTo($('#behaviours_popup'));
 	
-	Yatay.Common.setCookie('idUser', '', 1);
+	//Yatay.Common.setCookie('idUser', '', 1);
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId();
 	}
@@ -356,8 +356,7 @@ function bxReady() {
 			var list = $("<li style=\"display:none;\">" +
 						"<div id=\"" + id + "\" class=\"image-container\">" +
 							"<div class=\"image-inner-container\">" +
-								"<p class=\"overlay\">" + name + "</p>" +                                
-								"<img src=\"images/bx.png\" />" +
+								"<p class=\"overlay\">" + name + "</p>" + Yatay.Msg.SVG_BEHAVIOURS +
 							"</div>" +
 						"</div>" +
 					 "</li>");	

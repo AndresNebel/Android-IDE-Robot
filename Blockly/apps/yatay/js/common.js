@@ -556,15 +556,8 @@ Yatay.Common.projectSaver = function() {
 * Projects cookie check
 */
 Yatay.Common.projectChecker = function() {
-//	Delete project cookie
-//	document.cookie = 'project_name' + '=' + '';  
-	var proj_name = Yatay.Common.getCookie('project_name'); 
-//	Delete behaviours cookie
-//	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
-//		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
-//	for (var j=0; j< localStgeBxs.length; j++) {
-//		document.cookie = proj_name + '_' + localStgeBxs[j][0] + '=' + ''; 
-//     }   
+	//Yatay.Common.setCookie('project_name', '', 1);   
+	var proj_name = Yatay.Common.getCookie('project_name');  
 	if (proj_name == '') {        
 		$('#projmaneger_modal').modal({ backdrop:'static', keyboard:false });
 	}

@@ -74,6 +74,8 @@ textarea {
 	top: 2%;
 	right: 6%;
 	width: 125px;
+	max-height: 70%;
+    overflow-y: auto;
 }
 
 .cursorHover:hover{
