@@ -393,10 +393,10 @@ function addStyleToBlocklyToolbox() {
 	$(".blocklyTreeRow").css('border-bottom-right-radius', '15px');	
 	$(".blocklyTreeRow").css('border-bottom', '1px solid white');	
 	$(".blocklyTreeRow").css('height', '35px');	
-	$(".blocklyToolboxDiv div[role='treeitem']")[5].style.color = "#CF3F6F";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[5].style.color = "#CF3F6F";
+	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "darkviolet";		
 	$(".blocklyToolboxDiv div[role='treeitem']")[3].style.color = "tomato";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "green";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "darkviolet";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "green";	
 	$(".blocklyToolboxDiv div[role='treeitem']")[1].style.color = "darkred";	
 	$(".blocklyToolboxDiv div[role='treeitem']")[0].style.color = 'royalblue';
 }

@@ -144,6 +144,13 @@ textarea {
 	min-height: 200px !important;
 }
 
+#delete_modal {
+	position: absolute;
+	left: 55% !important;
+	height: 150px;
+	width: 400px;
+}
+
 #delete_modal h4 {
 	text-align: center !important;
 }
