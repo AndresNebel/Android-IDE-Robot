@@ -7,8 +7,6 @@ if (!Yatay.Msg){
 	Yatay.Msg = {};
 }
 
-Yatay.Msg.SVG_BEHAVIOURS = '<svg width="128pt" height="32pt"><path fill="#a6805b" d=" M 17.37 7.50 C 20.56 7.07 23.79 7.34 27.00 7.30 C 62.28 7.31 97.57 7.32 132.85 7.30 C 133.23 15.87 132.89 24.45 133.03 33.03 C 103.00 33.00 72.98 32.98 42.96 33.03 C 38.77 32.67 36.46 38.03 32.17 37.03 C 29.90 36.01 28.04 34.28 25.80 33.20 C 20.97 32.72 16.10 33.29 11.26 32.82 C 11.35 27.21 11.26 21.59 11.29 15.98 C 10.94 12.15 13.94 8.74 17.37 7.50 Z" /></svg>';
-
 // Menu Messages
 Yatay.Msg.MENU_ROBOTEST = "Probar Robot";
 Yatay.Msg.MENU_DEBUG = "Depurar";
@@ -138,3 +136,6 @@ Yatay.Msg.MATH_TRIG_TOOLTIP_ASIN = "asen";
 Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT = "raiz cuad.";
 Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS = "valor abs";
 Yatay.Msg.MATH_SINGLE_TOOLTIP_NEG = "opuesto";
+
+// SVG Behaviours popup
+Yatay.Msg.SVG_BEHAVIOURS = '<svg width="128pt" height="32pt"><path fill="#5B8FA6" d=" M 17.37 7.50 C 20.56 7.07 23.79 7.34 27.00 7.30 C 62.28 7.31 97.57 7.32 132.85 7.30 C 133.23 15.87 132.89 24.45 133.03 33.03 C 103.00 33.00 72.98 32.98 42.96 33.03 C 38.77 32.67 36.46 38.03 32.17 37.03 C 29.90 36.01 28.04 34.28 25.80 33.20 C 20.97 32.72 16.10 33.29 11.26 32.82 C 11.35 27.21 11.26 21.59 11.29 15.98 C 10.94 12.15 13.94 8.74 17.37 7.50 Z" /></svg>';
