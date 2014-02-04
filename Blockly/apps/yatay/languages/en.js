@@ -56,6 +56,10 @@ Yatay.Msg.TOUR_BXREADY_CONTENT = 'Puedes marcarlo como listo y seguir con otro!'
 Yatay.Msg.TOUR_NEXT = 'next';
 Yatay.Msg.TOUR_PREV = 'previous';
 
+// Popup Messages 
+Yatay.Msg.POPUP_RESULTS_ROBOTINFO = 'Robot Info.: ';
+Yatay.Msg.POPUP_RESULTS_CONSOLE = '- Console: ';
+
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';
 Yatay.Msg.BUTIA_MOVE_TITLE = 'move';

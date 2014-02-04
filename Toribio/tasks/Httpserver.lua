@@ -150,10 +150,8 @@ local function select_action(id, project, block, code, newborn, strUserId)
 end
 
 M.init = function(conf)	
-	--Servidor WEB
+
 	local http_server = require "../Lumen/tasks/http-server"	
-	
-	--Levantar todo de la carpeta www en el servidor
 	http_server.serve_static_content_from_ram('/', 'Lumen/tasks/http-server/www')
 
 	--Inicializando la cola de resultados
@@ -173,14 +171,22 @@ M.init = function(conf)
 		end
 	)
 	
+	--Find out my IP address
+	require("socket")
+	local someRandomIP = "192.168.1.1"
+	local someRandomPort = "3102" 
+	local mySocket = socket.udp()
+	mySocket:setpeername(someRandomIP,someRandomPort) 
+	local myDevicesIpAddress, somePortChosenByTheOS = mySocket:getsockname() 
+
 	local conf = {
-		ip= '192.168.1.113',
-		port=8080,
+		ip = tostring(myDevicesIpAddress),
+		port = 8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},
 	}
 	http_server.init(conf)
-
+	
 	print('YATAY: Server is up...')
 end
 
