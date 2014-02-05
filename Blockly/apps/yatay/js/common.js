@@ -46,14 +46,14 @@ Yatay.Common.refresh = false;
 /**
  * Initialize (start refresh blocks poll)
  */
-$(document).ready(function(){	   
+$(document).ready(function() {
 	Yatay.Common.refreshBlocksPoll();
 });
 
 /**
  * Show Project Manager Modal (when the page is loaded)
  */
-$(window).load(function(){
+$(window).load(function() {
 	Yatay.Common.projectChecker();
 });
 
@@ -218,56 +218,55 @@ Yatay.Common.saveTask = function(block, code) {
  * Load stored behaviours from server
  */
 Yatay.Common.loadBxs = function() {
-	 $('#remote_proj').html('');
-      $('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
+	$('#remote_proj').html('');
+	$('#btn_remote_loader').attr('disabled', 'disabled').html(Yatay.Msg.DIALOG_LOADING);
 
-	   $.ajax({
-		      url: "/index.html",
-		      type: "POST",
-		      data: { id:'loadBxs' },
-		      success: function(content) {
-		              $('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
-		              var data = JSON.parse(content);
-		              if (data.length > 0) {
-		                   	$("#loadMainWindow").hide();
-						$('body').unbind('touchmove');
-						$('#loader_modal').on('hidden.bs.modal', function() {
-							$('body').bind('touchmove', function(e){e.preventDefault()});
-						});
-						var multiselector = '<tr>' +
-							'<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
-							'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' +
-							'</tr>';
-		                      for (var i=0; i<data.length; i++) {
-		                              var elem = data[i];
-								if (elem.project != '') {
-			                              multiselector += '<tr><td>' + elem.project + '</td><td>'
-			                              multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
-			                              for (var j=0; j<elem.behaviours.length; j++) {
-			                                      var bx = elem.behaviours[j];
-			                                      if (Yatay.Common.bxsCode[elem.project] == undefined) {
-			                                              Yatay.Common.bxsCode[elem.project] = [];
-			                                      }
-			                                      Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
-			                                      multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
-			                              }
-			                              multiselector += '</select></td></tr>';  
-								}                              
-		                      }
-		                      $(multiselector).appendTo($('#remote_proj'));                                
-		                      for (var i=0; i<data.length; i++) {
-							if (data[i].project != '') {
-		                              Yatay.Common.buildMultiSelector($('#' + data[i].project));        
-		                      	}
-						  }
-		              } else {
-		                      $('#projects').remove();
-		                      var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
-		                      $(multiselector).insertBefore($('#btn_remote_loader'));
-		              }
-		      },
-		      error:function() {}
-	   });
+	$.ajax({
+		url: "/index.html",
+		type: "POST",
+		data: { id:'loadBxs' },
+		success: function(content) {
+			$('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+			var data = JSON.parse(content);
+			if (data.length > 0) {
+				$("#loadMainWindow").hide();
+				$('body').unbind('touchmove');
+				$('#loader_modal').on('hidden.bs.modal', function() {
+					$('body').bind('touchmove', function(e){e.preventDefault()});
+				});
+				var multiselector = '<tr>' + '<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
+									'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' + '</tr>';
+				for (var i=0; i<data.length; i++) {
+					var elem = data[i];
+					if (elem.project != '') {
+						multiselector += '<tr><td>' + elem.project + '</td><td>'
+						multiselector += '<select id=\'' + elem.project + '\' multiple=\'multiple\'>';                                
+						for (var j=0; j<elem.behaviours.length; j++) {
+							var bx = elem.behaviours[j];
+							if (Yatay.Common.bxsCode[elem.project] == undefined) {
+								Yatay.Common.bxsCode[elem.project] = [];
+							}
+							Yatay.Common.bxsCode[elem.project][bx.block] = bx.code;
+							multiselector += '<option value=\'' + bx.block + '\'>' + bx.block + '</option>';
+						}
+						multiselector += '</select></td></tr>';  
+					}                              
+				}
+				$(multiselector).appendTo($('#remote_proj'));    
+				
+				for (var i=0; i<data.length; i++) {
+					if (data[i].project != '') {
+						Yatay.Common.buildMultiSelector($('#' + data[i].project));        
+					}
+				}
+			} else {
+				$('#projects').remove();
+				var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
+				$(multiselector).insertBefore($('#btn_remote_loader'));
+			}
+		},
+		error:function() {}
+	});
 };
 
 /**
@@ -389,10 +388,10 @@ function pollResults() {
 					if (html.length > 0) {
 						var sensorHtml = html.split('#;#')[0];
 						var console = html.split('#;#')[1];
-						$("#result_console").html(console);
+						$("#result_console").html('<strong>' + Yatay.Msg.POPUP_RESULTS_CONSOLE + '</strong>' + console);
 						var sensor = sensorHtml.split(' ')[0];
 						var value = sensorHtml.replace(sensor,'');
-						$("#result_sensor").html(sensor);
+						$("#result_sensor").html('<strong>' + Yatay.Msg.POPUP_RESULTS_ROBOTINFO + '</strong>' + sensor);
 						$("#result_value").html(value);
 
 					} else {
@@ -557,15 +556,8 @@ Yatay.Common.projectSaver = function() {
 * Projects cookie check
 */
 Yatay.Common.projectChecker = function() {
-//	Delete project cookie
-//	document.cookie = 'project_name' + '=' + '';  
-	var proj_name = Yatay.Common.getCookie('project_name'); 
-//	Delete behaviours cookie
-//	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
-//		localStgeBxs = JSON.parse(localStorage.yatay_bxs);
-//	for (var j=0; j< localStgeBxs.length; j++) {
-//		document.cookie = proj_name + '_' + localStgeBxs[j][0] + '=' + ''; 
-//     }   
+	//Yatay.Common.setCookie('project_name', '', 1);   
+	var proj_name = Yatay.Common.getCookie('project_name');  
 	if (proj_name == '') {        
 		$('#projmaneger_modal').modal({ backdrop:'static', keyboard:false });
 	}

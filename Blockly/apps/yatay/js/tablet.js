@@ -48,7 +48,7 @@ $(document).ready(function(){
 	var list = $('<ul class="nav" id="bx_list"></ul>');
 	list.appendTo($('#behaviours_popup'));
 	
-	Yatay.Common.setCookie('idUser', '', 1);
+	//Yatay.Common.setCookie('idUser', '', 1);
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		requestUserId();
 	}
@@ -360,8 +360,7 @@ function bxReady() {
 			var list = $("<li style=\"display:none;\">" +
 						"<div id=\"" + id + "\" class=\"image-container\">" +
 							"<div class=\"image-inner-container\">" +
-								"<p class=\"overlay\">" + name + "</p>" +                                
-								"<img src=\"images/bx.png\" />" +
+								"<p class=\"overlay\">" + name + "</p>" + Yatay.Msg.SVG_BEHAVIOURS +
 							"</div>" +
 						"</div>" +
 					 "</li>");	
@@ -406,10 +405,10 @@ function addStyleToBlocklyToolbox() {
 	$(".blocklyTreeRow").css('border-bottom-right-radius', '15px');	
 	$(".blocklyTreeRow").css('border-bottom', '1px solid white');	
 	$(".blocklyTreeRow").css('height', '35px');	
-	$(".blocklyToolboxDiv div[role='treeitem']")[5].style.color = "#CF3F6F";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[5].style.color = "#CF3F6F";
+	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "darkviolet";		
 	$(".blocklyToolboxDiv div[role='treeitem']")[3].style.color = "tomato";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "green";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "darkviolet";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "green";	
 	$(".blocklyToolboxDiv div[role='treeitem']")[1].style.color = "darkred";	
 	$(".blocklyToolboxDiv div[role='treeitem']")[0].style.color = 'royalblue';
 }

@@ -74,6 +74,8 @@ textarea {
 	top: 2%;
 	right: 6%;
 	width: 125px;
+	max-height: 70%;
+    overflow-y: auto;
 }
 
 .cursorHover:hover{
@@ -109,7 +111,7 @@ textarea {
 	position: fixed;
 	z-index: 1;
 	bottom: 4%;
-	right: 20%;
+	right: 18%;
 	width: 50%;
 	text-align: center;
 }
@@ -140,6 +142,13 @@ textarea {
 
 .modal-body { 
 	min-height: 200px !important;
+}
+
+#delete_modal {
+	position: absolute;
+	left: 55% !important;
+	height: 150px;
+	width: 400px;
 }
 
 #delete_modal h4 {
