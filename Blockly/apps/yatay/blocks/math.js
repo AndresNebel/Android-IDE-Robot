@@ -166,19 +166,4 @@ Blockly.Blocks['math_round'] = {
 
 
 
-Blockly.Blocks['math_constrain'] = {
-  // Constrain a number between two limits.
-  init: function() {
-    this.setHelpUrl(Yatay.Msg.MATH_CONSTRAIN_HELPURL);
-    this.setColour(230);
-    this.setOutput(true, 'Boolean');
-    this.interpolateMsg(Yatay.Msg.MATH_CONSTRAIN_TITLE,
-                        ['VALUE', 'Number', Blockly.ALIGN_RIGHT],
-                        ['LOW', 'Number', Blockly.ALIGN_RIGHT],
-                        ['HIGH', 'Number', Blockly.ALIGN_RIGHT],
-                        Blockly.ALIGN_RIGHT)
-    this.setInputsInline(true);
-    this.setTooltip(Yatay.Msg.MATH_CONSTRAIN_TOOLTIP);
-  }
-};
 

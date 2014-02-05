@@ -114,6 +114,7 @@ Yatay.Tablet.edit = function() {
 	}
 
 	var tabs = '';
+	Yatay.variables = new Array();
 	for (var i=0; i<Yatay.Tablet.behaviours.length; i++) {
 		var codeXml = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
 		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXml);
@@ -202,6 +203,7 @@ function runTasks() {
 				if (Yatay.Tablet.editedBxs.active != -1) {
 					code = Yatay.Tablet.editedBxs[i];
 				} else {
+					Yatay.variables = new Array();
 					var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);        
 					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
 					code = Blockly.Lua.workspaceToCode();
@@ -230,6 +232,7 @@ function debug(){
 	}
 
 	var codes = new Array();
+	Yatay.variables = new Array();
 	for (var i = 0; i < Yatay.Tablet.behaviours.length; i++) {	
 		var codeXML = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);        
 		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXML);
@@ -343,6 +346,7 @@ function bxReady() {
 	if (Blockly.mainWorkspace.getAllBlocks()[0] != undefined) {
 		if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour" || 
 		    Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_conditionalBehaviour") {	
+			Yatay.variables = new Array();
 			var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 			var text = Blockly.Xml.domToText(xml);
 			var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
@@ -388,6 +392,14 @@ function bxToWorkspace() {
 	if (Yatay.Tablet.behaviours.length == 0) {
 		$("#behaviours_popup").hide();
 	}
+	setTimeout(function() {
+		var topM = Math.round(Blockly.mainWorkspace.getMetrics().viewTop);
+		var leftM = Math.round(Blockly.mainWorkspace.getMetrics().viewLeft);
+		Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(true);
+		var blockPos = Blockly.mainWorkspace.getTopBlocks()[0].getRelativeToSurfaceXY();
+		Blockly.mainWorkspace.getTopBlocks()[0].moveBy(leftM - blockPos.x +15, topM - blockPos.y +15);
+	}
+	, 100)
 };
 
 function addStyleToBlocklyToolbox() {

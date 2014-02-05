@@ -111,6 +111,24 @@ Blockly.Blocks['logic_negate'] = {
   }
 };
 
+Blockly.Blocks['logic_constrain'] = {
+  // Constrain a number between two limits.
+  init: function() {
+    this.setHelpUrl(Yatay.Msg.MATH_CONSTRAIN_HELPURL);
+    this.setColour(210);
+    this.setOutput(true, 'Boolean');
+    this.interpolateMsg(Yatay.Msg.MATH_CONSTRAIN_TITLE,
+                        ['VALUE', 'Number', Blockly.ALIGN_RIGHT],
+                        ['LOW', 'Number', Blockly.ALIGN_RIGHT],
+                        ['HIGH', 'Number', Blockly.ALIGN_RIGHT],
+                        Blockly.ALIGN_RIGHT)
+    this.setInputsInline(true);
+    this.setTooltip(Yatay.Msg.MATH_CONSTRAIN_TOOLTIP);
+  }
+};
+
+
+
 Blockly.Blocks['logic_boolean'] = {
   // Boolean data type: true and false.
   init: function() {
@@ -125,3 +143,5 @@ Blockly.Blocks['logic_boolean'] = {
     this.setTooltip(Yatay.Msg.CONTROL_BOOLEAN_TOOLTIP);
   }
 };
+
+

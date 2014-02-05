@@ -104,6 +104,21 @@ Blockly.Blocks['variables_print'] = {
   }
 };
 
+
+Blockly.Blocks['variables_print_stat'] = {
+  // Text value.
+  init: function() {
+    this.setColour(30);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.appendDummyInput()
+		.appendTitle(Yatay.Msg.VARIABLES_PRINT + "  ")
+        this.appendValueInput('VALUE'); 
+    this.setInputsInline(true);
+  }
+};
+
+
 Blockly.Blocks['variables_get'] = {
   // Variable getter.
   init: function() {

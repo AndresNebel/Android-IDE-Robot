@@ -74,6 +74,18 @@ Blockly.Lua["variables_print"] = function(block) {
   return debugTrace + "print('"+ text +"')\n robot.printToWebConsole('" + text + "')\n";
 };
 
+Blockly.Lua["variables_print_stat"] = function(block) {
+  // Variable getter.
+  var debugTrace = "";
+
+  if (Yatay.DebugMode)
+  {
+	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
+  }
+  var text = Blockly.Lua.statementToCode(this, 'VALUE');
+  return debugTrace + "local imprimir = " + text + "\n print(imprimir)\n robot.printToWebConsole(imprimir)\n";
+};
+
 
 Blockly.Lua["variables_sensor_get"] = function(block) {
   // Variable getter

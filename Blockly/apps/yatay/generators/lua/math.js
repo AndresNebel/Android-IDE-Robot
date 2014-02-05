@@ -262,14 +262,6 @@ Blockly.Lua.math_on_list = function() {
   return code;
 };
 
-Blockly.Lua.math_constrain = function() {
-  // Constrain a number between two limits.
-  var argument0 = Blockly.Lua.valueToCode(this, 'VALUE', true) || '0';
-  var argument1 = Blockly.Lua.valueToCode(this, 'LOW', true) || '0';
-  var argument2 = Blockly.Lua.valueToCode(this, 'HIGH', true) || '0';
-  return 'math.min(math.max(' + argument0 + ', ' + argument1 + '), ' + argument2 + ')';
-};
-
 Blockly.Lua.math_modulo = function(opt_dropParens) {
   // Remainder computation.
   var argument0 = Blockly.Lua.valueToCode(this, 'DIVIDEND') || '0';

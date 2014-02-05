@@ -2,6 +2,7 @@ document.write('<script type="text/javascript" src="./blocks/math.js"></script>\
 document.write('<script type="text/javascript" src="./blocks/butia.js"></script>\n');
 document.write('<script type="text/javascript" src="./blocks/control.js"></script>\n');
 document.write('<script type="text/javascript" src="./blocks/variables.js"></script>\n');
+document.write('<script type="text/javascript" src="./blocks/logic.js"></script>\n');
 
 if (!Yatay.Msg){ 
 	Yatay.Msg = {};
@@ -132,3 +133,4 @@ Yatay.Msg.MATH_TRIG_TOOLTIP_ASIN = "asen";
 Yatay.Msg.MATH_SINGLE_TOOLTIP_ROOT = "raiz cuad.";
 Yatay.Msg.MATH_SINGLE_TOOLTIP_ABS = "valor abs";
 Yatay.Msg.MATH_SINGLE_TOOLTIP_NEG = "opuesto";
+

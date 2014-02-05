@@ -128,7 +128,7 @@ Yatay.Common.openDeleteModal = function() {
  * Send task to server
  */
 Yatay.Common.sendTasks = function(code) {
-	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
+	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A").replace(/\+/,"%2B");
 	var idUser = Yatay.Common.getCookie("idUser");
 	if (idUser == null) {
 		location.reload(); 

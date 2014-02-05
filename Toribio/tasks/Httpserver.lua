@@ -4,7 +4,7 @@ local sched = require 'sched'
 local executor = require 'tasks/Executor'
 
 local function url_decode(s)
-	return (string.gsub (string.gsub(s, "+", " "), "%%(%x%x)",
+	return (string.gsub (s, "%%(%x%x)",
 		function(str)
 		return string.char(tonumber(str, 16))
 		end ))
@@ -174,7 +174,7 @@ M.init = function(conf)
 	)
 	
 	local conf = {
-		ip= '192.168.1.113',
+		ip= '192.168.1.34',
 		port=8080,
 		ws_enable = false,
 		max_age = {ico=99999, css=600, html=60},

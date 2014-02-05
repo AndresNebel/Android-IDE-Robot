@@ -75,7 +75,18 @@ Blockly.Lua["logic_negate"] = function(opt_dropParens) {
   return code;
 };
 
+Blockly.Lua["logic_constrain"] = function() {
+  // Constrain a number between two limits.
+  var argument0 = Blockly.Lua.statementToCode(this, 'VALUE', true) || '0';
+  var argument1 = Blockly.Lua.statementToCode(this, 'LOW', true) || '0';
+  var argument2 = Blockly.Lua.statementToCode(this, 'HIGH', true) || '0';
+  return '('+ argument0 + '>=' + argument1 + ' and ' + argument0 + '<=' + argument2 + ')';
+};
+
+
 Blockly.Lua["logic_boolean"] = function() {
   // Boolean values true and false.
   return (this.getTitleValue('BOOL') == 'TRUE') ? 'true' : 'false';
 };
+
+

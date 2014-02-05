@@ -67,7 +67,7 @@ Blockly.Lua.init = function() {
           Blockly.Lua.variableDB_.getDistinctName(variables[x],
           Blockly.Variables.NAME_TYPE);
     }
-    Blockly.Lua.definitions_['variables'] = defvars.join('\n');
+    Blockly.Lua.definitions_['variables'] = "";//defvars.join('\n');
   }
 };
 

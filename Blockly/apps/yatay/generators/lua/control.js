@@ -156,16 +156,14 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "M.priority = " + priority + "\n" +
   "local competeForActive = function ()\n" +
   "  M.done = false\n"+
-  "  if (" + behaviourCondition + ") then\n" +
+  "  if ("+ behaviourCondition +") then\n" +
 	  "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority or activeBehaviour.done) then\n" +
-	  "		print('won " + name + "')\n" +
 	  "     activeBehaviour = M\n " + 
 	  "  end\n" +
   "  end\n" +
   "end\n"+
 
   "local run = function ()\n" +
-  "		print('run " + name + "')\n" +
   "   M.done = false\n"+
    	  debugTrace +
 	  behaviourCode +
@@ -177,13 +175,11 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "end\n" +
 
   "M.init = function(conf)\n" +
-
   "   M.done = false\n" + 
   "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
   "	  local waitRun = {emitter='*', events={M.name}}\n" +
   "	  M.task = sched.sigrun(waitRun, run)\n" +
   "	  M.compete_task = sched.sigrun(waitd, competeForActive)\n" +
-  "		print('inited " + name + "')\n" +
   "end\n" +
   "return M\n"; 
 

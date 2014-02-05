@@ -73,9 +73,11 @@ Yatay.init = function() {
 	};
 
 	// Adding change listener to autosave
+	Yatay.variables = new Array();
 	var startXmlDom = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
 	Yatay.currentWorkspaceXml = Blockly.Xml.domToText(startXmlDom);
 	function change() {
+		Yatay.variables = new Array();
 		var xmlDom = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
 		var xmlText = Blockly.Xml.domToText(xmlDom);
 		var justOneBehaviour = Blockly.mainWorkspace.getTopBlocks().length == 1
@@ -257,6 +259,7 @@ Yatay.CreateCustomSensor = function(sensor, code) {
  */
 Yatay.AutoSave = function() {
 	if (Blockly.mainWorkspace != null && Blockly.mainWorkspace.getAllBlocks().length >1) {
+		Yatay.variables = new Array();
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		var code = Blockly.Xml.domToText(xml);
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();

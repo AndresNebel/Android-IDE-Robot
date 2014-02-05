@@ -14,7 +14,6 @@ end
 
 M.kill_tasks = function(userId)
 	local none = true
-	print(#behaviours, userId)
 	--Autogen Id for robot calibrations
 	RBTManagerActivate = false
 	local bxcount = 0
@@ -51,6 +50,7 @@ M.kill_tasks = function(userId)
 
 
 M.create_task = function(task, userId)
+	print(task)
 	local code, errorCompilacion = loadstring(task)
 	if (not errorCompilacion) then	
 		local ok, tasktable = pcall(code)
