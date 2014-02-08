@@ -121,10 +121,8 @@ Blockly.Lua["controls_behaviour"] = function(block) {
 
   "M.init = function(conf)\n" +
   "   M.done = false\n" + 
-  "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
-  "	  local waitRun = {emitter='*', events={M.name}}\n" +
-  "	  M.task = sched.sigrun(waitRun, run)\n" +
-  "	  M.compete_task = sched.sigrun(waitd, competeForActive)\n" +
+  "	  M.task = sched.sigrun({M.name}, run)\n" +
+  "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
   "return M\n"; 
 
@@ -176,10 +174,8 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
 
   "M.init = function(conf)\n" +
   "   M.done = false\n" + 
-  "	  local waitd = {emitter='*', events={'Compete!'}}\n" +
-  "	  local waitRun = {emitter='*', events={M.name}}\n" +
-  "	  M.task = sched.sigrun(waitRun, run)\n" +
-  "	  M.compete_task = sched.sigrun(waitd, competeForActive)\n" +
+  "	  M.task = sched.sigrun({M.name}, run)\n" +
+  "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
   "return M\n"; 
 

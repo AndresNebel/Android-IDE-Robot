@@ -2,7 +2,6 @@ local M = {}
 
 local toribio = require 'toribio'
 local devices = toribio.devices
-local sched = require "sched"
 local bobot = nil --require('comms/bobot').bobot
 local log = require 'log'
 
@@ -28,8 +27,7 @@ process["INIT"] = function () --to check the new state of hardware on the fly
 	return 'ok'
 end
 process["REFRESH"] = function () --to check the new state of hardware on the fly
-	--server_refresh()
-	sched.signal('do_bobot_refresh')
+	bobot.refresh()
 	return 'ok'
 end
 
@@ -173,7 +171,6 @@ end
 
 
 M.init = function(conf)
-
 	local selector = require 'tasks/selector'
 	
 	local ip = conf.ip or '127.0.0.1'

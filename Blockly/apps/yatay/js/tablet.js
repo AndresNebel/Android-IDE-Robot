@@ -184,8 +184,7 @@ function runTasks() {
 					 Blockly.Lua.workspaceToCode() +
 				"end\n"+
 				"M.init = function(conf)\n" +
-				"         local waitRun = {emitter='*', events={'TestsMayNowRun'}}\n" +
-				"         M.task = sched.sigrun(waitRun, run)\n" +
+				"         M.task = sched.sigrun({'TestsMayNowRun'}, run)\n" +
 				"end\n"+
 				"return M\n";
 				Yatay.Common.testRobot(testTask);

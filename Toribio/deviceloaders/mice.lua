@@ -66,9 +66,6 @@ M.init = function(conf)
 	--- Module name (in this case, 'mice').
 	device.module='mice'
 
-	--- Task that will emit signals associated to this device.
-	device.task=selector.task
-
 	--- Device file of the mouse.
 	-- For example, '/dev/input/mice'
 	device.filename=filename
@@ -79,7 +76,8 @@ M.init = function(conf)
 	-- @field leftbutton Left button click.
 	-- @field rightbutton Right button click.
 	-- @field middlebutton Middle button click.
-	-- @field move Mouse moved, first parameter x, second parameter y coordinates.
+	-- @field move Mouse moved. Parameters are _x, y, dx, dy_, where x, y is the coordinate and
+  -- dx, dy the coordinate increments from last event.
 	-- @table events
 	device.events={
 		leftbutton=leftbutton,

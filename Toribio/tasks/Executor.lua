@@ -50,7 +50,6 @@ M.kill_tasks = function(userId)
 
 
 M.create_task = function(task, userId)
-	print(task)
 	local code, errorCompilacion = loadstring(task)
 	if (not errorCompilacion) then	
 		local ok, tasktable = pcall(code)

@@ -6,13 +6,11 @@
 ]]--
 -- Modified by xxopxe@gmail.com 
 -- 1. best effort encoding (attempt a tostring on failure)
--- 2. exported as a plain moudle table
+-- 2. exported as a plain module table
 
 local sort, concat, insert = table.sort, table.concat, table.insert
 local pairs, ipairs, type, tonumber, tostring = pairs, ipairs, type, tonumber, tostring
 local sub, find = string.sub, string.find
-
-module "bencode"
 
 local M = {}
 
@@ -163,7 +161,7 @@ local function decode_string(s, index)
 	index = b + 1 
 	 
 	local v = sub(s, index, index + len - 1) 
-	if #v < len - 1 then return nil, "truncated string at end of input", v end
+	if #v < tonumber(len) then return nil, "truncated string at end of input", v end
 	index = index + len 
 	return v, index 
 end 

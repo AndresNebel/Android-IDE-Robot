@@ -26,7 +26,7 @@ end
 
 local populate_cache_control =  function(http_out_header, http_req_path, conf)
 	if not conf.max_age then return end
-	local extension = http_req_path:match('%.([^%.]+)$')
+	local extension = http_req_path:match('^%.*([^%.]+)$')
 	local max_age = conf.max_age[extension] 
 	if not max_age then return http_out_header end
 	http_out_header['cache-control'] = 'max-age='..max_age
@@ -35,7 +35,7 @@ end
 
 local M = {}
 
---- How long keep a session open.
+--- How long keep a http session open.
 -- Defaults to 15s.
 M.HTTP_TIMEOUT = 15 --how long keep connections open
 
@@ -189,21 +189,23 @@ M.init = function(conf)
 	
 	local tcp_server = selector.new_tcp_server(ip, port, 0, 'stream')
 
-	local waitd_accept=sched.new_waitd({emitter=selector.task, events={tcp_server.events.accepted}, buff_len=10})
+	local waitd_accept={tcp_server.events.accepted}
 	log('HTTP', 'INFO', 'http-server accepting connections on %s:%s', tcp_server:getsockname())
-	M.task = sched.sigrun(waitd_accept, function (_,_, sktd_cli)
+	M.task = sched.sigrun(waitd_accept, function (_, sktd_cli)
 		-- run the connection in a separated task
 		sched.run(function()
 			local instream = sktd_cli.stream
 			log('HTTP', 'DETAIL', 'http-server accepted connection from %s:%s', sktd_cli:getpeername())
-
+      
 			local read_incomming_header = function()
+        --FIXME According to RFC-2616, section 4.2:	Header fields can be extended over multiple 
+        --lines by preceding each	extra line with at least one SP or HT. 
 				local http_req_header  = {}
 				while true do
 					local line = instream:read_line()
 					if not line then sktd_cli:close(); return end
 					if line=='' then break end
-					local key, value=string.match(line, '^([^:]+):%s*(.*)$')
+					local key, value=string.match(line, '^(.-):%s*(.-)$')
 					--print ('HEADER', key, value)
 					if key and value then http_req_header[key:lower()] = value end
 				end
@@ -237,7 +239,7 @@ M.init = function(conf)
 				-- read body ------------------------------------------------------------
 				local http_params
 				if http_req_method=='POST' then 
-					local data = instream:read(tonumber(http_req_header['content-length']) or 0 )
+					local data = instream:read( tonumber(http_req_header['content-length']) or 0 )
 					if not data then sktd_cli:close(); return end
 					http_params=parse_params(data)
 				else
@@ -286,6 +288,7 @@ M.init = function(conf)
 					end
 				end
 				
+        --handle socket closing when appropiate
 				if (http_req_version== '1.0' and http_req_header['connection']~='Keep-Alive')
 				or need_flush then 
 					sktd_cli:close()
