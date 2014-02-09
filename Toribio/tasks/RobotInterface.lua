@@ -213,7 +213,10 @@ local function write_blocks(dev, func, first)
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then		
 				for i=1, tonumber(func.params) do
-					code = code .. '		this.appendValueInput(\'' .. tostring(i) .. '\'); \n'
+					code = code .. ' this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(\'0\', function(text)'.. 										'{ var n = window.parseFloat(text || 0);  return window.isNaN(n) ? null : String(n); }), \'' .. 									tostring(i) .. '\').appendTitle(\'\'); \n' 
+					if (i ~= tonumber(func.params)) then
+						code = code .. 'this.appendDummyInput().appendTitle(\',\'); \n'
+					end
 				end
 			end
 		end
