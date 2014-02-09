@@ -6,8 +6,8 @@ local devices = toribio.devices
 local sched = require 'sched'
 
 --Path to files
-local butia_blocks = 'Lumen/tasks/http-server/www/apps/yatay/blocks/butia.js'
-local butia_code = 'Lumen/tasks/http-server/www/apps/yatay/generators/lua/butia.js'
+local butia_blocks = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/blocks/butia.js'
+local butia_code = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/generators/lua/butia.js'
 
 --Active devices at the moment
 M.active_devices = nil
@@ -84,6 +84,7 @@ local function parse_bobot(file, devs)
 		if not skip_dev[name] then		
 			ret[i] = {}
 			ret[i].name = name
+			ret[i].port = name:match('%d+')
 			ret[i].available = true
 			ret[i].functions = {}
 			local device = devices[name]
@@ -132,6 +133,7 @@ local function parse_xml(device_type, file, devs)
 		if ((device_type == 'any' or devs[i].device_type == device_type) and devs[i].device_type ~= 'generic') then
 			ret[i] = {}
 			ret[i].name = devs[i].name
+			ret[i].port = devs[i].name:match('%d+')
 			ret[i].device_type = devs[i].device_type
 			--Is this device available in bobot?
 			ret[i].available = (devices[devs[i].name] ~= nil)
@@ -208,12 +210,17 @@ local function write_blocks(dev, func, first)
 		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
 					'	init: function() { \n' ..
 					'		this.setColour(120); \n' ..
-					'		this.appendDummyInput().appendTitle(\'' .. func.alias .. '\'); \n' ..
-					'		this.setInputsInline(true); \n'
+					'		this.appendDummyInput().appendTitle(\'' .. func.alias
+					if (dev.device_type == 'sensor' and dev.port ~= nil) then 
+						code = code .. ' (' .. dev.port .. ')'
+					end
+					code = code .. '\'); \n		this.setInputsInline(true); \n'		
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then		
 				for i=1, tonumber(func.params) do
-					code = code .. ' this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(\'0\', function(text)'.. 										'{ var n = window.parseFloat(text || 0);  return window.isNaN(n) ? null : String(n); }), \'' .. 									tostring(i) .. '\').appendTitle(\'\'); \n' 
+					code = code .. ' this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(\'0\', function(text)' .. 
+						'{ var n = window.parseFloat(text || 0);  return window.isNaN(n) ? null : String(n); }), \'' .. 		
+						tostring(i) .. '\').appendTitle(\'\'); \n' 
 					if (i ~= tonumber(func.params)) then
 						code = code .. 'this.appendDummyInput().appendTitle(\',\'); \n'
 					end
@@ -221,7 +228,6 @@ local function write_blocks(dev, func, first)
 			end
 		end
 		if (dev.device_type == 'sensor') then
-			--TODO: Check types (setOutput - Number)
 			code = code .. '		this.setOutput(true, \'Number\'); \n'
 		elseif (dev.device_type == 'actuator') then
 			code = code .. '		this.setPreviousStatement(true); \n' ..
@@ -329,7 +335,9 @@ end
 
 M.init = function(conf) 
 	print('YATAY: RobotInterface is up...')
-
+	if yatayBlocksRefresh == nil then
+		yatayBlocksRefresh = ''	
+	end
 	--Refresh robotics devices
 	M.active_devices = M.list_devices_functions('any')
 	M.refresh(M.active_devices)

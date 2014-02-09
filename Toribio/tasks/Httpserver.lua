@@ -101,7 +101,7 @@ end
 local function saveTempLocal(xml, filename)
 	local decoded_xml = url_decode(url_decode(xml))	
 	local decoded_filename = url_decode(url_decode(filename))	
-	file, errors = io.open('Lumen/tasks/http-server/www/apps/yatay/_downloads/'..decoded_filename..'.apk', 'w+')	
+	file, errors = io.open('Lumen/tasks/http-server/www/Blockly/apps/yatay/_downloads/'..decoded_filename..'.apk', 'w+')	
 	if (errors == nil) then
 		file:write(decoded_xml)
 		file:close()
@@ -158,7 +158,9 @@ M.init = function(conf)
 	--TODO: hacer una tabla de resultados
 	yataySensorResults = {}
 	yatayDebugResults = {}
-	yatayBlocksRefresh = ''	
+	if yatayBlocksRefresh == nil then
+		yatayBlocksRefresh = ''	
+	end
 	yatayWebConsole = ''
 	yatayUserId = 0
 
