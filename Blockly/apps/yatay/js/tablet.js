@@ -169,6 +169,7 @@ function runTasks() {
 		$('#btn_bx_ready').toggle('slow');
 		$('#btn_load').toggle('slow');
 		$('#btn_save').toggle('slow');		
+		$('#btn_trash').toggle('slow');
 		if($('#btn_edit').is(":visible")) {			
 			$('#btn_edit').toggle('slow');
 		}
@@ -277,6 +278,7 @@ function stop(){
 	$('#btn_edit').toggle('slow');
 	$('#btn_load').toggle('slow');
 	$('#btn_save').toggle('slow');
+	$('#btn_trash').toggle('slow');
 	$('#btn_stop').toggle('slow');
 	$('#btn_bx_ready').toggle('slow');	
 	Yatay.DebugMode = false;
