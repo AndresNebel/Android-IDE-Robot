@@ -48,10 +48,9 @@
 			data: { id:'blocks' },
 			async: false,
 			success: function(content) {
-				Yatay.not_available_sensors = content.split(";;;")[0].split(","); 
-				Yatay.not_available_sensors.pop();
-				content = content.split(";;;")[1];
-				document.write(codepage.start(content, null, {langSrc: BlocklyApps.languagePack()}));
+				var data = JSON.parse(content);
+				(Yatay.not_available_sensors = data.unavailable.split(",")).pop();	
+				document.write(codepage.start(data.blocks, null, {langSrc: BlocklyApps.languagePack()}));
 			},
 			error:function() {
 				document.write(codepage.start('', null, {langSrc: BlocklyApps.languagePack()}));

@@ -4,6 +4,7 @@ require 'LuaXml'
 local toribio = require 'toribio'
 local devices = toribio.devices
 local sched = require 'sched'
+local json = require 'json'
 
 --Path to files
 local butia_blocks = 'Lumen/tasks/http-server/www/Blockly/apps/yatay/blocks/butia.js'
@@ -312,7 +313,8 @@ end
 M.refresh = function(active_devices)
 	print('YATAY: refreshing!')
 	local first = true
-	local not_available_devices = ""
+	local blocks = ''
+	local unavailable = ''
 	if (active_devices ~= nil) then
 		for i=1, #active_devices do 
 			if (active_devices[i] ~= nil) then 
@@ -320,16 +322,19 @@ M.refresh = function(active_devices)
 					if (active_devices[i].functions[j] ~= nil) then
 						local block_type = write_script(active_devices[i], active_devices[i].functions[j], first)			
 						if (not active_devices[i].functions[j].available) then
-							not_available_devices = not_available_devices .. block_type .. ','
+							unavailable = unavailable .. block_type .. ','
 						end
-						yatayBlocksRefresh = yatayBlocksRefresh .. '<block type=\'' .. block_type .. '\'></block>'
+						blocks = blocks .. '<block type="' .. block_type .. '"></block>'
 						first = false
 					end
 				end
 			end
 		end
 	end
-	yatayBlocksRefresh = not_available_devices .. ';;;' .. yatayBlocksRefresh
+	local result = {}
+	result.blocks = blocks
+	result.unavailable = unavailable
+	yatayBlocksRefresh = json.encode(result)
 	sched.signal('BlocksRefresh')
 end
 
