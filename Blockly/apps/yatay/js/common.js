@@ -311,35 +311,28 @@ Yatay.Common.fromXml = function() {
 /**
  * Handle save click
  */
-Yatay.Common.toXml = function(link) {
-		if (Blockly.mainWorkspace.getAllBlocks().length > 0 || Yatay.Tablet.behaviours.length >0) {	
-			var text = ""
-			// Si hay bloques sin minimizar los marco listos
-			if (Blockly.mainWorkspace.getAllBlocks().length >0) {
-				bxReady()
-			}
-			for (var i = 0; i < Yatay.Tablet.behaviours.length; i++) {
-				var codeXML = Yatay.Tablet.behaviours[i][1];	
-				text += codeXML.toString();
-			}		
-		
-
-			var nua = navigator.userAgent;
-			var is_android_browser = ((nua.indexOf('Mozilla/5.0') > -1 && (nua.indexOf('Mobile') > -1 || nua.indexOf('Android') > -1) && nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
-
-			if (is_android_browser)
-			{
-				Yatay.Common.saveTempLocal(escape(text).replace(/\./g, "%2E").replace(/\*/g,"%2A"));
-			}
-			else
-			{	
-				link.href = 'data:text/xml; charset=UTF-8,' + text; 
-				link.download = 'bloques.xml';
-			}
-		} else {
-			link.href = 'javascript:void(0)'; 
-			link.download = '';
+Yatay.Common.toXml = function() {
+	if (Blockly.mainWorkspace.getAllBlocks().length > 0 || Yatay.Tablet.behaviours.length >0) {	
+		var text = "";
+		// Si hay bloques sin minimizar los marco listos
+		if (Blockly.mainWorkspace.getAllBlocks().length >0) {
+			bxReady()
 		}
+		for (var i = 0; i < Yatay.Tablet.behaviours.length; i++) {
+			var codeXML = Yatay.Tablet.behaviours[i][1];	
+			text += codeXML.toString();
+		}		
+	
+		var nua = navigator.userAgent;
+		var is_android_browser = ((nua.indexOf('Mozilla/5.0') > -1 && (nua.indexOf('Mobile') > -1 || nua.indexOf('Android') > -1) && nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
+
+		if (is_android_browser){
+			Yatay.Common.saveTempLocal(escape(text).replace(/\./g, "%2E").replace(/\*/g,"%2A"));
+		} else {	
+			var blob = new Blob([text], {type: "text/xml;charset=utf-8"});
+			saveAs(blob, Yatay.Msg.FILE_BLOCKS + ".xml");
+		}
+	}
 };
 
 /**

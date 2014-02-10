@@ -10,7 +10,8 @@ $(document).ready(function(){
 	$('#btn_stop').attr('title', Yatay.Msg.MENU_STOP);
 	$('#btn_trash').attr('title', Yatay.Msg.MENU_TRASH);
 	$('#btn_bx_ready').attr('title', Yatay.Msg.MENU_BEHAVIOURS_READY);
-	$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);	
+	$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);
+	$('#btn_save2').html(Yatay.Msg.MENU_SAVE);
 	$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
 	$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
 	$('#loader_label').html(Yatay.Msg.DIALOG_LOADER_LABEL);	
@@ -28,7 +29,7 @@ $(document).ready(function(){
 	$('#btn_delete_all').html(Yatay.Msg.DIALOG_DELETE_ALL);
 	$('#btn_delete_workspace').html(Yatay.Msg.DIALOG_DELETE_WORKSPACE);
 	$('#delete_label').html(Yatay.Msg.DIALOG_DELETE_LABEL);
-
+	
 	imgClickCorrection();
 });
 </script>
@@ -39,7 +40,7 @@ $(document).ready(function(){
 				<li><a id="btn_load" onclick="Yatay.Common.openFileChooser()" style="color:rgb(255,70,70);">
 					<i class="fa fa-folder-open-o fa-3x"></i>
 				</a></li>	
-				<li><a id="btn_save" download="" href="javascript:void(0)" target="_blank" onclick="Yatay.Common.toXml(this)" style="color:rgb(70,70,255)">
+				<li><a id="btn_save" onclick="Yatay.Common.toXml()" style="color:rgb(70,70,255)">
 					<i class="fa fa-save fa-3x"></i>	
 				</a></li>
 				<li><a id="btn_robotest" onclick="robotest()" style="color:rgb(160,70,255);">
@@ -79,6 +80,7 @@ $(document).ready(function(){
 		<textarea id="code_editable" class="full-area"/>
 	</div>
 	<div class="modal-footer">
+		<button id="btn_save2" class="btn btn-primary pull-left" onclick="Yatay.Tablet.saveEditedCode()" />
 		<button id="btn_run2" class="btn btn-primary" onclick="Yatay.Tablet.runEditedTasks()"/>
 	</div>
 </div>

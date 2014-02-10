@@ -113,31 +113,33 @@ Yatay.Tablet.edit = function() {
 		bxReady()
 	}
 
-	var tabs = '';
-	Yatay.variables = new Array();
-	for (var i=0; i<Yatay.Tablet.behaviours.length; i++) {
-		var codeXml = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
-		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXml);
-		Yatay.Tablet.editedBxs[i] = Blockly.Lua.workspaceToCode();
-		Blockly.mainWorkspace.clear();
-		tabs += '<li id="tab'+i+'"><a id="'+i+'" onClick="Yatay.Tablet.switchTabs(this)" href="#">'+Yatay.Tablet.behaviours[i][2]+'</a></li>'	
+	if (Yatay.Tablet.behaviours.length>0){
+		var tabs = '';
+		Yatay.variables = new Array();
+		for (var i=0; i<Yatay.Tablet.behaviours.length; i++) {
+			var codeXml = Blockly.Xml.textToDom(Yatay.Tablet.behaviours[i][1]);	
+			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXml);
+			Yatay.Tablet.editedBxs[i] = Blockly.Lua.workspaceToCode();
+			Blockly.mainWorkspace.clear();
+			tabs += '<li id="tab'+i+'"><a id="'+i+'" onClick="Yatay.Tablet.switchTabs(this)" href="#">'+Yatay.Tablet.behaviours[i][2]+'</a></li>'	
+		}
+		$('#modal_tabs').html(tabs);
+
+		$('#tab0').addClass('active');
+		Yatay.Tablet.editedBxs.active = 0;
+
+		if (Yatay.Tablet.editor == undefined) {
+			Yatay.Tablet.editor = CodeMirror.fromTextArea($('#code_editable')[0], { tabMode: "indent", matchBrackets: true, theme: "neat" });
+		}	
+		Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[0]);
+
+		$('body').unbind('touchmove');
+		$('#code_modal').modal({backdrop:'static'});
+
+		$('#code_modal').on('shown.bs.modal', function() {
+			Yatay.Tablet.editor.refresh();
+		});
 	}
-	$('#modal_tabs').html(tabs);
-
-	$('#tab0').addClass('active');
-	Yatay.Tablet.editedBxs.active = 0;
-
-	if (Yatay.Tablet.editor == undefined) {
-		Yatay.Tablet.editor = CodeMirror.fromTextArea($('#code_editable')[0], { tabMode: "indent", matchBrackets: true, theme: "neat" });
-	}	
-	Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[0]);
-
-	$('body').unbind('touchmove');
-	$('#code_modal').modal({backdrop:'static'});
-
-	$('#code_modal').on('shown.bs.modal', function() {
-		Yatay.Tablet.editor.refresh();
-	});
 };
 
 /**
@@ -156,6 +158,22 @@ Yatay.Tablet.runEditedTasks = function() {
 
 	runTasks();
 };	
+
+/**
+ * Handle save edited code
+ */
+Yatay.Tablet.saveEditedCode = function() {
+	var text = '';
+	for (var i=0; i<Yatay.Tablet.editedBxs.length; i++) {
+		text += '-- Block: ' + Yatay.Tablet.behaviours[i][2] + '\n';
+		text += Yatay.Tablet.editedBxs[i] + '\n';
+	}	
+	
+	if (text != '') {
+		var blob = new Blob([text], {type: "text/lua;charset=utf-8"});
+		saveAs(blob, Yatay.Msg.FILE_CODE + ".lua");
+	}
+};
 
 /**
  * Handle run click

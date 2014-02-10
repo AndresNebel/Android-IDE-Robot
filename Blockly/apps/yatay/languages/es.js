@@ -43,6 +43,10 @@ Yatay.Msg.DIALOG_DELETE_ALL = "Todo";
 Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Sólo pizarra";
 Yatay.Msg.DIALOG_DELETE_LABEL = "¿Qué deseas borrar?";
 
+// File saver Messages
+Yatay.Msg.FILE_BLOCKS = "bloques";
+Yatay.Msg.FILE_CODE = "codigo";
+
 // Tour Messages
 Yatay.Msg.TOUR_TOOLBOX_TITLE = '¿Dónde están los bloques?';
 Yatay.Msg.TOUR_TOOLBOX_CONTENT = 'Aquí encontraras todos los bloques, comienza con un bloque de comportamiento!';
