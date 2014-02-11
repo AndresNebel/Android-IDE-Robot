@@ -85,7 +85,7 @@ local function parse_bobot(file, devs)
 		if not skip_dev[name] then		
 			ret[i] = {}
 			ret[i].name = name
-			ret[i].port = name:match('%d+')
+			ret[i].port = 0	
 			ret[i].available = true
 			ret[i].functions = {}
 			local device = devices[name]
@@ -175,6 +175,7 @@ M.list_devices_functions = function(device_type)
 						for l=1, #bobot_devices[j].functions do
 							if (xml_devices[i].functions[k].name == bobot_devices[j].functions[l].name) then
 								bobot_devices[j].functions[l].alias = xml_devices[i].functions[k].alias
+								bobot_devices[j].port = xml_devices[i].port
 							end
 						end
 					end
@@ -213,17 +214,20 @@ local function write_blocks(dev, func, first)
 					'		this.setColour(120); \n' ..
 					'		this.appendDummyInput().appendTitle(\'' .. func.alias
 					if (dev.device_type == 'sensor' and dev.port ~= nil) then 
-						code = code .. ' (' .. dev.port .. ')'
+						if (dev.port ~= 0) then
+							code = code .. ' (' .. dev.port .. ')'
+						end
 					end
 					code = code .. '\'); \n		this.setInputsInline(true); \n'		
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then		
 				for i=1, tonumber(func.params) do
-					code = code .. ' this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(\'0\', function(text)' .. 
-						'{ var n = window.parseFloat(text || 0);  return window.isNaN(n) ? null : String(n); }), \'' .. 		
-						tostring(i) .. '\').appendTitle(\'\'); \n' 
+					code = code .. '		this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(\'0\', function(text) { \n' ..  
+						'			var n = window.parseFloat(text || 0); \n' .. 
+						'			return window.isNaN(n) ? null : String(n); \n' ..
+						'		}), \'' .. tostring(i) .. '\').appendTitle(\'\'); \n' 
 					if (i ~= tonumber(func.params)) then
-						code = code .. 'this.appendDummyInput().appendTitle(\',\'); \n'
+						code = code .. '		this.appendDummyInput().appendTitle(\',\'); \n'
 					end
 				end
 			end
@@ -301,27 +305,42 @@ M.refresh_devices = function()
 		print('YATAY: must refresh devices')
 		yatayBlocksRefresh = ''
 		local c =	coroutine.create(
-			function (devices)
-				M.refresh(devices)
+			function (old, new)
+				M.refresh(old, new)
 			end)
-		coroutine.resume(c, new_devices)
+		coroutine.resume(c, M.active_devices, new_devices)
 		M.active_devices = new_devices
 		return true	
 	end
 end
 
-M.refresh = function(active_devices)
+local function missing_check(old_devices, name) 
+	if old_devices ~= nil then
+		for i=#old_devices, 1, -1 do
+			for j=#old_devices[i].functions, 1, -1 do
+					if old_devices[i].functions[j].alias == name then
+						table.remove(old_devices[i].functions, j)
+					end			
+			end		
+		end
+	end
+end
+
+M.refresh = function(old_devices, new_devices)
 	print('YATAY: refreshing!')
 	local first = true
 	local blocks = ''
 	local unavailable = ''
-	if (active_devices ~= nil) then
-		for i=1, #active_devices do 
-			if (active_devices[i] ~= nil) then 
-				for j=1, #active_devices[i].functions do
-					if (active_devices[i].functions[j] ~= nil) then
-						local block_type = write_script(active_devices[i], active_devices[i].functions[j], first)			
-						if (not active_devices[i].functions[j].available) then
+	local missing = ''
+	
+	if (new_devices ~= nil) then
+		for i=1, #new_devices do 
+			if (new_devices[i] ~= nil) then 
+				for j=1, #new_devices[i].functions do
+					if (new_devices[i].functions[j] ~= nil) then
+						missing_check(old_devices, new_devices[i].functions[j].alias)					
+						local block_type = write_script(new_devices[i], new_devices[i].functions[j], first)			
+						if (not new_devices[i].functions[j].available) then
 							unavailable = unavailable .. block_type .. ','
 						end
 						blocks = blocks .. '<block type="' .. block_type .. '"></block>'
@@ -331,9 +350,26 @@ M.refresh = function(active_devices)
 			end
 		end
 	end
+	
+	if (old_devices ~= nil) then
+		for i=1, #old_devices do 
+			if (old_devices[i] ~= nil) then 
+				for j=1, #old_devices[i].functions do
+					if (old_devices[i].functions[j] ~= nil) then
+						local block_type = write_script(old_devices[i], old_devices[i].functions[j], false)
+						if (missing ~= nil) then
+							missing = missing .. block_type .. ','
+						end
+					end
+				end
+			end
+		end
+	end
+	
 	local result = {}
 	result.blocks = blocks
 	result.unavailable = unavailable
+	result.missing = missing
 	yatayBlocksRefresh = json.encode(result)
 	sched.signal('BlocksRefresh')
 end
@@ -345,7 +381,7 @@ M.init = function(conf)
 	end
 	--Refresh robotics devices
 	M.active_devices = M.list_devices_functions('any')
-	M.refresh(M.active_devices)
+	M.refresh(nil, M.active_devices)
 end
 
 return M
