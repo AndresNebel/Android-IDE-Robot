@@ -298,7 +298,8 @@ Yatay.Common.fromXml = function() {
 		Yatay.Common.bxsCode = [];
 		Yatay.Common.activesBxs = [];        
 		Yatay.Common.activesProj = [];
-		$('#loader_modal').modal('hide');                        
+		$('#loader_modal').modal('hide');     
+		bxReady();
 	} else {
 		$('#loader_modal').effect('shake');
 	}

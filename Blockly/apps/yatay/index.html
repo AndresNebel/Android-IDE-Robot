@@ -51,6 +51,8 @@
 			success: function(content) {
 				var data = JSON.parse(content);
 				(Yatay.not_available_sensors = data.unavailable.split(",")).pop();	
+				(Yatay.missing_sensors = data.missing.split(",")).pop();	
+				data.unavailable;
 				document.write(codepage.start(data.blocks, null, {langSrc: BlocklyApps.languagePack()}));
 			},
 			error:function() {

@@ -403,6 +403,16 @@ function bxToWorkspace() {
 				bxReady();
 			}
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+			//Disabling missing sensors
+			for (var j=0; j < Blockly.mainWorkspace.getAllBlocks().length; j++)
+			{
+				if (Yatay.missing_sensors.indexOf(Blockly.mainWorkspace.getAllBlocks()[j].type) != -1)
+					Blockly.mainWorkspace.getAllBlocks()[j].setDisabled(true);
+				else if (Blockly.mainWorkspace.getAllBlocks()[j].disabled)
+					Blockly.mainWorkspace.getAllBlocks()[j].setDisabled(false);
+				
+			}
+
 		}
 	}
 	if (Yatay.Tablet.behaviours.length == 0) {
