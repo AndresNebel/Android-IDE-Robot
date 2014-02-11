@@ -230,10 +230,6 @@ Yatay.Common.loadBxs = function() {
 			var data = JSON.parse(content);
 			if (data.length > 0) {
 				$("#loadMainWindow").hide();
-				$('body').unbind('touchmove');
-				$('#loader_modal').on('hidden.bs.modal', function() {
-					$('body').bind('touchmove', function(e){e.preventDefault()});
-				});
 				var multiselector = '<tr>' + '<th>' + Yatay.Msg.DIALOG_PROJECT + '</th>' +
 									'<th>' + Yatay.Msg.DIALOG_BEHAVIOURS + '</th>' + '</tr>';
 				for (var i=0; i<data.length; i++) {

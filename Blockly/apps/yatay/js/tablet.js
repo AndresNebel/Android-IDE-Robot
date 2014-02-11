@@ -41,8 +41,7 @@ Yatay.Tablet.editor = undefined;
  * Load tablet.html 
  * Generate behaviours list
  */
-$(document).ready(function(){	   
-	$('body').bind('touchmove', function(e){e.preventDefault()});
+$(document).ready(function() {	
 	$('#main_menu').load('./tablet.html');	
 	
 	var list = $('<ul class="nav" id="bx_list"></ul>');
@@ -98,8 +97,7 @@ Yatay.Tablet.switchTabs = function(selected) {
  * Handle hide edition modal
  */
 Yatay.Tablet.closeEditor = function() {
-	Yatay.Tablet.editedBxs.active = -1; 
-	$('body').bind('touchmove', function(e){e.preventDefault()});
+	Yatay.Tablet.editedBxs.active = -1;
 };
 
 /**
@@ -133,7 +131,6 @@ Yatay.Tablet.edit = function() {
 		}	
 		Yatay.Tablet.editor.setValue(Yatay.Tablet.editedBxs[0]);
 
-		$('body').unbind('touchmove');
 		$('#code_modal').modal({backdrop:'static'});
 
 		$('#code_modal').on('shown.bs.modal', function() {
@@ -152,7 +149,6 @@ Yatay.Tablet.runEditedTasks = function() {
 
 	//Has behaviours code been edited?
 	if (Yatay.Tablet.editedBxs.active != -1) {
-		$('body').bind('touchmove', function(e){e.preventDefault()});
 		$('#code_modal').modal('hide');
 	}
 
@@ -274,7 +270,7 @@ function debug(){
 function stop(){	
 	//Has behaviours code been edited?
 	if (Yatay.Tablet.editedBxs.active != -1) {
-		$('body').unbind('touchmove');
+
 		$('#code_modal').modal({	backdrop:'static' });
 	}
 
