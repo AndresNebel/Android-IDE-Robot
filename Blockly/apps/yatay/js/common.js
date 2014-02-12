@@ -53,8 +53,8 @@ $(document).ready(function() {
 /**
  * Show Project Manager Modal (when the page is loaded)
  */
-$(window).load(function() {
-	Yatay.Common.projectChecker();
+$(window).load(function() {	
+	setTimeout(	Yatay.Common.projectChecker, 1000);
 });
 
 /**
@@ -149,7 +149,7 @@ Yatay.Common.sendTasks = function(code) {
  * Send Robot Test block to server
  */
 Yatay.Common.testRobot = function(code) {
-	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
+	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A").replace(/\+/,"%2B");
 	var idUser = Yatay.Common.getCookie("idUser");
 	if (idUser == null) {
 		location.reload(); 
@@ -190,7 +190,7 @@ Yatay.Common.killTasks = function() {
  * Save current task
  */
 Yatay.Common.saveTask = function(block, code) {
-	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A");
+	var values = escape(code).replace(/\./g, "%2E").replace(/\*/g,"%2A").replace(/\+/,"%2B");
 	var project = Yatay.Common.getCookie('project_name');
 	var newborn = (Yatay.Common.getCookie(project+'_'+block) != '') ? false : true;
 
@@ -324,7 +324,7 @@ Yatay.Common.toXml = function() {
 		var is_android_browser = ((nua.indexOf('Mozilla/5.0') > -1 && (nua.indexOf('Mobile') > -1 || nua.indexOf('Android') > -1) && nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
 
 		if (is_android_browser){
-			Yatay.Common.saveTempLocal(escape(text).replace(/\./g, "%2E").replace(/\*/g,"%2A"));
+			Yatay.Common.saveTempLocal(escape(text).replace(/\./g, "%2E").replace(/\*/g,"%2A").replace(/\+/,"%2B"), false);
 		} else {	
 			var blob = new Blob([text], {type: "text/xml;charset=utf-8"});
 			saveAs(blob, Yatay.Msg.FILE_BLOCKS + ".xml");
@@ -590,13 +590,21 @@ Yatay.Common.loadProj = function() {
 /**
  * saveTempLocal
  */
-Yatay.Common.saveTempLocal = function(xml) {
+Yatay.Common.saveTempLocal = function(xml, edited) {
+	//Warning the user
+	alert("Tu navegador Android solo permite descargar extensiones conocidas. Se descargará el archivo como .apk, puedes cambiarle la extension luego :)");
+	var project = Yatay.Common.getCookie('project_name');
+	var userId = Yatay.Common.getCookie('idUser');
+	var fileName = project+"_"+userId;
+	if (edited)
+		fileName += "_edited";
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
-		data: { id:'saveTempLocal', code:xml, name:'yatay'},
+		data: { id:'saveTempLocal', code:xml, project:fileName},
 		success: function(content){
-				SaveToDisk("http://192.168.1.44:8080/apps/yatay/_downloads/yatay.apk")
+				var url = window.location.href.split("/yatay/")[0] + "/yatay/_downloads/" + fileName + ".apk";
+				SaveToDisk(url);
 		},
 		error:function(){}
 	});

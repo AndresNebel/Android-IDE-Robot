@@ -166,8 +166,15 @@ Yatay.Tablet.saveEditedCode = function() {
 	}	
 	
 	if (text != '') {
-		var blob = new Blob([text], {type: "text/lua;charset=utf-8"});
-		saveAs(blob, Yatay.Msg.FILE_CODE + ".lua");
+		var nua = navigator.userAgent;
+		var is_android_browser = ((nua.indexOf('Mozilla/5.0') > -1 && (nua.indexOf('Mobile') > -1 || nua.indexOf('Android') > -1) && 			nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
+
+		if (is_android_browser){
+			Yatay.Common.saveTempLocal(escape(text).replace(/\./g, "%2E").replace(/\*/g,"%2A").replace(/\+/,"%2B"), true);
+		} else {	
+			var blob = new Blob([text], {type: "text/lua;charset=utf-8"});
+			saveAs(blob, Yatay.Msg.FILE_CODE + ".lua");
+		}
 	}
 };
 

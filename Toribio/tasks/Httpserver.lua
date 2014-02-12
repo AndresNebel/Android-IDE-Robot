@@ -101,7 +101,8 @@ end
 local function saveTempLocal(xml, filename)
 	local decoded_xml = url_decode(url_decode(xml))	
 	local decoded_filename = url_decode(url_decode(filename))	
-	file, errors = io.open('Lumen/tasks/http-server/www/Blockly/apps/yatay/_downloads/'..decoded_filename..'.apk', 'w+')	
+	file, errors = io.open('Lumen/tasks/http-server/www/apps/yatay/_downloads/'..decoded_filename..'.apk', 'w+')	
+	print(errors)
 	if (errors == nil) then
 		file:write(decoded_xml)
 		file:close()
@@ -140,7 +141,7 @@ local function select_action(id, project, block, code, newborn, strUserId)
 	elseif (id == 'refreshBlocks') then
 		return refresh()
 	elseif (id == 'saveTempLocal') then
-		return saveTempLocal(code,name)		
+		return saveTempLocal(code,project)		
 	elseif (id == 'getUserId') then
 		yatayUserId = yatayUserId + 1
 		userId = yatayUserId
