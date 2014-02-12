@@ -270,6 +270,19 @@ Yatay.AutoSave = function() {
 		//Saving in browser localstorage to avoid losing behaviours and blocks on reload 
 		Yatay.Common.saveInBrowser(name, code);
 	}
+	if (Blockly.mainWorkspace != null && Blockly.mainWorkspace.getAllBlocks().length <3  && Blockly.mainWorkspace.getAllBlocks().length >0)
+	{
+		setTimeout(function() {
+			var topM = Math.round(Blockly.mainWorkspace.getMetrics().viewTop);
+			var leftM = Math.round(Blockly.mainWorkspace.getMetrics().viewLeft);
+			Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(true);
+			var blockPos = Blockly.mainWorkspace.getTopBlocks()[0].getRelativeToSurfaceXY();
+			Blockly.mainWorkspace.getTopBlocks()[0].moveBy(leftM - blockPos.x +15, topM - blockPos.y +15);
+			Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
+			Blockly.mainWorkspace.getTopBlocks()[0].select();
+		}
+		, 100)
+	}
 };
 
 /**

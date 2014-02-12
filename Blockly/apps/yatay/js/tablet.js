@@ -206,6 +206,7 @@ function runTasks() {
 				pollResults();
 			}
 		} else {
+			Blockly.mainWorkspace.maxBlocks = 0;
 			if (Blockly.mainWorkspace.getAllBlocks().length>0) {
 				bxReady()
 			}
@@ -240,7 +241,7 @@ function runTasks() {
 function debug(){		
 	Yatay.DebugBlockIdOffset = 0;
 	Yatay.DebugMode = true;   
-
+	Blockly.mainWorkspace.maxBlocks = 0;
 	if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 		bxReady()
 	}
@@ -268,6 +269,7 @@ function debug(){
  * Handle stop click
  */
 function stop(){	
+	Blockly.mainWorkspace.maxBlocks = 'Infinity';
 	//Has behaviours code been edited?
 	if (Yatay.Tablet.editedBxs.active != -1) {
 
@@ -298,6 +300,17 @@ function stop(){
 	$('#btn_stop').toggle('slow');
 	$('#btn_bx_ready').toggle('slow');	
 	Yatay.DebugMode = false;
+	for (var j=0; j < Blockly.mainWorkspace.getAllBlocks().length; j++)
+	{
+
+		Blockly.mainWorkspace.getAllBlocks()[j].setEditable(true);
+		var blockType = Blockly.mainWorkspace.getAllBlocks()[j].type;
+		if (blockType != "controls_behaviourTrigger"
+			 && blockType != "controls_behaviour" && blockType != "controls_conditionalBehaviour")
+			Blockly.mainWorkspace.getAllBlocks()[j].setMovable(true);
+		
+
+	}
 };
 
 /**
@@ -406,6 +419,19 @@ function bxToWorkspace() {
 			//Disabling missing sensors
 			for (var j=0; j < Blockly.mainWorkspace.getAllBlocks().length; j++)
 			{
+				if (Yatay.DebugMode)
+				{
+					Blockly.mainWorkspace.getAllBlocks()[j].setEditable(false);
+					Blockly.mainWorkspace.getAllBlocks()[j].setMovable(false);
+				}
+				else
+				{
+					Blockly.mainWorkspace.getAllBlocks()[j].setEditable(true);
+					var blockType = Blockly.mainWorkspace.getAllBlocks()[j].type;
+					if (blockType != "controls_behaviourTrigger"
+						 && blockType != "controls_behaviour" && blockType != "controls_conditionalBehaviour")
+					Blockly.mainWorkspace.getAllBlocks()[j].setMovable(true);
+				}
 				if (Yatay.missing_sensors.indexOf(Blockly.mainWorkspace.getAllBlocks()[j].type) != -1)
 					Blockly.mainWorkspace.getAllBlocks()[j].setDisabled(true);
 				else if (Blockly.mainWorkspace.getAllBlocks()[j].disabled)
@@ -424,8 +450,11 @@ function bxToWorkspace() {
 		Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(true);
 		var blockPos = Blockly.mainWorkspace.getTopBlocks()[0].getRelativeToSurfaceXY();
 		Blockly.mainWorkspace.getTopBlocks()[0].moveBy(leftM - blockPos.x +15, topM - blockPos.y +15);
+		Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
+		Blockly.mainWorkspace.getTopBlocks()[0].select();
 	}
 	, 100)
+
 };
 
 function addStyleToBlocklyToolbox() {
