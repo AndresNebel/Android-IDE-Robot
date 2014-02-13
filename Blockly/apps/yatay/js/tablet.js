@@ -312,8 +312,8 @@ function stop(){
 
 		Blockly.mainWorkspace.getAllBlocks()[j].setEditable(true);
 		var blockType = Blockly.mainWorkspace.getAllBlocks()[j].type;
-		if (blockType != "controls_behaviourTrigger"
-			 && blockType != "controls_behaviour" && blockType != "controls_conditionalBehaviour")
+		if (blockType != "controls_behaviourTrigger")
+	//		 && blockType != "controls_behaviour" && blockType != "controls_conditionalBehaviour")
 			Blockly.mainWorkspace.getAllBlocks()[j].setMovable(true);
 		
 
@@ -435,8 +435,8 @@ function bxToWorkspace() {
 				{
 					Blockly.mainWorkspace.getAllBlocks()[j].setEditable(true);
 					var blockType = Blockly.mainWorkspace.getAllBlocks()[j].type;
-					if (blockType != "controls_behaviourTrigger"
-						 && blockType != "controls_behaviour" && blockType != "controls_conditionalBehaviour")
+					if (blockType != "controls_behaviourTrigger" )
+						// && blockType != "controls_behaviour" && blockType != "controls_conditionalBehaviour")
 					Blockly.mainWorkspace.getAllBlocks()[j].setMovable(true);
 				}
 				if (Yatay.missing_sensors.indexOf(Blockly.mainWorkspace.getAllBlocks()[j].type) != -1)
