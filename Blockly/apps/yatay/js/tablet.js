@@ -38,28 +38,10 @@ Yatay.Tablet.testMode = false;
 Yatay.Tablet.editor = undefined;
 
 /**
- * Load tablet.html 
- * Generate behaviours list
- */
-$(document).ready(function() {	
-	$('#main_menu').load('./tablet.html');	
-	
-	var list = $('<ul class="nav" id="bx_list"></ul>');
-	list.appendTo($('#behaviours_popup'));
-	
-	//Yatay.Common.setCookie('idUser', '', 1);
-	if (Yatay.Common.getCookie("idUser") == '') { 
-		requestUserId();
-	}
-
-	Yatay.Tablet.fixConflicts();
-});
-
-/**
- * onLoad
+ * Initialize Yatay on load
  */
 $(window).load(function() {
-	addStyleToBlocklyToolbox();
+	Yatay.Tablet.addStyleToBlocklyToolbox();
 	//Mystical fix for the blockly-bootstrap scrollbar conflict
 	$("foreignObject img").css("max-width","none");
 	//Restoring browser persistance of blocks
@@ -75,6 +57,57 @@ $(window).load(function() {
 		bxReady();
 	}
 });
+
+/**
+ * Initialize Yatay on ready
+ */
+$(document).ready(function() {	
+	$('#main_menu').load('./tablet.html', Yatay.Tablet.loadDialogs);
+	
+	var list = $('<ul class="nav" id="bx_list"></ul>');
+	list.appendTo($('#behaviours_popup'));
+	
+	//Yatay.Common.setCookie('idUser', '', 1);
+	if (Yatay.Common.getCookie("idUser") == '') { 
+		requestUserId();
+	}
+
+	Yatay.Tablet.fixConflicts();
+});
+
+/**
+ * Load all dialogs (multilanguage)
+ */
+Yatay.Tablet.loadDialogs = function() {
+	$('#btn_robotest').attr('title', Yatay.Msg.MENU_ROBOTEST);
+	$('#btn_debug').attr('title', Yatay.Msg.MENU_DEBUG);
+	$('#btn_run').attr('title', Yatay.Msg.MENU_RUN);
+	$('#btn_edit').attr('title', Yatay.Msg.MENU_EDIT);
+	$('#btn_load').attr('title', Yatay.Msg.MENU_LOAD);
+	$('#btn_save').attr('title', Yatay.Msg.MENU_SAVE);
+	$('#btn_stop').attr('title', Yatay.Msg.MENU_STOP);
+	$('#btn_trash').attr('title', Yatay.Msg.MENU_TRASH);
+	$('#btn_bx_ready').attr('title', Yatay.Msg.MENU_BEHAVIOURS_READY);
+	$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);
+	$('#btn_save2').html(Yatay.Msg.MENU_SAVE);
+	$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
+	$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
+	$('#loader_label').html(Yatay.Msg.DIALOG_LOADER_LABEL);	
+	$('#txt_local_input').html(Yatay.Msg.DIALOG_LOCAL_INPUT);
+	$('#txt_remote_input').html(Yatay.Msg.DIALOG_REMOTE_INPUT);
+	$('#btn_remote_loader').before(Yatay.Msg.DIALOG_TXT_REMOTE_INPUT);
+	$('#btn_remote_loader').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+	$('#projmanager_label').html(Yatay.Msg.DIALOG_PROJMANAGER_LABEL);
+	$('#txt_new_proj').html(Yatay.Msg.DIALOG_NEW_PROJ);
+	$('#proj_input').before(Yatay.Msg.DIALOG_PROJ_NAME);
+	$('#txt_remote_proj').html(Yatay.Msg.DIALOG_REMOTE_PROJ);
+	$('#btn_remote_proj').before(Yatay.Msg.DIALOG_TXT_REMOTE_PROJ);
+	$('#btn_remote_proj').html(Yatay.Msg.DIALOG_REMOTE_LOADER);	
+	$('#btn_openproj').html(Yatay.Msg.DIALOG_START);
+	$('#btn_delete_all').html(Yatay.Msg.DIALOG_DELETE_ALL);
+	$('#btn_delete_workspace').html(Yatay.Msg.DIALOG_DELETE_WORKSPACE);
+	$('#delete_label').html(Yatay.Msg.DIALOG_DELETE_LABEL);
+};
 
 /**
  * Handle code edited tabs switch 
@@ -359,25 +392,6 @@ var resizeTextarea = function() {
     this.style.height = scrollHeight + magic + "px";
 };
 
-$('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextarea).focus(resizeTextarea);
-
-/**
- * Image click correction
- */
-function imgClickCorrection() {
-	$(".imgclick").mousedown(function(){
-		var mrgtb = parseInt($(this).css("margin-top"));
-		var mrglf = parseInt($(this).css("margin-left"));
-		mrgtb=mrgtb+1; mrglf=mrglf+1;
-		$(this).css("margin-top",mrgtb+"px").css("margin-left",mrglf+"px");
-	}).mouseup(function(){
-		var mrgtb = parseInt($(this).css("margin-top"));
-		var mrglf = parseInt($(this).css("margin-left"));
-		mrgtb=mrgtb-1; mrglf=mrglf-1;
-		$(this).css("margin-top",mrgtb+"px").css("margin-left",mrglf+"px");
-	}); 
-};
-
 /**
  * Set behaviour as ready
  */
@@ -466,7 +480,7 @@ function bxToWorkspace() {
 
 };
 
-function addStyleToBlocklyToolbox() {
+Yatay.Tablet.addStyleToBlocklyToolbox = function() {
 	$(".blocklyTreeRow").css('border-bottom-right-radius', '15px');	
 	$(".blocklyTreeRow").css('border-bottom', '1px solid white');	
 	$(".blocklyTreeRow").css('height', '35px');	
@@ -562,4 +576,7 @@ Yatay.Tablet.fixConflicts = function() {
 			, e.push([a,Blockly.bindEvent_.TOUCH_MAP[b],f]));
 		return e
 	};
+	
+	//Fix: Blocks superposition
+	$('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextarea).focus(resizeTextarea);
 };
