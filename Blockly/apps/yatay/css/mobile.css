@@ -1,30 +1,49 @@
 html {
 	width: 100% !important;
-	height: 100% !important;
+	height: 100 !important;
 	clip: auto;
-	position: absolute;
+	position: fixed;
 	overflow: hidden;
 }
 
 body {
-	background: url(../images/bg.png) repeat;
-}
-
-textarea { 
-	width: 200px; 
-	min-width:200px; 
-	max-height:200px; 
-
-	height: 200px; 
-	min-height: 200px;  
-	max-height: 200px;
+	width: 100% !important;
+	height: 100 !important;
+	overflow: hidden !important;
+	background-color:#8FA9CC !important;
 }
 
 .content {
 	top: 11% !important;
-	left: 2% !important;
-	width: 96% !important;
-	height: 87% !important;
+	left: -121px !important;
+	width: calc(100% + 121px) !important;
+	height: 89% !important;
+}
+
+.content-test {
+	top: 11% !important;
+	left: -50px !important;
+	width: calc(100% + 121px) !important;
+	height: 89% !important;
+}
+
+.openToolbox {
+	top: 11% !important;
+	left: 0% !important;
+	width: 100% !important;
+	height: 89% !important;
+}
+
+.CodeMirror {
+	height: 150px !important;
+}
+
+.modal-body {
+	max-height: 200px !important;
+}
+
+.code-body {
+	overflow: hidden !important;
 }
 
 .blocklyTreeLabel  {
@@ -44,61 +63,37 @@ textarea {
 	height: 100%;
 }
 
-.navbar .nav,
-.navbar .nav > li {
-	float: left !important;
-	display: inline-block !important;
-	left: 2% !important;
-	vertical-align: top;
+.navbar .navbar-inner { 
+	min-height: 40px !important;
+	height: 40px !important; 	
+    text-align:center;
 }
 
-.navbar-fixed-top{
-	line-height: 4% !important;
+.navbar .nav > li > a { 
+	line-height: 0;
+	padding: 2px 15px !important;
 }
 
-.navbar-inner {
-	text-align: center;
+.navbar-left {
+    margin: 0 20% 0 0 !important;
+    float:left !important;
 }
 
-header >.navbar .brand {
-	float: right !important;
-	display: inline-block !important;
-	left: 10% !important;
-	position: relative;
-	font-weight: bold;
-	color: #000;
-	text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
-	-webkit-transition: all .2s linear;
-	-moz-transition: all .2s linear;
-	transition: all .2s linear;
-	margin: 1%;
+.navbar-center {
+    margin: 0 36% 0 0 !important;
+    float:none !important;
 }
 
-header > .navbar .btn {
-	margin: 10%;
-}
-
-.bx {
-	position: fixed;
-	top: 9%;
-	right: 16%;
-	background-image: url(../images/bg2.png);
-}
-
-.cursorHover:hover{
-	cursor: pointer;	
-}
-
-.controlBtn {
-	margin-top: 8%;
-	margin-right: 2%;
+.navbar-right {
+    margin: 0 12% 0 0 !important;
+    float:right !important;
 }
 
 .image-container {
-    width: 180px;
-    height: 40px;
-    overflow: hidden;
-    position: relative;
+	width: 145px;
+	height: 38px;
+	overflow: hidden;
+	position: relative;
 	cursor: pointer;
 }
 
@@ -107,8 +102,41 @@ header > .navbar .btn {
 }
 
 .overlay {
-    position: absolute;
-    text-align: left;
-    width: 100%;
-    margin: 5% 13%;
+	position: absolute;
+	text-align: left;
+	color: rgb(0,0,0) !important;
+	width: 100%;
+	margin: 12px 20px;
+}
+
+#results_popup {
+	position: fixed;
+	z-index: 1;
+	bottom: 4%;
+	right: 18%;
+	width: 50%;
+	text-align: center;
+}
+
+#results_popup p {
+	display: block;
+}
+
+.sm {
+	padding: 2px 15px !important;
+}
+
+#delete_modal h4 {
+	text-align: center !important;
+}
+
+#delete_modal .modal-body {
+	text-align: center !important;
+}
+
+#blocklyTable {
+	top: 40px !important;
+	left:0% !important;
+	width:100% !important;
+	height:90% !important;
 }

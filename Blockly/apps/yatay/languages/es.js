@@ -26,8 +26,8 @@ Yatay.Msg.DIALOG_LOADER_LABEL = "Elige un proyecto!";
 Yatay.Msg.DIALOG_OPEN = "Abrir";
 Yatay.Msg.DIALOG_LOCAL_INPUT = "Local";
 Yatay.Msg.DIALOG_REMOTE_INPUT = "Servidor";
-Yatay.Msg.DIALOG_TXT_REMOTE_INPUT = "Puedes obtener los comportamientos: ";
-Yatay.Msg.DIALOG_REMOTE_LOADER = "cargar";
+Yatay.Msg.DIALOG_TXT_REMOTE_INPUT = "Datos almacenados: ";
+Yatay.Msg.DIALOG_REMOTE_LOADER = "obtener";
 Yatay.Msg.DIALOG_LOADING = "cargando...";
 Yatay.Msg.DIALOG_PROJECT = "Proyectos";
 Yatay.Msg.DIALOG_BEHAVIOURS = "Comportamientos";
@@ -36,8 +36,8 @@ Yatay.Msg.DIALOG_START = "Comenzar";
 Yatay.Msg.DIALOG_PROJMANAGER_LABEL = "Bienvenido a Yatay!";
 Yatay.Msg.DIALOG_NEW_PROJ = "Crear nuevo proyecto";
 Yatay.Msg.DIALOG_REMOTE_PROJ = "Unirse a un projecto";
-Yatay.Msg.DIALOG_TXT_REMOTE_PROJ = "Puedes cargar los projectos existentes: ";
-Yatay.Msg.DIALOG_PROJ_NAME = "Nombre del proyecto: ";
+Yatay.Msg.DIALOG_TXT_REMOTE_PROJ = "Projectos existentes: ";
+Yatay.Msg.DIALOG_PROJ_NAME = "Nombre: ";
 Yatay.Msg.DIALOG_NO_PROJS = "no existe ninguno. ";
 Yatay.Msg.DIALOG_DELETE_ALL = "Todo";
 Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Sólo pizarra";
@@ -63,7 +63,7 @@ Yatay.Msg.TOUR_PREV = 'anterior';
 
 // Popup Messages 
 Yatay.Msg.POPUP_RESULTS_ROBOTINFO = 'Info. del Robot: ';
-Yatay.Msg.POPUP_RESULTS_CONSOLE = '- Consola: ';
+Yatay.Msg.POPUP_RESULTS_CONSOLE = 'Consola: ';
 
 // Butia Messages
 Yatay.Msg.BUTIA_HELPURL = 'http://www.fing.edu.uy/inco/proyectos/butia/';

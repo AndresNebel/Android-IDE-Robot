@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="../_soy/soyutils.js"></script>
 	<script type="text/javascript" src="../common.js"></script>
 	<script type="text/javascript" src="js/yatay.js"></script>
-  
+	
   	<!-- Third-party libraries -->
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" type="text/css">
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css" type="text/css">
@@ -31,6 +31,7 @@
 	<script type="text/javascript" src="lib/codemirror/lua.js"></script>
 	<script type="text/javascript" src="lib/file-saver.js"></script>
 
+	<script type="text/javascript" src="js/common.js"></script>
 	<!-- Loader -->
 	<script type="text/javascript">
 		Modernizr.load({
@@ -41,7 +42,11 @@
 	</script>
 </head>
 <body>
+	<!-- Main navbar menu (depends on device) -->
 	<div id="main_menu"></div> 
+	<!-- Dialogs -->
+	<div id="dialogs"></div>
+	<!-- Load Blockly -->
 	<script type="text/javascript">
 		$.ajax({
 			url: "/index.html",
@@ -60,13 +65,14 @@
 			}
 		});
 	</script>
+	<!-- Behaviours ready dialog -->
 	<div id="behaviours_popup" div class="alert alert-info" style="display:none;"></div>
-	<br>
+	<!-- Robot results dialog -->
 	<div id="results_popup" class="alert alert-info alert-dismissable" style="display:none;">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<p id="result_sensor"></p><p id="result_value"></p><p id="result_console"></p>	
+		<p id="result_sensor"></p><p id="result_console"></p>	
 	</div>
-	<div id="download">
-	</div>
+	<!-- Download? -->
+	<div id="download"></div>
 </body>
 </html>
