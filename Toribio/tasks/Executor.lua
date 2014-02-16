@@ -34,6 +34,7 @@ M.kill_tasks = function(userId)
 		end
 	end	
 	if (bxcount == 0) then
+		sched.signal('StopActuators!')
 		collectgarbage('restart')
 		activeBehaviour = nil
 		previousBehaviour = nil

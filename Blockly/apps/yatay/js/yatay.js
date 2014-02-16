@@ -207,7 +207,7 @@ Yatay.leaveTestMode = function() {
 	Blockly.Toolbox.populate_();
 	Blockly.mainWorkspace.maxBlocks = "Infinite";
 	Blockly.mainWorkspace.clear();
-	addStyleToBlocklyToolbox();
+	Yatay.Tablet.addStyleToBlocklyToolbox();
 }
 
 /**

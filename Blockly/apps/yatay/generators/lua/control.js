@@ -115,15 +115,14 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   "   M.done = true\n"+
   "   activeBehaviour = nil\n"+
   "end\n"+
-  "M.ReleaseControl = function()\n" +
-  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0}, M.userId)\n" +
-  "end\n" +
-
   "M.init = function(conf)\n" +
   "   M.done = false\n" + 
   "	  M.task = sched.sigrun({M.name}, run)\n" +
   "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
+  "M.ReleaseControl = function()\n" +
+  "end\n" +
+
   "return M\n"; 
 
   return code;
@@ -168,14 +167,12 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "   M.done = true\n"+
   "   activeBehaviour = nil\n"+
   "end\n"+
-  "M.ReleaseControl = function()\n" +
-  "   robot.execute('bb-motors','setvel2mtr', {0,0,0,0}, M.userId)\n" +
-  "end\n" +
-
   "M.init = function(conf)\n" +
   "   M.done = false\n" + 
   "	  M.task = sched.sigrun({M.name}, run)\n" +
   "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
+  "end\n" +
+  "M.ReleaseControl = function()\n" +
   "end\n" +
   "return M\n"; 
 

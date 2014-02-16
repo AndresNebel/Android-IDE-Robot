@@ -43,9 +43,16 @@ M.execute = function(sensor, func, params, caller)
 	local device = devices[sensor]
 	if (device) then
 		local api_call=device[func];
+
 		if not api_call then
 			print("Missing call")
-	 		return "missing call" end								
+	 		return "missing call" end	
+
+		local is_open = device["dev"].handler or device["dev"].name =='pnp'
+		if not is_open then 
+			device["dev"]:open(1, 1)
+		end
+
 		local ret = table.pack(pcall(api_call, unpack(params,1)))
 		local ok = ret[1]
 		if ok then 
@@ -58,6 +65,10 @@ M.execute = function(sensor, func, params, caller)
 			print ("Error calling", table.concat(ret, ',', 2))
 		end
 	end
+end
+
+M.stopActuators = function()
+	M.execute('bb-motors','setvel2mtr', {0,0,0,0}, -1)
 end
 
 local function parse_bobot(file, devs)
@@ -271,7 +282,7 @@ local function write_code(dev, func, first)
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then
 				for i=1, tonumber(func.params) do
-					code = code .. '	var arg' .. i .. ' = Blockly.Lua.statementToCode(this, \'' .. tostring(i) .. '\', true) || \'0\'; \n'
+					code = code .. '	var arg' .. i .. ' = block.getTitleValue(\'' .. tostring(i) .. '\') || \'0\'; \n'
 					if (params == '') then
 						params = '\" + arg' .. i .. ' + \"'
 					else 
@@ -379,6 +390,7 @@ M.init = function(conf)
 	if yatayBlocksRefresh == nil then
 		yatayBlocksRefresh = ''	
 	end
+	sched.sigrun({'StopActuators!'}, M.stopActuators)
 	--Refresh robotics devices
 	M.active_devices = M.list_devices_functions('any')
 	M.refresh(nil, M.active_devices)
