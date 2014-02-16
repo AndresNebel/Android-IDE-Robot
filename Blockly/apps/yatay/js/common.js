@@ -191,7 +191,8 @@ Yatay.Common.openDeleteModal = function() {
 		Blockly.mainWorkspace.clear();
 		Yatay.Common.killTasks();
 	}
-	$("#delete_modal").modal('show');
+	else
+		$("#delete_modal").modal('show');
 };
 
 /**

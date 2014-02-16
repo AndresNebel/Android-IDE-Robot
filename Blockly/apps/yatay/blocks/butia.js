@@ -4,7 +4,7 @@
 Blockly.Blocks['medir distancia'] = { 
 	init: function() { 
 		this.setColour(120); 
-		this.appendDummyInput().appendTitle('medir distancia'); 
+		this.appendDummyInput().appendTitle('medir distancia (3)'); 
 		this.setInputsInline(true); 
 		this.setOutput(true, 'Number'); 
 		this.setTooltip(''); 
@@ -14,7 +14,7 @@ Blockly.Blocks['medir distancia'] = {
 Blockly.Blocks['sensor de grises'] = { 
 	init: function() { 
 		this.setColour(120); 
-		this.appendDummyInput().appendTitle('sensor de grises'); 
+		this.appendDummyInput().appendTitle('sensor de grises (1)'); 
 		this.setInputsInline(true); 
 		this.setOutput(true, 'Number'); 
 		this.setTooltip(''); 
@@ -24,7 +24,7 @@ Blockly.Blocks['sensor de grises'] = {
 Blockly.Blocks['boton'] = { 
 	init: function() { 
 		this.setColour(120); 
-		this.appendDummyInput().appendTitle('boton'); 
+		this.appendDummyInput().appendTitle('boton (2)'); 
 		this.setInputsInline(true); 
 		this.setOutput(true, 'Number'); 
 		this.setTooltip(''); 
@@ -81,8 +81,11 @@ Blockly.Blocks['girar'] = {
 		this.appendDummyInput().appendTitle('girar'); 
 		this.setInputsInline(true); 
 		this.appendValueInput('1'); 
+		this.appendDummyInput().appendTitle(','); 
 		this.appendValueInput('2'); 
+		this.appendDummyInput().appendTitle(','); 
 		this.appendValueInput('3'); 
+		this.appendDummyInput().appendTitle(','); 
 		this.appendValueInput('4'); 
 		this.setPreviousStatement(true); 
 		this.setNextStatement(true); 

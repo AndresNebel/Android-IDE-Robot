@@ -233,10 +233,7 @@ local function write_blocks(dev, func, first)
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then		
 				for i=1, tonumber(func.params) do
-					code = code .. '		this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(\'0\', function(text) { \n' ..  
-						'			var n = window.parseFloat(text || 0); \n' .. 
-						'			return window.isNaN(n) ? null : String(n); \n' ..
-						'		}), \'' .. tostring(i) .. '\').appendTitle(\'\'); \n' 
+					code = code .. '		this.appendValueInput(\''.. tostring(i) .. '\'); \n' 
 					if (i ~= tonumber(func.params)) then
 						code = code .. '		this.appendDummyInput().appendTitle(\',\'); \n'
 					end
@@ -354,7 +351,13 @@ M.refresh = function(old_devices, new_devices)
 						if (not new_devices[i].functions[j].available) then
 							unavailable = unavailable .. block_type .. ','
 						end
-						blocks = blocks .. '<block type="' .. block_type .. '"></block>'
+						blocks = blocks .. '<block type="' .. block_type .. '">'
+						if (new_devices[i].functions[j].values == '') then		
+							for k=1, tonumber(new_devices[i].functions[j].params) do
+								blocks = blocks.. '<value name="'.. tostring(k) ..'"><block type="math_number"><title name="NUM">1</title></block></value>'
+							end
+						end
+						blocks = blocks ..'</block>'
 						first = false
 					end
 				end
