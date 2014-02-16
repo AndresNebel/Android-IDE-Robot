@@ -330,6 +330,7 @@ Yatay.Common.loadBxs = function() {
 				var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
 				$(multiselector).insertBefore($('#btn_remote_loader'));
 			}
+			$('#btn_remote_loader').hide();
 		},
 		error:function() {}
 	});
