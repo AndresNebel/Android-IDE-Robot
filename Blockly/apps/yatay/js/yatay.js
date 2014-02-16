@@ -92,7 +92,7 @@ Yatay.init = function() {
 
 	//Override the delete trash to kill tests
 	Blockly.BlockSvg.prototype.disposeUiEffect = function() {
-	  if (Yatay.Tablet.testMode) {
+	  if (Yatay.Common.testMode) {
       	Yatay.Common.killTasks();
 	  }
 	  Blockly.playAudio('delete');
@@ -116,7 +116,7 @@ Yatay.init = function() {
 	// Lazy-load the syntax-highlighting.
 	window.setTimeout(BlocklyApps.importPrettify, 1);
 
-	BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  
+	BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
 	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
 
@@ -134,9 +134,13 @@ Yatay.discard = function(param) {
 		localStorage.yatay_bxs = "";
 		Blockly.mainWorkspace.clear();
 		window.location.hash = '';
-		Yatay.Tablet.behaviours.splice(0,Yatay.Tablet.behaviours.length);
-		$("#bx_list").html("");
-		$("#behaviours_popup").hide();
+		Yatay.Common.behaviours.splice(0,Yatay.Common.behaviours.length);
+		$("#bx_list").html('');
+		if (Yatay.Tablet != undefined) {
+			$("#behaviours_popup").hide();
+		} else {
+			$("#btn_bxs_ready").hide();								
+		}
 	} else {
 		Yatay.clearWorkspace();	
 		window.location.hash = '';
@@ -153,15 +157,16 @@ Yatay.clearWorkspace = function() {
 									Blockly.mainWorkspace.getTopBlocks()[0].type == "controls_conditionalBehaviour");
 	if (justOneBehaviour) {
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
-		if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "")
+		if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
 			localStgeBxs = JSON.parse(localStorage.yatay_bxs);
-		for (var j=0; j< localStgeBxs.length; j++) {
-			if (localStgeBxs[j][0] == name) {
-				localStgeBxs.splice(j,1);
-				break;
+			for (var j=0; j< localStgeBxs.length; j++) {
+				if (localStgeBxs[j][0] == name) {
+					localStgeBxs.splice(j,1);
+					break;
+				}
 			}
+			localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
 		}
-		localStorage.yatay_bxs = JSON.stringify(localStgeBxs);
 	}
 	Blockly.mainWorkspace.clear();
 }
@@ -191,8 +196,7 @@ Yatay.enterTestMode = function() {
 	Blockly.Toolbox.tree_.children_[5].dispose();
 	//Only one block allowed
 	Blockly.mainWorkspace.maxBlocks = 1;
-	
-}
+};
 
 /**
  * leaveTestMode
@@ -200,15 +204,14 @@ Yatay.enterTestMode = function() {
 Yatay.leaveTestMode = function() {
 	//Remove all items from toolbox (to avoid repeatance of items on init) and init toolbox again
 	Blockly.Toolbox.tree_.children_[2].dispose();
-	for (var i=0; i <6; i++)
-	{
+	for (var i=0; i<6; i++) {
 		Blockly.Toolbox.tree_.children_.pop();
 	}
 	Blockly.Toolbox.populate_();
 	Blockly.mainWorkspace.maxBlocks = "Infinite";
 	Blockly.mainWorkspace.clear();
-	Yatay.Tablet.addStyleToBlocklyToolbox();
-}
+	Yatay.Common.addStyleToBlocklyToolbox();
+};
 
 /**
  * ExistVariable

@@ -333,7 +333,7 @@ Blockly.Blocks['controls_whileUntil'] = {
 Blockly.Blocks['controls_behaviour'] = {
   init: function() {
     this.setColour(198);
-//	this.setMovable(false);
+	//this.setMovable(false);
     this.appendDummyInput().appendTitle(new Blockly.FieldTextInput(Yatay.Msg.CONTROL_BEHAVIOUR), 'TEXT')
     .appendTitle(Yatay.Msg.CONTROL_BEHAVIOUR_PRIORITY)
     .appendTitle(new Blockly.FieldTextInput('1', function(text) {
