@@ -108,7 +108,7 @@ $(document).ready(function() {
  */
 Yatay.Common.loadDialogs = function() {
 	$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);
-	$('#btn_save2').html(Yatay.Msg.MENU_SAVE);
+	$('#btn_save2').html(Yatay.Msg.DIALOG_SAVE);
 	$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
 	$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
 	$('#loader_label').html(Yatay.Msg.DIALOG_LOADER_LABEL);	

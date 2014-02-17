@@ -219,7 +219,7 @@ BlocklyApps.languagePack = function() {
  */
 BlocklyApps.init = function() {
   // Set the page title with the content of the H1 title.
-  document.title = document.getElementById('title').textContent;
+  // document.title = document.getElementById('title').textContent;
 
   // Set the HTML's language and direction.
   // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
@@ -242,18 +242,18 @@ BlocklyApps.init = function() {
   };
   languages.sort(comp);
   // Populate the language selection menu.
-  var languageMenu = document.getElementById('languageMenu');
-  languageMenu.options.length = 0;
-  for (var i = 0; i < languages.length; i++) {
-    var tuple = languages[i];
-    var lang = tuple[tuple.length - 1];
-    var option = new Option(tuple[0], lang);
-    if (lang == BlocklyApps.LANG) {
-      option.selected = true;
-    }
-    languageMenu.options.add(option);
-  }
-  languageMenu.addEventListener('change', BlocklyApps.changeLanguage, true);
+  // var languageMenu = document.getElementById('languageMenu');
+  // languageMenu.options.length = 0;
+  // for (var i = 0; i < languages.length; i++) {
+    // var tuple = languages[i];
+    // var lang = tuple[tuple.length - 1];
+    // var option = new Option(tuple[0], lang);
+    // if (lang == BlocklyApps.LANG) {
+      // option.selected = true;
+    // }
+    // languageMenu.options.add(option);
+  // }
+  // languageMenu.addEventListener('change', BlocklyApps.changeLanguage, true);
 
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
@@ -334,27 +334,27 @@ BlocklyApps.loadBlocks = function(defaultXml) {
 /**
  * Save the blocks and reload with a different language.
  */
-BlocklyApps.changeLanguage = function() {
-  // Store the blocks for the duration of the reload.
-  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-  var text = Blockly.Xml.domToText(xml);
-  window.sessionStorage.loadOnceBlocks = text;
+// BlocklyApps.changeLanguage = function() {
+  // // Store the blocks for the duration of the reload.
+  // var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+  // var text = Blockly.Xml.domToText(xml);
+  // window.sessionStorage.loadOnceBlocks = text;
 
-  var languageMenu = document.getElementById('languageMenu');
-  var newLang = encodeURIComponent(
-      languageMenu.options[languageMenu.selectedIndex].value);
-  var search = window.location.search;
-  if (search.length <= 1) {
-    search = '?lang=' + newLang;
-  } else if (search.match(/[?&]lang=[^&]*/)) {
-    search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
-  } else {
-    search = search.replace(/\?/, '?lang=' + newLang + '&');
-  }
+  // var languageMenu = document.getElementById('languageMenu');
+  // var newLang = encodeURIComponent(
+      // languageMenu.options[languageMenu.selectedIndex].value);
+  // var search = window.location.search;
+  // if (search.length <= 1) {
+    // search = '?lang=' + newLang;
+  // } else if (search.match(/[?&]lang=[^&]*/)) {
+    // search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
+  // } else {
+    // search = search.replace(/\?/, '?lang=' + newLang + '&');
+  // }
 
-  window.location = window.location.protocol + '//' +
-      window.location.host + window.location.pathname + search;
-};
+  // window.location = window.location.protocol + '//' +
+      // window.location.host + window.location.pathname + search;
+// };
 
 /**
  * Highlight the block (or clear highlighting).

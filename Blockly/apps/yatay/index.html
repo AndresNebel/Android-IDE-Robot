@@ -56,12 +56,11 @@
 			success: function(content) {
 				var data = JSON.parse(content);
 				(Yatay.not_available_sensors = data.unavailable.split(",")).pop();	
-				(Yatay.missing_sensors = data.missing.split(",")).pop();	
-				data.unavailable;
-				document.write(codepage.start(data.blocks, null, {langSrc: BlocklyApps.languagePack()}));
+				(Yatay.missing_sensors = data.missing.split(",")).pop();
+				document.write(codepage.start(data.blocks, null, {lang: BlocklyApps.LANG, langSrc: BlocklyApps.languagePack()}));
 			},
 			error:function() {
-				document.write(codepage.start('', null, {langSrc: BlocklyApps.languagePack()}));
+				document.write(codepage.start('', null, {lang: BlocklyApps.LANG, langSrc: BlocklyApps.languagePack()}));
 			}
 		});
 	</script>
