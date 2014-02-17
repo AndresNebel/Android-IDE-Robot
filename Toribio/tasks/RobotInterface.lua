@@ -72,6 +72,10 @@ M.stopActuators = function()
 end
 
 local function parse_bobot(file, devs)
+	
+	--TODO: What is the language?
+	local butia_devices = { distanc = 'distancia', grey = 'gris', button = 'boton' }
+
 	local ret = {}
 	--Check disabled devices
 	local skip_dev = {}
@@ -96,7 +100,7 @@ local function parse_bobot(file, devs)
 		if not skip_dev[name] then		
 			ret[i] = {}
 			ret[i].name = name
-			ret[i].port = 0	
+			ret[i].port = name:match('%d+')	
 			ret[i].available = true
 			ret[i].functions = {}
 			local device = devices[name]
@@ -108,6 +112,7 @@ local function parse_bobot(file, devs)
 					ret[i].functions[j] = {}
 					ret[i].functions[j].name = fname
 					ret[i].functions[j].alias = name .. '.' .. fname
+					ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')]
 					local bobot_metadata = ((device.bobot_metadata or {})[fdef] or {parameters={}, returns={}})
 					local meta_parameters = bobot_metadata.parameters
 					local params = 0
@@ -155,6 +160,7 @@ local function parse_xml(device_type, file, devs)
 				ret[i].functions[j] = {}
 				ret[i].functions[j].name = functions[j].name
 				ret[i].functions[j].alias = functions[j].alias
+				ret[i].functions[j].butia = nil
 				ret[i].functions[j].tooltip = functions[j].tooltip
 				ret[i].functions[j].params = functions[j].params
 				ret[i].functions[j].values = functions[j].values
@@ -222,8 +228,12 @@ local function write_blocks(dev, func, first)
 		end
 		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
 					'	init: function() { \n' ..
-					'		this.setColour(120); \n' ..
-					'		this.appendDummyInput().appendTitle(\'' .. func.alias
+					'		this.setColour(120); \n'
+					if (func.butia == nil) then
+						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.alias
+					else 
+						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.butia
+					end
 					if (dev.device_type == 'sensor' and dev.port ~= nil) then 
 						if (dev.port ~= 0) then
 							code = code .. ' (' .. dev.port .. ')'
