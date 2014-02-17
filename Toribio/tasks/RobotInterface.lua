@@ -72,10 +72,8 @@ M.stopActuators = function()
 end
 
 local function parse_bobot(file, devs)
-	
 	--TODO: What is the language?
 	local butia_devices = { distanc = 'distancia', grey = 'gris', button = 'boton' }
-
 	local ret = {}
 	--Check disabled devices
 	local skip_dev = {}
@@ -100,7 +98,7 @@ local function parse_bobot(file, devs)
 		if not skip_dev[name] then		
 			ret[i] = {}
 			ret[i].name = name
-			ret[i].port = name:match('%d+')	
+			ret[i].port = 0	
 			ret[i].available = true
 			ret[i].functions = {}
 			local device = devices[name]
@@ -119,6 +117,11 @@ local function parse_bobot(file, devs)
 					for i, pars in ipairs(meta_parameters) do
 						params = params + 1
 					end
+					if (params > 0) then
+						ret[i].device_type = 'actuator'
+					else 
+						ret[i].device_type = 'sensor'
+					end
 					ret[i].functions[j].tooltip = ''
 					ret[i].functions[j].params = params
 					ret[i].functions[j].values = ''
@@ -126,11 +129,6 @@ local function parse_bobot(file, devs)
 					local returns = 0
 					for i,rets in ipairs(meta_returns) do
 						returns = returns + 1
-					end
-					if (returns > 0) then
-						ret[i].device_type = 'sensor'
-					else 
-						ret[i].device_type = 'actuator'
 					end
 					ret[i].functions[j].ret = returns
 					ret[i].functions[j].available = true
@@ -289,7 +287,7 @@ local function write_code(dev, func, first)
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then
 				for i=1, tonumber(func.params) do
-					code = code .. '	var arg' .. i .. ' = block.getTitleValue(\'' .. tostring(i) .. '\') || \'0\'; \n'
+					code = code .. '	var arg' .. i .. ' = Blockly.Lua.statementToCode(block, \'' .. tostring(i) .. '\') || \'0\'; \n'
 					if (params == '') then
 						params = '\" + arg' .. i .. ' + \"'
 					else 
