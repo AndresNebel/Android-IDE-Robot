@@ -362,7 +362,7 @@ Blockly.Blocks['controls_conditionalBehaviour'] = {
 	}), 'PR');
 
     this.appendStatementInput('BEHAVIOUR_CONDITION')
-        .setCheck('Trigger').appendTitle(Yatay.Msg.CONTROLS_BEHAVIOUR_CONDITION);
+        .appendTitle(Yatay.Msg.CONTROLS_BEHAVIOUR_CONDITION);
 
 	this.appendStatementInput('BEHAVIOUR_CODE').appendTitle(Yatay.Msg.CONTROLS_BEHAVIOUR_ACTION);
     this.setPreviousStatement(false);
@@ -382,7 +382,6 @@ Blockly.Blocks['controls_behaviourTrigger'] = {
     this.appendDummyInput().appendTitle("   ");
     this.setPreviousStatement(true);
     this.setNextStatement(false);
-	this.setOutput(null, 'Trigger');
 	this.setMovable(false);
 	this.setTooltip(Yatay.Msg.CONTROL_BEHAVIOUR_TOOLTIP);
     // Assign 'this' to a variable for use in the tooltip closure below.
