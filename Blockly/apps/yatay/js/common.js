@@ -642,6 +642,7 @@ Yatay.Common.robotest = function() {
 		$('#btn_save').toggle('slow');
 		$('#btn_bx_ready').toggle('slow');		
 		$('#btn_edit').toggle('slow');
+		$('#btn_lang').toggle('slow');
 	} else {
 		$('#btn_more').toggle('slow');
 		$('#btn_bxs_ready').toggle('slow');
@@ -667,6 +668,7 @@ Yatay.Common.runTasks = function() {
 			$('#btn_trash').toggle('slow');		
 			$('#btn_edit').toggle('slow');
 			$('#btn_bx_ready').toggle('slow');
+			$('#btn_lang').toggle('slow');
 		} else {
 			$('#btn_more').toggle('slow');
 		}
@@ -892,6 +894,7 @@ Yatay.Common.stop = function() {
 		$('#btn_load').toggle('slow');
 		$('#btn_save').toggle('slow');
 		$('#btn_bx_ready').toggle('slow');
+		$('#btn_lang').toggle('slow');
 	} else {
 		$('#btn_more').toggle('slow');
 	}
@@ -1100,4 +1103,25 @@ Yatay.Common.bxToWorkspace = function() {
 		Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
 		Blockly.mainWorkspace.getTopBlocks()[0].select();
 	}, 100);
+};
+
+/**
+ * Change app language.
+ */
+Yatay.Common.changeLanguage = function() {
+	if (BlocklyApps.LANG == 'es') {
+		BlocklyApps.LANG = 'en';	
+	} else {
+		BlocklyApps.LANG = 'es';
+	}
+	
+	var search = window.location.search;
+	if (search.length <= 1) {
+		search = '?lang=' + BlocklyApps.LANG;
+	} else if (search.match(/[?&]lang=[^&]*/)) {
+		search = search.replace(/([?&]lang=)[^&]*/, '$1' + BlocklyApps.LANG);
+	} else {
+		search = search.replace(/\?/, '?lang=' + BlocklyApps.LANG + '&');
+	}
+	window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + search;
 };

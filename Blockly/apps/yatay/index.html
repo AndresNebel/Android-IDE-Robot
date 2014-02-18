@@ -51,7 +51,7 @@
 		$.ajax({
 			url: "/index.html",
 			type: "POST",
-			data: { id:'blocks' },
+			data: { id:'blocks', lang:BlocklyApps.LANG },
 			async: false,
 			success: function(content) {
 				var data = JSON.parse(content);

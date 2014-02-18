@@ -164,11 +164,16 @@ M.init = function(conf)
 	end
 	yatayWebConsole = ''
 	yatayUserId = 0
+	yatayLang = ''
 
 	http_server.set_request_handler(
 		'POST',
 		'/index.html',
-		function(method, path, http_params, http_header)	
+		function(method, path, http_params, http_header)
+			if (http_params['lang'] ~= nil) then
+				yatayLang = http_params['lang']
+				refresh()
+			end
 			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['newborn'], http_params['userId'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end

@@ -69,7 +69,7 @@ Yatay.Msg.LOGIC_OPERATION_TOOLTIP_AND = "Si se cumplen ambas condiciones, el blo
 Yatay.Msg.LOGIC_OPERATION_TOOLTIP_OR = "Si se cumple al menos una de las condiciones, el bloque será verdadero.";
 
 Yatay.Msg.CONTROL_NEGATE_HELPURL = "";
-Yatay.Msg.CONTROL_NEGATE_TITLE = "no";
+Yatay.Msg.CONTROL_NEGATE_TITLE = "no %1";
 Yatay.Msg.CONTROL_NEGATE_TOOLTIP = "El bloque es verdadero si se cumple lo opuesto a la condición.";
 
 Yatay.Msg.CONTROL_BOOLEAN_TRUE = "verdadero";

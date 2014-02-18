@@ -72,8 +72,12 @@ M.stopActuators = function()
 end
 
 local function parse_bobot(file, devs)
-	--TODO: What is the language?
-	local butia_devices = { distanc = 'distancia', grey = 'gris', button = 'boton' }
+	local butia_devices = {}
+	if (yatayLang == 'es') then
+		butia_devices = { distanc = 'distancia', grey = 'gris', button = 'boton' }
+	else 
+		butia_devices = { distanc = 'distance', grey = 'grey', button = 'button' }
+	end
 	local ret = {}
 	--Check disabled devices
 	local skip_dev = {}
