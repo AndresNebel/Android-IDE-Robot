@@ -425,6 +425,7 @@ Yatay.Common.readFile = function(evt) {
  */
 Yatay.Common.openFileChooser = function(){
 	$('#loader_modal').modal('show');
+	$('#btn_remote_loader').show();
 	$("#loadMainWindow").show();
 	$('#remote_proj').html('');
 	document.getElementById('file_input').addEventListener('change', Yatay.Common.readFile, false);
@@ -629,8 +630,6 @@ Yatay.Common.robotest = function() {
 
 	if (Yatay.Tablet != undefined) {
 		$("#behaviours_popup").hide();
-	} else {
-		$("#btn_bxs_ready").hide();								
 	}
 
 	Yatay.enterTestMode();
@@ -645,7 +644,9 @@ Yatay.Common.robotest = function() {
 		$('#btn_lang').toggle('slow');
 	} else {
 		$('#btn_more').toggle('slow');
-		$('#btn_bxs_ready').toggle('slow');
+		if($('#btn_bxs_ready').is(":visible")) {			
+			$('#btn_bxs_ready').toggle('slow');
+		}
 		Yatay.Mobile.slideToolbox(false);
 	}
 	$('#btn_stop').toggle();
