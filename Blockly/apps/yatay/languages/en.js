@@ -31,6 +31,8 @@ Yatay.Msg.DIALOG_NO_PROJS = "there is none.";
 Yatay.Msg.DIALOG_DELETE_ALL = "All";
 Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Only workspace";
 Yatay.Msg.DIALOG_DELETE_LABEL = "What do you want to delete?";
+Yatay.Msg.DIALOG_MULTISELECT_NONE = "None selected";
+Yatay.Msg.DIALOG_MULTISELECT_ALL = " Select all";
 
 // File saver Messages
 Yatay.Msg.FILE_BLOCKS = "blocks";

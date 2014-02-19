@@ -138,15 +138,17 @@ Yatay.Common.loadDialogs = function() {
 Yatay.Common.buildMultiSelector = function(select, selectAll) {
 	selectAll = typeof selectAll != 'undefined' ? selectAll : true;
 	if (selectAll) {
-		var value = 'multiselect-select-all';
 		select.multiselect({
 			includeSelectAllOption: true,
 			onChange: Yatay.Common.BxsChangeSelection,
-			selectAllValue: value
+			selectAllValue: 'multiselect-select-all',
+			selectAllText: Yatay.Msg.DIALOG_MULTISELECT_ALL,
+			nonSelectedText: Yatay.Msg.DIALOG_MULTISELECT_NONE
 		});
 	} else {
 		select.multiselect({
-			onChange: Yatay.Common.ProjChangeSelection
+			onChange: Yatay.Common.ProjChangeSelection,
+			nonSelectedText: Yatay.Msg.DIALOG_MULTISELECT_NONE
 		});
 	}
 	return false;

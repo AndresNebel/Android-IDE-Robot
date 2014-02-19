@@ -31,6 +31,8 @@ Yatay.Msg.DIALOG_NO_PROJS = "no existe ninguno. ";
 Yatay.Msg.DIALOG_DELETE_ALL = "Todo";
 Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Sólo pizarra";
 Yatay.Msg.DIALOG_DELETE_LABEL = "¿Qué deseas borrar?";
+Yatay.Msg.DIALOG_MULTISELECT_NONE = "Ninguno selec.";
+Yatay.Msg.DIALOG_MULTISELECT_ALL = "Selec. todos";
 
 // File saver Messages
 Yatay.Msg.FILE_BLOCKS = "bloques";
