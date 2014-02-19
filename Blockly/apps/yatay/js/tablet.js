@@ -7,6 +7,8 @@ if (!Yatay.Tablet){
 	Yatay.Tablet = {};
 }
 
+Yatay.Tablet.hide = 0;
+
 /**
  * Initialize Yatay on ready
  */
@@ -108,6 +110,21 @@ Yatay.Tablet.fixConflicts = function() {
 			, a.addEventListener(Blockly.bindEvent_.TOUCH_MAP[b],f,!1)
 			, e.push([a,Blockly.bindEvent_.TOUCH_MAP[b],f]));
 		return e
+	};
+	
+	//Fix: Long taps to open the toolbox on Android Browser.
+	Blockly.Toolbox.TreeControl.prototype.setSelectedItem = function(node) {
+	  if (this.selectedItem_ == node) {
+		return;
+	  }
+	  goog.ui.tree.TreeControl.prototype.setSelectedItem.call(this, node);
+	  if (node && node.blocks && node.blocks.length) {
+		Blockly.Toolbox.flyout_.show(node.blocks);
+	  } 
+	  //Comment this resolves the conflict.
+	  /* else {
+		//Blockly.Toolbox.flyout_.hide();
+	  } */
 	};
 	
 	//Fix: Blocks superposition
