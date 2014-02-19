@@ -89,7 +89,8 @@ Yatay.Msg.CONTROLS_BEHAVIOUR_CONDITION = "disparador";
 Yatay.Msg.CONTROL_SLEEP = "esperar";
 Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "El programa espera la cantidad de tiempo ingresada para continuar ejecutando.";
 
-Yatay.Msg.CONTROL_REPEAT = "repetir " ;
+Yatay.Msg.CONTROL_REPEAT = "repetir ";
+Yatay.Msg.CONTROL_REPEAT_TIMES = " veces";
 Yatay.Msg.CONTROL_REPEAT_TOOLTIP = "Repetir un numero determinado de veces";
 
 //Variable Messages

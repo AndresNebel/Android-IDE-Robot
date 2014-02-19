@@ -90,6 +90,7 @@ Yatay.Msg.CONTROL_SLEEP = "wait";
 Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "The behaviour will pause for the time chosen.";
 
 Yatay.Msg.CONTROL_REPEAT = "repeat" ;
+Yatay.Msg.CONTROL_REPEAT_TIMES = " times";
 Yatay.Msg.CONTROL_REPEAT_TOOLTIP = "Repeat something a number of times ";
 
 //Variable Messages
@@ -105,7 +106,7 @@ Yatay.Msg.COMPLEX_SENSOR_GET_TITLE = "sensor"
 
 //Math Messages 
 Yatay.Msg.MATH_CONSTRAIN_HELPURL = "";
-Yatay.Msg.MATH_CONSTRAIN_TITLE = "%1 between %2 y %3";
+Yatay.Msg.MATH_CONSTRAIN_TITLE = "%1 between %2 and %3";
 Yatay.Msg.MATH_CONSTRAIN_TOOLTIP = ""; 
 Yatay.Msg.MATH_ROUND_OPERATOR_ROUND = "round";
 Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDUP = "round up";
