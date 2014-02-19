@@ -34,7 +34,7 @@ $(document).ready(function(){
 	Yatay.Mobile.initToolbox();
 	//Yatay.Mobile.fixConflicts();
 	
-	setTimeout(function() {Blockly.mainWorkspace.trashcan.dispose();}, 300);
+	//setTimeout(function() {Blockly.mainWorkspace.trashcan.dispose();}, 300);
 });
 
 /**

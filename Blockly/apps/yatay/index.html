@@ -42,11 +42,11 @@
 	</script>
 </head>
 <body>
-	<!-- Main navbar menu (depends on device) -->
+	<!-- Main navbar menu (device dependent) -->
 	<div id="main_menu"></div> 
-	<!-- Dialogs -->
+	<!-- Dialogs (loaded from ./bodies) -->
 	<div id="dialogs"></div>
-	<!-- Load Blockly -->
+	<!-- Start Blockly -->
 	<script type="text/javascript">
 		$.ajax({
 			url: "/index.html",
@@ -64,9 +64,9 @@
 			}
 		});
 	</script>
-	<!-- Behaviours ready dialog -->
+	<!-- Behaviours ready popup -->
 	<div id="behaviours_popup" div class="alert alert-info" style="display:none;"></div>
-	<!-- Robot results dialog -->
+	<!-- Robot results popup -->
 	<div id="results_popup" class="alert alert-info alert-dismissable" style="display:none;">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 		<p id="result_sensor"></p><p id="result_console"></p>	
