@@ -33,6 +33,9 @@ Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Only workspace";
 Yatay.Msg.DIALOG_DELETE_LABEL = "What do you want to delete?";
 Yatay.Msg.DIALOG_MULTISELECT_NONE = "None selected";
 Yatay.Msg.DIALOG_MULTISELECT_ALL = " Select all";
+Yatay.Msg.DIALOG_EDITION_ERROR_TITLE = "Ooops!";
+Yatay.Msg.DIALOG_EDITION_ERROR_BTN = "View detail";
+Yatay.Msg.DIALOG_EDITION_ERROR_MSG = "Something is wrong with that code. Please check it."
 
 // File saver Messages
 Yatay.Msg.FILE_BLOCKS = "blocks";

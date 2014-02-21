@@ -33,6 +33,9 @@ Yatay.Msg.DIALOG_DELETE_WORKSPACE = "Sólo pizarra";
 Yatay.Msg.DIALOG_DELETE_LABEL = "¿Qué deseas borrar?";
 Yatay.Msg.DIALOG_MULTISELECT_NONE = "Ninguno selec.";
 Yatay.Msg.DIALOG_MULTISELECT_ALL = "Selec. todos";
+Yatay.Msg.DIALOG_EDITION_ERROR_TITLE = "Ooops!";
+Yatay.Msg.DIALOG_EDITION_ERROR_BTN = "Ver detalle";
+Yatay.Msg.DIALOG_EDITION_ERROR_MSG = "Algo esta mal en el código editado. Revísalo!"
 
 // File saver Messages
 Yatay.Msg.FILE_BLOCKS = "bloques";

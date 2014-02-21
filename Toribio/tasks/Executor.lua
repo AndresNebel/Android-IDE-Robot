@@ -51,6 +51,7 @@ M.kill_tasks = function(userId)
 
 
 M.create_task = function(task, userId)
+	yataySensorResults[userId] = nil
 	local code, errorCompilacion = loadstring(task)
 	if (not errorCompilacion) then	
 		local ok, tasktable = pcall(code)
@@ -74,6 +75,9 @@ M.create_task = function(task, userId)
 	else
 			print("YATAY: task compilation error - ")
 			print(errorCompilacion)
+			yataySensorResults[userId] = 'ERROR:'.. errorCompilacion
+			sched.signal('NewSensorResult')
+
 	end
 end
 
