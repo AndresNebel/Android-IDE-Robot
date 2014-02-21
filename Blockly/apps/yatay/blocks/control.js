@@ -418,7 +418,7 @@ Blockly.Blocks['controls_repeat'] = {
 	  var n = window.parseFloat(text || 0);
 	  return window.isNaN(n) ? null : String(n);
 	}), 'TIMES');
-    this.appendDummyInput().appendTitle(' veces');
+    this.appendDummyInput().appendTitle(Yatay.Msg.CONTROL_REPEAT_TIMES);
     this.setInputsInline(true);
     this.appendStatementInput('DO');
     this.setPreviousStatement(true);

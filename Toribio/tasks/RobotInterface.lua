@@ -72,6 +72,12 @@ M.stopActuators = function()
 end
 
 local function parse_bobot(file, devs)
+	local butia_devices = {}
+	if (yatayLang == 'es') then
+		butia_devices = { distanc = 'distancia', grey = 'gris', button = 'boton' }
+	else 
+		butia_devices = { distanc = 'distance', grey = 'grey', button = 'button' }
+	end
 	local ret = {}
 	--Check disabled devices
 	local skip_dev = {}
@@ -108,11 +114,17 @@ local function parse_bobot(file, devs)
 					ret[i].functions[j] = {}
 					ret[i].functions[j].name = fname
 					ret[i].functions[j].alias = name .. '.' .. fname
+					ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')]
 					local bobot_metadata = ((device.bobot_metadata or {})[fdef] or {parameters={}, returns={}})
 					local meta_parameters = bobot_metadata.parameters
 					local params = 0
 					for i, pars in ipairs(meta_parameters) do
 						params = params + 1
+					end
+					if (params > 0) then
+						ret[i].device_type = 'actuator'
+					else 
+						ret[i].device_type = 'sensor'
 					end
 					ret[i].functions[j].tooltip = ''
 					ret[i].functions[j].params = params
@@ -121,11 +133,6 @@ local function parse_bobot(file, devs)
 					local returns = 0
 					for i,rets in ipairs(meta_returns) do
 						returns = returns + 1
-					end
-					if (returns > 0) then
-						ret[i].device_type = 'sensor'
-					else 
-						ret[i].device_type = 'actuator'
 					end
 					ret[i].functions[j].ret = returns
 					ret[i].functions[j].available = true
@@ -155,6 +162,7 @@ local function parse_xml(device_type, file, devs)
 				ret[i].functions[j] = {}
 				ret[i].functions[j].name = functions[j].name
 				ret[i].functions[j].alias = functions[j].alias
+				ret[i].functions[j].butia = nil
 				ret[i].functions[j].tooltip = functions[j].tooltip
 				ret[i].functions[j].params = functions[j].params
 				ret[i].functions[j].values = functions[j].values
@@ -222,8 +230,12 @@ local function write_blocks(dev, func, first)
 		end
 		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
 					'	init: function() { \n' ..
-					'		this.setColour(120); \n' ..
-					'		this.appendDummyInput().appendTitle(\'' .. func.alias
+					'		this.setColour(120); \n'
+					if (func.butia == nil) then
+						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.alias
+					else 
+						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.butia
+					end
 					if (dev.device_type == 'sensor' and dev.port ~= nil) then 
 						if (dev.port ~= 0) then
 							code = code .. ' (' .. dev.port .. ')'

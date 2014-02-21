@@ -25,10 +25,15 @@ $(document).ready(function(){
 		Yatay.Common.requestUserId();
 	}
 
-	Yatay.Mobile.initToolbox();
-	//Yatay.Mobile.fixConflicts();
+	if (BlocklyApps.LANG == 'es') {
+		$('#content_blocks').addClass('content-es');	
+	} else {
+		$('#content_blocks').addClass('content-en');
+	}
 	
-	setTimeout(function() {Blockly.mainWorkspace.trashcan.dispose();}, 300);
+	Yatay.Mobile.initToolbox();
+	//Yatay.Mobile.fixConflicts();	
+	//setTimeout(function() {Blockly.mainWorkspace.trashcan.dispose();}, 300);
 });
 
 /**
@@ -51,49 +56,16 @@ Yatay.Mobile.slideToolbox = function(resize) {
  */
 Yatay.Mobile.initToolbox = function() {
 
-	//Override function onMouseDown of Blockly toolbox.js
+	//Binding toolbox slide event
 	setTimeout(function() {
 		$('.blocklyToolboxDiv').bind('click touchend', function(e) {
 			return Yatay.Mobile.slideToolbox(true);	
 		});
 	}, 1000);
-
-	//Override function createBlockFunc_ of Blockly flyout.js
-	Blockly.Flyout.prototype.createBlockFunc_ = function(originBlock) {
-		if (Yatay.Mobile.openToolbox) {
-			var flyout = this;
-			var result = function(e) {
-				if (Blockly.isRightButton(e)) {
-					// Right-click.  Don't create a block, let the context menu show.
-					return;
-				}
-				if (originBlock.disabled) {
-					// Beyond capacity.
-					return;
-				}
-				// Create the new block by cloning the block in the flyout (via XML).
-				var xml = Blockly.Xml.blockToDom_(originBlock);
-				var block = Blockly.Xml.domToBlock_(flyout.targetWorkspace_, xml);
-				// Place it in the same spot as the flyout copy.
-				var svgRootOld = originBlock.getSvgRoot();
-				if (!svgRootOld) {
-					throw 'originBlock is not rendered.';
-				}
-				var xyOld = Blockly.getSvgXY_(svgRootOld);
-				var svgRootNew = block.getSvgRoot();
-				if (!svgRootNew) {
-					throw 'block is not rendered.';
-				}
-				var xyNew = Blockly.getSvgXY_(svgRootNew);
-				block.moveBy(xyOld.x - xyNew.x, xyOld.y - xyNew.y);
-				if (flyout.autoClose) {
-					flyout.hide();
-				} else {
-					flyout.filterForCapacity_();
-				}
-				// Start a dragging operation on the new block.
-				block.onMouseDown_(e);
-			}
+	
+	//Override function onMouseDown_ of block.js
+	Blockly.Block.prototype.onMouseDown_ = function(e) {
+		if (this.isInFlyout) {
 			setTimeout(function() { 
 				Yatay.Mobile.openToolbox = false;
 				$('#content_blocks').removeClass('openToolbox');
@@ -102,9 +74,55 @@ Yatay.Mobile.initToolbox = function() {
 				}		
 				Blockly.fireUiEvent(window, 'resize');
 			},1000);
+			return;
 		}
-		return result;
-	}
+		
+		Blockly.svgResize();
+		Blockly.terminateDrag_();
+		this.select();
+		Blockly.hideChaff();
+		if (Blockly.isRightButton(e)) {		
+			if (Blockly.ContextMenu) {
+			  this.showContextMenu_(Blockly.mouseToSvg(e));
+			}
+		} else if (!this.isMovable()) {
+			return;
+		} else {
+			Blockly.removeAllRanges();
+			Blockly.setCursorHand_(true);
+			var xy = this.getRelativeToSurfaceXY();
+			this.startDragX = xy.x;
+			this.startDragY = xy.y;
+			this.startDragMouseX = e.clientX;
+			this.startDragMouseY = e.clientY;
+			Blockly.Block.dragMode_ = 1;
+			Blockly.Block.onMouseUpWrapper_ = Blockly.bindEvent_(document,'mouseup', this, this.onMouseUp_);
+			Blockly.Block.onMouseMoveWrapper_ = Blockly.bindEvent_(document, 'mousemove', this, this.onMouseMove_);
+			this.draggedBubbles_ = [];
+			var descendants = this.getDescendants();
+			for (var x = 0, descendant; descendant = descendants[x]; x++) {
+				var icons = descendant.getIcons();
+				for (var y = 0; y < icons.length; y++) {
+					var data = icons[y].getIconLocation();
+					data.bubble = icons[y];
+					this.draggedBubbles_.push(data);
+				}
+			}
+		}
+		e.stopPropagation();
+	};
+	
+	//Fix: Blocks superposition
+	var resizeTextarea = function() {
+		this.style.height = "";
+		var $this = $(this),             
+        outerHeight = $this.outerHeight(),
+        scrollHeight = this.scrollHeight,
+        innerHeight = $this.innerHeight(),
+        magic = outerHeight - innerHeight;
+		this.style.height = scrollHeight + magic + "px";
+	}	
+	$('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextarea).focus(resizeTextarea);
 };
 
 /**

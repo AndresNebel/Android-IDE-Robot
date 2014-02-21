@@ -7,8 +7,7 @@
 BlocklyApps.LANGUAGES = ['es','en'];
 BlocklyApps.LANG = BlocklyApps.getLang();
 
-// Use 'es' as default inBlocklyApps.LANG  
-document.write('<script type="text/javascript" src="generated/' + 'es' + '.js"></script>\n');
+document.write('<script type="text/javascript" src="generated/' + BlocklyApps.LANG + '.js"></script>\n');
 
 /**
  * Create a namespace for the application.
@@ -117,7 +116,7 @@ Yatay.init = function() {
 	// Lazy-load the syntax-highlighting.
 	window.setTimeout(BlocklyApps.importPrettify, 1);
 
-	BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
+	// BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
 	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
 

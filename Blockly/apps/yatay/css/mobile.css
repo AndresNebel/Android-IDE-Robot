@@ -13,7 +13,14 @@ body {
 	background-color:#8FA9CC !important;
 }
 
-.content {
+.content-en {
+	top: 11% !important;
+	left: -80px !important;
+	width: calc(100% + 80px) !important;
+	height: 89% !important;
+}
+
+.content-es {
 	top: 11% !important;
 	left: -121px !important;
 	width: calc(100% + 121px) !important;

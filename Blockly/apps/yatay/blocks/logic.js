@@ -97,7 +97,6 @@ Blockly.Blocks['logic_operation'] = {
   }
 };
 
-
 Blockly.Blocks['logic_negate'] = {
   // Negation.
   init: function() {
@@ -127,8 +126,6 @@ Blockly.Blocks['logic_constrain'] = {
   }
 };
 
-
-
 Blockly.Blocks['logic_boolean'] = {
   // Boolean data type: true and false.
   init: function() {
@@ -143,5 +140,3 @@ Blockly.Blocks['logic_boolean'] = {
     this.setTooltip(Yatay.Msg.CONTROL_BOOLEAN_TOOLTIP);
   }
 };
-
-

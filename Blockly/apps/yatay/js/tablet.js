@@ -7,11 +7,13 @@ if (!Yatay.Tablet){
 	Yatay.Tablet = {};
 }
 
+Yatay.Tablet.hide = 0;
+
 /**
  * Initialize Yatay on ready
  */
 $(document).ready(function() {	
-	$('#main_menu').load('./bodies/tablet.html');
+	$('#main_menu').load('./bodies/tablet.html', Yatay.Tablet.resizeIcons);
 	$('#dialogs').load('./bodies/dialogs.html', Yatay.Common.loadDialogs);
 	
 	var list = $('<ul class="nav" id="bx_list"></ul>');
@@ -110,6 +112,21 @@ Yatay.Tablet.fixConflicts = function() {
 		return e
 	};
 	
+	//Fix: Long taps to open the toolbox on Android Browser.
+	Blockly.Toolbox.TreeControl.prototype.setSelectedItem = function(node) {
+	  if (this.selectedItem_ == node) {
+		return;
+	  }
+	  goog.ui.tree.TreeControl.prototype.setSelectedItem.call(this, node);
+	  if (node && node.blocks && node.blocks.length) {
+		Blockly.Toolbox.flyout_.show(node.blocks);
+	  } 
+	  //Comment this resolves the conflict.
+	  /* else {
+		//Blockly.Toolbox.flyout_.hide();
+	  } */
+	};
+	
 	//Fix: Blocks superposition
 	var resizeTextarea = function() {
 		this.style.height = "";
@@ -121,4 +138,32 @@ Yatay.Tablet.fixConflicts = function() {
 		this.style.height = scrollHeight + magic + "px";
 	}	
 	$('textarea').keydown(resizeTextarea).keyup(resizeTextarea).change(resizeTextarea).focus(resizeTextarea);
+};
+
+/**
+ * Resize icons depending on screen height.
+ */
+Yatay.Tablet.resizeIcons = function() {
+	if ($(window).height() < 648) {
+		$( "#btn_load").children().removeClass('fa-3x');
+		$( "#btn_load").children().addClass('fa-2x');
+		$( "#btn_save").children().removeClass('fa-3x');
+		$( "#btn_save").children().addClass('fa-2x');
+		$( "#btn_robotest").children().removeClass('fa-3x');
+		$( "#btn_robotest").children().addClass('fa-2x');
+		$( "#btn_run").children().removeClass('fa-3x');
+		$( "#btn_run").children().addClass('fa-2x');
+		$( "#btn_edit").children().removeClass('fa-3x');
+		$( "#btn_edit").children().addClass('fa-2x');
+		$( "#btn_debug").children().removeClass('fa-3x');
+		$( "#btn_debug").children().addClass('fa-2x');
+		$( "#btn_bx_ready").children().removeClass('fa-3x');
+		$( "#btn_bx_ready").children().addClass('fa-2x');
+		$( "#btn_stop").children().removeClass('fa-3x');
+		$( "#btn_stop").children().addClass('fa-2x');
+		$( "#btn_lang").children().removeClass('fa-3x');
+		$( "#btn_lang").children().addClass('fa-2x');
+		$( "#btn_trash").children().removeClass('fa-3x');
+		$( "#btn_trash").children().addClass('fa-2x');
+	}
 };

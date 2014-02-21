@@ -80,12 +80,17 @@ $(window).load(function() {
 	Yatay.Common.addStyleToBlocklyToolbox();
 	//Mystical fix for the blockly-bootstrap scrollbar conflict
 	$("foreignObject img").css("max-width","none");
-	//Restoring browser persistance of blocks
-	if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
-		var behaviours = JSON.parse(localStorage.yatay_bxs);
-		for(var j=0; j< behaviours.length; j++) {
-			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-				Yatay.Common.bxReady();
+
+	setTimeout(function() {
+		//Restoring browser persistance of blocks
+		if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
+			var behaviours = JSON.parse(localStorage.yatay_bxs);
+			for(var j=0; j< behaviours.length; j++) {
+				if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+					Yatay.Common.bxReady();
+				}
+				var code = Blockly.Xml.textToDom(behaviours[j][1]);
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
 			}
 			var alreadyExists = false;
 			for(var i=0; i< Yatay.Common.behaviours.length; i++) {
@@ -102,9 +107,10 @@ $(window).load(function() {
 			}
 		}
 		Yatay.Common.bxReady();
-	}
-	//Show Project Manager Modal (when the page is loaded)
-	setTimeout(	Yatay.Common.projectChecker, 1000);
+		
+		//Show Project Manager Modal (when the page is loaded)
+		Yatay.Common.projectChecker();
+	}, 1000);
 });
 
 /**
@@ -119,7 +125,7 @@ $(document).ready(function() {
  */
 Yatay.Common.loadDialogs = function() {
 	$('#code_label').html(Yatay.Msg.DIALOG_CODE_LABEL);
-	$('#btn_save2').html(Yatay.Msg.MENU_SAVE);
+	$('#btn_save2').html(Yatay.Msg.DIALOG_SAVE);
 	$('#btn_run2').html(Yatay.Msg.DIALOG_RUN);
 	$('#btn_openfile').html(Yatay.Msg.DIALOG_OPEN);
 	$('#loader_label').html(Yatay.Msg.DIALOG_LOADER_LABEL);	
@@ -145,15 +151,17 @@ Yatay.Common.loadDialogs = function() {
 Yatay.Common.buildMultiSelector = function(select, selectAll) {
 	selectAll = typeof selectAll != 'undefined' ? selectAll : true;
 	if (selectAll) {
-		var value = 'multiselect-select-all';
 		select.multiselect({
 			includeSelectAllOption: true,
 			onChange: Yatay.Common.BxsChangeSelection,
-			selectAllValue: value
+			selectAllValue: 'multiselect-select-all',
+			selectAllText: Yatay.Msg.DIALOG_MULTISELECT_ALL,
+			nonSelectedText: Yatay.Msg.DIALOG_MULTISELECT_NONE
 		});
 	} else {
 		select.multiselect({
-			onChange: Yatay.Common.ProjChangeSelection
+			onChange: Yatay.Common.ProjChangeSelection,
+			nonSelectedText: Yatay.Msg.DIALOG_MULTISELECT_NONE
 		});
 	}
 	return false;
@@ -435,6 +443,7 @@ Yatay.Common.readFile = function(evt) {
  */
 Yatay.Common.openFileChooser = function(){
 	$('#loader_modal').modal('show');
+	$('#btn_remote_loader').show();
 	$("#loadMainWindow").show();
 	$('#remote_proj').html('');
 	document.getElementById('file_input').addEventListener('change', Yatay.Common.readFile, false);
@@ -639,8 +648,6 @@ Yatay.Common.robotest = function() {
 
 	if (Yatay.Tablet != undefined) {
 		$("#behaviours_popup").hide();
-	} else {
-		$("#btn_bxs_ready").hide();								
 	}
 
 	Yatay.enterTestMode();
@@ -652,9 +659,12 @@ Yatay.Common.robotest = function() {
 		$('#btn_save').toggle('slow');
 		$('#btn_bx_ready').toggle('slow');		
 		$('#btn_edit').toggle('slow');
+		$('#btn_lang').toggle('slow');
 	} else {
 		$('#btn_more').toggle('slow');
-		$('#btn_bxs_ready').toggle('slow');
+		if($('#btn_bxs_ready').is(":visible")) {			
+			$('#btn_bxs_ready').toggle('slow');
+		}
 		Yatay.Mobile.slideToolbox(false);
 	}
 	$('#btn_stop').toggle();
@@ -677,6 +687,7 @@ Yatay.Common.runTasks = function() {
 			$('#btn_trash').toggle('slow');		
 			$('#btn_edit').toggle('slow');
 			$('#btn_bx_ready').toggle('slow');
+			$('#btn_lang').toggle('slow');
 		} else {
 			$('#btn_more').toggle('slow');
 		}
@@ -902,6 +913,7 @@ Yatay.Common.stop = function() {
 		$('#btn_load').toggle('slow');
 		$('#btn_save').toggle('slow');
 		$('#btn_bx_ready').toggle('slow');
+		$('#btn_lang').toggle('slow');
 	} else {
 		$('#btn_more').toggle('slow');
 	}
@@ -1110,4 +1122,25 @@ Yatay.Common.bxToWorkspace = function() {
 		Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
 		Blockly.mainWorkspace.getTopBlocks()[0].select();
 	}, 100);
+};
+
+/**
+ * Change app language.
+ */
+Yatay.Common.changeLanguage = function() {
+	if (BlocklyApps.LANG == 'es') {
+		BlocklyApps.LANG = 'en';	
+	} else {
+		BlocklyApps.LANG = 'es';
+	}
+	
+	var search = window.location.search;
+	if (search.length <= 1) {
+		search = '?lang=' + BlocklyApps.LANG;
+	} else if (search.match(/[?&]lang=[^&]*/)) {
+		search = search.replace(/([?&]lang=)[^&]*/, '$1' + BlocklyApps.LANG);
+	} else {
+		search = search.replace(/\?/, '?lang=' + BlocklyApps.LANG + '&');
+	}
+	window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + search;
 };
