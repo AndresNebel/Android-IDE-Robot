@@ -87,8 +87,19 @@ $(window).load(function() {
 			if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 				Yatay.Common.bxReady();
 			}
-			var code = Blockly.Xml.textToDom(behaviours[j][1]);
-			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+			var alreadyExists = false;
+			for(var i=0; i< Yatay.Common.behaviours.length; i++) {
+				if (Yatay.Common.behaviours[i][2] == behaviours[j][0])
+				{
+					alreadyExists = true;
+					break;
+				}
+			}			
+			if (!alreadyExists)
+			{
+				var code = Blockly.Xml.textToDom(behaviours[j][1]);
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+			}
 		}
 		Yatay.Common.bxReady();
 	}
@@ -331,7 +342,6 @@ Yatay.Common.loadBxs = function() {
 				var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
 				$(multiselector).insertBefore($('#btn_remote_loader'));
 			}
-			$('#btn_remote_loader').hide();
 		},
 		error:function() {}
 	});

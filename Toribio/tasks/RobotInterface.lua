@@ -279,7 +279,7 @@ local function write_code(dev, func, first)
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then
 				for i=1, tonumber(func.params) do
-					code = code .. '	var arg' .. i .. ' = block.getTitleValue(\'' .. tostring(i) .. '\') || \'0\'; \n'
+					code = code .. '	var arg' .. i .. ' = Blockly.Lua.statementToCode(block, \'' .. tostring(i) .. '\') || \'0\'; \n'
 					if (params == '') then
 						params = '\" + arg' .. i .. ' + \"'
 					else 
