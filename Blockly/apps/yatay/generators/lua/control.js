@@ -121,6 +121,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
   "M.ReleaseControl = function()\n" +
+  //"  robot.execute('bb-motors','setvel2mtr',{0,0,0,0}, M.userId)\n" + 
   "end\n" +
 
   "return M\n"; 
@@ -173,6 +174,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
   "M.ReleaseControl = function()\n" +
+  //"  robot.execute('bb-motors','setvel2mtr',{0,0,0,0}, M.userId)\n" + 
   "end\n" +
   "return M\n"; 
 

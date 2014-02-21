@@ -102,7 +102,7 @@ local function parse_bobot(file, devs)
 		if not skip_dev[name] then		
 			ret[i] = {}
 			ret[i].name = name
-			ret[i].port = 0	
+			ret[i].port = name:match('%d+')	
 			ret[i].available = true
 			ret[i].functions = {}
 			local device = devices[name]
@@ -113,8 +113,13 @@ local function parse_bobot(file, devs)
 				if not (skip_fields[fname] or skip_func[fname]) then 
 					ret[i].functions[j] = {}
 					ret[i].functions[j].name = fname
-					ret[i].functions[j].alias = name .. '.' .. fname
-					ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')]
+					if (ret[i].port ~= nil) then
+						ret[i].functions[j].alias = name .. '.' .. fname .. ' (' .. ret[i].port .. ')'
+						ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')] .. ' (' .. ret[i].port .. ')'
+					else 
+						ret[i].functions[j].alias = name .. '.' .. fname
+						ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')]					
+					end
 					local bobot_metadata = ((device.bobot_metadata or {})[fdef] or {parameters={}, returns={}})
 					local meta_parameters = bobot_metadata.parameters
 					local params = 0
@@ -161,7 +166,11 @@ local function parse_xml(device_type, file, devs)
 			for j=1, #functions do
 				ret[i].functions[j] = {}
 				ret[i].functions[j].name = functions[j].name
-				ret[i].functions[j].alias = functions[j].alias
+				if (ret[i].port ~= nil) then
+					ret[i].functions[j].alias = functions[j].alias .. ' (' .. ret[i].port .. ')'
+				else 
+					ret[i].functions[j].alias = functions[j].alias
+				end
 				ret[i].functions[j].butia = nil
 				ret[i].functions[j].tooltip = functions[j].tooltip
 				ret[i].functions[j].params = functions[j].params
@@ -227,21 +236,16 @@ local function write_blocks(dev, func, first)
 	if (errors == nil) then
 		if (first) then 
 			code = '/* Automatically Generated Code */\n\'use strict\';\n\n'
-		end
+		end		
 		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
 					'	init: function() { \n' ..
 					'		this.setColour(120); \n'
 					if (func.butia == nil) then
-						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.alias
+						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.alias .. '\'); \n'
 					else 
-						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.butia
+						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.butia .. '\'); \n'
 					end
-					if (dev.device_type == 'sensor' and dev.port ~= nil) then 
-						if (dev.port ~= 0) then
-							code = code .. ' (' .. dev.port .. ')'
-						end
-					end
-					code = code .. '\'); \n		this.setInputsInline(true); \n'		
+					code = code .. '		this.setInputsInline(true); \n'		
 		if (tonumber(func.params) > 0) then		
 			if (func.values == '') then		
 				for i=1, tonumber(func.params) do

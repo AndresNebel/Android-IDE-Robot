@@ -74,6 +74,12 @@ Yatay.Common.testMode = false;
 Yatay.Common.editor = undefined;
 
 /**
+ * Loaded state
+ * @type {[Object]}
+ */
+Yatay.Common.loaded = false;
+
+/**
  * Initialize Yatay on load
  */
 $(window).load(function() {
@@ -83,20 +89,23 @@ $(window).load(function() {
 
 	setTimeout(function() {
 		//Restoring browser persistance of blocks
-		if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
-			var behaviours = JSON.parse(localStorage.yatay_bxs);
-			for(var j=0; j< behaviours.length; j++) {
-				if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-					Yatay.Common.bxReady();
+		if (!Yatay.Common.loaded) {
+			if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
+				var behaviours = JSON.parse(localStorage.yatay_bxs);
+				for(var j=0; j< behaviours.length; j++) {
+					if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+						Yatay.Common.bxReady();
+					}
+					var code = Blockly.Xml.textToDom(behaviours[j][1]);
+					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
 				}
-				var code = Blockly.Xml.textToDom(behaviours[j][1]);
-				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+				Yatay.Common.bxReady();
 			}
-			Yatay.Common.bxReady();
+			//Show Project Manager Modal (when the page is loaded)
+			Yatay.Common.projectChecker();
+			//Change state (fixme)
+			Yatay.Common.loaded = true;
 		}
-		
-		//Show Project Manager Modal (when the page is loaded)
-		Yatay.Common.projectChecker();
 	}, 1000);
 });
 

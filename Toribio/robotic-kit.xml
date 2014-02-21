@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <devices all="yes" except="bb-butia, bb-ax, bb-admin, bb-hackp, bb-port, bb-pnp">
-	<device device_type="sensor" name="bb-distanc:3">
+	<device device_type="sensor" name="bb-distanc:1">
 		<function name="getValue" alias="medir distancia" tooltip="" params="0" values="" ret="1"/>
 	</device>
 	<device device_type="sensor" name="bb-grey:2">
@@ -8,6 +8,9 @@
 	</device>
 	<device device_type="sensor" name="bb-button:1">
 		<function name="getValue" alias="boton" tooltip="" params="0" values="" ret="1"/>
+	</device>
+	<device device_type="sensor" name="bb-distanc:4">
+		<function name="getValue" alias="medir distancia" tooltip="" params="0" values="" ret="1"/>
 	</device>
 	<device device_type="actuator" name="bb-motors">
 		<function name="setvel2mtr" alias="mover adelante" tooltip="" params="4" values="1,500,1,500" ret="0" />

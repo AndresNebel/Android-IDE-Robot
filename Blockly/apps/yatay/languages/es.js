@@ -40,7 +40,7 @@ Yatay.Msg.FILE_CODE = "codigo";
 
 // Tour Messages
 Yatay.Msg.TOUR_TOOLBOX_TITLE = '¿Dónde están los bloques?';
-Yatay.Msg.TOUR_TOOLBOX_CONTENT = 'Aquí encontraras todos los bloques, comienza con un bloque de comportamiento!';
+Yatay.Msg.TOUR_TOOLBOX_CONTENT = 'Aquí encontrarás todos los bloques, comienza con un bloque de comportamiento!';
 Yatay.Msg.TOUR_RBTEST_TITLE = '¿Qué valores dan los sensores?'; 
 Yatay.Msg.TOUR_RBTEST_CONTENT = 'Puedes probar y calibrar los sensores y actuadores del robot Butiá.';
 Yatay.Msg.TOUR_RUN_TITLE = '¿Quieres ejecutar tus comportamientos?';

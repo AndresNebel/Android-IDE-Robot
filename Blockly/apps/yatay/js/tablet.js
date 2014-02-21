@@ -120,11 +120,10 @@ Yatay.Tablet.fixConflicts = function() {
 	  goog.ui.tree.TreeControl.prototype.setSelectedItem.call(this, node);
 	  if (node && node.blocks && node.blocks.length) {
 		Blockly.Toolbox.flyout_.show(node.blocks);
-	  } 
-	  //Comment this resolves the conflict.
-	  /* else {
-		//Blockly.Toolbox.flyout_.hide();
-	  } */
+	  } else {
+		//Comment this resolves the conflict.  
+		Blockly.Toolbox.flyout_.hide();
+	  }
 	};
 	
 	//Fix: Blocks superposition
