@@ -4,19 +4,19 @@
 goog.provide('Blockly.Lua.butia');
 goog.require('Blockly.Lua');
 
-Blockly.Lua['medir distancia'] = function(block) { 
+Blockly.Lua['medir distancia (3)'] = function(block) { 
 	var debugTrace = ''; 
 	return debugTrace + "robot.execute('bb-distanc:3','getValue',{}, M.userId)"; 
 }; 
 
-Blockly.Lua['sensor de grises'] = function(block) { 
+Blockly.Lua['sensor de grises (1)'] = function(block) { 
 	var debugTrace = ''; 
 	return debugTrace + "robot.execute('bb-grey:1','getValue',{}, M.userId)"; 
 }; 
 
-Blockly.Lua['boton'] = function(block) { 
+Blockly.Lua['boton (2)'] = function(block) { 
 	var debugTrace = ''; 
-	return debugTrace + "robot.execute('bb-button:5','getValue',{}, M.userId)"; 
+	return debugTrace + "robot.execute('bb-button:2','getValue',{}, M.userId)"; 
 }; 
 
 Blockly.Lua['mover adelante'] = function(block) { 
@@ -56,10 +56,10 @@ Blockly.Lua['girar'] = function(block) {
 	if (Yatay.DebugMode) { 
 		debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n"; 
 	} 
-	var arg1 = Blockly.Lua.statementToCode(this, '1', true) || '0'; 
-	var arg2 = Blockly.Lua.statementToCode(this, '2', true) || '0'; 
-	var arg3 = Blockly.Lua.statementToCode(this, '3', true) || '0'; 
-	var arg4 = Blockly.Lua.statementToCode(this, '4', true) || '0'; 
+	var arg1 = Blockly.Lua.statementToCode(block, '1') || '0'; 
+	var arg2 = Blockly.Lua.statementToCode(block, '2') || '0'; 
+	var arg3 = Blockly.Lua.statementToCode(block, '3') || '0'; 
+	var arg4 = Blockly.Lua.statementToCode(block, '4') || '0'; 
 	return debugTrace + "robot.execute('bb-motors','setvel2mtr',{" + arg1 + ", " + arg2 + ", " + arg3 + ", " + arg4 + "}, M.userId)"; 
 }; 
 

@@ -31,7 +31,7 @@ Blockly.Blocks['controls_if'] = {
   init: function() {
 	this.setTooltip(Yatay.Msg.CONTROLS_IF_TOOLTIP);
     this.setHelpUrl(Yatay.Msg.CONTROLS_IF_HELPURL);
-    this.setColour(120);
+    this.setColour(295);
     this.appendValueInput('IF0')
         .setCheck('Boolean')
         .appendTitle(Yatay.Msg.CONTROLS_IF_MSG_IF);
@@ -170,7 +170,7 @@ Blockly.Blocks['controls_if'] = {
 Blockly.Blocks['controls_if_if'] = {
   // If condition.
   init: function() {
-    this.setColour(120);
+    this.setColour(295);
     this.appendDummyInput()
         .appendTitle(Yatay.Msg.CONTROLS_IF_MSG_IF);
     this.appendStatementInput('STACK');
@@ -182,7 +182,7 @@ Blockly.Blocks['controls_if_if'] = {
 Blockly.Blocks['controls_if_elseif'] = {
   // Else-If condition.
   init: function() {
-    this.setColour(120);
+    this.setColour(295);
     this.appendDummyInput()
         .appendTitle(Yatay.Msg.CONTROLS_IF_MSG_ELSEIF);
     this.setPreviousStatement(true);
@@ -195,7 +195,7 @@ Blockly.Blocks['controls_if_elseif'] = {
 Blockly.Blocks['controls_if_else'] = {
   // Else condition.
   init: function() {
-    this.setColour(120);
+    this.setColour(295);
     this.appendDummyInput()
         .appendTitle(Yatay.Msg.CONTROLS_IF_MSG_ELSE);
     this.setPreviousStatement(true);
@@ -228,7 +228,7 @@ Blockly.Blocks['logic_compare'] = {
       ];
     }
     this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-    this.setColour(210);
+    this.setColour(295);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A');
     this.appendValueInput('B')
@@ -259,7 +259,7 @@ Blockly.Blocks['logic_operation'] = {
          [Yatay.Msg.CONTROL_OPERATION_OR, 'OR']];
 	
     this.setHelpUrl(Yatay.Msg.CONTROL_OPERATION_HELPURL);
-    this.setColour(210);
+    this.setColour(295);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Boolean');
@@ -285,7 +285,7 @@ Blockly.Blocks['logic_negate'] = {
   // Negation.
   init: function() {
     this.setHelpUrl(Yatay.Msg.CONTROL_NEGATE_HELPURL);
-    this.setColour(210);
+    this.setColour(295);
     this.setOutput(true, 'Boolean');
     this.interpolateMsg(Yatay.Msg.CONTROL_NEGATE_TITLE,
                         ['BOOL', 'Boolean', Blockly.ALIGN_RIGHT],
@@ -301,7 +301,7 @@ Blockly.Blocks['logic_boolean'] = {
         [[Yatay.Msg.CONTROL_BOOLEAN_TRUE, 'TRUE'],
          [Yatay.Msg.CONTROL_BOOLEAN_FALSE, 'FALSE']];
     this.setHelpUrl(Yatay.Msg.CONTROL_BOOLEAN_HELPURL);
-    this.setColour(210);
+    this.setColour(295);
     this.setOutput(true, 'Boolean');
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldDropdown(BOOLEANS), 'BOOL');
@@ -315,7 +315,7 @@ Blockly.Blocks['controls_whileUntil'] = {
   category: 'Control',
   helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
   init: function() {
-    this.setColour(320);
+    this.setColour(295);
     
 	this.appendValueInput('BOOL')
         .setCheck('Boolean')
@@ -394,7 +394,7 @@ Blockly.Blocks['controls_behaviourTrigger'] = {
 Blockly.Blocks['controls_sleep'] = {
   // Sleep x seconds.
   init: function() {
-    this.setColour(290);
+    this.setColour(295);
     var thisBlock = this;
     this.appendDummyInput().appendTitle(Yatay.Msg.CONTROL_SLEEP)
     .appendTitle(new Blockly.FieldTextInput('0', function(text) {
@@ -412,7 +412,7 @@ Blockly.Blocks['controls_sleep'] = {
 Blockly.Blocks['controls_repeat'] = {
   category: 'Control',
   init: function() {
-    this.setColour(290);
+    this.setColour(295);
 	this.appendDummyInput().appendTitle(Yatay.Msg.CONTROL_REPEAT)
     this.appendDummyInput().appendTitle(new Blockly.FieldTextInput('1', function(text) {
 	  var n = window.parseFloat(text || 0);

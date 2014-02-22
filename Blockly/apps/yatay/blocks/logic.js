@@ -46,7 +46,7 @@ Blockly.Blocks['logic_compare'] = {
       ];
     }
     this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
-    this.setColour(210);
+    this.setColour(24);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A');
     this.appendValueInput('B')
@@ -76,7 +76,7 @@ Blockly.Blocks['logic_operation'] = {
         [[Yatay.Msg.CONTROL_OPERATION_AND, 'AND'],
          [Yatay.Msg.CONTROL_OPERATION_OR, 'OR']];
     this.setHelpUrl(Yatay.Msg.CONTROL_OPERATION_HELPURL);
-    this.setColour(210);
+    this.setColour(24);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Boolean');
@@ -101,7 +101,7 @@ Blockly.Blocks['logic_negate'] = {
   // Negation.
   init: function() {
     this.setHelpUrl(Yatay.Msg.CONTROL_NEGATE_HELPURL);
-    this.setColour(210);
+    this.setColour(24);
     this.setOutput(true, 'Boolean');
     this.interpolateMsg(Yatay.Msg.CONTROL_NEGATE_TITLE,
                         ['BOOL', 'Boolean', Blockly.ALIGN_RIGHT],
@@ -114,7 +114,7 @@ Blockly.Blocks['logic_constrain'] = {
   // Constrain a number between two limits.
   init: function() {
     this.setHelpUrl(Yatay.Msg.MATH_CONSTRAIN_HELPURL);
-    this.setColour(210);
+    this.setColour(24);
     this.setOutput(true, 'Boolean');
     this.interpolateMsg(Yatay.Msg.MATH_CONSTRAIN_TITLE,
                         ['VALUE', 'Number', Blockly.ALIGN_RIGHT],
@@ -133,7 +133,7 @@ Blockly.Blocks['logic_boolean'] = {
         [[Yatay.Msg.CONTROL_BOOLEAN_TRUE, 'TRUE'],
          [Yatay.Msg.CONTROL_BOOLEAN_FALSE, 'FALSE']];
     this.setHelpUrl(Yatay.Msg.CONTROL_BOOLEAN_HELPURL);
-    this.setColour(210);
+    this.setColour(24);
     this.setOutput(true, 'Boolean');
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldDropdown(BOOLEANS), 'BOOL');

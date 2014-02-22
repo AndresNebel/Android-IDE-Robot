@@ -32,7 +32,7 @@ Blockly.Blocks['math_number'] = {
   // Numeric value.
   init: function() {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
-    this.setColour(230);
+    this.setColour(225);
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldTextInput('0',
         Blockly.FieldTextInput.numberValidator), 'NUM');
@@ -51,7 +51,7 @@ Blockly.Blocks['math_arithmetic'] = {
          ['\u00F7', 'DIVIDE'],
          ['^', 'POWER']];
     this.setHelpUrl(Blockly.Msg.MATH_ARITHMETIC_HELPURL);
-    this.setColour(230);
+    this.setColour(225);
     this.setOutput(true, 'Number');
     this.appendValueInput('A')
         .setCheck('Number');
@@ -87,7 +87,7 @@ Blockly.Blocks['math_single'] = {
          ['e^', 'EXP'],
          ['10^', 'POW10']];
     this.setHelpUrl(Blockly.Msg.MATH_SINGLE_HELPURL);
-    this.setColour(230);
+    this.setColour(225);
     this.setOutput(true, 'Number');
     this.appendValueInput('NUM')
         .setCheck('Number')
@@ -121,7 +121,7 @@ Blockly.Blocks['math_trig'] = {
          ['acos', 'ACOS'],
          ['atan', 'ATAN']];
     this.setHelpUrl(Blockly.Msg.MATH_TRIG_HELPURL);
-    this.setColour(230);
+    this.setColour(225);
     this.setOutput(true, 'Number');
     this.appendValueInput('NUM')
         .setCheck('Number')
@@ -154,7 +154,7 @@ Blockly.Blocks['math_round'] = {
          [Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDUP, 'ROUNDUP'],
          [Yatay.Msg.MATH_ROUND_OPERATOR_ROUNDDOWN, 'ROUNDDOWN']];
     this.setHelpUrl(Blockly.Msg.MATH_ROUND_HELPURL);
-    this.setColour(230);
+    this.setColour(225);
     this.setOutput(true, 'Number');
     this.appendValueInput('NUM')
         .setCheck('Number')
