@@ -160,6 +160,8 @@ Yatay.Tablet.resizeIcons = function() {
 		$( "#btn_bx_ready").children().addClass('fa-2x');
 		$( "#btn_stop").children().removeClass('fa-3x');
 		$( "#btn_stop").children().addClass('fa-2x');
+		$( "#btn_back").children().removeClass('fa-3x');
+		$( "#btn_back").children().addClass('fa-2x');
 		$( "#btn_lang").children().removeClass('fa-3x');
 		$( "#btn_lang").children().addClass('fa-2x');
 		$( "#btn_trash").children().removeClass('fa-3x');

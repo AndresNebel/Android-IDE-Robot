@@ -172,9 +172,15 @@ local function parse_xml(device_type, file, devs)
 					ret[i].functions[j].alias = functions[j].alias
 				end
 				ret[i].functions[j].butia = nil
-				ret[i].functions[j].tooltip = functions[j].tooltip
+				ret[i].functions[j].tooltip = ''
+				if (functions[j].tooltip ~= nil) then
+					ret[i].functions[j].tooltip = functions[j].tooltip
+				end
 				ret[i].functions[j].params = functions[j].params
-				ret[i].functions[j].values = functions[j].values
+				ret[i].functions[j].values = ''
+				if (functions[j].values ~= nil) then
+					ret[i].functions[j].values = functions[j].values
+				end				
 				ret[i].functions[j].ret = functions[j].ret
 				--Is this function available in bobot?
 				if (ret[i].available) then
@@ -194,7 +200,7 @@ M.list_devices_functions = function(device_type)
 
 	local xml_devices = parse_xml(device_type, file, devs)
 
-	if (devs.all == 'yes') then
+	if (devs.from_bobot == 'yes') then
 		local bobot_devices = parse_bobot(device_type, file, devs)
 		for i=1, #xml_devices do
 			for j=1, #bobot_devices do
@@ -239,7 +245,7 @@ local function write_blocks(dev, func, first)
 		end		
 		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
 					'	init: function() { \n' ..
-					'		this.setColour(74); \n'
+					'		this.setColour(120); \n'
 					if (func.butia == nil) then
 						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.alias .. '\'); \n'
 					else 
