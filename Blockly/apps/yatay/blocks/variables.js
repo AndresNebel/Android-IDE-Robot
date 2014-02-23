@@ -28,7 +28,7 @@ Blockly.Blocks['variables_sensor_get'] = {
   // Variable getter.
   init: function() {
     this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
-    this.setColour(200);
+    this.setColour(330);
     this.appendDummyInput()
         .appendTitle(Yatay.Msg.COMPLEX_SENSOR_GET_TITLE)
         .appendTitle(new Blockly.FieldVariable(
@@ -64,7 +64,7 @@ Blockly.Blocks['variables_sensor_set'] = {
   // Variable setter.
   init: function() {
     this.setHelpUrl(Blockly.Msg.VARIABLES_SET_HELPURL);
-    this.setColour(200);
+    this.setColour(330);
     this.appendValueInput('VALUE')
         .appendTitle(Yatay.Msg.COMPLEX_SENSOR_SET_TITLE)
         .appendTitle(new Blockly.FieldVariable(
@@ -91,7 +91,7 @@ Blockly.Blocks['variables_sensor_set'] = {
 Blockly.Blocks['variables_print'] = {
   // Text value.
   init: function() {
-    this.setColour(30);
+    this.setColour(330);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.appendDummyInput()
@@ -108,7 +108,7 @@ Blockly.Blocks['variables_print'] = {
 Blockly.Blocks['variables_print_stat'] = {
   // Text value.
   init: function() {
-    this.setColour(30);
+    this.setColour(330);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.appendDummyInput()
@@ -186,7 +186,7 @@ Blockly.Blocks['variables_text'] = {
   // Text value.
   init: function() {
     this.setHelpUrl(Blockly.Msg.TEXT_TEXT_HELPURL);
-    this.setColour(160);
+    this.setColour(330);
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldImage(Blockly.pathToBlockly +
         'media/quote0.png', 12, 12))

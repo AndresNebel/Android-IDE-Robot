@@ -653,8 +653,8 @@ Yatay.Common.projectSaver = function() {
 		proj_name = Yatay.Common.joinProj;        
 	}
 
-	if (proj_name != '' && proj_name != null) {
-		Yatay.Common.setCookie('project_name', proj_name, 1); 
+	if (proj_name != null && proj_name.trim() != '') {
+		Yatay.Common.setCookie('project_name', proj_name.replace(/ /g, "_"), 1); 
 		$('#projmaneger_modal').modal('hide');
 		if (Yatay.Tablet != undefined) {
 			Yatay.Tablet.takeTour();
@@ -1036,11 +1036,11 @@ Yatay.Common.addStyleToBlocklyToolbox = function() {
 	$(".blocklyTreeRow").css('border-bottom', '1px solid white');	
 	$(".blocklyTreeRow").css('height', '35px');	
 	$(".blocklyToolboxDiv div[role='treeitem']")[5].style.color = "#CF3F6F";
-	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "darkviolet";		
+	$(".blocklyToolboxDiv div[role='treeitem']")[4].style.color = "#2F57CF";		
 	$(".blocklyToolboxDiv div[role='treeitem']")[3].style.color = "tomato";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "green";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[1].style.color = "darkred";	
-	$(".blocklyToolboxDiv div[role='treeitem']")[0].style.color = 'royalblue';
+	$(".blocklyToolboxDiv div[role='treeitem']")[2].style.color = "#349A00";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[1].style.color = "#9501AA";	
+	$(".blocklyToolboxDiv div[role='treeitem']")[0].style.color = '#5CA9CB';
 };
 
 /**

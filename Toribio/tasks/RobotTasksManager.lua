@@ -20,7 +20,7 @@ M.init = function(conf)
 				
 		        previousBehaviour = activeBehaviour
 				sched.signal('Compete!')
-				sched.sleep(0.1)
+				sched.wait()
 
 				--Swapping behaviours
 				if (previousBehaviour ~= activeBehaviour) then
@@ -34,7 +34,7 @@ M.init = function(conf)
 				end
 				if (activeBehaviour) then
 					sched.signal(activeBehaviour.name)  --Cada task tiene un signal unico con su nombre. Despertar la task activa.
-					sched.sleep(0.1)
+					sched.wait()
 				end
 				
 				if done then
@@ -46,16 +46,16 @@ M.init = function(conf)
 --							sched.signal(activeBehaviour.name)  --Cada task tiene un signal unico con su nombre. Despertar la task activa.
 --						end
 					end
-					sched.sleep(0.1)
+					sched.wait()
 				end
 				sched.signal("TestsMayNowRun")
 			else
 				activeBehaviour = nil
 				previousBehaviour = nil
 				sched.signal("TestsMayNowRun")
-				sched.sleep(0.1)
+				sched.wait()
 			end --end if (RBTManagerActivate == true)
-			sched.sleep(0.1)
+			sched.wait()
 		end
 
 	end)
