@@ -27,14 +27,19 @@
  'use strict';
 
 goog.provide('Blockly.Lua.logic');
-
 goog.require('Blockly.Lua');
 
-
 Blockly.Lua["logic_compare"] = function(opt_dropParens) {
-  // Comparison operator.
-  var mode = this.getTitleValue('OP');
-  var operator = Blockly.Lua.logic_compare.OPERATORS[mode];
+  // Comparison operator. 
+  var OPERATORS = {
+    EQ: '==',
+    NEQ: '~=',
+    LT: '<',
+    LTE: '<=',
+    GT: '>',
+    GTE: '>='
+  };
+  var operator = OPERATORS[this.getTitleValue('OP')];
   var argument0 = Blockly.Lua.statementToCode(this, 'A') || '0';
   var argument1 = Blockly.Lua.statementToCode(this, 'B') || '0';
   var code = argument0.trimLeft() + ' ' + operator + ' ' + argument1.trimLeft();
@@ -42,15 +47,6 @@ Blockly.Lua["logic_compare"] = function(opt_dropParens) {
     code = '(' + code + ')';
   }
   return code;
-};
-
-Blockly.Lua["logic_compare"].OPERATORS = {
-  EQ: '==',
-  NEQ: '~=',
-  LT: '<',
-  LTE: '<=',
-  GT: '>',
-  GTE: '>='
 };
 
 Blockly.Lua["logic_operation"] = function(opt_dropParens) {

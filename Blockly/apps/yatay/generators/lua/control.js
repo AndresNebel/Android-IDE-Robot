@@ -27,7 +27,6 @@
 'use strict';
 
 goog.provide('Blockly.Lua.controls');
-
 goog.require('Blockly.Lua');
 
 Blockly.Lua["controls_if"] = function(block) {
@@ -37,19 +36,18 @@ Blockly.Lua["controls_if"] = function(block) {
   var branch = Blockly.Lua.statementToCode(block, 'DO' + n);
   var code = 'if (' + argument.trimLeft() + ') then\n' + branch;
   for (n = 1; n <= block.elseifCount_; n++) {
-    argument = Blockly.Lua.valueToCode(block, 'IF' + n, true) || 'false';
+    argument = Blockly.Lua.statementToCode(block, 'IF' + n, true) || 'false';
     branch = Blockly.Lua.statementToCode(block, 'DO' + n);
-    code += 'elseif (' + argument + ') then\n' + branch;
+    code += 'elseif (' + argument.trimLeft() + ') then\n' + branch;
   }
   if (block.elseCount_) {
     branch = Blockly.Lua.statementToCode(block, 'ELSE');
     code += 'else\n' + branch;
   }
   code += '\n' + 'end';
+  
   var debugTrace = "";
-
-  if (Yatay.DebugMode)
-  {
+  if (Yatay.DebugMode) {
 	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
 
