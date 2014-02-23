@@ -42,11 +42,11 @@ local function killTasks(userId)
 	coroutine.resume(c)
 end
 
-local function saveTask(project, block, code, newborn)
+local function saveTask(project, block, code, newborn, blockCount)
 	local decoded_task = url_decode(url_decode(code))  
 	
 	local pjadmin = require 'tasks/ProjectAdmin'    
-	return pjadmin.save_task(project, block, decoded_task, newborn)
+	return pjadmin.save_task(project, block, decoded_task, newborn, tonumber(blockCount))
 end
 
 local function pop_blocking(name, ev_name)
@@ -110,7 +110,7 @@ local function saveTempLocal(xml, filename)
 	return "";
 end
 
-local function select_action(id, project, block, code, newborn, strUserId)
+local function select_action(id, project, block, code, newborn, strUserId, blockCount)
 	local userId = 0
 	if (strUserId ~= nil and strUserId ~= "0") then
 		userId = tonumber(strUserId)
@@ -129,7 +129,7 @@ local function select_action(id, project, block, code, newborn, strUserId)
 	elseif (id == 'pollDebug') then
 		return pop_blocking_user(yatayDebugResults, 'NewDebugResult', userId)		 
 	elseif (id == 'save') then
-		return saveTask(project, block, code, newborn)
+		return saveTask(project, block, code, newborn, blockCount)
 	elseif (id == 'test') then
 		testRobot(code, userId)
 	elseif (id == 'loadBxs') then
@@ -174,7 +174,7 @@ M.init = function(conf)
 				yatayLang = http_params['lang']
 				refresh()
 			end
-			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['newborn'], http_params['userId'])
+			local content = select_action(http_params['id'], http_params['project'], http_params['block'], http_params['code'], http_params['newborn'], http_params['userId'], http_params['blockCount'])
 			return 200, {['content-type']='text/html', ['content-length']=#content}, content
 		end
 	)
