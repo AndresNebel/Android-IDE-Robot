@@ -245,7 +245,7 @@ local function write_blocks(dev, func, first)
 		end		
 		code = code .. 'Blockly.Blocks[\'' .. func.alias .. '\'] = { \n' ..
 					'	init: function() { \n' ..
-					'		this.setColour(74); \n'
+					'		this.setColour(120); \n'
 					if (func.butia == nil) then
 						code = code .. '		this.appendDummyInput().appendTitle(\'' .. func.alias .. '\'); \n'
 					else 

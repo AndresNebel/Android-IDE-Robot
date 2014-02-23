@@ -475,7 +475,7 @@ function pollResults() {
 			return;
 		}
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_stop').css("display") != "none")	{
+		if ($('#btn_back').css("display") != "none")	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
@@ -531,7 +531,7 @@ function debugPoll() {
 			return;
 		} 
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_stop').css("display") != "none")	{
+		if ($('#btn_back').css("display") != "none")	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
@@ -578,8 +578,8 @@ Yatay.Common.refreshBlocksPoll = function() {
 			data: { id:'refreshBlocks' },
 			success: function(content) {
 				Yatay.Common.refresh = Yatay.Common.refresh || (content == 'yes');
-				//If isn't to be run, then refresh!
-				if (Yatay.Common.refresh && $('#btn_stop').css('display') == 'none'){
+				//If isn't running, then refresh!
+				if (Yatay.Common.refresh && $('#btn_back').css('display') == 'none'){
 					Yatay.Common.refresh = false;
 					location.reload(true);					
 				}
@@ -693,18 +693,19 @@ Yatay.Common.robotest = function() {
 		}
 		Yatay.Mobile.slideToolbox(false);
 	}
-	$('#btn_stop').toggle();
+	$('#btn_back').toggle();
 };
 
 /**
  * Handle run click
  */
 Yatay.Common.runTasks = function() {
-	if ($('#btn_stop').css('display') == 'none') {
+	if ($('#btn_back').css('display') == 'none') {
 		if (Yatay.Common.editedBxs.active == -1) {
 			$('#btn_debug').toggle('slow');	   
 		}	
 		$('#btn_stop').toggle('slow');
+		$('#btn_back').toggle('slow');
 		
 		if (Yatay.Tablet != undefined) {
 			$('#btn_robotest').toggle('slow');	
@@ -725,7 +726,7 @@ Yatay.Common.runTasks = function() {
 				"local robot = require 'tasks/RobotInterface'\n" +
 				"local sched = require 'sched'\n" +
 				"local run = function ()\n" +
-					 Blockly.Lua.workspaceToCode() +
+					Blockly.Lua.workspaceToCode() +
 				"end\n"+
 				"M.init = function(conf)\n" +
 				"         M.task = sched.sigrun({'TestsMayNowRun'}, run)\n" +
@@ -899,9 +900,9 @@ Yatay.Common.debug = function() {
 };
 
 /**
- * Handle stop click
+ * Handle go back click
  */
-Yatay.Common.stop = function() {	
+Yatay.Common.goBack = function() {	
 	Blockly.mainWorkspace.maxBlocks = 'Infinity';
 	//Has behaviours code been edited?
 	if (Yatay.Common.editedBxs.active != -1) {
@@ -947,7 +948,10 @@ Yatay.Common.stop = function() {
 	if(!$('#btn_trash').is(":visible")) {			
 		$('#btn_trash').toggle('slow');
 	}
-	$('#btn_stop').toggle('slow');
+	if($('#btn_stop').is(":visible")) {
+		$('#btn_stop').toggle('slow');
+	}
+	$('#btn_back').toggle('slow');
 	
 	Yatay.DebugMode = false;
 	for (var j=0; j < Blockly.mainWorkspace.getAllBlocks().length; j++) {
