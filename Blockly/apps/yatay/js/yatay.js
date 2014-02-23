@@ -88,6 +88,7 @@ Yatay.init = function() {
 		  Yatay.currentWorkspaceXml = xmlText;
 		  Yatay.AutoSave();
 		}
+		Yatay.currentWorkspaceXml = xmlText;
 	}
 
 	//Override the delete trash to kill tests
@@ -132,6 +133,7 @@ if (window.location.pathname.match(/readonly.html$/)) {
 Yatay.discard = function(param) {
 	if (param == 'All') {
 		localStorage.yatay_bxs = "";
+		localStorage.yatay_bxs_autosaved = "";
 		Blockly.mainWorkspace.clear();
 		window.location.hash = '';
 		Yatay.Common.behaviours.splice(0,Yatay.Common.behaviours.length);
@@ -261,18 +263,34 @@ Yatay.CreateCustomSensor = function(sensor, code) {
  * Autosave Listener
  */
 Yatay.AutoSave = function() {
-	if (Blockly.mainWorkspace != null && Blockly.mainWorkspace.getAllBlocks().length >1) {
+	if (Blockly.mainWorkspace != null && Blockly.mainWorkspace.getAllBlocks().length >=1) {
 		Yatay.variables = new Array();
 		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 		var code = Blockly.Xml.domToText(xml);
 		var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
+		var isrepeated = true; var index = 0; var originalname = name;
+		while (isrepeated)
+		{
+			var isrepeated = false;
+			for (var i=0; i< Yatay.Common.behaviours.length; i++) {
+				if (Yatay.Common.behaviours[i][2] == name) {
+					isrepeated = true; 
+					index++;
+					name = originalname + index.toString();
+					break;
+				}
+			}
+			if (name != originalname)
+				Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].setValue(name);
+		}
 		if (Yatay.countBlocks != Blockly.mainWorkspace.getAllBlocks().length) {
 			Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
-			Yatay.Common.saveTask(name, code);
+			name = Yatay.Common.saveTask(name, code);
 		}
 		//Saving in browser localstorage to avoid losing behaviours and blocks on reload 
 		Yatay.Common.saveInBrowser(name, code);
 	}
+	Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
 };
 
 /**

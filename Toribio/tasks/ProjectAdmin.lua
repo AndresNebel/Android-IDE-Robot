@@ -4,7 +4,7 @@ local sched = require 'sched'
 local json = require 'json'
 local persistence = require 'tasks/Persistence'
 
-M.save_task = function(project, block, code, newborn)
+M.save_task = function(project, block, code, newborn, blockCount)
 	local newname = block
 	if (project ~= nil and block ~= nil and code ~= nil) then
 		if (newborn == 'true') then	
@@ -13,9 +13,13 @@ M.save_task = function(project, block, code, newborn)
 				newname = block .. tostring(i)
 				i = i + 1
 			end
-			persistence.insert(project, newname, code)
+			if (blockCount > 1) then
+				persistence.insert(project, newname, code)
+			end
 		else
-			persistence.update(project, newname, code)
+			if (blockCount > 1) then
+				persistence.update(project, newname, code)
+			end
 		end
 	end
 	return newname
