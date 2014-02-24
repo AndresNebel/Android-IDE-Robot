@@ -77,7 +77,6 @@ Yatay.Common.editor = undefined;
  * Initialize Yatay on load
  */
 $(window).load(function() {
-	Yatay.Common.addStyleToBlocklyToolbox();
 	//Mystical fix for the blockly-bootstrap scrollbar conflict
 	$("foreignObject img").css("max-width","none");
 
@@ -91,14 +90,12 @@ $(window).load(function() {
 				}
 				var alreadyExists = false;
 				for(var i=0; i< Yatay.Common.behaviours.length; i++) {
-					if (Yatay.Common.behaviours[i][2] == behaviours[j][0])
-					{
+					if (Yatay.Common.behaviours[i][2] == behaviours[j][0]) {
 						alreadyExists = true;
 						break;
 					}
 				}			
-				if (!alreadyExists)
-				{
+				if (!alreadyExists)	{
 					var code = Blockly.Xml.textToDom(behaviours[j][1]);
 					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
 				}
@@ -106,10 +103,11 @@ $(window).load(function() {
 
 		}
 		Yatay.Common.bxReady();
-		
+		//Add style to Blockly toolbox
+		Yatay.Common.addStyleToBlocklyToolbox();
 		//Show Project Manager Modal (when the page is loaded)
 		Yatay.Common.projectChecker();
-	}, 1000);
+	}, 100);
 });
 
 /**

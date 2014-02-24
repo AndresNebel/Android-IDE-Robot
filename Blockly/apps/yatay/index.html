@@ -5,13 +5,7 @@
 	<meta name="google" value="notranslate">
 	<meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0">
 	<title>Yatay</title>
-	<link rel="stylesheet" type="text/css" href="../common.css"/>
-	<link rel="stylesheet" type="text/css" href="css/style.css"/>
-	<script type="text/javascript" src="../_soy/soyutils.js"></script>
-	<script type="text/javascript" src="../common.js"></script>
-	<script type="text/javascript" src="js/yatay.js"></script>
-	
-  	<!-- Third-party libraries -->
+  	<!-- Stylesheets for third-party libraries -->
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" type="text/css">
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css" type="text/css">
 	<link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" type="text/css">
@@ -19,7 +13,7 @@
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-multiselect.css" type="text/css">
 	<link rel="stylesheet" href="lib/codemirror/codemirror.css" type="text/css">
 	<link rel="stylesheet" href="lib/codemirror/neat.css" type="text/css">
-	
+	<!-- Third-party libraries -->
 	<script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="lib/jquery-ui-1.10.4.custom.min.js"></script>	
 	<script type="text/javascript" src="lib/yepnope.1.5.4-min.js"></script>
@@ -30,14 +24,21 @@
 	<script type="text/javascript" src="lib/codemirror/codemirror.js"></script>
 	<script type="text/javascript" src="lib/codemirror/lua.js"></script>
 	<script type="text/javascript" src="lib/file-saver.js"></script>
-
+	<!-- Yatay Stylesheets -->
+	<link rel="stylesheet" type="text/css" href="../common.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<!-- Yatay implementation libraries -->
+	<script type="text/javascript" src="../_soy/soyutils.js"></script>
+	<script type="text/javascript" src="../common.js"></script>	
+	<script type="text/javascript" src="js/yatay.js"></script>
 	<script type="text/javascript" src="js/common.js"></script>
 	<!-- Loader -->
 	<script type="text/javascript">
 		Modernizr.load({
 			test: Modernizr.mq('only all and (max-device-width:480px)'),	
-			yep: ["js/common.js", "js/mobile.js", "css/mobile.css"],
-			nope: ["js/common.js", "js/tablet.js", "css/tablet.css"]
+			yep: ["js/mobile.js", "css/mobile.css"],
+			nope: ["js/tablet.js", "css/tablet.css"]
 		});
 	</script>
 </head>
@@ -46,7 +47,7 @@
 	<div id="main_menu"></div> 
 	<!-- Dialogs (loaded from ./bodies) -->
 	<div id="dialogs"></div>
-	<!-- Start Blockly -->
+	<!-- Blockly starter -->
 	<script type="text/javascript">
 		$.ajax({
 			url: "/index.html",
