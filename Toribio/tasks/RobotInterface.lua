@@ -312,7 +312,7 @@ local function write_code(dev, func, first)
 				params = tostring(func.values)
 			end
 		end
-		code = code .. '	return debugTrace + \"robot.execute(\'' .. dev.name .. '\',\'' .. func.name .. '\',{' .. params .. '}, M.userId)\"; \n' .. '}; \n\n'
+		code = code .. '	return debugTrace + \"robot.execute(\'' .. dev.name .. '\',\'' .. func.name .. '\',{' .. params .. '}, M.userId)\\n \"; \n' .. '}; \n\n'
 		file:write(code)
 		file:close()
 	end

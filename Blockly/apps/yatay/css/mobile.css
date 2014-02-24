@@ -1,44 +1,22 @@
-html {
-	width: 100% !important;
-	height: 100 !important;
-	clip: auto;
-	position: fixed;
-	overflow: hidden;
-}
-
-body {
-	width: 100% !important;
-	height: 100 !important;
-	overflow: hidden !important;
-	background-color:#8FA9CC !important;
-}
-
 .content-en {
-	top: 11% !important;
-	left: -80px !important;
-	width: calc(100% + 80px) !important;
-	height: 89% !important;
+	left: -72px !important;
+	width: calc(100% + 72px) !important;
 }
 
 .content-es {
-	top: 11% !important;
-	left: -121px !important;
-	width: calc(100% + 121px) !important;
+	left: -93px !important;
+	width: calc(100% + 93px) !important;
 	height: 89% !important;
 }
 
 .content-test {
-	top: 11% !important;
 	left: -50px !important;
 	width: calc(100% + 121px) !important;
-	height: 89% !important;
 }
 
 .openToolbox {
-	top: 11% !important;
 	left: 0% !important;
 	width: 100% !important;
-	height: 89% !important;
 }
 
 .CodeMirror {
@@ -65,14 +43,9 @@ body {
 	font-size: 6pt !important;
 }
 
-.full-area {
-	width: 96%;
-	height: 100%;
-}
-
 .navbar .navbar-inner { 
-	min-height: 40px !important;
-	height: 40px !important; 	
+	min-height: 32px !important;
+	height: 32px !important; 	
     text-align:center;
 }
 
@@ -82,47 +55,24 @@ body {
 }
 
 .navbar-left {
-    margin: 0 20% 0 0 !important;
+	position: relative !important;
+	left: 5% !important;
+    /* margin: 0 20% 0 0 !important; */
     float:left !important;
 }
 
 .navbar-center {
-    margin: 0 36% 0 0 !important;
+	position: relative !important;
+	left: 40% !important;
+    /* margin: 0 36% 0 0 !important; */
     float:none !important;
 }
 
 .navbar-right {
-    margin: 0 12% 0 0 !important;
+	position: relative !important;
+	left: -5% !important;
+    /* margin: 0 12% 0 0 !important; */
     float:right !important;
-}
-
-.image-container {
-	width: 145px;
-	height: 38px;
-	overflow: hidden;
-	position: relative;
-	cursor: pointer;
-}
-
-.image-inner-container {
-    position: absolute;
-}
-
-.overlay {
-	position: absolute;
-	text-align: left;
-	color: rgb(0,0,0) !important;
-	width: 100%;
-	margin: 12px 20px;
-}
-
-#results_popup {
-	position: fixed;
-	z-index: 1;
-	bottom: 4%;
-	right: 18%;
-	width: 50%;
-	text-align: center;
 }
 
 #results_popup p {
@@ -133,17 +83,10 @@ body {
 	padding: 2px 15px !important;
 }
 
-#delete_modal h4 {
-	text-align: center !important;
-}
-
-#delete_modal .modal-body {
-	text-align: center !important;
-}
-
 #blocklyTable {
-	top: 40px !important;
+	position: fixed !important;
+	top: 38px !important;
 	left:0% !important;
 	width:100% !important;
-	height:90% !important;
+	height: calc(100% - 38px) !important;
 }
