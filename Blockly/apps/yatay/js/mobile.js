@@ -32,7 +32,7 @@ $(document).ready(function(){
 	}
 	
 	Yatay.Mobile.initToolbox();
-	//Yatay.Mobile.fixConflicts();	
+	Yatay.Mobile.fixConflicts();	
 	//setTimeout(function() {Blockly.mainWorkspace.trashcan.dispose();}, 300);
 });
 
@@ -128,4 +128,39 @@ Yatay.Mobile.initToolbox = function() {
 /**
  * Function to solve conflicts betweet libraries and override functions.
  */
-//Yatay.Mobile.fixConflicts = function() { };
+Yatay.Mobile.fixConflicts = function() { 
+	//Fix: Blockly vs Bootstrap touch events conflict on Safari.
+	Blockly.bindEvent_ = function(a,b,c,d){ 
+		Blockly.bindEvent_.TOUCH_MAP = {
+			mousedown:"touchstart",
+			mousemove:"touchmove",
+			mouseup:"touchend"
+		};	
+		var e=[],f; 
+		if(!a.addEventListener)
+			throw"Element is not a DOM node with addEventListener.";
+		
+		f = function(a) { 
+			d.apply(c,arguments)
+		};
+		
+		a.addEventListener(b,f,!1);
+		e.push([a,b,f]);
+		b in Blockly.bindEvent_.TOUCH_MAP && ( 
+			f=function(a) { 
+				if(1==a.changedTouches.length) { 
+					var b=a.changedTouches[0];
+					a.clientX=b.clientX;
+					a.clientY=b.clientY
+				}
+				d.apply(c,arguments);
+				//This line solves the conflict.
+				if (a.target.ownerSVGElement != undefined) {
+					a.preventDefault();
+				}
+			}
+			, a.addEventListener(Blockly.bindEvent_.TOUCH_MAP[b],f,!1)
+			, e.push([a,Blockly.bindEvent_.TOUCH_MAP[b],f]));
+		return e
+	};
+};
