@@ -116,7 +116,14 @@ Yatay.init = function() {
 
 	// Lazy-load the syntax-highlighting.
 	window.setTimeout(BlocklyApps.importPrettify, 1);
-
+	
+	Blockly.Block.prototype.duplicateYatay_ = Blockly.Block.prototype.duplicate_;
+	Blockly.Block.prototype.duplicate_ = function()
+	{
+		if ((this.type == "controls_behaviour" || this.type == "controls_conditionalBehaviour"  || this.type == "controls_behaviourTrigger") && Blockly.mainWorkspace.getTopBlocks().length > 0)
+			return;
+		this.duplicateYatay_();
+	}
 	// BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
 	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
@@ -188,8 +195,9 @@ Yatay.workspaceHasBehaviour = function(){
 /**
  * enterTestMode
  */
-Yatay.enterTestMode = function() {
-	Blockly.mainWorkspace.clear();	
+Yatay.enterTestMode = function(needsClean) {
+	if (needsClean)
+		Blockly.mainWorkspace.clear();	
 	//Remove all items from toolbox except "Butia"
 	Blockly.Toolbox.tree_.children_[0].dispose();
 	Blockly.Toolbox.tree_.children_[1].dispose();
@@ -198,6 +206,8 @@ Yatay.enterTestMode = function() {
 	Blockly.Toolbox.tree_.children_[5].dispose();
 	//Only one block allowed
 	Blockly.mainWorkspace.maxBlocks = 1;
+	
+
 };
 
 /**

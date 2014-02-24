@@ -1,30 +1,40 @@
 /* Automatically Generated Code */
 'use strict';
 
-Blockly.Blocks['medir distancia (3)'] = { 
+Blockly.Blocks['medir distancia (1)'] = { 
 	init: function() { 
-		this.setColour(74); 
-		this.appendDummyInput().appendTitle('medir distancia (3)'); 
+		this.setColour(120); 
+		this.appendDummyInput().appendTitle('medir distancia (1)'); 
 		this.setInputsInline(true); 
 		this.setOutput(true, 'Number'); 
 		this.setTooltip(''); 
 	} 
 }; 
 
-Blockly.Blocks['sensor de grises (1)'] = { 
+Blockly.Blocks['sensor de grises (2)'] = { 
 	init: function() { 
-		this.setColour(74); 
-		this.appendDummyInput().appendTitle('sensor de grises (1)'); 
+		this.setColour(120); 
+		this.appendDummyInput().appendTitle('sensor de grises (2)'); 
 		this.setInputsInline(true); 
 		this.setOutput(true, 'Number'); 
 		this.setTooltip(''); 
 	} 
 }; 
 
-Blockly.Blocks['boton (2)'] = { 
+Blockly.Blocks['boton (1)'] = { 
 	init: function() { 
-		this.setColour(74); 
-		this.appendDummyInput().appendTitle('boton (2)'); 
+		this.setColour(120); 
+		this.appendDummyInput().appendTitle('boton (1)'); 
+		this.setInputsInline(true); 
+		this.setOutput(true, 'Number'); 
+		this.setTooltip(''); 
+	} 
+}; 
+
+Blockly.Blocks['medir distancia (4)'] = { 
+	init: function() { 
+		this.setColour(120); 
+		this.appendDummyInput().appendTitle('medir distancia (4)'); 
 		this.setInputsInline(true); 
 		this.setOutput(true, 'Number'); 
 		this.setTooltip(''); 
@@ -33,7 +43,7 @@ Blockly.Blocks['boton (2)'] = {
 
 Blockly.Blocks['mover adelante'] = { 
 	init: function() { 
-		this.setColour(74); 
+		this.setColour(120); 
 		this.appendDummyInput().appendTitle('mover adelante'); 
 		this.setInputsInline(true); 
 		this.setPreviousStatement(true); 
@@ -44,19 +54,8 @@ Blockly.Blocks['mover adelante'] = {
 
 Blockly.Blocks['mover atras'] = { 
 	init: function() { 
-		this.setColour(74); 
+		this.setColour(120); 
 		this.appendDummyInput().appendTitle('mover atras'); 
-		this.setInputsInline(true); 
-		this.setPreviousStatement(true); 
-		this.setNextStatement(true); 
-		this.setTooltip(''); 
-	} 
-}; 
-
-Blockly.Blocks['girar izquierda'] = { 
-	init: function() { 
-		this.setColour(74); 
-		this.appendDummyInput().appendTitle('girar izquierda'); 
 		this.setInputsInline(true); 
 		this.setPreviousStatement(true); 
 		this.setNextStatement(true); 
@@ -66,8 +65,19 @@ Blockly.Blocks['girar izquierda'] = {
 
 Blockly.Blocks['girar derecha'] = { 
 	init: function() { 
-		this.setColour(74); 
+		this.setColour(120); 
 		this.appendDummyInput().appendTitle('girar derecha'); 
+		this.setInputsInline(true); 
+		this.setPreviousStatement(true); 
+		this.setNextStatement(true); 
+		this.setTooltip(''); 
+	} 
+}; 
+
+Blockly.Blocks['girar izquierda'] = { 
+	init: function() { 
+		this.setColour(120); 
+		this.appendDummyInput().appendTitle('girar izquierda'); 
 		this.setInputsInline(true); 
 		this.setPreviousStatement(true); 
 		this.setNextStatement(true); 
@@ -77,7 +87,7 @@ Blockly.Blocks['girar derecha'] = {
 
 Blockly.Blocks['girar'] = { 
 	init: function() { 
-		this.setColour(74); 
+		this.setColour(120); 
 		this.appendDummyInput().appendTitle('girar'); 
 		this.setInputsInline(true); 
 		this.appendValueInput('1'); 

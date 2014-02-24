@@ -692,15 +692,61 @@ Yatay.Common.projectSaver = function() {
  * Handle robotest click
  */
 Yatay.Common.robotest = function() {	
-	try {	
-		Yatay.Common.bxReady();
-	} catch(e) {}
+	var needsClean = true;
+	var isButiaBlockSelected = false;
+	if (Blockly.selected != null)
+	{
+		for (var j=0; j<Blockly.Toolbox.tree_.children_[2].blocks.length; j++)
+		{
+			if (Blockly.Toolbox.tree_.children_[2].blocks[j].attributes["type"].value == Blockly.selected.type)
+			{
+				isButiaBlockSelected = true;
+				break;
+			}
+		}
+	}
+	if (isButiaBlockSelected)
+	{
+
+		// if there's something selected and is in the butia pallete, then test it
+		needsClean = false;
+		var width = Blockly.svgSize().width;
+  		var xml = goog.dom.createDom('xml');
+	    var element = Blockly.Xml.blockToDom_(Blockly.selected);
+	    var xy = Blockly.selected.getRelativeToSurfaceXY();
+	    element.setAttribute('x', Blockly.RTL ? width - xy.x : xy.x);
+	    element.setAttribute('y', xy.y);
+	    xml.appendChild(element);
+
+		try { Yatay.Common.bxReady();} catch(e) {}
+
+		Blockly.mainWorkspace.clear();	
+		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+
+		setTimeout(function() {
+				Yatay.countBlocks = Blockly.mainWorkspace.getAllBlocks().length;
+				var topM = Math.round(Blockly.mainWorkspace.getMetrics().viewTop);
+				var leftM = Math.round(Blockly.mainWorkspace.getMetrics().viewLeft);
+				Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(true);
+				var blockPos = Blockly.mainWorkspace.getTopBlocks()[0].getRelativeToSurfaceXY();
+				Blockly.mainWorkspace.getTopBlocks()[0].moveBy(leftM - blockPos.x +15, topM - blockPos.y +15);
+				Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
+				Blockly.mainWorkspace.getTopBlocks()[0].select();
+			}, 100);
+	}
+	else
+	{
+		try {	
+			Yatay.Common.bxReady();
+		} catch(e) {}
+
+	}
 
 	if (Yatay.Tablet != undefined) {
 		$("#behaviours_popup").hide();
 	}
 
-	Yatay.enterTestMode();
+	Yatay.enterTestMode(needsClean);
 	Yatay.Common.testMode = true;
 
 	if (Yatay.Tablet != undefined) {
@@ -718,6 +764,8 @@ Yatay.Common.robotest = function() {
 		Yatay.Mobile.slideToolbox(false);
 	}
 	$('#btn_back').toggle();
+	if (isButiaBlockSelected)
+		setTimeout(function() {$("#btn_run").click();} , 100);
 };
 
 /**
