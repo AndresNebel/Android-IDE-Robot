@@ -145,19 +145,6 @@ Yatay.Common.loadDialogs = function() {
 	$('#edition_error_msg').html(Yatay.Msg.DIALOG_EDITION_ERROR_MSG);
 };
 
-
-
-/**
- * Close edition error modal
- */ 
-Yatay.Common.closeEditionError = function() {
-	$('#edition_error_modal').modal('hide');
-	$('#edition_error_detail').hide(); 		
-	$('#btn_error_detail').show();
-	Yatay.Common.stop();
-}
-
-
 /**
  * Bootstrap-multiselect list builder
  */ 
@@ -478,12 +465,22 @@ Yatay.Common.readFile = function(evt) {
 /**
  * Show file chooser modal
  */
-Yatay.Common.openFileChooser = function(){
+Yatay.Common.openFileChooser = function() {
 	$('#loader_modal').modal('show');
 	$('#btn_remote_loader').show();
 	$("#loadMainWindow").show();
 	$('#remote_proj').html('');
 	document.getElementById('file_input').addEventListener('change', Yatay.Common.readFile, false);
+};
+
+/**
+ * Close edition error modal
+ */
+Yatay.Common.closeEditionError = function() {
+	$('#edition_error_detail').hide();
+	$('#btn_error_detail').show();
+	$('#edition_error_modal').modal('hide');
+	Yatay.Common.goBack();
 };
 
 /**
@@ -504,16 +501,12 @@ function pollResults() {
 				data: {id:'poll', name:'', code:'', userId: idUser},
 				success: function(html) {
 					if (html.length > 0) {
-						if (html.indexOf('ERROR:') != -1)
-						{
-							if (Yatay.Common.editedBxs.active != -1)
-							{
+						if (html.indexOf('ERROR:') != -1) {
+							if (Yatay.Common.editedBxs.active != -1) {
 								$('#edition_error_modal').modal({ backdrop:'static', keyboard:false });
 								$('#edition_error_detail').html(html.replace("#;#","").replace("ERROR:",""));
 							}
-						}
-						else
-						{
+						} else {
 							var sensorHtml = html.split('#;#')[0];
 							var console = html.split('#;#')[1];
 							if (!Yatay.Common.testMode) {
@@ -566,8 +559,6 @@ function debugPoll() {
 						for (var i = 0; i < Yatay.Common.behaviours.length; i++) {
 							if (Yatay.Common.behaviours[i][2] == behaviourName) {
 								$('#'+Yatay.Common.behaviours[i][0]).click();
-								//parseInt(html.split(':')[2]) es el id original del bloque de comportamiento
-								
 								break;
 							}	
 						}
