@@ -268,6 +268,7 @@ Yatay.Common.killTasks = function() {
 		location.reload(); 
 		return;
 	}
+	Yatay.DebugMode = false;
 	$.ajax({
 		url: "/index.html",
 		type: "POST",
@@ -549,7 +550,7 @@ function debugPoll() {
 			return;
 		} 
 		//If it's running (boton stop is showing) then poll
-		if ($('#btn_back').css("display") != "none")	{
+		if ($('#btn_back').css("display") != "none" && Yatay.DebugMode)	{
 			$.ajax({
 				url: "/index.html",
 				type: "POST",
@@ -886,7 +887,7 @@ Yatay.Common.edit = function() {
 		}	
 		Yatay.Common.editor.setValue(Yatay.Common.editedBxs[0]);
 
-		$('#code_modal').modal({backdrop:'static'});
+		$('#code_modal').modal({backdrop:'static', keyboard:false });
 
 		$('#code_modal').on('shown.bs.modal', function() {
 			Yatay.Common.editor.refresh();

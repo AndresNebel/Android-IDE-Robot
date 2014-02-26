@@ -34,6 +34,8 @@ Yatay.complex_sensors = new Array();
  * @type {string}
  */
 Yatay.currentWorkspaceXml = "";
+Yatay.variablesList = [];
+Yatay.sensorsList = [];
 
 /**
  * Initialize Blockly.  Called on page load.

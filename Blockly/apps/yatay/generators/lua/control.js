@@ -90,6 +90,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   }
 
   var code = "" +
+  Yatay.Msg.CODE_INITIALIZEVARS +
   "local M = {}\n" +
   'require "math"\n'+
   "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
@@ -99,25 +100,30 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   "M.blockId = " + block.id + "\n" +
   "M.name = '" + name + "'\n" +
   "M.priority = " + priority + "\n" +
+  "\n" +
+  Yatay.Msg.CODE_COMPETE +
   "local competeForActive = function ()\n" +
   "  M.done = false\n"+
   "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority or activeBehaviour.done) then\n" +
   "     activeBehaviour = M\n " + 
   "  end\n" +
   "end\n"+
-
+  Yatay.Msg.CODE_RUN +
   "local run = function ()\n" +
   "   M.done = false\n"+
    	  debugTrace +
 	  behaviourCode +
+  Yatay.Msg.CODE_DONE +
   "   M.done = true\n"+
   "   activeBehaviour = nil\n"+
   "end\n"+
+  Yatay.Msg.CODE_INIT +
   "M.init = function(conf)\n" +
   "   M.done = false\n" + 
   "	  M.task = sched.sigrun({M.name}, run)\n" +
   "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
+  Yatay.Msg.CODE_RELEASE +
   "M.ReleaseControl = function()\n" +
   //"  robot.execute('bb-motors','setvel2mtr',{0,0,0,0}, M.userId)\n" + 
   "end\n" +
@@ -141,6 +147,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   }
 
   var code = "" +
+  Yatay.Msg.CODE_INITIALIZEVARS +
   "local M = {}\n" +
   'require "math"\n'+
   "local behaviours = require 'catalog'.get_catalog('behaviours')\n" +
@@ -150,27 +157,32 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "M.blockId = " + block.id + "\n" +
   "M.name = '" + name + "'\n" +
   "M.priority = " + priority + "\n" +
+"\n" +
+  Yatay.Msg.CODE_COMPETE +
   "local competeForActive = function ()\n" +
   "  M.done = false\n"+
-  "  if ("+ behaviourCondition +") then\n" +
+  "  if ("+ behaviourCondition.trimLeft() +") then\n" +
 	  "  if (activeBehaviour == nil or M.priority > activeBehaviour.priority or activeBehaviour.done) then\n" +
 	  "     activeBehaviour = M\n " + 
 	  "  end\n" +
   "  end\n" +
   "end\n"+
-
+  Yatay.Msg.CODE_RUN +
   "local run = function ()\n" +
-  "   M.done = false\n"+
+  "  M.done = false\n"+
    	  debugTrace +
 	  behaviourCode +
-  "   M.done = true\n"+
-  "   activeBehaviour = nil\n"+
+  Yatay.Msg.CODE_DONE +
+  "  M.done = true\n"+
+  "  activeBehaviour = nil\n"+
   "end\n"+
+  Yatay.Msg.CODE_INIT +
   "M.init = function(conf)\n" +
   "   M.done = false\n" + 
-  "	  M.task = sched.sigrun({M.name}, run)\n" +
-  "	  M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
+  "   M.task = sched.sigrun({M.name}, run)\n" +
+  "   M.compete_task = sched.sigrun({'Compete!'}, competeForActive)\n" +
   "end\n" +
+  Yatay.Msg.CODE_RELEASE +
   "M.ReleaseControl = function()\n" +
   //"  robot.execute('bb-motors','setvel2mtr',{0,0,0,0}, M.userId)\n" + 
   "end\n" +
@@ -193,7 +205,7 @@ Blockly.Lua["controls_whileUntil"] = function(block) {
   {
 	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
-  return debugTrace + 'while (' + argument0 + ') do\n' + branch0 + debugTrace + 'end\n';
+  return debugTrace + 'while (' + argument0.trimLeft() + ') do\n' +Yatay.Msg.CODE_WHILE+ 'sched.sleep(0.1)\n' + branch0 + debugTrace + 'end\n';
 };
 
 Blockly.Lua["controls_repeat"] = function(block) {
