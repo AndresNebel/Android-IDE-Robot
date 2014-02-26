@@ -16,7 +16,8 @@ var Yatay = {};
 Yatay.variables = new Array();
 Yatay.complex_sensors = new Array();
 Yatay.currentWorkspaceXml = "";
-
+Yatay.variablesList = [];
+Yatay.sensorsList = [];
 
 
 
