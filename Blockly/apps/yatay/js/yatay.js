@@ -3,22 +3,37 @@
  * @author 
  */
 
-// Supported languages.
+/**
+ * Supported languages
+ */
 BlocklyApps.LANGUAGES = ['es','en'];
 BlocklyApps.LANG = BlocklyApps.getLang();
-
 document.write('<script type="text/javascript" src="generated/' + BlocklyApps.LANG + '.js"></script>\n');
 
 /**
- * Create a namespace for the application.
+ * Create namespace for the application
  */
-var Yatay = {};
+if (!Yatay){ 
+	Yatay = {};
+}; 
+
+/**
+ * variables 
+ * @type {Array}
+ */
 Yatay.variables = new Array();
+
+/**
+ * complex_sensors
+ * @type {Array}
+ */
 Yatay.complex_sensors = new Array();
+
+/**
+ * currentWorkspaceXml
+ * @type {string}
+ */
 Yatay.currentWorkspaceXml = "";
-
-
-
 
 /**
  * Initialize Blockly.  Called on page load.

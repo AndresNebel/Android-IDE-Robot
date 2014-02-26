@@ -3,6 +3,9 @@
  * @author 
  */
 
+/**
+ * Create namespace for mobile applications
+ */
  if (!Yatay.Mobile){ 
 	Yatay.Mobile = {};
 } 

@@ -3,6 +3,9 @@
  * @author 
  */
 
+/**
+ * Create namespace for tablet and mobile applications
+ */
 if (!Yatay.Common){ 
 	Yatay.Common = {};
 }; 

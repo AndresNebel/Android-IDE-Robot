@@ -3,11 +3,18 @@
  * @author 
  */
 
+/**
+ * Create namespace for tablet applications
+ */
 if (!Yatay.Tablet){ 
 	Yatay.Tablet = {};
 }
 
-Yatay.Tablet.hide = 0;
+/**
+ * State of the flyout
+ * @type {boolean}
+ */
+Yatay.Tablet.onTime = true;
 
 /**
  * Initialize Yatay on ready
@@ -113,17 +120,23 @@ Yatay.Tablet.fixConflicts = function() {
 	};
 	
 	//Fix: Long taps to open the toolbox on Android Browser.
-	Blockly.Toolbox.TreeControl.prototype.setSelectedItem = function(node) {
-	  if (this.selectedItem_ == node) {
-		return;
-	  }
-	  goog.ui.tree.TreeControl.prototype.setSelectedItem.call(this, node);
-	  if (node && node.blocks && node.blocks.length) {
-		Blockly.Toolbox.flyout_.show(node.blocks);
-	  } else {
-		//Comment this resolves the conflict.  
-		Blockly.Toolbox.flyout_.hide();
-	  }
+	Blockly.Toolbox.TreeControl.prototype.setSelectedItem = function(node) {	
+		console.log('inTime: ' + Yatay.Tablet.onTime)
+		if (Yatay.Tablet.onTime) {
+			if (this.selectedItem_ == node) {
+				return;
+			}
+			goog.ui.tree.TreeControl.prototype.setSelectedItem.call(this, node);
+			if (node && node.blocks && node.blocks.length) {
+				Blockly.Toolbox.flyout_.show(node.blocks);
+			} else {
+				Blockly.Toolbox.flyout_.hide();
+			}
+			Yatay.Tablet.onTime = false;
+			setTimeout(function() {
+				Yatay.Tablet.onTime = true;
+			}, 1200);
+		}
 	};
 	
 	//Fix: Blocks superposition
