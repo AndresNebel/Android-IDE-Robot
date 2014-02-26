@@ -16,6 +16,10 @@ var Yatay = {};
 Yatay.variables = new Array();
 Yatay.complex_sensors = new Array();
 Yatay.currentWorkspaceXml = "";
+Yatay.variablesList = [];
+Yatay.sensorsList = [];
+
+
 
 /**
  * Initialize Blockly.  Called on page load.
@@ -124,9 +128,40 @@ Yatay.init = function() {
 			return;
 		this.duplicateYatay_();
 	}
+	
+	//Separating variables from sensor variables
+	Blockly.FieldVariable.dropdownCreate = function() {
+	  var variableList = Blockly.Variables.allVariables();
+	  if (this.sourceBlock_ != null)
+	  {
+	  	  variableList = Yatay.getVariableOrSensorSurroundList(this.sourceBlock_);
+	  }
+	  // Ensure that the currently selected variable is an option.
+	  var name = this.getText();
+	  if (name && variableList.indexOf(name) == -1) {
+		variableList.push(name);
+	  }
+	  variableList.sort(goog.string.caseInsensitiveCompare);
+	  variableList.push(Blockly.Msg.RENAME_VARIABLE);
+	  variableList.push(Blockly.Msg.NEW_VARIABLE);
+	  // Variables are not language-specific, use the name as both the user-facing
+	  // text and the internal representation.
+	  var options = [];
+	  for (var x = 0; x < variableList.length; x++) {
+		options[x] = [variableList[x], variableList[x]];
+	  }
+	  return options;
+	};
+
 	// BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
 	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
+
+
+
+
+
+
 
 if (window.location.pathname.match(/readonly.html$/)) {
 	window.addEventListener('load', BlocklyApps.initReadonly);
@@ -312,4 +347,25 @@ function SaveToDisk(fileUrl) {
 	event = document.createEvent( 'HTMLEvents' );
 	event.initEvent( 'click', true, true );
 	link.dispatchEvent( event );	
+}
+
+
+Yatay.getVariableOrSensorSurroundList = function(block)
+{
+	var blocks = Blockly.mainWorkspace.getAllBlocks();		
+	var setType = block.type.replace("_get","_set");
+	var list = [];
+	for (var x = 0; x < blocks.length; x++) {
+		if (blocks[x].id == block.id) //found myself. no more variables/sensor available for me (on top of me)
+			break
+		
+		if (blocks[x].type == setType)
+		{
+			//founded a variable/sensor on top of the block, add it to the list
+			var newItem = blocks[x].inputList[0].titleRow[1].getValue();
+			if (list.indexOf(newItem) == -1)
+				list.push(newItem);
+		}
+	}
+	return list;
 }

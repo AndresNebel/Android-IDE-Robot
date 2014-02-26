@@ -77,8 +77,6 @@ Yatay.Common.editor = undefined;
  * Initialize Yatay on load
  */
 $(window).load(function() {
-	//Mystical fix for the blockly-bootstrap scrollbar conflict
-	$("foreignObject img").css("max-width","none");
 
 	setTimeout(function() {
 		//Restoring browser persistance of blocks
@@ -107,6 +105,8 @@ $(window).load(function() {
 		Yatay.Common.addStyleToBlocklyToolbox();
 		//Show Project Manager Modal (when the page is loaded)
 		Yatay.Common.projectChecker();
+		//Mystical fix for the blockly-bootstrap scrollbar conflict
+		$("foreignObject img").css("max-width","none");
 	}, 100);
 });
 
