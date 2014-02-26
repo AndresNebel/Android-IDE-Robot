@@ -13,9 +13,7 @@ document.write('<script type="text/javascript" src="generated/' + BlocklyApps.LA
 /**
  * Create namespace for the application
  */
-if (!Yatay){ 
-	Yatay = {};
-}; 
+Yatay = {}; 
 
 /**
  * variables 
