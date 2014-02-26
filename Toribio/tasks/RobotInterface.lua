@@ -71,7 +71,7 @@ M.stopActuators = function()
 	M.execute('bb-motors','setvel2mtr', {0,0,0,0}, -1)
 end
 
-local function parse_bobot(file, devs)
+local function parse_bobot(file)
 	local butia_devices = {}
 	if (yatayLang == 'es') then
 		butia_devices = { distanc = 'distancia', grey = 'gris', button = 'boton' }
@@ -79,23 +79,26 @@ local function parse_bobot(file, devs)
 		butia_devices = { distanc = 'distance', grey = 'grey', button = 'button' }
 	end
 	local ret = {}
-	--Check disabled devices
 	local skip_dev = {}
-	for sdev in devs.except:gmatch('[%w|%-|:]+') do
-		skip_dev[sdev] = true
-	end
-	--Check disabled functions
 	local skip_func = {}
-	for i=1, #devs do
-		if (devs[i].device_type == 'generic') then
-			local functions = devs[i]:find("device")
-			for j=1, #functions do
-				if (functions[j].disabled == 'yes') then
-					skip_func[functions[j].name] = true					
-				end
-			end			
+	
+	if (file ~= nil) then
+		--Check disabled devices
+		for sdev in file.except:gmatch('[%w|%-|:]+') do
+			skip_dev[sdev] = true
 		end
-	end	
+		--Check disabled functions
+		for i=1, #file do
+			if (file[i].device_type == 'generic') then
+				local functions = file[i]:find("device")
+				for j=1, #functions do
+					if (functions[j].disabled == 'yes') then
+						skip_func[functions[j].name] = true					
+					end
+				end			
+			end
+		end	
+	end
 	local i = 1
 	for name, _ in pairs(devices) do	
 		--Is this device enable?
@@ -112,13 +115,20 @@ local function parse_bobot(file, devs)
 				--Is this function enable?
 				if not (skip_fields[fname] or skip_func[fname]) then 
 					ret[i].functions[j] = {}
-					ret[i].functions[j].name = fname
+					ret[i].functions[j].name = fname	
+					ret[i].functions[j].butia = nil					
 					if (ret[i].port ~= nil) then
 						ret[i].functions[j].alias = name .. '.' .. fname .. ' (' .. ret[i].port .. ')'
-						ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')] .. ' (' .. ret[i].port .. ')'
+						--Only hardcode getValue functions
+						if (fname == 'getValue') then
+							ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')] .. ' (' .. ret[i].port .. ')'
+						end
 					else 
 						ret[i].functions[j].alias = name .. '.' .. fname
-						ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')]					
+						--Only hardcode getValue functions
+						if (fname == 'getValue') then
+							ret[i].functions[j].butia = butia_devices[ret[i].name:match('%-(%w+):')]	
+						end
 					end
 					local bobot_metadata = ((device.bobot_metadata or {})[fdef] or {parameters={}, returns={}})
 					local meta_parameters = bobot_metadata.parameters
@@ -194,14 +204,21 @@ local function parse_xml(device_type, file, devs)
 	return ret
 end
 
+
+
 M.list_devices_functions = function(device_type)	
-	local file = xml.load('robotic-kit.xml')
+	--Is there robotic-kit file?
+	local ok, file = pcall(function() return xml.load('robotic-kit.xml') end)
+	
+	if not ok then
+		return parse_bobot(nil)
+	end
+
 	local devs = file:find('devices')
-
 	local xml_devices = parse_xml(device_type, file, devs)
-
-	if (devs.from_bobot == 'yes') then
-		local bobot_devices = parse_bobot(device_type, file, devs)
+	
+	if (devs.from == 'bobot') then
+		local bobot_devices = parse_bobot(file)
 		for i=1, #xml_devices do
 			for j=1, #bobot_devices do
 				if (xml_devices[i].name == bobot_devices[j].name) then
@@ -209,6 +226,7 @@ M.list_devices_functions = function(device_type)
 						for l=1, #bobot_devices[j].functions do
 							if (xml_devices[i].functions[k].name == bobot_devices[j].functions[l].name) then
 								bobot_devices[j].functions[l].alias = xml_devices[i].functions[k].alias
+								bobot_devices[j].functions[l].butia = xml_devices[i].functions[k].alias
 								bobot_devices[j].port = xml_devices[i].port
 							end
 						end
