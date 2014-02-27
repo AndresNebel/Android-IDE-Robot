@@ -80,30 +80,30 @@ Yatay.Common.editor = undefined;
  * Initialize Yatay on load
  */
 $(window).load(function() {
-
 	setTimeout(function() {
 		//Restoring browser persistance of blocks
-		if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
-			var behaviours = JSON.parse(localStorage.yatay_bxs);
-			for(var j=0; j< behaviours.length; j++) {
-				if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
-					Yatay.Common.bxReady();
-				}
-				var alreadyExists = false;
-				for(var i=0; i< Yatay.Common.behaviours.length; i++) {
-					if (Yatay.Common.behaviours[i][2] == behaviours[j][0]) {
-						alreadyExists = true;
-						break;
+		try {
+			if (localStorage.yatay_bxs != null && localStorage.yatay_bxs != "") {
+				var behaviours = JSON.parse(localStorage.yatay_bxs);
+				for(var j=0; j< behaviours.length; j++) {
+					if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
+						Yatay.Common.bxReady();
 					}
-				}			
-				if (!alreadyExists)	{
-					var code = Blockly.Xml.textToDom(behaviours[j][1]);
-					Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+					var alreadyExists = false;
+					for(var i=0; i< Yatay.Common.behaviours.length; i++) {
+						if (Yatay.Common.behaviours[i][2] == behaviours[j][0]) {
+							alreadyExists = true;
+							break;
+						}
+					}			
+					if (!alreadyExists)	{
+						var code = Blockly.Xml.textToDom(behaviours[j][1]);
+						Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+					}
 				}
 			}
-
-		}
-		Yatay.Common.bxReady();
+			Yatay.Common.bxReady();
+		} catch(e) {}
 		//Add style to Blockly toolbox
 		Yatay.Common.addStyleToBlocklyToolbox();
 		//Show Project Manager Modal (when the page is loaded)
@@ -698,9 +698,7 @@ Yatay.Common.robotest = function() {
 			}
 		}
 	}
-	if (isButiaBlockSelected)
-	{
-
+	if (isButiaBlockSelected) {
 		// if there's something selected and is in the butia pallete, then test it
 		needsClean = false;
 		var width = Blockly.svgSize().width;
@@ -711,7 +709,9 @@ Yatay.Common.robotest = function() {
 	    element.setAttribute('y', xy.y);
 	    xml.appendChild(element);
 
-		try { Yatay.Common.bxReady();} catch(e) {}
+		try { 
+			Yatay.Common.bxReady();
+		} catch(e) {}
 
 		Blockly.mainWorkspace.clear();	
 		Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
@@ -726,13 +726,10 @@ Yatay.Common.robotest = function() {
 				Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
 				Blockly.mainWorkspace.getTopBlocks()[0].select();
 			}, 100);
-	}
-	else
-	{
+	} else {
 		try {	
 			Yatay.Common.bxReady();
 		} catch(e) {}
-
 	}
 
 	if (Yatay.Tablet != undefined) {
@@ -982,6 +979,7 @@ Yatay.Common.goBack = function() {
 				$("#btn_bxs_ready").show();								
 			}			
 		}
+		
 		Yatay.Common.testMode = false;
 		Yatay.Common.killTasks();
 		try {
@@ -989,7 +987,7 @@ Yatay.Common.goBack = function() {
 		} catch(e) {}
 		
 		if (Yatay.Mobile != undefined) {
-			$('#content_blocks').removeClass('content-test');
+			Yatay.Mobile.slideToolbox(false, true);
 		}
 	} else {
 		Yatay.DebugBlockIdOffset = 0;

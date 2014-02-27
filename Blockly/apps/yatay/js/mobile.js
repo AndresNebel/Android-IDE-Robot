@@ -19,7 +19,7 @@ Yatay.Mobile.openToolbox = false;
 /**
  * Initialize Yatay on ready
  */
-$(document).ready(function(){	   
+$(document).ready(function() {
 	$('#main_menu').load('./bodies/mobile.html');
 	$('#dialogs').load('./bodies/dialogs.html', Yatay.Common.loadDialogs);
 	
@@ -27,42 +27,60 @@ $(document).ready(function(){
 	if (Yatay.Common.getCookie("idUser") == '') { 
 		Yatay.Common.requestUserId();
 	}
-
-	if (BlocklyApps.LANG == 'es') {
-		$('#content_blocks').addClass('content-es');	
-	} else {
-		$('#content_blocks').addClass('content-en');
-	}
 	
 	Yatay.Mobile.initToolbox();
-	Yatay.Mobile.fixConflicts();	
-	//setTimeout(function() {Blockly.mainWorkspace.trashcan.dispose();}, 300);
+	Yatay.Mobile.fixConflicts();
+	//Fixme
+	$('.blocklyTable').css('height', '-=40px', 'important');
+	
+	setTimeout(function() {
+		Yatay.Mobile.initClasses();
+		$('#content_blocks').addClass('content-' + BlocklyApps.LANG);
+		Blockly.fireUiEvent(window, 'resize');
+	}, 300);
 });
 
 /**
  * Open (slide right) toolbox.
  */
-Yatay.Mobile.slideToolbox = function(resize) {
-	if (!Yatay.Mobile.openToolbox) {
-		$('#content_blocks').addClass('openToolbox');
-		if (resize) {
-			Blockly.fireUiEvent(window, 'resize');
+Yatay.Mobile.slideToolbox = function(slide_in, resize) {
+	var ret = true;
+	if (slide_in) {
+		if (!Yatay.Mobile.openToolbox) {
+			if (Yatay.Common.testMode) { 
+				$('#content_blocks').removeClass('content-test');
+			} 
+			
+			$('#content_blocks').removeClass('content-' + BlocklyApps.LANG);
+			Yatay.Mobile.openToolbox = true;
+			ret = false;			
 		}
-		Yatay.Mobile.openToolbox = true;
-		return false;
+	} else {
+		if (Yatay.Common.testMode) { 
+			$('#content_blocks').addClass('content-test');
+		} else {
+			$('#content_blocks').removeClass('content-test');
+			$('#content_blocks').addClass('content-' + BlocklyApps.LANG);
+		}
+		Yatay.Mobile.openToolbox = false;
 	}
-	return true;
+	
+	if (resize) {
+		Blockly.fireUiEvent(window, 'resize');
+		Blockly.fireUiEvent(window, 'resize');
+	}
+	
+	return ret;
 };
 
 /**
  * Initialize slide toolbox.
  */
 Yatay.Mobile.initToolbox = function() {
-
 	//Binding toolbox slide event
 	setTimeout(function() {
 		$('.blocklyToolboxDiv').bind('click touchend', function(e) {
-			return Yatay.Mobile.slideToolbox(true);	
+			return Yatay.Mobile.slideToolbox(true, true);	
 		});
 	}, 1000);
 	
@@ -70,12 +88,7 @@ Yatay.Mobile.initToolbox = function() {
 	Blockly.Block.prototype.onMouseDown_ = function(e) {
 		if (this.isInFlyout) {
 			setTimeout(function() { 
-				Yatay.Mobile.openToolbox = false;
-				$('#content_blocks').removeClass('openToolbox');
-				if (Yatay.Common.testMode) { 
-					$('#content_blocks').addClass('content-test');
-				}		
-				Blockly.fireUiEvent(window, 'resize');
+				Yatay.Mobile.slideToolbox(false, true);
 			},1000);
 			return;
 		}
@@ -166,4 +179,30 @@ Yatay.Mobile.fixConflicts = function() {
 			, e.push([a,Blockly.bindEvent_.TOUCH_MAP[b],f]));
 		return e
 	};
+};
+
+/**
+ * Initialize CSS classes dynamically.
+ */
+Yatay.Mobile.initClasses = function() {
+	var esWidth = $('#content_blocks').css('width', '+=94px').css('width');	
+	var style = document.createElement('style');
+	style.type = 'text/css';
+	style.innerHTML = '.content-es { \n' +
+	'	left: -94px !important; \n' + 
+	'	width: ' + esWidth + ' !important; \n' +
+	'} \n';
+	
+	var enWidth = $('#content_blocks').css('width', '-=22px').css('width');
+	style.innerHTML += '.content-en { \n' +
+	'	left: -72px !important; \n' + 
+	'	width: ' + enWidth + ' !important; \n' +
+	'}\n';
+	
+	var testWidth = $('#content_blocks').css('width', '-=22px').css('width');
+	style.innerHTML += '.content-test { \n' +
+	'	left: -50px !important; \n' + 
+	'	width: ' + testWidth + ' !important; \n' +
+	'}\n';
+	document.getElementsByTagName('head')[0].appendChild(style);	
 };
