@@ -33,6 +33,7 @@ M.kill_tasks = function(userId)
 			bxcount = bxcount +1
 		end
 	end	
+	yataySensorResults[userId] = nil
 	if (bxcount == 0) then
 		sched.signal('StopActuators!')
 		collectgarbage('restart')
@@ -51,7 +52,7 @@ M.kill_tasks = function(userId)
 
 
 M.create_task = function(task, userId)
-	yataySensorResults[userId] = nil
+--	yataySensorResults[userId] = nil
 	local code, errorCompilacion = loadstring(task)
 	if (not errorCompilacion) then	
 		local ok, tasktable = pcall(code)
@@ -73,6 +74,7 @@ M.create_task = function(task, userId)
 			end
 		end
 	else
+			M.kill_tasks(userId)
 			print("YATAY: task compilation error - ")
 			print(errorCompilacion)
 			yataySensorResults[userId] = 'ERROR:'.. errorCompilacion

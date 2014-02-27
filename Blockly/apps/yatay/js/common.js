@@ -831,15 +831,16 @@ Yatay.Common.runTasks = function() {
  * Handle code edited tabs switch 
  */
 Yatay.Common.switchTabs = function(selected) {	
+	var behaviourId = selected.id.replace("tablink","");
 	if (Yatay.Common.editedBxs.active != -1) {
 		$('#tab' + Yatay.Common.editedBxs.active).removeClass('active');
 		Yatay.Common.editedBxs[Yatay.Common.editedBxs.active] = Yatay.Common.editor.getValue();
 	}
 
-	Yatay.Common.editor.setValue(Yatay.Common.editedBxs[selected.id]);
+	Yatay.Common.editor.setValue(Yatay.Common.editedBxs[behaviourId]);
 	
-	$('#tab' + selected.id).addClass('active');
-	Yatay.Common.editedBxs.active = selected.id;
+	$('#tab' + behaviourId).addClass('active');
+	Yatay.Common.editedBxs.active = behaviourId;
 
 	$('#code_modal').on('shown.bs.modal', function() {
 		Yatay.Common.editor.refresh();
@@ -872,7 +873,7 @@ Yatay.Common.edit = function() {
 			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, codeXml);
 			Yatay.Common.editedBxs[i] = Blockly.Lua.workspaceToCode();
 			Blockly.mainWorkspace.clear();
-			tabs += '<li id="tab'+i+'"><a id="'+i+'" onClick="Yatay.Common.switchTabs(this)" href="#">'+Yatay.Common.behaviours[i][2]+'</a></li>'	
+			tabs += '<li id="tab'+i+'"><a id="tablink'+i+'" onClick="Yatay.Common.switchTabs(this)" href="#">'+Yatay.Common.behaviours[i][2]+'</a></li>'	
 		}
 		$('#modal_tabs').html(tabs);
 

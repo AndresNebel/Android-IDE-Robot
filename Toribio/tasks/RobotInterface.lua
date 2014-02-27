@@ -14,8 +14,10 @@ local butia_code = 'Lumen/tasks/http-server/www/apps/yatay/generators/lua/butia.
 M.active_devices = nil
 
 M.deliverResultToWebServer = function(sensorResult, userId)
-	yataySensorResults[userId] = sensorResult
-	sched.signal('NewSensorResult')
+	if (yataySensorResults[userId] == nil or string.find(yataySensorResults[userId],'ERROR') == nil) then
+		yataySensorResults[userId] = sensorResult
+		sched.signal('NewSensorResult')
+	end
 end
 
 M.printToWebConsole = function(msg)
