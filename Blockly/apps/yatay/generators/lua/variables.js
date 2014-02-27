@@ -71,7 +71,7 @@ Blockly.Lua["variables_print"] = function(block) {
 	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
   var text = block.getTitleValue('TEXT');
-  return debugTrace + "print('"+ text +"')\n robot.printToWebConsole('" + text + "')\n";
+  return debugTrace + " robot.printToWebConsole('" + text + "')\n";
 };
 
 Blockly.Lua["variables_print_stat"] = function(block) {
@@ -83,7 +83,7 @@ Blockly.Lua["variables_print_stat"] = function(block) {
 	debugTrace = "robot.put_debug_result('"+ block.id +"', M.userId)\n";
   }
   var text = Blockly.Lua.statementToCode(this, 'VALUE');
-  return debugTrace + "local imprimir = " + text + "\n print(imprimir)\n robot.printToWebConsole(imprimir)\n";
+  return debugTrace + "local imprimir = " + text + "\n robot.printToWebConsole(imprimir)\n";
 };
 
 
