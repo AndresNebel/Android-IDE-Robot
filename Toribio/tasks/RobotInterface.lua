@@ -224,14 +224,29 @@ M.list_devices_functions = function(device_type)
 		for i=1, #xml_devices do
 			for j=1, #bobot_devices do
 				if (xml_devices[i].name == bobot_devices[j].name) then
-					for k=1, #xml_devices[i].functions do
-						for l=1, #bobot_devices[j].functions do
+					local override_funcs = {}
+					for l=1, #bobot_devices[j].functions do
+						local override = false
+						for k=1, #xml_devices[i].functions do
+							print(xml_devices[i].functions[k].name)
 							if (xml_devices[i].functions[k].name == bobot_devices[j].functions[l].name) then
-								bobot_devices[j].functions[l].alias = xml_devices[i].functions[k].alias
-								bobot_devices[j].functions[l].butia = xml_devices[i].functions[k].alias
-								bobot_devices[j].port = xml_devices[i].port
+								-- If there is more than 1 def, then there are multiples overrides
+								-- of the same function with just different parameters
+								if (override) then 
+									override_funcs[#override_funcs +1] = xml_devices[i].functions[k]
+								else
+									bobot_devices[j].functions[l].alias = xml_devices[i].functions[k].alias
+									bobot_devices[j].functions[l].butia = xml_devices[i].functions[k].alias
+									bobot_devices[j].port = xml_devices[i].port
+									bobot_devices[j].functions[l].params = xml_devices[i].functions[k].params
+									bobot_devices[j].functions[l].values = xml_devices[i].functions[k].values
+									override = true
+								end
 							end
 						end
+					end
+					for ovf=1, #override_funcs do
+						bobot_devices[j].functions[#bobot_devices[j].functions +1] = override_funcs[ovf]
 					end
 				end			
 			end

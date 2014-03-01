@@ -36,6 +36,7 @@ Yatay.Msg.DIALOG_MULTISELECT_ALL = " Select all";
 Yatay.Msg.DIALOG_EDITION_ERROR_TITLE = "Ooops!";
 Yatay.Msg.DIALOG_EDITION_ERROR_BTN = "View detail";
 Yatay.Msg.DIALOG_EDITION_ERROR_MSG = "Something is wrong with that code. Please check it."
+Yatay.Msg.DIALOG_NONBXS_BLOCKS_WARN = "Blocks out of the main block are not taken into account.";	
 
 // File saver Messages
 Yatay.Msg.FILE_BLOCKS = "blocks";

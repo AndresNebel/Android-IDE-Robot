@@ -71,6 +71,12 @@ Yatay.Common.editedBxs.active = -1;
 Yatay.Common.testMode = false;
 
 /**
+ * Butia block selected and trying to be tested
+ * @type {[bool]}
+ */
+Yatay.Common.isButiaBlockSelected = false;
+
+/**
  * CodeMirror Editor
  * @type {[Object]}
  */
@@ -387,6 +393,7 @@ Yatay.Common.loadBxs = function() {
  * Load code from xml
  */
 Yatay.Common.fromXml = function() {
+	Yatay.Common.leaveOnlyBehavioursInWspace();
 	if (Yatay.Common.fileCode != '') {
 		var xmlEndTag = '</xml>';
 		if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
@@ -700,7 +707,7 @@ Yatay.Common.robotest = function() {
 	}
 	if (isButiaBlockSelected)
 	{
-
+		Yatay.Common.isButiaBlockSelected = true;
 		// if there's something selected and is in the butia pallete, then test it
 		needsClean = false;
 		var width = Blockly.svgSize().width;
@@ -726,6 +733,7 @@ Yatay.Common.robotest = function() {
 				Blockly.mainWorkspace.getTopBlocks()[0].setDragging_(false);
 				Blockly.mainWorkspace.getTopBlocks()[0].select();
 			}, 100);
+		
 	}
 	else
 	{
@@ -757,6 +765,7 @@ Yatay.Common.robotest = function() {
 		Yatay.Mobile.slideToolbox(false);
 	}
 	$('#btn_back').toggle();
+
 	if (isButiaBlockSelected)
 		setTimeout(function() {$("#btn_run").click();} , 100);
 };
@@ -765,6 +774,9 @@ Yatay.Common.robotest = function() {
  * Handle run click
  */
 Yatay.Common.runTasks = function() {
+	//Close the toolbox if open. Prevents a bug where it enables bxs dispite an existing one
+	Blockly.Toolbox.flyout_.hide();
+	Yatay.Common.leaveOnlyBehavioursInWspace();
 	if ($('#btn_back').css('display') == 'none') {
 		if (Yatay.Common.editedBxs.active == -1) {
 			$('#btn_debug').toggle('slow');	   
@@ -939,6 +951,7 @@ Yatay.Common.saveEditedCode = function() {
  * Handle debug click
  */
 Yatay.Common.debug = function() {		
+	Yatay.Common.leaveOnlyBehavioursInWspace();
 	Yatay.DebugBlockIdOffset = 0;
 	Yatay.DebugMode = true;   
 	Blockly.mainWorkspace.maxBlocks = 0;
@@ -969,6 +982,7 @@ Yatay.Common.debug = function() {
  * Handle go back click
  */
 Yatay.Common.goBack = function() {	
+	Yatay.Common.isButiaBlockSelected = false;
 	Blockly.mainWorkspace.maxBlocks = 'Infinity';
 	//Has behaviours code been edited?
 	if (Yatay.Common.editedBxs.active != -1) {
@@ -1134,6 +1148,7 @@ Yatay.Common.requestUserId = function() {
  * Set behaviour as ready
  */
 Yatay.Common.bxReady = function() {
+	Yatay.Common.leaveOnlyBehavioursInWspace();
 	if (Blockly.mainWorkspace.getAllBlocks()[0] != undefined) {
 		if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour" || 
 		    Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_conditionalBehaviour") {	
@@ -1196,7 +1211,7 @@ Yatay.Common.bxToWorkspace = function() {
 						Blockly.mainWorkspace.getAllBlocks()[j].setMovable(true);
 					}
 				}
-				if (Yatay.missing_sensors.indexOf(Blockly.mainWorkspace.getAllBlocks()[j].type) != -1)
+				if (Yatay.missing_sensors.indexOf(Blockly.mainWorkspace.getAllBlocks()[j].type) != -1 || Yatay.not_available_sensors.indexOf(Blockly.mainWorkspace.getAllBlocks()[j].type) != -1)
 					Blockly.mainWorkspace.getAllBlocks()[j].setDisabled(true);
 				else if (Blockly.mainWorkspace.getAllBlocks()[j].disabled)
 					Blockly.mainWorkspace.getAllBlocks()[j].setDisabled(false);		
@@ -1243,3 +1258,36 @@ Yatay.Common.changeLanguage = function() {
 	}
 	window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + search;
 };
+
+/**
+* Clear Workspace from non-behaviour blocks
+*/
+
+Yatay.Common.leaveOnlyBehavioursInWspace = function(){
+	if (!Yatay.Common.isButiaBlockSelected && !Yatay.Common.testMode) // if you're trying to test a butia block then this does not apply
+	{
+		var topBlocks = Blockly.mainWorkspace.getTopBlocks();
+		var warn = false;
+		for (var j=topBlocks.length-1 ; j>=0; j--)
+		{
+			if (topBlocks[j].type != "controls_behaviour" && topBlocks[j].type != "controls_conditionalBehaviour")
+			{	
+				topBlocks[j].dispose();
+				warn = true;
+			}
+		}
+		if (warn)
+			Yatay.Common.ShowMessage(Yatay.Msg.DIALOG_NONBXS_BLOCKS_WARN);
+	}
+}
+
+Yatay.Common.ShowMessage = function(text)
+{
+	$("#result_console").html('');
+	$("#result_sensor").html(text);
+	$("#results_popup").show();
+	setTimeout(function(){
+		$("#result_sensor").html('');
+		$("#results_popup").hide();
+	}, 3000);
+}
