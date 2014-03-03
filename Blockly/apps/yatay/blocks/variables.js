@@ -76,11 +76,14 @@ Blockly.Blocks['variables_sensor_set'] = {
     this.setTooltip(Blockly.Msg.VARIABLES_SET_TOOLTIP);
     this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
     this.contextMenuType_ = 'variables_sensor_get';
+	Yatay.CreateCustomSensor(Blockly.Msg.VARIABLES_SET_ITEM, "");
   },
   getVars: function() {
     return [this.getTitleValue('VAR')];
   },
   renameVar: function(oldName, newName) {
+	Yatay.CreateCustomSensor(oldName, undefined);
+	Yatay.CreateCustomSensor(newName, "");
     if (Blockly.Names.equals(oldName, this.getTitleValue('VAR'))) {
       this.setTitleValue(newName, 'VAR');
     }

@@ -103,19 +103,46 @@ $(window).load(function() {
 						}
 					}			
 					if (!alreadyExists)	{
-						var code = Blockly.Xml.textToDom(behaviours[j][1]);
-						Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);			
+						var success = false;
+						while (!success)
+						{
+							var code = Blockly.Xml.textToDom(behaviours[j][1]);
+							var codeText = behaviours[j][1];
+
+							try
+							{       
+							
+								Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);	
+								success = true;
+							}
+							catch(e){
+								//A block doesn't exist anymore. Is necesary to know it's type so you know to what it is connected.
+								Blockly.mainWorkspace.clear();
+								if (e.message != null && e.message.split('"').length > 2)
+								{
+									var blockInFault = e.message.split('"')[1];
+									Yatay.Common.tryToRecover(blockInFault, codeText);
+									Yatay.not_available_sensors.push(blockInFault);
+								}
+								else
+								{	//Couldn't recover
+									Yatay.Common.ShowMessage(Yatay.Msg.CANNOT_PARSE_BLOCKS);
+									success = true;
+								}							}
+						}
+			
 					}
 				}
 			}
 			Yatay.Common.bxReady();
 		} catch(e) {}
-		//Add style to Blockly toolbox
-		Yatay.Common.addStyleToBlocklyToolbox();
+		try {Yatay.Common.addStyleToBlocklyToolbox();} catch(e) {}
+
 		//Show Project Manager Modal (when the page is loaded)
-		Yatay.Common.projectChecker();
+		try {Yatay.Common.projectChecker();} catch(e) {Yatay.Common.projectChecker();}
+
 		//Mystical fix for the blockly-bootstrap scrollbar conflict
-		$("foreignObject img").css("max-width","none");
+		try {$("foreignObject img").css("max-width","none");} catch(e) {}
 	}, 100);
 });
 
@@ -403,7 +430,8 @@ Yatay.Common.fromXml = function() {
 		splittedBlocks.pop();
 		for (var j=0; j< splittedBlocks.length; j++)
 		{
-				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag));
+				var blockToRender = Blockly.Xml.textToDom(splittedBlocks[j] + xmlEndTag);
+				Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, blockToRender);
 				Yatay.Common.bxReady();
 		}
 
@@ -415,9 +443,34 @@ Yatay.Common.fromXml = function() {
 				for (var j=0; j<Yatay.Common.activesBxs[project].length; j++) {
 						if (Blockly.mainWorkspace.getAllBlocks().length > 0) {
 								Yatay.Common.bxReady();
-						}        
-						var code = Blockly.Xml.textToDom(Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]]);
-						Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+						} 
+						var success = false;
+						while (!success)
+						{
+							var codeText = Yatay.Common.bxsCode[project][Yatay.Common.activesBxs[project][j]];
+							var code = Blockly.Xml.textToDom(codeText);
+							try
+							{       
+							
+								Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);
+								success = true;
+							}
+							catch(e){
+								//A block doesn't exist anymore. Is necesary to know it's type so you know to what it is connected.
+								Blockly.mainWorkspace.clear();
+								if (e.message != null && e.message.split('"').length > 2)
+								{
+									var blockInFault = e.message.split('"')[1];
+									Yatay.Common.tryToRecover(blockInFault, codeText);
+									Yatay.not_available_sensors.push(blockInFault);
+								}
+								else
+								{	//Couldn't recover
+									Yatay.Common.ShowMessage(Yatay.Msg.CANNOT_PARSE_BLOCKS);
+									success = true;
+								}
+							}
+						}
 				}
 		}                
 		Yatay.Common.bxsCode = [];
@@ -915,6 +968,8 @@ Yatay.Common.edit = function() {
 Yatay.Common.runEditedTasks = function() {
 	var selected = [];
 	selected.id = Yatay.Common.editedBxs.active;
+	if (selected.id.toString().indexOf("tablink") == -1)
+		selected.id = "tablink"+selected.id
 	Yatay.Common.switchTabs(selected);
 
 	//Has behaviours code been edited?
@@ -1292,4 +1347,46 @@ Yatay.Common.ShowMessage = function(text)
 		$("#result_sensor").html('');
 		$("#results_popup").hide();
 	}, 3000);
+}
+
+Yatay.Common.tryToRecover = function(blockInFault, code)
+{
+	var blockStruct = "<block type=\""+blockInFault+"\">";
+	code = code.replace(/ disabled=\"true\"/g,'');
+	var actuator = false;
+	var inputsInline = false;
+	if (code.split(blockStruct).length == 1)
+	{
+		blockStruct = "<block type=\""+blockInFault+"\" inline=\"true\">";
+		inputsInline = true;
+	}
+	if (code.split(blockStruct).length > 1 && code.split(blockStruct)[1].indexOf("<next>") == 0)
+		actuator = true;
+	Blockly.Blocks[blockInFault] = { 
+		init: function() { 
+	
+			this.setColour(120); 
+			this.appendDummyInput().appendTitle(blockInFault); 
+			this.setInputsInline(true); 
+			if (actuator)
+			{
+				this.setPreviousStatement(true); 
+				this.setNextStatement(true); 
+			}
+			else
+				this.setOutput(true, 'Number'); 
+			if (inputsInline)
+			{
+				this.appendValueInput('1'); 
+				this.appendDummyInput().appendTitle(','); 
+				this.appendValueInput('2'); 
+				this.appendDummyInput().appendTitle(','); 
+				this.appendValueInput('3'); 
+				this.appendDummyInput().appendTitle(','); 
+				this.appendValueInput('4'); 
+			}
+			this.setTooltip(''); 
+		} 
+	};
+	Blockly.Lua[blockInFault] = function(block) { return "";}
 }

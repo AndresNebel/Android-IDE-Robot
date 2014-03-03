@@ -296,12 +296,11 @@ Yatay.ExistVariable = function(variable){
  * ReturnCustomSensor
  */
 Yatay.ReturnCustomSensor = function(sensor) {
-	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
-	if (Yatay.complex_sensors[name] == null) {
-		Yatay.complex_sensors[name] = new Array();
+	if (Yatay.complex_sensors == null) {
+		Yatay.complex_sensors = new Array();
 		return "";
-	} else if (Yatay.complex_sensors[name][sensor] != null) {
-		return Yatay.complex_sensors[name][sensor];
+	} else if (Yatay.complex_sensors[sensor] != null) {
+		return Yatay.complex_sensors[sensor];
 	}else
 		return "";
 }
@@ -310,11 +309,13 @@ Yatay.ReturnCustomSensor = function(sensor) {
  * CreateCustomSensor
  */
 Yatay.CreateCustomSensor = function(sensor, code) {
-	var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
-	if (Yatay.complex_sensors[name] == null) {
-		Yatay.complex_sensors[name] = new Array();		
-	}
-	Yatay.complex_sensors[name][sensor] = code;
+	if (Yatay.complex_sensors == null) 
+		Yatay.complex_sensors = new Array();		
+
+	if (code == undefined && Yatay.complex_sensors[sensor] != undefined)
+		return;
+
+	Yatay.complex_sensors[sensor] = code;
 	return;
 };
 
@@ -369,6 +370,18 @@ Yatay.getVariableOrSensorSurroundList = function(block)
 	var blocks = Blockly.mainWorkspace.getAllBlocks();		
 	var setType = block.type.replace("_get","_set");
 	var list = [];
+	//If sensor then return the global list of sensors
+	if (block.type.indexOf("sensor") != -1)
+	{
+		//First populate sensors array 
+		//Blockly.Lua.workspaceToCode();
+		for (key in Yatay.complex_sensors)
+		{
+			list.push(key);
+		}
+		return list;
+	}
+
 	for (var x = 0; x < blocks.length; x++) {
 		if (blocks[x].id == block.id) //found myself. no more variables/sensor available for me (on top of me)
 			break

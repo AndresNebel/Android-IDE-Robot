@@ -54,7 +54,7 @@ Blockly.Lua["logic_operation"] = function(opt_dropParens) {
   var argument0 = Blockly.Lua.statementToCode(this, 'A') || 'false';
   var argument1 = Blockly.Lua.statementToCode(this, 'B') || 'false';
   var operator = (this.getTitleValue('OP') == 'AND') ? 'and' : 'or';
-  var code = "(" + argument0.trimLeft() + ') ' + operator + ' (' + argument1.trimLeft() +")";
+  var code = "(" +argument0.trimLeft() + ') ' + operator + ' (' + argument1.trimLeft() +")";
   if (!opt_dropParens) {
     code = '(' + code + ')';
   }
@@ -64,7 +64,7 @@ Blockly.Lua["logic_operation"] = function(opt_dropParens) {
 Blockly.Lua["logic_negate"] = function(opt_dropParens) {
   // Negation.
   var argument0 = Blockly.Lua.statementToCode(this, 'BOOL') || 'false';
-  var code = 'not ' + argument0;
+  var code = 'not ' + '(' + argument0 + ')';
   if (!opt_dropParens) {
     code = '(' + code + ')';
   }

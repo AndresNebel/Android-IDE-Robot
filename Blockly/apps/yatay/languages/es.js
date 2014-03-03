@@ -37,6 +37,7 @@ Yatay.Msg.DIALOG_EDITION_ERROR_TITLE = "Ooops!";
 Yatay.Msg.DIALOG_EDITION_ERROR_BTN = "Ver detalle";
 Yatay.Msg.DIALOG_EDITION_ERROR_MSG = "Algo esta mal en el código editado. Revísalo!";
 Yatay.Msg.DIALOG_NONBXS_BLOCKS_WARN = "Los bloques fuera del bloque principal no son tenidos en cuenta.";	
+Yatay.Msg.CANNOT_PARSE_BLOCKS = "Algunos bloques cargados no existen mas. No son comunes y no se pudieron recrear.";
 
 // File saver Messages
 Yatay.Msg.FILE_BLOCKS = "bloques";
