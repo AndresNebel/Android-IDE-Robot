@@ -53,6 +53,7 @@ Blockly.Lua["math_arithmetic"] = function(opt_dropParens) {
       code = '(' + code + ')';
     }
   }
+
   return code;
 };
 
@@ -92,11 +93,11 @@ Blockly.Lua["math_single"] = function(opt_dropParens) {
     case 'EXP':
       code = 'math.exp( tonumber('  + argNaked + '))';
       break;
-    case '10POW':
+    case 'POW10':
       code = 'math.pow(10, tonumber('  + argNaked + '))';
       break;
     case 'ROUND':
-      code = 'math.round( tonumber('  + argNaked + '))';
+      code = 'math.floor( tonumber('  + argNaked + ') + 0.5)';
       break;
     case 'ROUNDUP':
       code = 'math.ceil( tonumber('  + argNaked + '))';
@@ -105,13 +106,13 @@ Blockly.Lua["math_single"] = function(opt_dropParens) {
       code = 'math.floor( tonumber('  + argNaked + '))';
       break;
     case 'SIN':
-      code = 'math.sin( tonumber('  + argParen + ') / 180 * math.PI)';
+      code = 'math.sin( tonumber('  + argParen + ') / 180 * math.pi)';
       break;
     case 'COS':
-      code = 'math.cos( tonumber('  + argParen + ') / 180 * math.PI)';
+      code = 'math.cos( tonumber('  + argParen + ') / 180 * math.pi)';
       break;
     case 'TAN':
-      code = 'math.tan( tonumber('  + argParen + ') / 180 * math.PI)';
+      code = 'math.tan( tonumber('  + argParen + ') / 180 * math.pi)';
       break;
   }
   if (code) {
@@ -126,13 +127,13 @@ Blockly.Lua["math_single"] = function(opt_dropParens) {
       code = 'math.log(' + argNaked + ') / math.log(10)';
       break;
     case 'ASIN':
-      code = 'math.asin(' + argNaked + ') / math.PI * 180';
+      code = 'math.asin(' + argNaked + ') / math.pi * 180';
       break;
     case 'ACOS':
-      code = 'math.acos(' + argNaked + ') / math.PI * 180';
+      code = 'math.acos(' + argNaked + ') / math.pi * 180';
       break;
     case 'ATAN':
-      code = 'math.atan(' + argNaked + ') / math.PI * 180';
+      code = 'math.atan(' + argNaked + ') / math.pi * 180';
       break;
     default:
       throw 'Unknown math operator.';

@@ -131,7 +131,6 @@ Yatay.init = function() {
 	};
 
 	var bindData = Blockly.addChangeListener(change);
-
 	// Lazy-load the syntax-highlighting.
 	window.setTimeout(BlocklyApps.importPrettify, 1);
 	
@@ -170,11 +169,6 @@ Yatay.init = function() {
 	// BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
 	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
-
-
-
-
-
 
 
 if (window.location.pathname.match(/readonly.html$/)) {
@@ -373,26 +367,39 @@ Yatay.getVariableOrSensorSurroundList = function(block)
 	//If sensor then return the global list of sensors
 	if (block.type.indexOf("sensor") != -1)
 	{
-		//First populate sensors array 
-		//Blockly.Lua.workspaceToCode();
-		for (key in Yatay.complex_sensors)
+		for (var x=0; x < Yatay.Common.behaviours.length; x++)
 		{
-			list.push(key);
+			var matches = Yatay.Common.behaviours[0][1].match(/variables_sensor_set\" inline\=\"true\"><title name\=\"VAR\"\>(.)*?\<\/title\>/g);
+			if (matches != null)
+			{
+				for (var j=0; j<matches.length; j++)
+				{
+					list.push(matches[j].replace('variables_sensor_set" inline="true"><title name="VAR">', "").replace("</title>", ""));
+				}
+			}
+		}
+		var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+		var text = Blockly.Xml.domToText(xml);
+		var matches = text.match(/variables_sensor_set\" inline\=\"true\"><title name\=\"VAR\"\>(.)*?\<\/title\>/g);
+		if (matches != null)
+		{
+			for (var j=0; j<matches.length; j++)
+			{
+				list.push(matches[j].replace('variables_sensor_set" inline="true"><title name="VAR">', "").replace("</title>", ""));
+			}
 		}
 		return list;
 	}
-
-	for (var x = 0; x < blocks.length; x++) {
-		if (blocks[x].id == block.id) //found myself. no more variables/sensor available for me (on top of me)
-			break
-		
-		if (blocks[x].type == setType)
+	var iterBlock = block.parentBlock_;
+	while (iterBlock != null) {
+		if (iterBlock.type == setType)
 		{
 			//founded a variable/sensor on top of the block, add it to the list
-			var newItem = blocks[x].inputList[0].titleRow[1].getValue();
+			var newItem = iterBlock.inputList[0].titleRow[1].getValue();
 			if (list.indexOf(newItem) == -1)
 				list.push(newItem);
 		}
+		iterBlock = iterBlock.parentBlock_;
 	}
 	return list;
 }

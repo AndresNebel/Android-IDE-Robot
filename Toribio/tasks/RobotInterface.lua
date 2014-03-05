@@ -228,7 +228,6 @@ M.list_devices_functions = function(device_type)
 					for l=1, #bobot_devices[j].functions do
 						local override = false
 						for k=1, #xml_devices[i].functions do
-							print(xml_devices[i].functions[k].name)
 							if (xml_devices[i].functions[k].name == bobot_devices[j].functions[l].name) then
 								-- If there is more than 1 def, then there are multiples overrides
 								-- of the same function with just different parameters
