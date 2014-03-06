@@ -903,17 +903,17 @@ Yatay.Common.switchTabs = function(selected) {
 	var behaviourId = selected.id.replace("tablink","");
 	if (Yatay.Common.editedBxs.active != -1) {
 		$('#tab' + Yatay.Common.editedBxs.active).removeClass('active');
-		Yatay.Common.editedBxs[Yatay.Common.editedBxs.active] = Yatay.Common.editor.getValue();
+		Yatay.Common.editedBxs[Yatay.Common.editedBxs.active] = Yatay.Common.editor.getCode();
 	}
 
-	Yatay.Common.editor.setValue(Yatay.Common.editedBxs[behaviourId]);
+	Yatay.Common.editor.setCode(Yatay.Common.editedBxs[behaviourId]);
 	
 	$('#tab' + behaviourId).addClass('active');
 	Yatay.Common.editedBxs.active = behaviourId;
 
-	$('#code_modal').on('shown.bs.modal', function() {
-		Yatay.Common.editor.refresh();
-	});
+//	$('#code_modal').on('shown.bs.modal', function() {
+//		Yatay.Common.editor.refresh();
+//	});
 };
 
 /**
@@ -949,16 +949,21 @@ Yatay.Common.edit = function() {
 		$('#tab0').addClass('active');
 		Yatay.Common.editedBxs.active = 0;
 
-		if (Yatay.Common.editor == undefined) {
-			Yatay.Common.editor = CodeMirror.fromTextArea($('#code_editable')[0], { tabMode: "indent", matchBrackets: true, theme: "neat" });
-		}	
-		Yatay.Common.editor.setValue(Yatay.Common.editedBxs[0]);
+
 
 		$('#code_modal').modal({backdrop:'static', keyboard:false });
+		if (Yatay.Common.editor == undefined)
+		{
+			$('#code_editable')[0].innerHTML = Yatay.Common.editedBxs[0];
+			Yatay.Common.editor = CodeMirror.fromTextArea("code_editable", {
+			  basefiles: ["lib/codemirror/parselua.js"],
+			  stylesheet: ["lib/codemirror/luacolors.css"]
+			});
+		}
+		else
+			Yatay.Common.editor.setCode(Yatay.Common.editedBxs[0]);
 
-		$('#code_modal').on('shown.bs.modal', function() {
-			Yatay.Common.editor.refresh();
-		});
+
 	}
 };
 

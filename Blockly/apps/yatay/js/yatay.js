@@ -141,6 +141,16 @@ Yatay.init = function() {
 			return;
 		this.duplicateYatay_();
 	}
+
+	Blockly.Block.prototype.renderYatay = Blockly.Block.prototype.render;
+	Blockly.Block.prototype.render = function()
+	{	
+		this.renderYatay();
+		setTimeout(function()
+		{
+			Blockly.fireUiEvent(window, 'resize');			
+		}, 900);
+	}
 	
 	//Separating variables from sensor variables
 	Blockly.FieldVariable.dropdownCreate = function() {
@@ -165,7 +175,7 @@ Yatay.init = function() {
 	  }
 	  return options;
 	};
-
+	
 	// BlocklyApps.bindClick('trashButton', function() {Yatay.discard();});  	
 	setTimeout(function(){Blockly.mainWorkspace.render()},400);  
 };
