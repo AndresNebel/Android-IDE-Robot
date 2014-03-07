@@ -242,12 +242,14 @@ Yatay.Common.ProjChangeSelection = function(element, checked) {
 * Opens the Delete popup
 */	
 Yatay.Common.openDeleteModal = function() {
+	$('#btn_trash')[0].onclick = function(){return false;};
 	if (Yatay.Common.testMode) {
 		Blockly.mainWorkspace.clear();
 		Yatay.Common.killTasks();
 	}
 	else
 		$("#delete_modal").modal('show');
+	setTimeout(function() {	$('#btn_trash')[0].onclick = Yatay.Common.openDeleteModal;} , 800);
 };
 
 /**
@@ -296,6 +298,7 @@ Yatay.Common.testRobot = function(code) {
  * Kill all tasks running
  */
 Yatay.Common.killTasks = function() {
+	$('#btn_stop')[0].onclick = function(){return false;};
 	var idUser = Yatay.Common.getCookie("idUser");
 	if (idUser == null) {
 		location.reload(); 
@@ -311,6 +314,7 @@ Yatay.Common.killTasks = function() {
 		},
 		error:function(){}
 	});
+	setTimeout(function() {	$('#btn_stop')[0].onclick = Yatay.Common.killTasks;} , 800);
 };
 
 /**
@@ -487,6 +491,7 @@ Yatay.Common.fromXml = function() {
  * Handle save click
  */
 Yatay.Common.toXml = function() {
+	$('#btn_save')[0].onclick = function(){return false;};
 	if (Blockly.mainWorkspace.getAllBlocks().length > 0 || Yatay.Common.behaviours.length >0) {	
 		var text = "";
 		// Si hay bloques sin minimizar los marco listos
@@ -508,6 +513,7 @@ Yatay.Common.toXml = function() {
 			saveAs(blob, Yatay.Msg.FILE_BLOCKS + ".xml");
 		}
 	}
+	setTimeout(function() {	$('#btn_save')[0].onclick = Yatay.Common.toXml;} , 800);
 };
 
 /**
@@ -530,11 +536,13 @@ Yatay.Common.readFile = function(evt) {
  * Show file chooser modal
  */
 Yatay.Common.openFileChooser = function() {
+	$('#btn_load')[0].onclick = function(){return false;};
 	$('#loader_modal').modal('show');
 	$('#btn_remote_loader').show();
 	$("#loadMainWindow").show();
 	$('#remote_proj').html('');
 	document.getElementById('file_input').addEventListener('change', Yatay.Common.readFile, false);
+	setTimeout(function() {	$('#btn_load')[0].onclick = Yatay.Common.openFileChooser;} , 800);
 };
 
 /**
@@ -745,6 +753,8 @@ Yatay.Common.projectSaver = function() {
  * Handle robotest click
  */
 Yatay.Common.robotest = function() {	
+	$('#btn_robotest')[0].onclick = function(){return false;};
+
 	var needsClean = true;
 	var isButiaBlockSelected = false;
 	if (Blockly.selected != null)
@@ -822,12 +832,15 @@ Yatay.Common.robotest = function() {
 
 	if (isButiaBlockSelected)
 		setTimeout(function() {$("#btn_run").click();} , 100);
+	setTimeout(function() {	$('#btn_robotest')[0].onclick = Yatay.Common.robotest;} , 800);
+	
 };
 
 /**
  * Handle run click
  */
 Yatay.Common.runTasks = function() {
+	$('#btn_run')[0].onclick = function(){return false;};
 	//Close the toolbox if open. Prevents a bug where it enables bxs dispite an existing one
 	Blockly.Toolbox.flyout_.hide();
 	Yatay.Common.leaveOnlyBehavioursInWspace();
@@ -894,6 +907,7 @@ Yatay.Common.runTasks = function() {
 			pollResults();
 		}
 	}
+	setTimeout(function() {	$('#btn_run')[0].onclick = Yatay.Common.runTasks;} , 800);
 };
 
 /**
@@ -927,6 +941,7 @@ Yatay.Common.closeEditor = function() {
  * Handle edit code click
  */
 Yatay.Common.edit = function() {
+	$('#btn_edit')[0].onclick = function(){return false;};
 	Yatay.Common.editedBxs = [];
 	Yatay.Common.editedBxs.active = -1;
 
@@ -965,6 +980,7 @@ Yatay.Common.edit = function() {
 
 
 	}
+	setTimeout(function() {	$('#btn_edit')[0].onclick = Yatay.Common.edit;} , 800);
 };
 
 /**
@@ -1012,6 +1028,7 @@ Yatay.Common.saveEditedCode = function() {
  * Handle debug click
  */
 Yatay.Common.debug = function() {		
+	$('#btn_debug')[0].onclick = function(){return false;};
 	Yatay.Common.leaveOnlyBehavioursInWspace();
 	Yatay.DebugBlockIdOffset = 0;
 	Yatay.DebugMode = true;   
@@ -1037,12 +1054,14 @@ Yatay.Common.debug = function() {
 
 	pollResults();
 	debugPoll();
+	setTimeout(function() {	$('#btn_debug')[0].onclick = Yatay.Common.debug;} , 800);
 };
 
 /**
  * Handle go back click
  */
 Yatay.Common.goBack = function() {	
+	$('#btn_back')[0].onclick = function(){return false;};
 	Yatay.Common.isButiaBlockSelected = false;
 	Blockly.mainWorkspace.maxBlocks = 'Infinity';
 	//Has behaviours code been edited?
@@ -1103,6 +1122,7 @@ Yatay.Common.goBack = function() {
 			Blockly.mainWorkspace.getAllBlocks()[j].setMovable(true);
 		}
 	}
+	setTimeout(function() {	$('#btn_back')[0].onclick = Yatay.Common.goBack;} , 800);
 };
 
 /**
@@ -1210,6 +1230,7 @@ Yatay.Common.requestUserId = function() {
  * Set behaviour as ready
  */
 Yatay.Common.bxReady = function() {
+	$('#btn_bx_ready')[0].onclick = function(){return false;};
 	Yatay.Common.leaveOnlyBehavioursInWspace();
 	if (Blockly.mainWorkspace.getAllBlocks()[0] != undefined) {
 		if (Blockly.mainWorkspace.getAllBlocks()[0].type == "controls_behaviour" || 
@@ -1245,6 +1266,7 @@ Yatay.Common.bxReady = function() {
 			Yatay.countBlocks = 0;
 		}
 	}
+	setTimeout(function() {	$('#btn_bx_ready')[0].onclick = Yatay.Common.bxReady;} , 800);
 };
 
 /**
@@ -1304,6 +1326,7 @@ Yatay.Common.bxToWorkspace = function() {
  * Change app language.
  */
 Yatay.Common.changeLanguage = function() {
+	$('#btn_lang')[0].onclick = function(){return false;};
 	if (BlocklyApps.LANG == 'es') {
 		BlocklyApps.LANG = 'en';	
 	} else {
@@ -1319,6 +1342,7 @@ Yatay.Common.changeLanguage = function() {
 		search = search.replace(/\?/, '?lang=' + BlocklyApps.LANG + '&');
 	}
 	window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + search;
+	setTimeout(function() {	$('#btn_lang')[0].onclick = Yatay.Common.changeLanguage;} , 800);
 };
 
 /**
