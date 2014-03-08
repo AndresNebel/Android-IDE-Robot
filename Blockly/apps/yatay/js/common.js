@@ -104,33 +104,27 @@ $(window).load(function() {
 					}			
 					if (!alreadyExists)	{
 						var success = false;
-						while (!success)
-						{
+						while (!success) {
 							var code = Blockly.Xml.textToDom(behaviours[j][1]);
 							var codeText = behaviours[j][1];
-
-							try
-							{       
+							try {       
 							
 								Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, code);	
 								success = true;
-							}
-							catch(e){
+							} catch(e) {
 								//A block doesn't exist anymore. Is necesary to know it's type so you know to what it is connected.
 								Blockly.mainWorkspace.clear();
-								if (e.message != null && e.message.split('"').length > 2)
-								{
+								if (e.message != null && e.message.split('"').length > 2) {
 									var blockInFault = e.message.split('"')[1];
 									Yatay.Common.tryToRecover(blockInFault, codeText);
 									Yatay.not_available_sensors.push(blockInFault);
-								}
-								else
-								{	//Couldn't recover
+								} else {	
+									//Couldn't recover
 									Yatay.Common.ShowMessage(Yatay.Msg.CANNOT_PARSE_BLOCKS);
 									success = true;
-								}							}
+								}							
+							}
 						}
-			
 					}
 				}
 			}
@@ -378,6 +372,7 @@ Yatay.Common.loadBxs = function() {
 		data: { id:'loadBxs' },
 		success: function(content) {
 			$('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+			$('#btn_remote_loader').hide();
 			var data = JSON.parse(content);
 			if (data.length > 0) {
 				$("#loadMainWindow").hide();
@@ -407,6 +402,8 @@ Yatay.Common.loadBxs = function() {
 					}
 				}
 			} else {
+				$('#btn_remote_loader').removeAttr('disabled').html(Yatay.Msg.DIALOG_REMOTE_LOADER);
+				$('#btn_remote_loader').hide();
 				$('#projects').remove();
 				var multiselector = '<p id=\'projects\' style=\'display:inline\'>' + Yatay.Msg.DIALOG_NO_BEHAVIOURS + '</p>';
 				$(multiselector).insertBefore($('#btn_remote_loader'));
@@ -534,6 +531,7 @@ Yatay.Common.openFileChooser = function() {
 	$('#btn_remote_loader').show();
 	$("#loadMainWindow").show();
 	$('#remote_proj').html('');
+	$('#projects').html('');
 	document.getElementById('file_input').addEventListener('change', Yatay.Common.readFile, false);
 };
 

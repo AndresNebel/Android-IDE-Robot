@@ -25,30 +25,12 @@
 .navbar .navbar-inner { 
 	min-height: 32px !important;
 	height: 32px !important; 	
-    text-align:center;
+	text-align:center;
 }
 
 .navbar .nav > li > a { 
 	line-height: 0;
 	padding: 2px 15px !important;
-}
-
-.navbar-left {
-	position: relative !important;
-	left: 5% !important;
-    float:left !important;
-}
-
-.navbar-center {
-	position: relative !important;
-	left: 40% !important;
-    float:none !important;
-}
-
-.navbar-right {
-	position: relative !important;
-	left: -15% !important;
-    float:right !important;
 }
 
 #results_popup p {
@@ -61,10 +43,8 @@
 
 .blocklyTable {
 	position: fixed !important;
-	top: 5% !important;
+	top: 38px !important;
 	left: 0% !important;
 	width: 100% !important;
-	height: 100%;
-	/* Android Browser not sopported
-	height: calc(100% - 34px) !important; */
+	height: 95% !important;
 }

@@ -30,9 +30,7 @@ $(document).ready(function() {
 	
 	Yatay.Mobile.initToolbox();
 	Yatay.Mobile.fixConflicts();
-	//Fixme
-	$('.blocklyTable').css('height', '-=40px', 'important');
-	
+
 	setTimeout(function() {
 		Yatay.Mobile.initClasses();
 		$('#content_blocks').addClass('content-' + BlocklyApps.LANG);
@@ -179,30 +177,36 @@ Yatay.Mobile.fixConflicts = function() {
 			, e.push([a,Blockly.bindEvent_.TOUCH_MAP[b],f]));
 		return e
 	};
+
+	//Fix: Workspace size
+	$('.blocklyTable').css('width', '-=38px');
 };
 
 /**
  * Initialize CSS classes dynamically.
  */
 Yatay.Mobile.initClasses = function() {
-	var esWidth = $('#content_blocks').css('width', '+=94px').css('width');	
+	//Toolbox positions
+	var esWidth = $('#content_blocks').css('width', '+=104px').css('width');	
 	var style = document.createElement('style');
 	style.type = 'text/css';
 	style.innerHTML = '.content-es { \n' +
-	'	left: -94px !important; \n' + 
+	'	left: -104px !important; \n' + 
 	'	width: ' + esWidth + ' !important; \n' +
 	'} \n';
 	
 	var enWidth = $('#content_blocks').css('width', '-=22px').css('width');
 	style.innerHTML += '.content-en { \n' +
-	'	left: -72px !important; \n' + 
+	'	left: -82px !important; \n' + 
 	'	width: ' + enWidth + ' !important; \n' +
 	'}\n';
 	
-	var testWidth = $('#content_blocks').css('width', '-=22px').css('width');
+	var testWidth = $('#content_blocks').css('width', '-=30px').css('width');
 	style.innerHTML += '.content-test { \n' +
-	'	left: -50px !important; \n' + 
+	'	left: -52px !important; \n' + 
 	'	width: ' + testWidth + ' !important; \n' +
 	'}\n';
+
 	document.getElementsByTagName('head')[0].appendChild(style);	
 };
+
