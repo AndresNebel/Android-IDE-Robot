@@ -97,6 +97,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
   "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 
   "M.done = false\n" + 
+  "M.timesItExecuted = 0\n" + 
   "M.blockId = " + block.id + "\n" +
   "M.name = '" + name + "'\n" +
   "M.priority = " + priority + "\n" +
@@ -114,6 +115,7 @@ Blockly.Lua["controls_behaviour"] = function(block) {
    	  debugTrace +
 	  behaviourCode +
   Yatay.Msg.CODE_DONE +
+  "   M.timesItExecuted = M.timesItExecuted + 1\n"+
   "   M.done = true\n"+
   "   activeBehaviour = nil\n"+
   "end\n"+
@@ -154,6 +156,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
   "local robot = require 'tasks/RobotInterface'\n" +
   "local sched = require 'sched'\n" + 
   "M.done = false\n" + 
+  "M.timesItExecuted = 0\n" + 
   "M.blockId = " + block.id + "\n" +
   "M.name = '" + name + "'\n" +
   "M.priority = " + priority + "\n" +
@@ -173,6 +176,7 @@ Blockly.Lua["controls_conditionalBehaviour"] = function(block) {
    	  debugTrace +
 	  behaviourCode +
   Yatay.Msg.CODE_DONE +
+  "  M.timesItExecuted = M.timesItExecuted + 1\n"+
   "  M.done = true\n"+
   "  activeBehaviour = nil\n"+
   "end\n"+
@@ -219,3 +223,8 @@ Blockly.Lua["controls_repeat"] = function(block) {
   }
   return debugTrace + 'for i = 1, ' + block.getTitleValue('TIMES') + ' do\n' + branch0 + debugTrace +'end\n';
 };
+
+Blockly.Lua['controls_timesExecuted'] = function(block) {
+
+  return "M.timesItExecuted";
+}

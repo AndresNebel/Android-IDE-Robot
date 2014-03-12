@@ -99,6 +99,7 @@ Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "The behaviour will pause for the time chosen.
 Yatay.Msg.CONTROL_REPEAT = "repeat" ;
 Yatay.Msg.CONTROL_REPEAT_TIMES = " times";
 Yatay.Msg.CONTROL_REPEAT_TOOLTIP = "Repeat something a number of times ";
+Yatay.Msg.CONTROL_TIMES_EXECUTED = "times executed";
 
 //Variable Messages
 Yatay.Msg.VARIABLES_GET_TITLE = "";

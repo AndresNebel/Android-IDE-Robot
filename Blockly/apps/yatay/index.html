@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
+	<link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
 	<meta name="google" value="notranslate">
 	<meta name="viewport" content="height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0">
 	<title>Yatay</title>
+	
   	<!-- Stylesheets for third-party libraries -->
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" type="text/css">
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css" type="text/css">
@@ -35,6 +37,12 @@
 			test: Modernizr.mq('only all and (max-device-width:480px)'),	
 			yep: ["css/mobile.css", "js/mobile.js"],
 			nope: ["css/tablet.css", "js/tablet.js"]
+		});
+		$(window).load(function() {	
+			setTimeout(function() {	
+				//Show Project Manager Modal (when the page is loaded)
+				try {Yatay.Common.projectChecker();} catch(e) {Yatay.Common.projectChecker();}
+			}, 1100);
 		});
 	</script>
 </head>

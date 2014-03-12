@@ -99,6 +99,7 @@ Yatay.Msg.CONTROL_SLEEP_TOOLTIP = "El programa espera la cantidad de tiempo ingr
 Yatay.Msg.CONTROL_REPEAT = "repetir ";
 Yatay.Msg.CONTROL_REPEAT_TIMES = " veces";
 Yatay.Msg.CONTROL_REPEAT_TOOLTIP = "Repetir un numero determinado de veces";
+Yatay.Msg.CONTROL_TIMES_EXECUTED = "veces ejecutado";
 
 //Variable Messages
 Yatay.Msg.VARIABLES_GET_TITLE = "";

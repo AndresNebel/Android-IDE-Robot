@@ -429,5 +429,15 @@ Blockly.Blocks['controls_repeat'] = {
   }
 };
 
-
+Blockly.Blocks['controls_timesExecuted'] = {
+  category: 'Control',
+   // Numeric value.
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
+    this.setColour(295);
+	this.appendDummyInput().appendTitle(Yatay.Msg.CONTROL_TIMES_EXECUTED);
+    this.setOutput(true, 'Number');
+    this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
+  }
+};
 

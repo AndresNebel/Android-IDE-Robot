@@ -132,9 +132,6 @@ $(window).load(function() {
 		} catch(e) {}
 		try {Yatay.Common.addStyleToBlocklyToolbox();} catch(e) {}
 
-		//Show Project Manager Modal (when the page is loaded)
-		try {Yatay.Common.projectChecker();} catch(e) {Yatay.Common.projectChecker();}
-
 		//Mystical fix for the blockly-bootstrap scrollbar conflict
 		try {$("foreignObject img").css("max-width","none");} catch(e) {}
 	}, 100);
@@ -1237,9 +1234,10 @@ Yatay.Common.bxReady = function() {
 			var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 			var text = Blockly.Xml.domToText(xml);
 			var name = Blockly.mainWorkspace.getAllBlocks()[0].inputList[0].titleRow[0].getValue();
+			var shortname = name; 
 			var size = Blockly.mainWorkspace.getAllBlocks().length;
 			if (name.length > 13) {
-				name = name.substring(0, 12) + "...";
+				shortname = name.substring(0, 12) + "...";
 			}
 			var id = Blockly.mainWorkspace.getAllBlocks()[0].id;
 			Yatay.Common.behaviours.push([id, text, name, size]);
@@ -1247,7 +1245,7 @@ Yatay.Common.bxReady = function() {
 			var list = $('<li style="display:none;">' +
 						'<div id="' + id + '" class="image-container">' +
 							'<div class="image-inner-container">' +
-								'<p class="overlay">' + name + '</p>' + Yatay.Msg.SVG_BEHAVIOURS +
+								'<p class="overlay">' + shortname + '</p>' + Yatay.Msg.SVG_BEHAVIOURS +
 							'</div>' +
 						'</div>' +
 					'</li>');
